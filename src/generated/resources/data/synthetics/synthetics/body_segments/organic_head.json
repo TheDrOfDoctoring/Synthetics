@@ -1,0 +1,5 @@
+{
+  "type": "synthetics:head",
+  "id": "synthetics:organic_head",
+  "max_complexity": 30
+}

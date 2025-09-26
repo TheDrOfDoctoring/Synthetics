@@ -1,0 +1,5 @@
+// 1.21.1	2025-09-25T18:30:18.3133868	Tags for synthetics:body_segments mod id synthetics
+7ab0d3a8068f7dd67947f17fce0037df1642ec12 data/synthetics/tags/synthetics/body_segments/arms.json
+bcf067b62531994dcac46ee300bfa40044f1f8aa data/synthetics/tags/synthetics/body_segments/head.json
+f528dc1ccb8b97da71d5ee694784b027aae601fc data/synthetics/tags/synthetics/body_segments/lower_body.json
+94fa00084855790970b8a2134a9a89b756f8183a data/synthetics/tags/synthetics/body_segments/torso.json

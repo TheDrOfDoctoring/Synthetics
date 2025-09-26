@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:lungs",
+  "body_segment": "#synthetics:torso",
+  "id": "synthetics:organic_lungs",
+  "max_complexity": 5
+}

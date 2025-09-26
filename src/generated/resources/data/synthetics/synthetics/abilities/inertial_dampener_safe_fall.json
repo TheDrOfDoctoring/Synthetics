@@ -1,0 +1,8 @@
+{
+  "ability_type": {
+    "ability_id": "synthetics:safe_fall_distance"
+  },
+  "factor": 0.5,
+  "id": "synthetics:inertial_dampener_safe_fall",
+  "operation": "add_multiplied_base"
+}

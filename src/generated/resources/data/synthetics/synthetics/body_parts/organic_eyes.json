@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:eyes",
+  "body_segment": "#synthetics:head",
+  "id": "synthetics:organic_eyes",
+  "max_complexity": 5
+}

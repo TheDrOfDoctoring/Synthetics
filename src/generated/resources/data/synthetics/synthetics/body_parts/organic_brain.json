@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:brain",
+  "body_segment": "#synthetics:head",
+  "id": "synthetics:organic_brain",
+  "max_complexity": 8
+}

@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:eyes",
+  "body_segment": "#synthetics:head",
+  "id": "synthetics:cybernetic_eyes",
+  "max_complexity": 4
+}

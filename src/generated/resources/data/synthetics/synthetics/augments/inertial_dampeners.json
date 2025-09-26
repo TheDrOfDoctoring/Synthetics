@@ -1,0 +1,9 @@
+{
+  "abilities": [
+    "synthetics:inertial_dampener_fall_damage",
+    "synthetics:inertial_dampener_safe_fall"
+  ],
+  "augment_id": "synthetics:inertial_dampeners",
+  "complexity": 5,
+  "validParts": "#synthetics:feet"
+}
