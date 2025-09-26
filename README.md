@@ -1,0 +1,1 @@
+A Curseforge ModJam 2025 mod focused around adding player augmentation through cybernetic and biological means. 
