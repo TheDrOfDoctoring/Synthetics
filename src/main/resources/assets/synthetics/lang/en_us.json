@@ -3,9 +3,9 @@
   "synthetics.configuration.title": "Synthetics Configs",
   "synthetics.configuration.section.synthetics.common.toml": "Synthetics Configs",
   "synthetics.configuration.section.synthetics.common.toml.title": "Synthetics Configs",
-  "command.synthetics.argument.augment_not_found": "Augment with ID %s does not exist.",
-  "command.synthetics.already_installed": "Augment %1$s is already installed by player %2$s",
-  "command.synthetics.not_installed": "Augment %1$s is not installed by player %2$s, so cannot be uninstalled.",
-  "command.synthetics.modify_success": "Successfully modified player augments."
-
+  "command.synthetics.argument.augment_not_found": "Part with ID %s does not exist.",
+  "command.synthetics.already_installed": "Part %1$s is already installed by player %2$s",
+  "command.synthetics.not_installed": "Part %1$s is not installed by player %2$s, so cannot be uninstalled.",
+  "command.synthetics.modify_success": "Successfully modified player parts.",
+  "command.synthetics.argument.part_not_found": "Body Part with ID %s does not exist."
 }

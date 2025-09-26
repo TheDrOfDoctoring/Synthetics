@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
+import com.thedrofdoctoring.synthetics.body.abilities.IAbilityHolder;
 import com.thedrofdoctoring.synthetics.body.abilities.SyntheticAbilityType;
 import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticAbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticActiveAbilityType;
@@ -15,6 +16,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -48,27 +50,37 @@ public class AbilityManager implements ISaveData {
         this.attributes = new Object2ObjectOpenHashMap<>();
         this.manager = manager;
     }
-    public void addAugment(SyntheticAugment augment) {
-        for(int i = 0; i < augment.abilities().size(); i++ ){
-            SyntheticAbility ability = augment.abilities().get(i).value();
-            SyntheticAbilityType type = ability.abilityType();
-            if(type instanceof SyntheticPassiveAbilityType passive) {
-                passiveAbilities.put(ability.id(), new SyntheticAbilityPassiveInstance(passive, this.manager, ability.factor(), ability.operation(), ability.id()));
-            } else if(type instanceof SyntheticActiveAbilityType active) {
-                activeAbilities.put(ability.id(), new SyntheticAbilityActiveInstance(active, this.manager, ability.id()));
+    public void addAbilities(IAbilityHolder holder) {
+        if(holder.abilities().isPresent()) {
+            HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
+            for(int i = 0; i < holderSet.size(); i++ ){
+                SyntheticAbility ability = holderSet.get(i).value();
+                SyntheticAbilityType type = ability.abilityType();
+                if(type instanceof SyntheticPassiveAbilityType passive) {
+                    passiveAbilities.put(ability.id(), new SyntheticAbilityPassiveInstance(passive, this.manager, ability.factor(), ability.operation(), ability.id()));
+                } else if(type instanceof SyntheticActiveAbilityType active) {
+                    activeAbilities.put(ability.id(), new SyntheticAbilityActiveInstance(active, this.manager, ability.id()));
+                }
             }
         }
 
     }
-    public void removeAugment(SyntheticAugment augment) {
 
-        for(int i = 0; i < augment.abilities().size(); i++ ){
-            SyntheticAbility ability = augment.abilities().get(i).value();
-            SyntheticAbilityType type = ability.abilityType();
-            if(type instanceof SyntheticPassiveAbilityType passive) {
-                passiveAbilities.remove(ability.id());
-            } else if(type instanceof SyntheticActiveAbilityType active) {
-                activeAbilities.remove(ability.id());
+    public boolean hasAbility(SyntheticAbility ability) {
+        return this.passiveAbilities.containsKey(ability.id()) || this.activeAbilities.containsKey(ability.id());
+    }
+
+    public void removeAbilities(IAbilityHolder holder) {
+        if(holder.abilities().isPresent()) {
+            HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
+            for(int i = 0; i < holderSet.size(); i++ ){
+                SyntheticAbility ability = holderSet.get(i).value();
+                SyntheticAbilityType type = ability.abilityType();
+                if(type instanceof SyntheticPassiveAbilityType passive) {
+                    passiveAbilities.remove(ability.id());
+                } else if(type instanceof SyntheticActiveAbilityType active) {
+                    activeAbilities.remove(ability.id());
+                }
             }
         }
     }

@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class PartManager implements ISaveData {
+public class PartManager implements ISaveData, IPartManager {
     public static final String KEY = "part_manager";
     private final Object2ObjectMap<BodyPartType, BodyPart> installedParts;
     private final Object2ObjectMap<BodySegmentType, BodySegment> installedSegments;
@@ -41,6 +41,13 @@ public class PartManager implements ISaveData {
     }
     public Collection<BodySegment> getInstalledSegments() {
         return installedSegments.values();
+    }
+    public boolean isPartInstalled(BodyPart part) {
+        return installedParts.getOrDefault(part.type().value(), null) == part;
+
+    }
+    public boolean isSegmentInstalled(BodySegment segment) {
+        return installedSegments.getOrDefault(segment.type().value(), null) == segment;
     }
 
     public BodyPart replacePart(BodyPart newPart, boolean updatePlayer) {

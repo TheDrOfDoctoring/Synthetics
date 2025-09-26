@@ -12,7 +12,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-public record BodySegment(int maxComplexity, Holder<BodySegmentType> type, ResourceLocation id) {
+public record BodySegment(int maxComplexity, Holder<BodySegmentType> type,  ResourceLocation id) {
 
     public static final MapCodec<BodySegment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodySegment::maxComplexity),

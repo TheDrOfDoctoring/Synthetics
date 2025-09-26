@@ -22,7 +22,7 @@ public class SyntheticsBodyPartsProvider {
 
         context.register(
                 BodyParts.ORGANIC_EYES,
-                new BodyPart(
+                BodyPart.create(
                         5,
                         getSegment(lookup, BodySegments.HEAD_MAIN),
                         getPartType(types, BodyParts.EYES),
@@ -31,7 +31,7 @@ public class SyntheticsBodyPartsProvider {
         );
         context.register(
                 BodyParts.CYBERNETIC_EYES,
-                new BodyPart(
+                BodyPart.create(
                         4,
                         getSegment(lookup, BodySegments.HEAD_MAIN),
                         getPartType(types, BodyParts.EYES),
@@ -40,7 +40,7 @@ public class SyntheticsBodyPartsProvider {
         );
         context.register(
                 BodyParts.ORGANIC_FEET,
-                new BodyPart(
+                BodyPart.create(
                         5,
                         getSegment(lookup, BodySegments.LOWER_BODY_MAIN),
                         getPartType(types, BodyParts.FEET),
@@ -49,7 +49,7 @@ public class SyntheticsBodyPartsProvider {
         );
         context.register(
                 BodyParts.ORGANIC_BRAIN,
-                new BodyPart(
+                BodyPart.create(
                         8,
                         getSegment(lookup, BodySegments.HEAD_MAIN),
                         getPartType(types, BodyParts.BRAIN),
@@ -58,7 +58,7 @@ public class SyntheticsBodyPartsProvider {
         );
         context.register(
                 BodyParts.ORGANIC_LUNGS,
-                new BodyPart(
+                BodyPart.create(
                         5,
                         getSegment(lookup, BodySegments.TORSO_MAIN),
                         getPartType(types, BodyParts.LUNGS),
@@ -67,7 +67,7 @@ public class SyntheticsBodyPartsProvider {
         );
         context.register(
                 BodyParts.ORGANIC_HEART,
-                new BodyPart(
+                BodyPart.create(
                         3,
                         getSegment(lookup, BodySegments.TORSO_MAIN),
                         getPartType(types, BodyParts.HEART),
@@ -122,4 +122,5 @@ public class SyntheticsBodyPartsProvider {
     public static Holder<BodyPartType> getPartType(HolderGetter<BodyPartType> lookup, ResourceKey<BodyPartType> partType) {
         return lookup.getOrThrow(partType);
     }
+
 }

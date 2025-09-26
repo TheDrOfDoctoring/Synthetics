@@ -22,6 +22,8 @@ public interface ISyntheticsEntity {
 
     LivingEntity getEntity();
 
+    IPartManager getPartManager();
+
     void onUpdate(boolean sync);
 
     void sync(boolean all);

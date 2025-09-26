@@ -18,7 +18,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class SyntheticsCommands {
 
     public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registries.COMMAND_ARGUMENT_TYPE, Synthetics.MODID);
-    public static final DeferredHolder<ArgumentTypeInfo<?, ?>, ArgumentTypeInfo<?, ?>> SYNTHETIC = COMMAND_ARGUMENT_TYPES.register("synthetic_augments", () -> ArgumentTypeInfos.registerByClass(AugmentArgument.class, SingletonArgumentInfo.contextAware(AugmentArgument::new)));
+    public static final DeferredHolder<ArgumentTypeInfo<?, ?>, ArgumentTypeInfo<?, ?>> AUGMENTS = COMMAND_ARGUMENT_TYPES.register("synthetic_augments", () -> ArgumentTypeInfos.registerByClass(AugmentArgument.class, SingletonArgumentInfo.contextAware(AugmentArgument::new)));
+    public static final DeferredHolder<ArgumentTypeInfo<?, ?>, ArgumentTypeInfo<?, ?>> PARTS = COMMAND_ARGUMENT_TYPES.register("body_parts", () -> ArgumentTypeInfos.registerByClass(PartArgument.class, SingletonArgumentInfo.contextAware(PartArgument::new)));
+
     public static void register(IEventBus bus) {
         COMMAND_ARGUMENT_TYPES.register(bus);
         SyntheticsCommands commands = new SyntheticsCommands();
@@ -27,6 +29,8 @@ public class SyntheticsCommands {
 
     public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
         dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(Synthetics.MODID).then(SyntheticsAugmentCommand.register(buildContext)));
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(Synthetics.MODID).then(SyntheticsPartCommand.register(buildContext)));
+
     }
     private void onCommandsRegister(final RegisterCommandsEvent event) {
         registerCommands(event.getDispatcher(), event.getBuildContext());

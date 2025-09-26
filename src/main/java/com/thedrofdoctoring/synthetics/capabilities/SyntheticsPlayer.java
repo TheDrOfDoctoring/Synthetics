@@ -5,6 +5,8 @@ import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.AugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAugment;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
 import com.thedrofdoctoring.synthetics.util.Helper;
@@ -22,6 +24,7 @@ import net.neoforged.neoforge.attachment.IAttachmentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
@@ -73,8 +76,10 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.augments.remove(old);
         this.complexityManager.removePart(old);
         if(old.augment() != newInstance.augment()) {
-            abilityManager.removeAugment(old.augment());
-            abilityManager.addAugment(newInstance.augment());
+            abilityManager.removeAbilities(old.augment());
+            abilityManager.removeAbilities(old.appliedPart());
+            abilityManager.addAbilities(newInstance.augment());
+            abilityManager.addAbilities(newInstance.appliedPart());
         }
         totalPowerCost = totalPowerCost - old.augment().powerCost() + newInstance.augment().powerCost();
     }
@@ -83,7 +88,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         AugmentInstance instance = new AugmentInstance(augment, this.partManager.getPartForAugment(augment));
         augments.add(instance);
         this.complexityManager.addPart(instance);
-        this.abilityManager.addAugment(augment);
+        this.abilityManager.addAbilities(augment);
         totalPowerCost += augment.powerCost();
     }
 
@@ -95,7 +100,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     @Override
     public void removeAugment(SyntheticAugment augment) {
         augments.removeIf(p -> p.augment() == augment);
-        abilityManager.removeAugment(augment);
+        abilityManager.removeAbilities(augment);
         totalPowerCost -= augment.powerCost();
         onUpdate(true);
     }
@@ -205,7 +210,6 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     }
 
 
-
     @Override
     public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {
         return this.complexityManager.serialiseUpdateNBT(provider);
@@ -215,6 +219,8 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public void deserialiseUpdateNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
         this.complexityManager.deserialiseUpdateNBT(provider, nbt);
     }
+
+
 
     public static class Serializer implements IAttachmentSerializer<CompoundTag, SyntheticsPlayer> {
 
