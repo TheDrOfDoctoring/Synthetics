@@ -74,6 +74,15 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_HEART.location()
                 )
         );
+        context.register(
+                BodyParts.ORGANIC_HANDS,
+                BodyPart.create(
+                        4,
+                        getSegment(lookup, BodySegments.ARMS_MAIN),
+                        getPartType(types, BodyParts.HANDS),
+                        BodyParts.ORGANIC_HANDS.location()
+                )
+        );
     }
     public static void createBodyPartTypes(BootstrapContext<BodyPartType> context) {
         context.register(
@@ -109,6 +118,13 @@ public class SyntheticsBodyPartsProvider {
                 new BodyPartType(
                         BodyParts.ORGANIC_LUNGS,
                         BodyParts.LUNGS.location()
+                )
+        );
+        context.register(
+                BodyParts.HANDS,
+                new BodyPartType(
+                        BodyParts.ORGANIC_HANDS,
+                        BodyParts.HANDS.location()
                 )
         );
     }

@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.networking;
 
+import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundRequestUpdatePacket;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,7 +16,7 @@ public class NetworkingEventHandler {
     @SubscribeEvent
     public static void onTrack(PlayerEvent.StartTracking event) {
         if(event.getTarget() instanceof Player player && event.getEntity() instanceof ServerPlayer serverPlayer) {
-            ClientboundPlayerUpdatePacket packet = ClientboundPlayerUpdatePacket.create(player, false);
+            ClientboundPlayerUpdatePacket packet = ClientboundPlayerUpdatePacket.create(player, SyntheticsPlayer.get(player).serialiseUpdateNBT(player.registryAccess()),false);
             serverPlayer.connection.send(packet);
         }
     }

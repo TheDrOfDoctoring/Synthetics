@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.networking.from_client;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -27,9 +28,9 @@ public class ServerboundRequestUpdatePacket implements CustomPacketPayload {
         return TYPE;
     }
 
-    public static void handleUpdatePacket(ServerboundRequestUpdatePacket __, final IPayloadContext context) {
+    public static void handle(ServerboundRequestUpdatePacket __, final IPayloadContext context) {
         context.enqueueWork(() -> {
-            ClientboundPlayerUpdatePacket update = ClientboundPlayerUpdatePacket.create(context.player(), true);
+            ClientboundPlayerUpdatePacket update = ClientboundPlayerUpdatePacket.create(context.player(), SyntheticsPlayer.get(context.player()).serialiseNBT(context.player().level().registryAccess()), true);
             context.reply(update);
         });
     }

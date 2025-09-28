@@ -55,6 +55,7 @@ public class ComplexityManager implements ISyncable {
     }
     public ComplexityResult testComplexity(AugmentInstance newInstance, @Nullable AugmentInstance removed) {
         int addedComplexity = newInstance.augment().complexity();
+
         if(removed != null) {
             addedComplexity = addedComplexity - removed.augment().complexity();
         }

@@ -16,6 +16,7 @@ public class BodyParts {
     public static final ResourceKey<BodyPart> ORGANIC_HEART = create("organic_heart");
     public static final ResourceKey<BodyPart> ORGANIC_LUNGS = create("organic_lungs");
     public static final ResourceKey<BodyPart> ORGANIC_BRAIN = create("organic_brain");
+    public static final ResourceKey<BodyPart> ORGANIC_HANDS = create("organic_hands");
 
 
     public static final ResourceKey<BodyPartType> EYES = createType("eyes");
@@ -23,7 +24,7 @@ public class BodyParts {
     public static final ResourceKey<BodyPartType> HEART = createType("heart");
     public static final ResourceKey<BodyPartType> LUNGS = createType("lungs");
     public static final ResourceKey<BodyPartType> BRAIN = createType("brain");
-
+    public static final ResourceKey<BodyPartType> HANDS = createType("hands");
 
     public static final TagKey<BodyPart> EYES_MAIN = tag("eyes");
     public static final TagKey<BodyPart> FEET_MAIN = tag("feet");

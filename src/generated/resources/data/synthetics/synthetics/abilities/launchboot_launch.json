@@ -1,0 +1,12 @@
+{
+  "ability_type": {
+    "ability_id": "synthetics:cybernetic_leap"
+  },
+  "active_options": {
+    "cooldown": 15,
+    "duration": 5,
+    "power_cost": 100
+  },
+  "factor": 2.5,
+  "id": "synthetics:launchboot_launch"
+}

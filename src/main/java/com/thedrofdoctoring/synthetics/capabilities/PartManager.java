@@ -27,6 +27,7 @@ public class PartManager implements ISaveData, IPartManager {
 
     private final SyntheticsPlayer player;
 
+
     public PartManager(SyntheticsPlayer player) {
         this.installedParts = new Object2ObjectOpenHashMap<>();
         this.installedSegments = new Object2ObjectOpenHashMap<>();
@@ -57,7 +58,7 @@ public class PartManager implements ISaveData, IPartManager {
             for(AugmentInstance instance : instancesOfPart) {
                 this.player.replaceAugmentInstance(instance, new AugmentInstance(instance.augment(), newPart));
             }
-            this.player.markDirty();
+            this.player.markDirtyAll();
 
         }
         return old;
@@ -183,7 +184,7 @@ public class PartManager implements ISaveData, IPartManager {
             if(parts instanceof CompoundTag nbt) {
                 int size = nbt.size();
                 for(int i = 0; i < size; i++) {
-                    String partIDString = tag.getString(String.valueOf(i));
+                    String partIDString = nbt.getString(String.valueOf(i));
                     BodyPart part = Helper.retrieveDataObject(partIDString, SyntheticsData.BODY_PARTS, partLookup);
                     if(part != null) {
                         replacePart(part, false);
@@ -193,7 +194,7 @@ public class PartManager implements ISaveData, IPartManager {
             if(segments instanceof CompoundTag nbt) {
                 int size = nbt.size();
                 for(int i = 0; i < size; i++) {
-                    String partIDString = tag.getString(String.valueOf(i));
+                    String partIDString = nbt.getString(String.valueOf(i));
                     BodySegment segment = Helper.retrieveDataObject(partIDString, SyntheticsData.BODY_SEGMENTS, segmentLookup);
                     if(segment != null) {
                         replaceSegment(segment, false);

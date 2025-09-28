@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class SyntheticsAugmentsProvider {
 
     public static final ResourceKey<SyntheticAugment> CYBERNETIC_INERTIAL_DAMPENERS = create("inertial_dampeners");
+    public static final ResourceKey<SyntheticAugment> LAUNCH_BOOT = create("launch_boot");
 
     private static ResourceKey<SyntheticAugment> create(String name) {
         return ResourceKey.create(
@@ -44,6 +45,17 @@ public class SyntheticsAugmentsProvider {
                         CYBERNETIC_INERTIAL_DAMPENERS.location()
                 )
         );
+        context.register(
+                LAUNCH_BOOT,
+                SyntheticAugment.create(
+                        3,
+                        0,
+                        getPart(partLookup, BodyParts.FEET_MAIN),
+                        getAbility(abilityLookup, List.of(Abilities.LAUNCHBOOT_LAUNCH)),
+                        LAUNCH_BOOT.location()
+                )
+        );
+
     }
 
     public static HolderSet<BodyPart> getPart(HolderGetter<BodyPart> lookup, ResourceKey<BodyPart> part) {

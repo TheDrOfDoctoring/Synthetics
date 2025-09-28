@@ -18,24 +18,16 @@ import java.util.Optional;
 
 public class SyntheticAbilityPassiveInstance extends SyntheticAbilityInstance<SyntheticPassiveAbilityType> {
 
-    private final double factor;
     private final AttributeModifier.Operation operation;
 
     private static final Pair<Holder<Attribute>, AttributeModifier> EMPTY_PAIR = Pair.of(null, null);
 
-    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, double factor, AttributeModifier.Operation operation, ResourceLocation instanceID) {
-        super(ability, player, instanceID);
-        this.factor = factor;
+    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, float abilityFactor, AttributeModifier.Operation operation, ResourceLocation instanceID) {
+        super(ability, player, abilityFactor, instanceID);
         this.operation = operation;
     }
-    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, double factor, ResourceLocation instanceID) {
-        super(ability, player, instanceID);
-        this.factor = factor;
-        this.operation = null;
-    }
-    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, ResourceLocation instanceID) {
-        super(ability, player, instanceID);
-        this.factor = 1f;
+    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, float abilityFactor, ResourceLocation instanceID) {
+        super(ability, player, abilityFactor, instanceID);
         this.operation = null;
     }
 
@@ -43,7 +35,7 @@ public class SyntheticAbilityPassiveInstance extends SyntheticAbilityInstance<Sy
         if(operation == null) return Optional.empty();
         if(this.ability.getModifiedAttribute().isPresent()) {
             Holder<Attribute> attribute = this.ability.getModifiedAttribute().get();
-            return Optional.of(Pair.of(attribute, new AttributeModifier(instanceID, factor, operation)));
+            return Optional.of(Pair.of(attribute, new AttributeModifier(instanceID, abilityFactor, operation)));
         }
         return Optional.empty();
     }

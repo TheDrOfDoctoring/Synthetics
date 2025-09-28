@@ -41,6 +41,8 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     private final Player player;
 
     private boolean dirty;
+    private boolean dirtyAll;
+
 
     private int totalPowerCost;
 
@@ -60,10 +62,22 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public void markDirty() {
         this.dirty = true;
     }
+    public void markDirtyAll() {
+        this.dirtyAll = true;
+    }
+
+    public int getTotalStoredEnergy() {
+        return 0;
+    }
 
     @Override
     public boolean canAddAugment(SyntheticAugment augment) {
-        return false;
+
+        if(this.complexityManager.testComplexity(new AugmentInstance(augment, this.getPartManager().getPartForAugment(augment)), null) != ComplexityManager.ComplexityResult.SUCCESS) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -106,7 +120,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     }
 
     @Override
-    public LivingEntity getEntity() {
+    public Player getEntity() {
         return player;
     }
 
@@ -118,13 +132,26 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     @Override
     public void onTick() {
         if(!this.player.level().isClientSide) {
-            if(dirty) {
-                this.sync(true);
-                dirty = false;
-            }
-        }
-        abilityManager.onTick();
 
+            CompoundTag packet = new CompoundTag();
+
+            if(abilityManager.onTick()) {
+                dirty = true;
+                packet.put(abilityManager.nbtKey(), abilityManager.serialiseUpdateNBT(this.player.level().registryAccess()));
+            }
+
+            if(dirty) {
+                if(!dirtyAll) {
+                    this.sync(packet);
+                } else {
+                    this.sync(true);
+                }
+                dirty = false;
+                dirtyAll = false;
+            }
+        } else {
+            abilityManager.onTick();
+        }
     }
 
     @Override
@@ -132,7 +159,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
         this.abilityManager.onUpdate();
 
-        if(sync) {
+        if(sync || this.dirty) {
             sync(true);
         }
     }
@@ -212,12 +239,17 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
     @Override
     public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {
-        return this.complexityManager.serialiseUpdateNBT(provider);
+        CompoundTag tag = new CompoundTag();
+        tag.put(this.complexityManager.nbtKey(), this.complexityManager.serialiseUpdateNBT(provider));
+        tag.put(this.abilityManager.nbtKey(), this.abilityManager.serialiseUpdateNBT(provider));
+
+        return tag;
     }
 
     @Override
     public void deserialiseUpdateNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
         this.complexityManager.deserialiseUpdateNBT(provider, nbt);
+        this.abilityManager.deserialiseUpdateNBT(provider, nbt);
     }
 
 
@@ -254,16 +286,34 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     @Override
     public void sync(boolean syncToAll) {
         if(player instanceof ServerPlayer serverPlayer) {
-            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, true);
+            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, this.serialiseNBT(player.level().registryAccess()), true);
             serverPlayer.connection.send(self);
             if (syncToAll) {
                 if (player.level() instanceof ServerLevel level) {
-                    ClientboundPlayerUpdatePacket other = ClientboundPlayerUpdatePacket.create(this.player, false);
+                    ClientboundPlayerUpdatePacket other = ClientboundPlayerUpdatePacket.create(this.player, this.serialiseUpdateNBT(player.level().registryAccess()), false);
                     ServerChunkCache serverchunkcache = level.getChunkSource();
                     serverchunkcache.broadcast(player, other);
                 }
             }
         }
-
+    }
+    public void sync(CompoundTag data) {
+        if(player instanceof ServerPlayer serverPlayer) {
+            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, data, false);
+            serverPlayer.connection.send(self);
+        }
+    }
+    public void sync(CompoundTag data, boolean syncToAll) {
+        if(player instanceof ServerPlayer serverPlayer) {
+            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, data, true);
+            serverPlayer.connection.send(self);
+            if (syncToAll) {
+                if (player.level() instanceof ServerLevel level) {
+                    ClientboundPlayerUpdatePacket other = ClientboundPlayerUpdatePacket.create(this.player, data, false);
+                    ServerChunkCache serverchunkcache = level.getChunkSource();
+                    serverchunkcache.broadcast(player, other);
+                }
+            }
+        }
     }
 }

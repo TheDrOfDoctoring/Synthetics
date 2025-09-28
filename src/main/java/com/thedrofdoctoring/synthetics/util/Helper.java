@@ -14,8 +14,9 @@ public class Helper {
         if(objectOpt.isPresent()) {
             return objectOpt.get().value();
         } else if(shouldThrow) {
+            Synthetics.LOGGER.error("Unable to retrieve data registry object with resource location {}", location);
+        } else {
             Synthetics.LOGGER.warn("Unable to retrieve data registry object with resource location {}", location);
-
         }
         return null;
 

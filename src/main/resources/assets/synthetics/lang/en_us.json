@@ -7,5 +7,9 @@
   "command.synthetics.already_installed": "Part %1$s is already installed by player %2$s",
   "command.synthetics.not_installed": "Part %1$s is not installed by player %2$s, so cannot be uninstalled.",
   "command.synthetics.modify_success": "Successfully modified player parts.",
-  "command.synthetics.argument.part_not_found": "Body Part with ID %s does not exist."
+  "command.synthetics.argument.part_not_found": "Body Part with ID %s does not exist.",
+  "keys.synthetics.category": "Synthetics",
+  "keys.synthetics.activate_ability": "Activate Ability",
+  "keys.synthetics.select_right": "Select Right Ability",
+  "keys.synthetics.select_left": "Select Left Ability"
 }

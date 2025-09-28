@@ -2,7 +2,7 @@
   "ability_type": {
     "ability_id": "synthetics:fall_damage"
   },
-  "factor": -0.5,
+  "factor": -0.2,
   "id": "synthetics:inertial_dampener_fall_damage",
   "operation": "add_multiplied_base"
 }

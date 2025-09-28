@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:hands",
+  "body_segment": "#synthetics:arms",
+  "id": "synthetics:organic_hands",
+  "max_complexity": 4
+}

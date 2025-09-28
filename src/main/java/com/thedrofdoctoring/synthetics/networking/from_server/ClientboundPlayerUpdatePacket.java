@@ -25,14 +25,12 @@ public record ClientboundPlayerUpdatePacket(int entityID, CompoundTag data, bool
             ClientboundPlayerUpdatePacket::new
     );
 
-    public static ClientboundPlayerUpdatePacket create(Player player) {
-        return create(player, true);
+    public static ClientboundPlayerUpdatePacket create(Player player, CompoundTag data) {
+        return create(player, data, true);
     }
-    public static ClientboundPlayerUpdatePacket create(Player player, boolean updatingSelf) {
+    public static ClientboundPlayerUpdatePacket create(Player player, CompoundTag data, boolean updatingSelf) {
 
-        SyntheticsPlayer manager = player.getData(SyntheticsAttachments.SYNTHETICS_MANAGER);
-        CompoundTag tag = manager.serialiseNBT(player.registryAccess());
-        return new ClientboundPlayerUpdatePacket(player.getId(), tag, updatingSelf);
+        return new ClientboundPlayerUpdatePacket(player.getId(), data, updatingSelf);
     }
 
 
@@ -41,7 +39,7 @@ public record ClientboundPlayerUpdatePacket(int entityID, CompoundTag data, bool
         return TYPE;
     }
 
-    public static void handleDataPacket(ClientboundPlayerUpdatePacket packet, final IPayloadContext context) {
+    public static void handle(ClientboundPlayerUpdatePacket packet, final IPayloadContext context) {
         context.enqueueWork(() -> {
             Player player = context.player();
             Level level = player.level();

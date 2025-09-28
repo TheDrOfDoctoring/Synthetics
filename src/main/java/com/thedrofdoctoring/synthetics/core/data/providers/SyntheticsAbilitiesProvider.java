@@ -16,7 +16,7 @@ public class SyntheticsAbilitiesProvider {
                 SyntheticAbility.create(
                         SyntheticAbilities.FALL_DAMAGE_ABILITY.get(),
                         Abilities.INERTIAL_DAMPENERS_FALL_DAMAGE.location(),
-                        -0.5d,
+                        -0.2d,
                         AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                 )
         );
@@ -25,10 +25,18 @@ public class SyntheticsAbilitiesProvider {
                 SyntheticAbility.create(
                         SyntheticAbilities.SAFE_FALL_ABILITY.get(),
                         Abilities.INERTIAL_DAMPENERS_SAFE_FALL.location(),
-                        0.5d,
-                        AttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                        2d,
+                        AttributeModifier.Operation.ADD_VALUE
                 )
         );
-
+        context.register(
+                Abilities.LAUNCHBOOT_LAUNCH,
+                SyntheticAbility.create(
+                        SyntheticAbilities.LEAP.get(),
+                        2.5d,
+                        SyntheticAbility.options(15, 5, 100),
+                        Abilities.LAUNCHBOOT_LAUNCH.location()
+                )
+        );
     }
 }
