@@ -11,5 +11,17 @@
   "keys.synthetics.category": "Synthetics",
   "keys.synthetics.activate_ability": "Activate Ability",
   "keys.synthetics.select_right": "Select Right Ability",
-  "keys.synthetics.select_left": "Select Left Ability"
+  "keys.synthetics.select_left": "Select Left Ability",
+  "block.synthetics.research_table": "Synthetic Research Table",
+  "screens.synthetics.research_title": "Research",
+  "command.synthetics.argument.research_not_found": "Research Node with ID %s not found.",
+  "command.synthetics.already_researched": "Research %1$s is already researched by player %2$s",
+  "command.synthetics.not_researched": "Research %1$s is not researched by player %2$s, so cannot be unlearned.",
+  "command.synthetics.modify_research": "Successfully modified player research.",
+  "text.synthetics.research.unlock_parent_first": "Learn parent research, %s, first",
+  "installables.synthetics.inertial_dampeners": "Inertial Dampeners",
+  "research.synthetics.inertial_dampeners_research": "Inertial Dampeners",
+  "research.synthetics.inertial_dampeners_research.desc": "Unlocks the creation of a pair of cybernetic Inertial Dampeners that can be installed onto you, reducing the hazard of falling.",
+  "research.synthetics.experience_required": "%s Experience Required"
+
 }

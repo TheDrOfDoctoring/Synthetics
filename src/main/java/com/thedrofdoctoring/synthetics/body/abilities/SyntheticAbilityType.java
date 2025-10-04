@@ -1,6 +1,5 @@
 package com.thedrofdoctoring.synthetics.body.abilities;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;

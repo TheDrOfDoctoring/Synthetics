@@ -1,0 +1,31 @@
+{
+  "type": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 15,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 64,
+        "item": {
+          "item": "minecraft:coal"
+        }
+      },
+      {
+        "amount": 4,
+        "item": {
+          "item": "minecraft:diamond"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:inertial_dampeners_research",
+  "unlocked": {
+    "augments": "synthetics:inertial_dampeners"
+  },
+  "x": 0,
+  "y": 0
+}

@@ -2,7 +2,7 @@ package com.thedrofdoctoring.synthetics.core.data.collections;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAbility;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import org.jetbrains.annotations.NotNull;

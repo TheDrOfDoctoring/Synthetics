@@ -4,10 +4,8 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.AugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.BodySegment;
-import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.core.HolderGetter;
@@ -17,14 +15,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
@@ -38,6 +34,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     private final AbilityManager abilityManager;
     private final ComplexityManager complexityManager;
     private final PartManager partManager;
+    private final ResearchManager researchManager;
     private final Player player;
 
     private boolean dirty;
@@ -51,6 +48,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.abilityManager = new AbilityManager(this);
         this.complexityManager = new ComplexityManager(this);
         this.partManager = new PartManager(this);
+        this.researchManager = new ResearchManager(this);
         this.augments = new ArrayList<>();
 
     }
@@ -139,6 +137,11 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
                 dirty = true;
                 packet.put(abilityManager.nbtKey(), abilityManager.serialiseUpdateNBT(this.player.level().registryAccess()));
             }
+            if(researchManager.isDirty()) {
+                dirty = true;
+                packet.put(researchManager.nbtKey(), researchManager.serialiseUpdateNBT(this.player.level().registryAccess()));
+                researchManager.setDirty(false);
+            }
 
             if(dirty) {
                 if(!dirtyAll) {
@@ -173,6 +176,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         tag.put(partManager.nbtKey(), partManager.serialiseNBT(provider));
         tag.put(abilityManager.nbtKey(), abilityManager.serialiseNBT(provider));
         tag.put(complexityManager.nbtKey(), complexityManager.serialiseNBT(provider));
+        tag.put(researchManager.nbtKey(), researchManager.serialiseNBT(provider));
 
         return tag;
     }
@@ -215,6 +219,8 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
         abilityManager.deserialiseNBT(provider, nbt);
         complexityManager.deserialiseNBT(provider, nbt);
+        researchManager.deserialiseNBT(provider, nbt);
+
 
         this.onUpdate(false);
     }
@@ -235,6 +241,9 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public PartManager getPartManager() {
         return partManager;
     }
+    public ResearchManager getResearchManager() {
+        return researchManager;
+    }
 
 
     @Override
@@ -242,6 +251,8 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         CompoundTag tag = new CompoundTag();
         tag.put(this.complexityManager.nbtKey(), this.complexityManager.serialiseUpdateNBT(provider));
         tag.put(this.abilityManager.nbtKey(), this.abilityManager.serialiseUpdateNBT(provider));
+        tag.put(this.researchManager.nbtKey(), this.researchManager.serialiseUpdateNBT(provider));
+
 
         return tag;
     }
@@ -250,6 +261,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public void deserialiseUpdateNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
         this.complexityManager.deserialiseUpdateNBT(provider, nbt);
         this.abilityManager.deserialiseUpdateNBT(provider, nbt);
+        this.researchManager.deserialiseUpdateNBT(provider, nbt);
     }
 
 

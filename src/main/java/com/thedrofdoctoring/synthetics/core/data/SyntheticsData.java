@@ -1,12 +1,12 @@
 package com.thedrofdoctoring.synthetics.core.data;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.core.data.providers.SyntheticsAbilitiesProvider;
-import com.thedrofdoctoring.synthetics.core.data.providers.SyntheticsAugmentsProvider;
-import com.thedrofdoctoring.synthetics.core.data.providers.SyntheticsBodyPartsProvider;
-import com.thedrofdoctoring.synthetics.core.data.providers.SyntheticsBodySegmentsProvider;
-import com.thedrofdoctoring.synthetics.core.data.tags.SyntheticsTagProvider;
-import com.thedrofdoctoring.synthetics.core.data.types.*;
+import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsLootTableProvider;
+import com.thedrofdoctoring.synthetics.core.data.providers.*;
+import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticsRecipeProvider;
+import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsTagProvider;
+import com.thedrofdoctoring.synthetics.core.data.types.body.*;
+import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistrySetBuilder;
@@ -34,6 +34,8 @@ public class SyntheticsData {
     public static final ResourceKey<Registry<SyntheticAugment>> AUGMENTS = ResourceKey.createRegistryKey(Synthetics.rl("augments"));
     public static final ResourceKey<Registry<SyntheticAbility>> ABILITIES = ResourceKey.createRegistryKey(Synthetics.rl("abilities"));
 
+    public static final ResourceKey<Registry<ResearchNode>> RESEARCH_NODES = ResourceKey.createRegistryKey(Synthetics.rl("research_nodes"));
+
 
 
     public static final RegistrySetBuilder DATA_BUILDER = new RegistrySetBuilder()
@@ -42,7 +44,8 @@ public class SyntheticsData {
             .add(BODY_PART_TYPES, SyntheticsBodyPartsProvider::createBodyPartTypes)
             .add(BODY_PARTS, SyntheticsBodyPartsProvider::createBodyParts)
             .add(AUGMENTS, SyntheticsAugmentsProvider::createAugments)
-            .add(ABILITIES, SyntheticsAbilitiesProvider::createAbilities);
+            .add(ABILITIES, SyntheticsAbilitiesProvider::createAbilities)
+            .add(RESEARCH_NODES, SyntheticsResearchProvider::createNodes);
 
 
     public void registerDatapackRegistries(final DataPackRegistryEvent.NewRegistry event) {
@@ -52,6 +55,8 @@ public class SyntheticsData {
         event.dataPackRegistry(BODY_PARTS, BodyPart.CODEC.codec(), BodyPart.CODEC.codec());
         event.dataPackRegistry(AUGMENTS, SyntheticAugment.CODEC.codec(), SyntheticAugment.CODEC.codec());
         event.dataPackRegistry(ABILITIES, SyntheticAbility.CODEC.codec(), SyntheticAbility.CODEC.codec());
+        event.dataPackRegistry(RESEARCH_NODES, ResearchNode.CODEC.codec(), ResearchNode.CODEC.codec());
+
     }
 
     public void gatherData(final GatherDataEvent event) {
@@ -63,8 +68,9 @@ public class SyntheticsData {
         DatapackBuiltinEntriesProvider provider = new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, DATA_BUILDER, Set.of(Synthetics.MODID));
         generator.addProvider(event.includeServer(), provider);
         lookupProvider = provider.getRegistryProvider();
+        SyntheticsLootTableProvider.register(generator, event, lookupProvider, packOutput);
         SyntheticsTagProvider.register(generator, event, packOutput, lookupProvider, existingFileHelper);
-
+        SyntheticsRecipeProvider.register(generator, event, lookupProvider, packOutput);
     }
 
     public static void register(IEventBus bus) {

@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
-import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAbility;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;

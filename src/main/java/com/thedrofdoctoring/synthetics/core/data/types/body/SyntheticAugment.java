@@ -1,12 +1,12 @@
-package com.thedrofdoctoring.synthetics.core.data.types;
+package com.thedrofdoctoring.synthetics.core.data.types.body;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.body.abilities.IAbilityHolder;
+import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 
-public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart> validParts, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation augmentID) implements IAbilityHolder {
+public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart> validParts, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation augmentID) implements IBodyInstallable {
 
     public static final MapCodec<SyntheticAugment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("complexity").forGetter(SyntheticAugment::complexity),
@@ -41,6 +41,12 @@ public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart
     }
     public static SyntheticAugment create(int complexity, int powerCost, HolderSet<BodyPart> validParts, HolderSet<SyntheticAbility> abilities, ResourceLocation id) {
         return new SyntheticAugment(complexity, powerCost, validParts, Optional.of(abilities), id);
+    }
+    public static final Codec<HolderSet<SyntheticAugment>> SET_CODEC = RegistryCodecs.homogeneousList(SyntheticsData.AUGMENTS, CODEC.codec());
+
+    @Override
+    public ResourceLocation id() {
+        return augmentID;
     }
 
 

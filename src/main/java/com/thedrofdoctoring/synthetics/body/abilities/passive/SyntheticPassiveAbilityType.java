@@ -5,8 +5,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 public class SyntheticPassiveAbilityType extends SyntheticAbilityType {

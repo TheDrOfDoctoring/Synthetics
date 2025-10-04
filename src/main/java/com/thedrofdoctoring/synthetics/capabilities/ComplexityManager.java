@@ -1,9 +1,9 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
-import com.thedrofdoctoring.synthetics.core.data.types.AugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegment;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.HolderLookup;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
-
+@SuppressWarnings("unused")
 public class ComplexityManager implements ISyncable {
 
     private static final String KEY = "complexity_manager";
@@ -108,17 +108,12 @@ public class ComplexityManager implements ISyncable {
     public CompoundTag serialiseNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = new CompoundTag();
         tag.putInt("total_complexity", totalComplexity);
-        tag.put("complexity", serialiseComplexity(provider));
-
         return tag;
-    }
-    private CompoundTag serialiseComplexity(HolderLookup.@NotNull Provider provider) {
-        return new CompoundTag();
     }
 
     @Override
     public void deserialiseNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag parentNBT) {
-        this.totalBodySegmentComplexity.clear();;
+        this.totalBodySegmentComplexity.clear();
         this.totalBodyPartComplexity.clear();
         List<AugmentInstance> augments = this.player.getInstalledAugments();
         for(AugmentInstance instance : augments) {

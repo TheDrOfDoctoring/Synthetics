@@ -1,9 +1,9 @@
-package com.thedrofdoctoring.synthetics.core.data.types;
+package com.thedrofdoctoring.synthetics.core.data.types.body;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.body.abilities.IAbilityHolder;
+import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -21,7 +21,7 @@ import java.util.Optional;
  * @param type - The type of body part this body part is. Note that the first element of this tag is the default.
  * @param id - Self ID
  */
-public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation id) implements IAbilityHolder {
+public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation id) implements IBodyInstallable {
 
     public static final MapCodec<BodyPart> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodyPart::maxComplexity),
@@ -30,6 +30,7 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder
             SyntheticAbility.SET_CODEC.optionalFieldOf("abilities").forGetter(BodyPart::abilities),
             ResourceLocation.CODEC.fieldOf("id").forGetter(BodyPart::id)
     ).apply(instance, BodyPart::new));
+
     public static final Codec<HolderSet<BodyPart>> SET_CODEC = RegistryCodecs.homogeneousList(SyntheticsData.BODY_PARTS, CODEC.codec());
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodyPart> STREAM_CODEC = StreamCodec.composite(
@@ -46,4 +47,5 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder
     public static BodyPart create(int complexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, HolderSet<SyntheticAbility> abilities, ResourceLocation id) {
         return new BodyPart(complexity, segment, type, Optional.of(abilities), id);
     }
+
 }

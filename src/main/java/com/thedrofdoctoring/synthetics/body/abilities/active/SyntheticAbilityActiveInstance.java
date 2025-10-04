@@ -2,7 +2,7 @@ package com.thedrofdoctoring.synthetics.body.abilities.active;
 
 import com.thedrofdoctoring.synthetics.body.abilities.SyntheticAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
-import com.thedrofdoctoring.synthetics.core.data.types.ActiveAbilityOptions;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ActiveAbilityOptions;
 import net.minecraft.resources.ResourceLocation;
 
 public class SyntheticAbilityActiveInstance extends SyntheticAbilityInstance<SyntheticActiveAbilityType> {

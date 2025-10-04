@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
-import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -44,7 +44,7 @@ public class SyntheticsAugmentCommand {
             SyntheticsPlayer synthetics = SyntheticsPlayer.get(player);
             if(install) {
                 if(synthetics.isAugmentInstalled(augment)) {
-                    context.getSource().sendFailure(Component.translatable("command.synthetics.already_installed", augment.toString(), player.getDisplayName()));
+                    context.getSource().sendFailure(Component.translatable("command.synthetics.already_installed", augment.augmentID().toString(), player.getDisplayName()));
                     return 0;
                 }
                 synthetics.addAugment(augment, true);
@@ -52,7 +52,7 @@ public class SyntheticsAugmentCommand {
 
             } else {
                 if(!synthetics.isAugmentInstalled(augment)) {
-                    context.getSource().sendFailure(Component.translatable("command.synthetics.not_installed", augment.toString(), player.getDisplayName()));
+                    context.getSource().sendFailure(Component.translatable("command.synthetics.not_installed", augment.id().toString(), player.getDisplayName()));
                     return 0;
                 }
                 synthetics.removeAugment(augment    );

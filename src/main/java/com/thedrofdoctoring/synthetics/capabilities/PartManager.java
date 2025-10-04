@@ -2,7 +2,7 @@ package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.*;
+import com.thedrofdoctoring.synthetics.core.data.types.body.*;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -71,8 +71,7 @@ public class PartManager implements ISaveData, IPartManager {
     }
 
     public BodySegment replaceSegment(BodySegment newSegment, boolean updatePlayer) {
-        BodySegment old = installedSegments.put(newSegment.type().value(), newSegment);
-        return old;
+        return installedSegments.put(newSegment.type().value(), newSegment);
 
     }
 

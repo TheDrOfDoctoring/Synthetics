@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-28T16:48:43.7068239	Registries
+// 1.21.1	2025-10-03T23:31:27.6456987	Registries
 efe521d2f90c6305ab0f46655ef1ad91df3c9bd1 data/synthetics/synthetics/abilities/inertial_dampener_fall_damage.json
 42dd08eb707e4f4364f18cda198d87b98dafae20 data/synthetics/synthetics/abilities/inertial_dampener_safe_fall.json
 cfc3e20b0701dd74bde480711adff4d5e8702673 data/synthetics/synthetics/abilities/launchboot_launch.json
@@ -25,3 +25,5 @@ fe8dc8fa4fbeab1b865e7a470e47ca470a16a664 data/synthetics/synthetics/body_segment
 54510e12449331603a02af95af55635f9ed2bd23 data/synthetics/synthetics/body_segment_types/head.json
 e76004c254f7da67a22d780634d487c797a9149b data/synthetics/synthetics/body_segment_types/lower_body.json
 a2a58fa79f00f544b08cf1aa1bdd4da979dcecff data/synthetics/synthetics/body_segment_types/torso.json
+48b173f975137ed99419f70a02f7d3ccca05874e data/synthetics/synthetics/research_nodes/inertial_dampeners_research.json
+40d91c22b5f6ebe36c2a10acbe09b0c52a6324ce data/synthetics/synthetics/research_nodes/launch_boot_research.json

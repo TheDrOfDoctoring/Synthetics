@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
-import com.thedrofdoctoring.synthetics.core.data.types.AugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;

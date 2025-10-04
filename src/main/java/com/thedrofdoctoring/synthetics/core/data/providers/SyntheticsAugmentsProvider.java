@@ -3,10 +3,11 @@ package com.thedrofdoctoring.synthetics.core.data.providers;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
+import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
-import com.thedrofdoctoring.synthetics.core.data.types.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAbility;
-import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -19,8 +20,7 @@ import java.util.stream.Collectors;
 
 public class SyntheticsAugmentsProvider {
 
-    public static final ResourceKey<SyntheticAugment> CYBERNETIC_INERTIAL_DAMPENERS = create("inertial_dampeners");
-    public static final ResourceKey<SyntheticAugment> LAUNCH_BOOT = create("launch_boot");
+
 
     private static ResourceKey<SyntheticAugment> create(String name) {
         return ResourceKey.create(
@@ -36,23 +36,23 @@ public class SyntheticsAugmentsProvider {
 
 
         context.register(
-                CYBERNETIC_INERTIAL_DAMPENERS,
+                Augments.CYBERNETIC_INERTIAL_DAMPENERS,
                 SyntheticAugment.create(
                         5,
                         0,
                         getPart(partLookup, BodyParts.FEET_MAIN),
                         getAbility(abilityLookup, List.of(Abilities.INERTIAL_DAMPENERS_FALL_DAMAGE, Abilities.INERTIAL_DAMPENERS_SAFE_FALL)),
-                        CYBERNETIC_INERTIAL_DAMPENERS.location()
+                        Augments.CYBERNETIC_INERTIAL_DAMPENERS.location()
                 )
         );
         context.register(
-                LAUNCH_BOOT,
+                Augments.LAUNCH_BOOT,
                 SyntheticAugment.create(
                         3,
                         0,
                         getPart(partLookup, BodyParts.FEET_MAIN),
                         getAbility(abilityLookup, List.of(Abilities.LAUNCHBOOT_LAUNCH)),
-                        LAUNCH_BOOT.location()
+                        Augments.LAUNCH_BOOT.location()
                 )
         );
 

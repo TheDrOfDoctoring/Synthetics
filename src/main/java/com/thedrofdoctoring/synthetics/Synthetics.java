@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.thedrofdoctoring.synthetics.commands.SyntheticsCommands;
 import com.thedrofdoctoring.synthetics.config.CommonConfig;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
+import com.thedrofdoctoring.synthetics.core.SyntheticsBlockEntities;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
@@ -30,6 +31,7 @@ public class Synthetics {
         SyntheticsBlocks.register(modEventBus);
         SyntheticsData.register(modEventBus);
         SyntheticsAttachments.register(modEventBus);
+        SyntheticsBlockEntities.register(modEventBus);
         SyntheticsCommands.register(modEventBus);
         SyntheticsPayloads.register(modEventBus);
 

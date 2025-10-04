@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "c:stripped_logs"
+    },
+    "B": {
+      "item": "minecraft:polished_diorite"
+    },
+    "C": {
+      "item": "minecraft:blue_dye"
+    },
+    "D": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    " C ",
+    "BDB",
+    "A A"
+  ],
+  "result": {
+    "count": 1,
+    "id": "synthetics:research_table"
+  }
+}

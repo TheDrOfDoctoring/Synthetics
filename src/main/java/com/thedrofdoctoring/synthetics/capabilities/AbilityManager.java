@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.body.abilities.IAbilityHolder;
+import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.body.abilities.SyntheticAbilityType;
 import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticAbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticActiveAbilityType;
@@ -11,11 +11,14 @@ import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticPassiveAb
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.SyntheticAbility;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
@@ -33,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 // Some of the active ability system handled here is partially based on Vampirism's ActionHandler, licensed under GNU LGPL. https://github.com/TeamLapen/Vampirism/blob/1.21/src/main/java/de/teamlapen/vampirism/entity/player/actions/ActionHandler.java
+@SuppressWarnings("unused")
 public class AbilityManager implements ISyncable {
 
     private final Object2ObjectMap<ResourceLocation, SyntheticAbilityPassiveInstance> passiveAbilities;
@@ -68,7 +72,7 @@ public class AbilityManager implements ISyncable {
     public void markDirty() {
         this.dirty = true;
     }
-    public void addAbilities(IAbilityHolder holder) {
+    public void addAbilities(IBodyInstallable holder) {
         if(holder.abilities().isPresent()) {
             HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
             for(int i = 0; i < holderSet.size(); i++ ){
@@ -99,6 +103,7 @@ public class AbilityManager implements ISyncable {
 
 
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean toggleAbility(SyntheticActiveAbilityType activeAbility) {
 
         if(!canActivate(activeAbility)) return false;
@@ -124,8 +129,7 @@ public class AbilityManager implements ISyncable {
     public boolean canActivate(SyntheticActiveAbilityType type) {
         if(!this.activeAbilities.containsKey(type.getAbilityID())) return false;
         if(isAbilityOnCooldown(type)) return false;
-        if(!type.canBeUsed(manager)) return false;
-        return true;
+        return type.canBeUsed(manager);
 
     }
     public boolean isAbilityActive(SyntheticActiveAbilityType type) {
@@ -148,7 +152,7 @@ public class AbilityManager implements ISyncable {
         dirty = true;
     }
 
-    public void removeAbilities(IAbilityHolder holder) {
+    public void removeAbilities(IBodyInstallable holder) {
         if(holder.abilities().isPresent()) {
             HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
             for(int i = 0; i < holderSet.size(); i++ ){
@@ -213,7 +217,6 @@ public class AbilityManager implements ISyncable {
         }
     }
     public boolean onTick() {
-
         Iterator<Object2IntMap.Entry<ResourceLocation>> cooldownIterator = cooldown.object2IntEntrySet().iterator();
         while (cooldownIterator.hasNext()) {
             Object2IntMap.Entry<ResourceLocation> entry = cooldownIterator.next();
@@ -225,15 +228,13 @@ public class AbilityManager implements ISyncable {
             }
         }
 
-        Iterator<Object2IntMap.Entry<ResourceLocation>> activeDurationIterator = duration.object2IntEntrySet().iterator();
-        while (activeDurationIterator.hasNext()) {
-            Object2IntMap.Entry<ResourceLocation> entry = activeDurationIterator.next();
+        for (Object2IntMap.Entry<ResourceLocation> entry : duration.object2IntEntrySet()) {
             int newTime = entry.getIntValue() - 1;
             SyntheticLastingAbilityType lasting = (SyntheticLastingAbilityType) this.activeAbilities.get(entry.getKey()).getAbility();
-            if(newTime == 0 || !this.activeAbilities.containsKey(entry.getKey())) {
+            if (newTime == 0 || !this.activeAbilities.containsKey(entry.getKey())) {
                 deactivateAbility(lasting);
             } else {
-                if(lasting.onTick(manager, this.activeAbilities.get(entry.getKey()).getAbilityFactor())) {
+                if (lasting.onTick(manager, this.activeAbilities.get(entry.getKey()).getAbilityFactor())) {
                     entry.setValue(1);
                 } else {
                     entry.setValue(newTime);
@@ -327,6 +328,7 @@ public class AbilityManager implements ISyncable {
 
     }
 
+    @SuppressWarnings("LoggingSimilarMessage")
     public void deserialiseAbilities(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag tag) {
 
         HolderLookup.RegistryLookup<SyntheticAbility> lookup = provider.lookupOrThrow(SyntheticsData.ABILITIES);
@@ -460,7 +462,7 @@ public class AbilityManager implements ISyncable {
                         }
                     }
                 }
-            };
+            }
             if (tag.contains("cooldown", Tag.TAG_COMPOUND)) {
                 cooldown.clear();
                 deserialiseTimeMap(tag.getCompound("cooldown"), cooldown);

@@ -2,8 +2,10 @@ package com.thedrofdoctoring.synthetics.networking;
 
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundActivateAbilityPacket;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundRequestUpdatePacket;
+import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundResearchPacket;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLeapPacket;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
+import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateResearchNodesPacket;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -30,6 +32,11 @@ public class SyntheticsPayloads {
                 ServerboundActivateAbilityPacket.CODEC,
                 ServerboundActivateAbilityPacket::handle
         );
+        registrar.playToServer(
+                ServerboundResearchPacket.TYPE,
+                ServerboundResearchPacket.CODEC,
+                ServerboundResearchPacket::handle
+        );
     }
     private static void registerToClientPackets(PayloadRegistrar registrar) {
         registrar.playToClient(
@@ -42,7 +49,11 @@ public class SyntheticsPayloads {
                 ClientboundLeapPacket.CODEC,
                 ClientboundLeapPacket::handle
         );
-
+        registrar.playToClient(
+                ClientboundUpdateResearchNodesPacket.TYPE,
+                ClientboundUpdateResearchNodesPacket.CODEC,
+                ClientboundUpdateResearchNodesPacket::handle
+        );
     }
 
     public static void register(IEventBus bus) {

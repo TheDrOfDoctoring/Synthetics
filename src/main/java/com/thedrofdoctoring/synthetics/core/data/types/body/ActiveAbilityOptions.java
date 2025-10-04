@@ -1,13 +1,11 @@
-package com.thedrofdoctoring.synthetics.core.data.types;
+package com.thedrofdoctoring.synthetics.core.data.types.body;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 
 public record ActiveAbilityOptions(int cooldown, int duration, int powerCost, int powerDrain) {
     public static final MapCodec<ActiveAbilityOptions> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

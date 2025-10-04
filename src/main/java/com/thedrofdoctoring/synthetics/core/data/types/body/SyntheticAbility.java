@@ -1,4 +1,4 @@
-package com.thedrofdoctoring.synthetics.core.data.types;
+package com.thedrofdoctoring.synthetics.core.data.types.body;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

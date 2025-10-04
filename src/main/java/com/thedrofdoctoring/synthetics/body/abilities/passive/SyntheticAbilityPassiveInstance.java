@@ -3,17 +3,12 @@ package com.thedrofdoctoring.synthetics.body.abilities.passive;
 import com.thedrofdoctoring.synthetics.body.abilities.SyntheticAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class SyntheticAbilityPassiveInstance extends SyntheticAbilityInstance<SyntheticPassiveAbilityType> {
