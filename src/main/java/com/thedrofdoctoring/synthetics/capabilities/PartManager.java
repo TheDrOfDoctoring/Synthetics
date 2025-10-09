@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
+import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.*;
@@ -16,9 +17,7 @@ import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class PartManager implements ISaveData, IPartManager {
     public static final String KEY = "part_manager";
@@ -44,34 +43,47 @@ public class PartManager implements ISaveData, IPartManager {
         return installedSegments.values();
     }
     public boolean isPartInstalled(BodyPart part) {
-        return installedParts.getOrDefault(part.type().value(), null) == part;
+        return installedParts.getOrDefault(part.type().value(), null).equals(part);
 
     }
     public boolean isSegmentInstalled(BodySegment segment) {
-        return installedSegments.getOrDefault(segment.type().value(), null) == segment;
+        return installedSegments.getOrDefault(segment.type().value(), null).equals(segment);
     }
 
-    public BodyPart replacePart(BodyPart newPart, boolean updatePlayer) {
+    public boolean augmentSupportsBodyPart(SyntheticAugment augment, BodyPart part) {
+        return augment.validParts().contains(Holder.direct(part));
+    }
+
+    public List<IBodyInstallable<?>> replacePart(BodyPart newPart, boolean updatePlayer) {
+        List<IBodyInstallable<?>> removedInstallables = new ArrayList<>();
         BodyPart old = installedParts.put(newPart.type().value(), newPart);
-        if(updatePlayer && old != null) {
-            List<AugmentInstance> instancesOfPart = this.player.getInstalledAugments().stream().filter(p -> p.appliedPart().type() == old.type()).toList();
+        if(old != null) {
+            List<AugmentInstance> instancesOfPart = this.player.getInstalledAugments().stream().filter(p -> p.appliedPart().type().equals(old.type())).toList();
             for(AugmentInstance instance : instancesOfPart) {
-                this.player.replaceAugmentInstance(instance, new AugmentInstance(instance.augment(), newPart));
+                if(augmentSupportsBodyPart(instance.augment(), newPart)) {
+                    this.player.replaceAugmentInstance(instance, new AugmentInstance(instance.augment(), newPart));
+                } else {
+                    removedInstallables.add(instance.augment());
+                }
             }
-            this.player.markDirtyAll();
-
+            if(updatePlayer) {
+                this.player.markDirtyAll();
+            }
         }
-        return old;
+        removedInstallables.add(old);
+        return removedInstallables;
     }
-    public BodyPart replacePart(BodyPart newPart) {
+    public List<IBodyInstallable<?>> replacePart(BodyPart newPart) {
         return replacePart(newPart, true);
     }
-    public BodySegment replaceSegment(BodySegment newSegment) {
+    public List<IBodyInstallable<?>> replaceSegment(BodySegment newSegment) {
         return replaceSegment(newSegment, true);
     }
 
-    public BodySegment replaceSegment(BodySegment newSegment, boolean updatePlayer) {
-        return installedSegments.put(newSegment.type().value(), newSegment);
+    public List<IBodyInstallable<?>> replaceSegment(BodySegment newSegment, boolean updatePlayer) {
+
+        BodySegment segment = installedSegments.put(newSegment.type().value(), newSegment);
+        return segment == null ? Collections.emptyList() : List.of(segment);
 
     }
 

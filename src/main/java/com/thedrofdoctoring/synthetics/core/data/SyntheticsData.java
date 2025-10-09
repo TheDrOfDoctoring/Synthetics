@@ -2,9 +2,9 @@ package com.thedrofdoctoring.synthetics.core.data;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsLootTableProvider;
+import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsTagProvider;
 import com.thedrofdoctoring.synthetics.core.data.providers.*;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticsRecipeProvider;
-import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsTagProvider;
 import com.thedrofdoctoring.synthetics.core.data.types.body.*;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.core.HolderLookup;

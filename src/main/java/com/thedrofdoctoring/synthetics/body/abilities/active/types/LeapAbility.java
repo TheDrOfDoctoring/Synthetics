@@ -14,11 +14,12 @@ public class LeapAbility extends SyntheticLastingAbilityType {
 
     @Override
     public boolean activate(SyntheticsPlayer syntheticsPlayer, double factor) {
-        if(syntheticsPlayer.getEntity() instanceof ServerPlayer player) {
+        if(syntheticsPlayer.getEntity() instanceof ServerPlayer player && player.onGround()) {
             player.connection.send(new ClientboundLeapPacket(factor));
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     @Override

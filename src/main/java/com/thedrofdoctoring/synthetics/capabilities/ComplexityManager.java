@@ -1,9 +1,7 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
-import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.*;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.HolderLookup;
@@ -47,9 +45,9 @@ public class ComplexityManager implements ISyncable {
         this.totalComplexity = Math.max(0, complexity + totalComplexity);
 
         int currentPartComplexity = totalBodyPartComplexity.getInt(part.id());
-        totalBodyPartComplexity.put(part.id(), Math.max(0, currentPartComplexity + complexity));
+        totalBodyPartComplexity.put(part.type().value().id(), Math.max(0, currentPartComplexity + complexity));
 
-        ResourceLocation segmentID = this.player.getPartManager().getSegmentForPart(part).id();
+        ResourceLocation segmentID = this.player.getPartManager().getSegmentForPart(part).type().value().id();
         int currentSegmentComplexity = totalBodyPartComplexity.getInt(segmentID);
         totalBodySegmentComplexity.put(segmentID, Math.max(0, currentSegmentComplexity + complexity));
     }
@@ -60,9 +58,9 @@ public class ComplexityManager implements ISyncable {
             addedComplexity = addedComplexity - removed.augment().complexity();
         }
         boolean failedPartCheck = false;
-        int currentPartComplexity = totalBodyPartComplexity.getInt(newInstance.appliedPart().id());
+        int currentPartComplexity = totalBodyPartComplexity.getInt(newInstance.appliedPart().type().value().id());
         BodySegment segment = this.player.getPartManager().getSegmentForPart(newInstance.appliedPart());
-        int currentSegmentComplexity = totalBodySegmentComplexity.getInt(segment.id());
+        int currentSegmentComplexity = totalBodySegmentComplexity.getInt(segment.type().value().id());
         if(currentPartComplexity + addedComplexity > newInstance.appliedPart().maxComplexity()) {
             failedPartCheck = true;
         }
@@ -77,6 +75,18 @@ public class ComplexityManager implements ISyncable {
 
         return ComplexityResult.SUCCESS;
     }
+    public ComplexityPairs getNewComplexity(AugmentInstance newInstance, @Nullable AugmentInstance removed) {
+        int addedComplexity = newInstance.augment().complexity();
+
+        if(removed != null) {
+            addedComplexity = addedComplexity - removed.augment().complexity();
+        }
+        boolean failedPartCheck = false;
+        int newPartComplexity = totalBodyPartComplexity.getInt(newInstance.appliedPart().type().value().id()) + addedComplexity;
+        BodySegment segment = this.player.getPartManager().getSegmentForPart(newInstance.appliedPart());
+        int newSegmentComplexity = totalBodySegmentComplexity.getInt(segment.type().value().id()) + addedComplexity;
+        return new ComplexityPairs(newInstance.appliedPart(), segment, newPartComplexity, newSegmentComplexity);
+    }
 
 
     public int getTotalComplexity() {
@@ -84,9 +94,15 @@ public class ComplexityManager implements ISyncable {
     }
 
     public int getTotalPartComplexity(BodyPart part) {
-        return getTotalPartComplexity(part.id());
+        return getTotalPartComplexity(part.type().value().id());
     }
     public int getTotalSegmentComplexity(BodySegment segment) {
+        return getTotalSegmentComplexity(segment.type().value().id());
+    }
+    public int getTotalPartComplexity(BodyPartType part) {
+        return getTotalPartComplexity(part.id());
+    }
+    public int getTotalSegmentComplexity(BodySegmentType segment) {
         return getTotalSegmentComplexity(segment.id());
     }
 
@@ -106,15 +122,14 @@ public class ComplexityManager implements ISyncable {
 
     @Override
     public CompoundTag serialiseNBT(HolderLookup.@NotNull Provider provider) {
-        CompoundTag tag = new CompoundTag();
-        tag.putInt("total_complexity", totalComplexity);
-        return tag;
+        return new CompoundTag();
     }
 
     @Override
     public void deserialiseNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag parentNBT) {
         this.totalBodySegmentComplexity.clear();
         this.totalBodyPartComplexity.clear();
+        this.totalComplexity = 0;
         List<AugmentInstance> augments = this.player.getInstalledAugments();
         for(AugmentInstance instance : augments) {
             addPart(instance);
@@ -135,7 +150,7 @@ public class ComplexityManager implements ISyncable {
         for(AugmentInstance instance : augments) {
             BodyPart part = instance.appliedPart();
             BodySegment segment = this.player.getPartManager().getSegmentForPart(part);
-            segments.putInt(segment.id().toString(), totalBodySegmentComplexity.getOrDefault(segment.id(), 0));
+            segments.putInt(segment.type().value().id().toString(), totalBodySegmentComplexity.getOrDefault(segment.type().value().id(), 0));
         }
         tag.put("segment_complexity", segments);
         return tag;
@@ -163,4 +178,6 @@ public class ComplexityManager implements ISyncable {
         FAIL_BOTH,
         SUCCESS
     }
+
+    public record ComplexityPairs(BodyPart part, BodySegment segment, int partComplexity, int segmentComplexity) {}
 }

@@ -1,11 +1,9 @@
 package com.thedrofdoctoring.synthetics.networking;
 
-import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundActivateAbilityPacket;
-import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundRequestUpdatePacket;
-import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundResearchPacket;
+import com.thedrofdoctoring.synthetics.networking.from_client.*;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLeapPacket;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
-import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateResearchNodesPacket;
+import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateDataCachePacket;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -37,6 +35,16 @@ public class SyntheticsPayloads {
                 ServerboundResearchPacket.CODEC,
                 ServerboundResearchPacket::handle
         );
+        registrar.playToServer(
+                ServerboundInstallableMenuPacket.TYPE,
+                ServerboundInstallableMenuPacket.CODEC,
+                ServerboundInstallableMenuPacket::handle
+        );
+        registrar.playToServer(
+                ServerboundRemoveAugmentPacket.TYPE,
+                ServerboundRemoveAugmentPacket.CODEC,
+                ServerboundRemoveAugmentPacket::handle
+        );
     }
     private static void registerToClientPackets(PayloadRegistrar registrar) {
         registrar.playToClient(
@@ -50,9 +58,9 @@ public class SyntheticsPayloads {
                 ClientboundLeapPacket::handle
         );
         registrar.playToClient(
-                ClientboundUpdateResearchNodesPacket.TYPE,
-                ClientboundUpdateResearchNodesPacket.CODEC,
-                ClientboundUpdateResearchNodesPacket::handle
+                ClientboundUpdateDataCachePacket.TYPE,
+                ClientboundUpdateDataCachePacket.CODEC,
+                ClientboundUpdateDataCachePacket::handle
         );
     }
 

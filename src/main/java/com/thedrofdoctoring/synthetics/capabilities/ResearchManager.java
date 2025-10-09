@@ -51,7 +51,7 @@ public class ResearchManager implements IResearchManager {
     // TODO: if this is called a lot, we need to cache the stored unlocks. lots of streams!
 
     @Override
-    public boolean hasResearched(IBodyInstallable installable) {
+    public boolean hasResearched(IBodyInstallable<?> installable) {
 
         for(ResearchNode node : unlockedResearch) {
             if(node.unlocked().getAllUnlocked().contains(installable)) {
@@ -228,7 +228,7 @@ public class ResearchManager implements IResearchManager {
         tag.put("remove_nodes", serialiseResearchNodes(toBeRemoved));
         tag.put("add_nodes", serialiseResearchNodes(toBeAdded));
         toBeRemoved.clear();
-        toBeAdded.clear();;
+        toBeAdded.clear();
 
         return tag;
     }

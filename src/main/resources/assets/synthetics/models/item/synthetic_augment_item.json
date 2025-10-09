@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader": "synthetics:synthetic_item_model",
+  "installable_type": "synthetics:augment",
+  "textures": {
+    "layer0": "minecraft:missingno"
+  }
+}

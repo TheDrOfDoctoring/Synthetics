@@ -89,6 +89,8 @@ public class SyntheticsBodyPartsProvider {
                 BodyParts.EYES,
                 new BodyPartType(
                         BodyParts.ORGANIC_EYES,
+                        -18, 25,
+                        BodyPartType.Layer.ORGANS,
                         BodyParts.EYES.location()
                 )
         );
@@ -96,6 +98,8 @@ public class SyntheticsBodyPartsProvider {
                 BodyParts.FEET,
                 new BodyPartType(
                         BodyParts.ORGANIC_FEET,
+                        -5, 220,
+                        BodyPartType.Layer.EXTERIOR,
                         BodyParts.FEET.location()
                 )
         );
@@ -103,6 +107,8 @@ public class SyntheticsBodyPartsProvider {
                 BodyParts.BRAIN,
                 new BodyPartType(
                         BodyParts.ORGANIC_BRAIN,
+                        3, 10,
+                        BodyPartType.Layer.ORGANS,
                         BodyParts.BRAIN.location()
                 )
         );
@@ -110,6 +116,8 @@ public class SyntheticsBodyPartsProvider {
                 BodyParts.HEART,
                 new BodyPartType(
                         BodyParts.ORGANIC_HEART,
+                        10, 80,
+                        BodyPartType.Layer.ORGANS,
                         BodyParts.HEART.location()
                 )
         );
@@ -117,6 +125,8 @@ public class SyntheticsBodyPartsProvider {
                 BodyParts.LUNGS,
                 new BodyPartType(
                         BodyParts.ORGANIC_LUNGS,
+                        -15, 90,
+                        BodyPartType.Layer.ORGANS,
                         BodyParts.LUNGS.location()
                 )
         );
@@ -124,6 +134,8 @@ public class SyntheticsBodyPartsProvider {
                 BodyParts.HANDS,
                 new BodyPartType(
                         BodyParts.ORGANIC_HANDS,
+                        40, 130,
+                        BodyPartType.Layer.EXTERIOR,
                         BodyParts.HANDS.location()
                 )
         );

@@ -1,4 +1,7 @@
 {
   "default_part": "synthetics:organic_brain",
-  "id": "synthetics:brain"
+  "id": "synthetics:brain",
+  "layer": "organs",
+  "x": 3,
+  "y": 10
 }

@@ -4,6 +4,6 @@
     "synthetics:inertial_dampener_safe_fall"
   ],
   "augment_id": "synthetics:inertial_dampeners",
-  "complexity": 5,
+  "complexity": 2,
   "validParts": "#synthetics:feet"
 }

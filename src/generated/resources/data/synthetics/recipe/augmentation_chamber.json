@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_block"
+    },
+    "B": {
+      "tag": "c:glass_blocks"
+    },
+    "C": {
+      "item": "minecraft:polished_diorite"
+    },
+    "D": {
+      "item": "minecraft:copper_block"
+    },
+    "E": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " C ",
+    "BDB",
+    "EAE"
+  ],
+  "result": {
+    "count": 1,
+    "id": "synthetics:augmentation_chamber"
+  }
+}

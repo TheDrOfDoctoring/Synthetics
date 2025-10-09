@@ -1,3 +1,5 @@
-// 1.21.1	2025-10-04T17:17:17.8477906	Recipes
+// 1.21.1	2025-10-08T22:24:35.4700133	Recipes
+ffd75204e5fa86054cb895015c079bb875bdf4f5 data/synthetics/advancement/recipes/misc/augmentation_chamber.json
 3a4f8d2700ef846fba7be5c7416c0af8f467d986 data/synthetics/advancement/recipes/misc/synthetic_research_table.json
+02d342cce90a4109716c72136fcac44be94bc54d data/synthetics/recipe/augmentation_chamber.json
 7e5abdcbe1cc4c317c77c1213176497458d9097d data/synthetics/recipe/synthetic_research_table.json

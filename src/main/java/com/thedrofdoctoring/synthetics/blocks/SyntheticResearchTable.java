@@ -1,8 +1,7 @@
 package com.thedrofdoctoring.synthetics.blocks;
 
 import com.mojang.serialization.MapCodec;
-import com.thedrofdoctoring.synthetics.client.screens.ResearchScreen;
-import net.minecraft.client.Minecraft;
+import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -15,10 +14,13 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoubleBlockCombiner;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -69,11 +71,11 @@ public class SyntheticResearchTable extends HorizontalDirectionalBlock {
             level.blockUpdated(pos, Blocks.AIR);
             state.updateNeighbourShapes(level, pos, 3);
         }
-
     }
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, PART);
     }
+
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Direction direction = context.getHorizontalDirection();
@@ -110,6 +112,8 @@ public class SyntheticResearchTable extends HorizontalDirectionalBlock {
         TablePart part = state.getValue(PART);
         return part == TablePart.FOOT ? DoubleBlockCombiner.BlockType.FIRST : DoubleBlockCombiner.BlockType.SECOND;
     }
+
+
     protected @NotNull BlockState updateShape(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
         if (facing != getNeighbourDirection(state.getValue(PART), state.getValue(FACING))) {
             return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
@@ -127,7 +131,7 @@ public class SyntheticResearchTable extends HorizontalDirectionalBlock {
         if (!level.isClientSide && player.isCreative()) {
             TablePart tablePart = state.getValue(PART);
             if (tablePart == TablePart.HEAD) {
-                BlockPos blockpos = pos.relative(getNeighbourDirection(tablePart, state.getValue(FACING)));
+                BlockPos blockpos = pos.relative(getNeighbourDirection(tablePart, state.getValue(FACING).getOpposite()));
                 BlockState blockstate = level.getBlockState(blockpos);
                 if (blockstate.is(this) && blockstate.getValue(PART) == TablePart.FOOT) {
                     level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
@@ -157,7 +161,7 @@ public class SyntheticResearchTable extends HorizontalDirectionalBlock {
     @Override
     protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
         if(player.getCommandSenderWorld().isClientSide) {
-            Minecraft.getInstance().setScreen(new ResearchScreen());
+            SyntheticsClientManager.setResearchScreen();
         }
         return super.useWithoutItem(state, level, pos, player, hitResult);
     }

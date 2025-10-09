@@ -3,12 +3,11 @@ package com.thedrofdoctoring.synthetics;
 import com.mojang.logging.LogUtils;
 import com.thedrofdoctoring.synthetics.commands.SyntheticsCommands;
 import com.thedrofdoctoring.synthetics.config.CommonConfig;
-import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
-import com.thedrofdoctoring.synthetics.core.SyntheticsBlockEntities;
-import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
-import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
+import com.thedrofdoctoring.synthetics.core.*;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
+import com.thedrofdoctoring.synthetics.menus.SyntheticsMenus;
 import com.thedrofdoctoring.synthetics.networking.SyntheticsPayloads;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -29,11 +28,14 @@ public class Synthetics {
         SyntheticAbilities.register(modEventBus);
         SyntheticsItems.register(modEventBus);
         SyntheticsBlocks.register(modEventBus);
+        SyntheticsEntities.register(modEventBus);
         SyntheticsData.register(modEventBus);
         SyntheticsAttachments.register(modEventBus);
         SyntheticsBlockEntities.register(modEventBus);
         SyntheticsCommands.register(modEventBus);
         SyntheticsPayloads.register(modEventBus);
+        SyntheticsDataComponents.register(modEventBus);
+        SyntheticsMenus.register(modEventBus);
 
         modEventBus.addListener(this::registerRegistries);
 

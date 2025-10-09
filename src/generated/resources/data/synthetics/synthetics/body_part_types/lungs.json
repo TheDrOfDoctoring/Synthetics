@@ -1,4 +1,7 @@
 {
   "default_part": "synthetics:organic_lungs",
-  "id": "synthetics:lungs"
+  "id": "synthetics:lungs",
+  "layer": "organs",
+  "x": -15,
+  "y": 90
 }

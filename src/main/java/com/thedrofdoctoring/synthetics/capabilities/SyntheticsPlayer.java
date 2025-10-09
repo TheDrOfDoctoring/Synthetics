@@ -1,13 +1,18 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
+import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
 import com.thedrofdoctoring.synthetics.util.Helper;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +26,7 @@ import net.neoforged.neoforge.attachment.IAttachmentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -61,6 +67,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.dirty = true;
     }
     public void markDirtyAll() {
+        this.dirty = true;
         this.dirtyAll = true;
     }
 
@@ -77,6 +84,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
         return true;
     }
+
 
     @Override
     public void addAugment(@NotNull SyntheticAugment augment, boolean sync) {
@@ -104,15 +112,88 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         totalPowerCost += augment.powerCost();
     }
 
+    @Override
+    public boolean canAddInstallable(IBodyInstallable<?> installable) {
+
+        if(installable instanceof SyntheticAugment augment) {
+            return this.complexityManager.testComplexity(new AugmentInstance(augment, this.getPartManager().getPartForAugment(augment)), null) == ComplexityManager.ComplexityResult.SUCCESS;
+        }
+        if(installable instanceof BodyPart part) {
+            return this.complexityManager.getTotalPartComplexity(part) <= part.maxComplexity();
+        }
+        if(installable instanceof BodySegment segment) {
+            if(this.complexityManager.getTotalSegmentComplexity(segment) > segment.maxComplexity()) {
+                return false;
+            }
+            Holder<BodySegment> segmentHolder = Holder.direct(segment);
+            return this.partManager.getInstalledParts().stream().allMatch(p -> p.segment().contains(segmentHolder));
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean isInstalled(IBodyInstallable<?> installable) {
+        switch (installable) {
+            case SyntheticAugment augment -> {
+                return this.isAugmentInstalled(augment);
+            }
+            case BodyPart part -> {
+                return this.partManager.isPartInstalled(part);
+            }
+            case BodySegment segment -> {
+                return this.partManager.isSegmentInstalled(segment);
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+
+    public List<IBodyInstallable<?>> addOrReplaceInstallable(@NotNull IBodyInstallable<?> installable) {
+
+        switch (installable) {
+            case SyntheticAugment augment -> {
+                AugmentInstance instance = new AugmentInstance(augment, this.partManager.getPartForAugment(augment));
+                augments.add(instance);
+                this.complexityManager.addPart(instance);
+                this.abilityManager.addAbilities(augment);
+                totalPowerCost += augment.powerCost();
+                this.markDirtyAll();
+            }
+            case BodyPart part -> {
+                return this.partManager.replacePart(part, true);
+            }
+            case BodySegment segment -> {
+                return this.partManager.replaceSegment(segment, true);
+            }
+            default -> {
+
+            }
+        }
+
+        return Collections.emptyList();
+
+    }
 
     public boolean isAugmentInstalled(@NotNull SyntheticAugment augment) {
-        return this.augments.stream().anyMatch(p -> p.augment() == augment);
+        return this.augments.stream().anyMatch(p -> p.augment().equals(augment));
     }
 
     @Override
     public void removeAugment(SyntheticAugment augment) {
-        augments.removeIf(p -> p.augment() == augment);
+        AugmentInstance instance = null;
+        for(AugmentInstance instances : augments) {
+            if(instances.augment().equals(augment)) {
+                instance = instances;
+                break;
+            }
+        }
+        if(instance == null) return;
+        augments.remove(instance);
         abilityManager.removeAbilities(augment);
+        complexityManager.removePart(instance);
         totalPowerCost -= augment.powerCost();
         onUpdate(true);
     }
@@ -161,6 +242,9 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public void onUpdate(boolean sync) {
 
         this.abilityManager.onUpdate();
+        if(this.player.level().isClientSide) {
+            SyntheticsClientManager.updateScreen();
+        }
 
         if(sync || this.dirty) {
             sync(true);

@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.client.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Axis;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticAbilityActiveInstance;
@@ -27,17 +28,28 @@ public class AbilityOverlay implements LayeredDraw.Layer {
     public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
         if(this.mc.player != null && this.mc.gameMode != null && this.mc.gameMode.getPlayerMode() != GameType.SPECTATOR && this.mc.player.isAlive()  && !this.mc.options.hideGui) {
             AbilityManager manager = SyntheticsPlayer.get(mc.player).getAbilityManager();
+            if(!SyntheticsClient.getInstance().getManager().displayAbilities) {
+                return;
+            }
             SyntheticAbilityActiveInstance[] abilities = manager.getActiveAbilities().toArray(new SyntheticAbilityActiveInstance[0]);
             if(abilities.length == 0) return;
             int i = guiGraphics.guiWidth() / 2;
             int x = ClientConfig.abilityCarouselMiddleX.get();
             int y = ClientConfig.abilityCarouselMiddleY.get();
-
+            guiGraphics.pose().pushPose();
             int selectedAbility = SyntheticsClient.getInstance().getManager().selectedAbility;
+            if(ClientConfig.abilityCarouselRotation.get() != 0) {
+                float centerX = i - x + 62 / 2f;
+                float centerY = guiGraphics.guiHeight() - y + 22 / 2f;
+                guiGraphics.pose().translate(centerX, centerY, 0);
+                guiGraphics.pose().rotateAround(Axis.ZP.rotationDegrees(ClientConfig.abilityCarouselRotation.get()), 0, 0, 0);
+                guiGraphics.pose().translate(-centerX, -centerY, 0);
+            }
 
             RenderSystem.enableBlend();
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(0.0F, 0.0F, -90.0F);
+
             guiGraphics.blitSprite(ABILITY_BAR_SPRITE, i - x, guiGraphics.guiHeight() - y, 62, 22);
             guiGraphics.blitSprite(ABILITY_BAR_SELECTED_SPRITE, i - x - 1 + 20, guiGraphics.guiHeight() - y - 1, 24, 23);
 
@@ -61,6 +73,7 @@ public class AbilityOverlay implements LayeredDraw.Layer {
                 int k1 = guiGraphics.guiHeight() - y + 3;
                 this.renderAbility(guiGraphics, j1, k1, toRender[i1], manager);
             }
+            guiGraphics.pose().popPose();
             RenderSystem.disableBlend();
 
         }

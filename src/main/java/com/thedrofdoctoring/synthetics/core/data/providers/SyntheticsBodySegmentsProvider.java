@@ -18,7 +18,7 @@ public class SyntheticsBodySegmentsProvider {
         context.register(
                 BodySegments.ORGANIC_TORSO,
                 new BodySegment(
-                        35,
+                        75,
                         getSegmentType(types, BodySegments.TORSO),
                         BodySegments.ORGANIC_TORSO.location()
                 )
@@ -26,7 +26,7 @@ public class SyntheticsBodySegmentsProvider {
         context.register(
                 BodySegments.ORGANIC_HEAD,
                 new BodySegment(
-                        30,
+                        50,
                         getSegmentType(types, BodySegments.HEAD),
                         BodySegments.ORGANIC_HEAD.location()
                 )
@@ -34,7 +34,7 @@ public class SyntheticsBodySegmentsProvider {
         context.register(
                 BodySegments.ORGANIC_ARMS,
                 new BodySegment(
-                        40,
+                        60,
                         getSegmentType(types, BodySegments.ARMS),
                         BodySegments.ORGANIC_ARMS.location()
                 )
@@ -42,7 +42,7 @@ public class SyntheticsBodySegmentsProvider {
         context.register(
                 BodySegments.ORGANIC_LOWER_BODY,
                 new BodySegment(
-                        40,
+                        60,
                         getSegmentType(types, BodySegments.LOWER_BODY),
                         BodySegments.ORGANIC_LOWER_BODY.location()
                 )

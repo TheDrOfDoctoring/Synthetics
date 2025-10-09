@@ -8,14 +8,13 @@ import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.ResearchManager;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
+import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.StringSplitter;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
-import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -26,18 +25,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 
 public class ResearchNodeScreen {
     private static final ResourceLocation RESEARCH_BACKGROUND_SPRITE = Synthetics.rl("research/node");
-    private static final ResourceLocation RESEARCH_DESCRIPTION_SPRITE = Synthetics.rl("research/description");
+    private static final ResourceLocation RESEARCH_DESCRIPTION_SPRITE = Synthetics.rl("generic/description");
 
     private static final ResourceLocation TITLE_BLUE_SPRITE = Synthetics.rl("research/title_blue");
     private static final ResourceLocation TITLE_GREEN_SPRITE = Synthetics.rl("research/title_green");
-    private static final ResourceLocation TITLE_RED_SPRITE = Synthetics.rl("research/title_red");
+    private static final ResourceLocation TITLE_RED_SPRITE = Synthetics.rl("generic/title_red");
 
     private static final ResourceLocation RIGHT_CLICK_SPRITE = Synthetics.rl("icons/right_click");
 
@@ -57,7 +55,7 @@ public class ResearchNodeScreen {
     private FormattedCharSequence experienceCost;
     private final ResearchNodeScreen parent;
 
-    private final IBodyInstallable unlockedPrimary;
+    private final IBodyInstallable<?> unlockedPrimary;
 
     private final ItemStack experience = new ItemStack(Items.EXPERIENCE_BOTTLE);
     private final List<Pair<ItemStack, Integer>> requirements = new ArrayList<>();
@@ -100,10 +98,10 @@ public class ResearchNodeScreen {
         }
         this.title = Language.getInstance().getVisualOrder(minecraft.font.substrByWidth(ComponentUtils.mergeStyles(Optional.of(node.title()).orElse(Component.empty()).copy(), Style.EMPTY.withColor(ChatFormatting.AQUA)), 163));
         this.size = Math.max(56 + minecraft.font.width(title), 120);
-        this.description = Language.getInstance().getVisualOrder(this.findOptimalLines(ComponentUtils.mergeStyles(Optional.of(node.description()).orElse(Component.empty()).copy(), Style.EMPTY.withColor(ChatFormatting.GRAY)), size - 30));
+        this.description = Language.getInstance().getVisualOrder(Helper.findOptimalLines(minecraft, ComponentUtils.mergeStyles(Optional.of(node.description()).orElse(Component.empty()).copy(), Style.EMPTY.withColor(ChatFormatting.GRAY)), size - 30, TEST_SPLIT_OFFSETS));
         this.parentRequirement = null;
         if(this.parent != null) {
-            this.parentRequirement = Language.getInstance().getVisualOrder(this.findOptimalLines(ComponentUtils.mergeStyles(Component.translatable("text.synthetics.research.unlock_parent_first", this.parent.node.title()), Style.EMPTY.withColor(ChatFormatting.DARK_RED)), size - 30));
+            this.parentRequirement = Language.getInstance().getVisualOrder(Helper.findOptimalLines(minecraft, ComponentUtils.mergeStyles(Component.translatable("text.synthetics.research.unlock_parent_first", this.parent.node.title()), Style.EMPTY.withColor(ChatFormatting.DARK_RED)), size - 30, TEST_SPLIT_OFFSETS));
         }
 
     }
@@ -141,7 +139,6 @@ public class ResearchNodeScreen {
             graphics.setColor(1, 1, 1, 1);
         }
         graphics.blitSprite(RESEARCH_BACKGROUND_SPRITE, x, y, WIDTH, HEIGHT);
-
 
         RenderSystem.enableBlend();
         graphics.blit(getResearchIcon(node), x + 5, y + 5, 0, 0, 16, 16, 16, 16);
@@ -349,9 +346,7 @@ public class ResearchNodeScreen {
 
 
     private ResourceLocation getResearchIcon(@NotNull ResearchNode node) {
-        ResourceLocation baseID = unlockedPrimary.id();
-        return ResourceLocation.fromNamespaceAndPath(baseID.getNamespace(), "textures/installables/" + baseID.getPath() +".png");
-
+        return unlockedPrimary.texture();
     }
 
 
@@ -368,33 +363,7 @@ public class ResearchNodeScreen {
         return ResearchNodeState.VISIBLE;
     }
     private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
-    /**
-     * from net.minecraft.client.gui.advancements.AdvancementEntryGui#findOptimalLines(ITextComponent, int)
-     */
-    private List<FormattedText> findOptimalLines(@NotNull Component component, int width) {
-        StringSplitter characterManager = this.minecraft.font.getSplitter();
-        List<FormattedText> list = Collections.emptyList();
-        float f = Float.MAX_VALUE;
 
-        for (int i : TEST_SPLIT_OFFSETS) {
-            List<FormattedText> list1 = characterManager.splitLines(component, width - i, Style.EMPTY);
-            float f1 = Math.abs(getMaxWidth(characterManager, list1) - (float) width);
-            if (f1 <= 10.0F) {
-                return list1;
-            }
-
-            if (f1 < f) {
-                f = f1;
-                list = list1;
-            }
-        }
-
-        return list;
-    }
-
-    private static float getMaxWidth(@NotNull StringSplitter splitter, @NotNull List<FormattedText> text) {
-        return (float) text.stream().mapToDouble(splitter::stringWidth).max().orElse(0.0D);
-    }
 
     public void switchDisplay() {
         this.displayRequirements = !displayRequirements;

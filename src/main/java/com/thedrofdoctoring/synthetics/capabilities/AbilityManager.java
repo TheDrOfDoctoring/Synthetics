@@ -72,7 +72,7 @@ public class AbilityManager implements ISyncable {
     public void markDirty() {
         this.dirty = true;
     }
-    public void addAbilities(IBodyInstallable holder) {
+    public void addAbilities(IBodyInstallable<?> holder) {
         if(holder.abilities().isPresent()) {
             HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
             for(int i = 0; i < holderSet.size(); i++ ){
@@ -152,7 +152,7 @@ public class AbilityManager implements ISyncable {
         dirty = true;
     }
 
-    public void removeAbilities(IBodyInstallable holder) {
+    public void removeAbilities(IBodyInstallable<?> holder) {
         if(holder.abilities().isPresent()) {
             HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
             for(int i = 0; i < holderSet.size(); i++ ){

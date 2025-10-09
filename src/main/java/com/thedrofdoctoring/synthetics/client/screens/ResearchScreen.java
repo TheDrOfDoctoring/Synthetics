@@ -54,8 +54,8 @@ public class ResearchScreen extends Screen {
     private final double minZoom = 0.25;
     private SyntheticsPlayer player;
 
-    private final ResourceLocation BACKGROUND = Synthetics.rl("textures/gui/research/background.png");
-    private final ResourceLocation WINDOW = Synthetics.rl("textures/gui/research/window.png");
+    private static final ResourceLocation BACKGROUND = Synthetics.rl("textures/gui/research/background.png");
+    private static final ResourceLocation WINDOW = Synthetics.rl("textures/gui/research/window.png");
 
     private double centerX;
     private double centerY;

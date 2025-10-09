@@ -38,6 +38,8 @@ public class SyntheticsTagProvider {
         protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(BlockTags.MINEABLE_WITH_AXE).add(SyntheticsBlocks.RESEARCH_TABLE.get());
             tag(BlockTags.NEEDS_STONE_TOOL).add(SyntheticsBlocks.RESEARCH_TABLE.get());
+            tag(BlockTags.MINEABLE_WITH_PICKAXE).add(SyntheticsBlocks.AUGMENTATION_CHAMBER.get());
+            tag(BlockTags.NEEDS_IRON_TOOL).add(SyntheticsBlocks.AUGMENTATION_CHAMBER.get());
         }
     }
 

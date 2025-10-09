@@ -1,4 +1,7 @@
 {
   "default_part": "synthetics:organic_feet",
-  "id": "synthetics:feet"
+  "id": "synthetics:feet",
+  "layer": "exterior",
+  "x": -5,
+  "y": 220
 }

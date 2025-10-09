@@ -1,4 +1,7 @@
 {
   "default_part": "synthetics:organic_heart",
-  "id": "synthetics:heart"
+  "id": "synthetics:heart",
+  "layer": "organs",
+  "x": 10,
+  "y": 80
 }

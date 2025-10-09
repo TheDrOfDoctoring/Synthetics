@@ -3,16 +3,23 @@ package com.thedrofdoctoring.synthetics.core.data.types.body;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
-public record BodySegment(int maxComplexity, Holder<BodySegmentType> type,  ResourceLocation id) {
+import java.util.Optional;
+
+public record BodySegment(int maxComplexity, Holder<BodySegmentType> type,  ResourceLocation id) implements IBodyInstallable<BodySegment> {
 
     public static final MapCodec<BodySegment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodySegment::maxComplexity),
@@ -29,4 +36,19 @@ public record BodySegment(int maxComplexity, Holder<BodySegmentType> type,  Reso
             ByteBufCodecs.holder(SyntheticsData.BODY_SEGMENT_TYPES, BodySegmentType.STREAM_CODEC), BodySegment::type,
             ResourceLocation.STREAM_CODEC, BodySegment::id,
             BodySegment::new);
+
+    @Override
+    public Optional<HolderSet<SyntheticAbility>> abilities() {
+        return Optional.empty();
+    }
+
+    @Override
+    public ResourceKey<Registry<BodySegment>> getType() {
+        return SyntheticsData.BODY_SEGMENTS;
+    }
+
+    @Override
+    public @NotNull ItemStack createDefaultItemStack() {
+        return ItemStack.EMPTY;
+    }
 }

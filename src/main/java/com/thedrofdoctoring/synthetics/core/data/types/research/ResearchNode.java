@@ -49,17 +49,5 @@ public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUn
         return new ResearchNodeUnlocks(Optional.of(augments), Optional.empty());
     }
 
-    /**public static final StreamCodec<RegistryFriendlyByteBuf, ResearchNode> STREAM_CODEC =
-            StreamCodec.recursive(StreamCodec.composite(
-            ByteBufCodecs.optional(ByteBufCodecs.holderSet(SyntheticsData.RESEARCH_NODES)), ResearchNode::parents,
-            ResearchNodeUnlocks.STREAM_CODEC, ResearchNode::unlocked,
-                    ResearchRequirements.STREAM_CODEC, ResearchNode::requirements,
-                    ByteBufCodecs.INT, ResearchNode::x,
-                    ByteBufCodecs.INT, ResearchNode::y,
-                    ResourceLocation.STREAM_CODEC, ResearchNode::id,
-                    ResearchNode::new));*/
-
-
-
 
 }

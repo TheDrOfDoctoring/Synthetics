@@ -1,6 +1,6 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
-import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateResearchNodesPacket;
+import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateDataCachePacket;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
@@ -18,7 +18,7 @@ public class SyntheticsEventHandler {
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
 
-        ClientboundUpdateResearchNodesPacket packet = ClientboundUpdateResearchNodesPacket.getInstance();
+        ClientboundUpdateDataCachePacket packet = ClientboundUpdateDataCachePacket.getInstance();
         if (event.getPlayer() != null) {
             event.getPlayer().connection.send(packet);
         } else {

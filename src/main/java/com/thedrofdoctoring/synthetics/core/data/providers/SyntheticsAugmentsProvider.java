@@ -38,7 +38,7 @@ public class SyntheticsAugmentsProvider {
         context.register(
                 Augments.CYBERNETIC_INERTIAL_DAMPENERS,
                 SyntheticAugment.create(
-                        5,
+                        2,
                         0,
                         getPart(partLookup, BodyParts.FEET_MAIN),
                         getAbility(abilityLookup, List.of(Abilities.INERTIAL_DAMPENERS_FALL_DAMAGE, Abilities.INERTIAL_DAMPENERS_SAFE_FALL)),

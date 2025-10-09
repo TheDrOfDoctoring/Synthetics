@@ -1,9 +1,11 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
+import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegment;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface IPartManager {
 
@@ -13,10 +15,10 @@ public interface IPartManager {
     boolean isPartInstalled(BodyPart part);
     boolean isSegmentInstalled(BodySegment segment);
 
-    BodyPart replacePart(BodyPart newPart, boolean updatePlayer);
-    BodyPart replacePart(BodyPart newPart);
+    List<IBodyInstallable<?>> replacePart(BodyPart newPart, boolean updatePlayer);
+    List<IBodyInstallable<?>> replacePart(BodyPart newPart);
 
-    BodySegment replaceSegment(BodySegment newSegment);
-    BodySegment replaceSegment(BodySegment newSegment, boolean updatePlayer);
+    List<IBodyInstallable<?>> replaceSegment(BodySegment newSegment);
+    List<IBodyInstallable<?>> replaceSegment(BodySegment newSegment, boolean updatePlayer);
 
 }

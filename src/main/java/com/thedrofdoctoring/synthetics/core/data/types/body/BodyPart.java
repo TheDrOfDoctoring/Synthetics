@@ -4,14 +4,20 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -21,7 +27,7 @@ import java.util.Optional;
  * @param type - The type of body part this body part is. Note that the first element of this tag is the default.
  * @param id - Self ID
  */
-public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation id) implements IBodyInstallable {
+public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation id) implements IBodyInstallable<BodyPart> {
 
     public static final MapCodec<BodyPart> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodyPart::maxComplexity),
@@ -48,4 +54,15 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder
         return new BodyPart(complexity, segment, type, Optional.of(abilities), id);
     }
 
+    @Override
+    public ResourceKey<Registry<BodyPart>> getType() {
+        return SyntheticsData.BODY_PARTS;
+    }
+
+    @Override
+    public @NotNull ItemStack createDefaultItemStack() {
+        ItemStack stack = new ItemStack(SyntheticsItems.BODY_PART_INSTALLABLE);
+        stack.set(SyntheticsDataComponents.BODY_PART, this);
+        return stack;
+    }
 }

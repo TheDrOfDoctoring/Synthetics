@@ -3,6 +3,8 @@ package com.thedrofdoctoring.synthetics;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientSetup;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsKeys;
+import com.thedrofdoctoring.synthetics.client.core.items.SyntheticsClientItems;
+import com.thedrofdoctoring.synthetics.client.screens.menu_screens.SyntheticsMenuScreens;
 import com.thedrofdoctoring.synthetics.config.ClientConfig;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -24,6 +26,8 @@ public class SyntheticsClient {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
         SyntheticsClientSetup.register(modBus);
         SyntheticsKeys.register(modBus);
+        SyntheticsClientItems.register(modBus);
+        SyntheticsMenuScreens.register(modBus);
         this.manager = new SyntheticsClientManager();
     }
     public static SyntheticsClient getInstance() {

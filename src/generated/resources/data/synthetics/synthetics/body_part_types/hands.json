@@ -1,4 +1,7 @@
 {
   "default_part": "synthetics:organic_hands",
-  "id": "synthetics:hands"
+  "id": "synthetics:hands",
+  "layer": "exterior",
+  "x": 40,
+  "y": 130
 }

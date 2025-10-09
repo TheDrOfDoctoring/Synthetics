@@ -4,19 +4,24 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 
-public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart> validParts, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation augmentID) implements IBodyInstallable {
+public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart> validParts, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation augmentID) implements IBodyInstallable<SyntheticAugment> {
 
     public static final MapCodec<SyntheticAugment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("complexity").forGetter(SyntheticAugment::complexity),
@@ -49,5 +54,15 @@ public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart
         return augmentID;
     }
 
+    @Override
+    public ResourceKey<Registry<SyntheticAugment>> getType() {
+        return SyntheticsData.AUGMENTS;
+    }
 
+    @Override
+    public @NotNull ItemStack createDefaultItemStack() {
+        ItemStack stack = new ItemStack(SyntheticsItems.AUGMENT_INSTALLABLE);
+        stack.set(SyntheticsDataComponents.AUGMENT, this);
+        return stack;
+    }
 }

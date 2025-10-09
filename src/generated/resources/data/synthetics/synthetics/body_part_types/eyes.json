@@ -1,4 +1,7 @@
 {
   "default_part": "synthetics:organic_eyes",
-  "id": "synthetics:eyes"
+  "id": "synthetics:eyes",
+  "layer": "organs",
+  "x": -18,
+  "y": 25
 }

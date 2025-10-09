@@ -7,7 +7,7 @@ import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 public interface IResearchManager extends ISyncable {
 
 
-    boolean hasResearched(IBodyInstallable installable);
+    boolean hasResearched(IBodyInstallable<?> installable);
 
     boolean hasResearched(ResearchNode node);
 
