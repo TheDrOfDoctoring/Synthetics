@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.body.abilities;
 
 import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
@@ -20,7 +21,17 @@ public interface IBodyInstallable<T extends IBodyInstallable<T>> {
 
     ResourceKey<Registry<T>> getType();
 
+    /**
+     * Prefer {@link #createDefaultItemStack(HolderLookup.Provider)}
+     * @return An ItemStack with a direct holder version of the installable type component.
+     */
+    @SuppressWarnings("unused")
     @NotNull ItemStack createDefaultItemStack();
+
+    /**
+     * @return An ItemStack with a reference holder version of the installable type component.
+     */
+    @NotNull ItemStack createDefaultItemStack(HolderLookup.Provider provider);
 
     default ResourceLocation texture() {
         return ResourceLocation.fromNamespaceAndPath(id().getNamespace(), "textures/item/installables/" + getType().location().getPath()+ "/" + id().getPath() +".png");

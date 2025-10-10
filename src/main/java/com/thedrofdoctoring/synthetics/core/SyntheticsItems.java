@@ -6,6 +6,7 @@ import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataCompon
 import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -31,9 +32,8 @@ public class SyntheticsItems {
     private static final DeferredRegister<CreativeModeTab> SYNTHETICS_CREATIVE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Synthetics.MODID);
     private static final ResourceKey<CreativeModeTab> SYNTHETIC_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Synthetics.rl("synthetics"));
 
-    public static final DeferredHolder<Item, InstallableItem<SyntheticAugment>> AUGMENT_INSTALLABLE = registerInstallable("synthetic_augment_item", () -> new InstallableItem<>(SyntheticsData.AUGMENTS, SyntheticsDataComponents.AUGMENT, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.AUGMENT, new SyntheticAugment(0, 0, null, Optional.empty(), Synthetics.rl("empty_augment")))));
-    public static final DeferredHolder<Item, InstallableItem<BodyPart>> BODY_PART_INSTALLABLE = registerInstallable("body_part_item", () -> new InstallableItem<>(SyntheticsData.BODY_PARTS, SyntheticsDataComponents.BODY_PART, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.BODY_PART, new BodyPart(0, null, null, Optional.empty(), Synthetics.rl("empty_body_part")))));
-
+    public static final DeferredHolder<Item, InstallableItem<SyntheticAugment>> AUGMENT_INSTALLABLE = registerInstallable("synthetic_augment_item", () -> new InstallableItem<>(SyntheticsData.AUGMENTS, SyntheticsDataComponents.AUGMENT, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.AUGMENT, Holder.direct(new SyntheticAugment(0, 0, null, Optional.empty(), Synthetics.rl("empty_augment"))))));
+    public static final DeferredHolder<Item, InstallableItem<BodyPart>> BODY_PART_INSTALLABLE = registerInstallable("body_part_item", () -> new InstallableItem<>(SyntheticsData.BODY_PARTS, SyntheticsDataComponents.BODY_PART, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.BODY_PART, Holder.direct(new BodyPart(0, null, null, Optional.empty(), Synthetics.rl("empty_body_part"))))));
 
     public static <T extends Item> DeferredHolder<Item, T> register(final String id, final Supplier<? extends T> itemSupplier) {
         DeferredHolder<Item, T> item = ITEMS.register(id, itemSupplier);
@@ -60,13 +60,13 @@ public class SyntheticsItems {
                     var augmentLookup = itemDisplayParameters.holders().lookupOrThrow(SyntheticsData.AUGMENTS);
                     augmentLookup.listElements().forEach(p -> {
                         ItemStack stack = new ItemStack(AUGMENT_INSTALLABLE);
-                        stack.set(SyntheticsDataComponents.AUGMENT, p.value());
+                        stack.set(SyntheticsDataComponents.AUGMENT, p);
                         output.accept(stack);
                     });
                     var bodyPartLookup = itemDisplayParameters.holders().lookupOrThrow(SyntheticsData.BODY_PARTS);
                     bodyPartLookup.listElements().forEach(p -> {
                         ItemStack stack = new ItemStack(BODY_PART_INSTALLABLE);
-                        stack.set(SyntheticsDataComponents.BODY_PART, p.value());
+                        stack.set(SyntheticsDataComponents.BODY_PART, p);
                         output.accept(stack);
                     });
                 }

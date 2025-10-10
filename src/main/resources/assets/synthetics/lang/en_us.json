@@ -30,6 +30,7 @@
   "installables.synthetics.body_parts.type_title": "Body Part",
   "installables.synthetics.augments.launch_boot": "Spring Heel",
   "block.synthetics.augmentation_chamber": "Augmentation Chamber",
+  "block.synthetics.synthetic_forge": "Synthetic Forge",
   "menu.title.synthetics.augmentation_menu": "Augmentation Chamber",
   "text.synthetics.augmentation.added_complexity": "Added Complexity: %s",
   "text.synthetics.augmentation.new_part_complexity": "New Part Complexity: %1$s/%2$s",
@@ -66,9 +67,15 @@
   "installables.synthetics.body_parts.organic_brain": "Brain",
   "installables.synthetics.body_parts.organic_lungs": "Lungs",
   "installables.synthetics.body_parts.organic_heart": "Heart",
-
   "installables.synthetics.body_parts.cybernetic_eyes": "Cybernetic Eyes",
   "installables.synthetics.body_parts.organic_hands": "Hands",
   "installables.synthetics.body_parts.organic_feet": "Feet",
-  "installables.synthetics.empty_augment": "No Augment"
+  "installables.synthetics.empty_augment": "No Augment",
+  "text.synthetics.info_shift": "Hold Shift for More Info",
+  "tooltips.synthetics.augment_complexity": "Complexity: %s",
+  "tooltips.synthetics.body_part": "Installed On: %s",
+  "menu.title.synthetics.synthetic_forge": "Synthetic Forge",
+  "tooltips.synthetics.max_complexity": "Max Complexity: %s",
+  "jei.synthetics.research_required": "Required Research: ",
+  "jei.synthetics.required_lava": "Required Lava: %smB"
 }

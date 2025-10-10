@@ -1,7 +1,9 @@
 package com.thedrofdoctoring.synthetics.items;
 
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.client.core.items.SyntheticsClientItems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
@@ -9,17 +11,20 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class InstallableItem<T extends IBodyInstallable<T>> extends Item {
 
     private final ResourceKey<Registry<T>> type;
-    private final Supplier<DataComponentType<T>> componentType;
+    private final Supplier<DataComponentType<Holder<T>>> componentType;
 
 
-    public InstallableItem(ResourceKey<Registry<T>> type, Supplier<DataComponentType<T>> componentType, Properties properties) {
+    public InstallableItem(ResourceKey<Registry<T>> type, Supplier<DataComponentType<Holder<T>>> componentType, Properties properties) {
         super(properties);
         this.type = type;
         this.componentType = componentType;
@@ -30,14 +35,17 @@ public class InstallableItem<T extends IBodyInstallable<T>> extends Item {
     }
 
     public T getInstallableComponent(ItemStack stack) {
-
-        return stack.get(componentType);
+        Holder<T> holder = stack.get(componentType);
+        if(holder == null) {
+            return null;
+        }
+        return holder.value();
     }
 
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {
 
-        IBodyInstallable<T> component = stack.get(componentType);
+        IBodyInstallable<T> component = getInstallableComponent(stack);
         if(component != null) {
             MutableComponent mutable = Component.empty();
             mutable.append(component.typeTitleID()).withStyle();
@@ -49,6 +57,14 @@ public class InstallableItem<T extends IBodyInstallable<T>> extends Item {
             return mutable;
         }
         return super.getName(stack);
+    }
 
+    @Override
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        if(context.level() == null) return;
+        if(Objects.requireNonNull(context.level()).isClientSide) {
+            SyntheticsClientItems.handleInstallableHoverText(stack, context, tooltipComponents, tooltipFlag);
+        }
     }
 }

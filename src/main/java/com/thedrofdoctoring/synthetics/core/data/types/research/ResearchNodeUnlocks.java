@@ -24,8 +24,8 @@ public record ResearchNodeUnlocks(Optional<HolderSet<SyntheticAugment>> augments
     ).apply(instance, ResearchNodeUnlocks::new));
 
 
-    public List<IBodyInstallable> getAllUnlocked() {
-        List<IBodyInstallable> list = new ArrayList<>();
+    public List<IBodyInstallable<?>> getAllUnlocked() {
+        List<IBodyInstallable<?>> list = new ArrayList<>();
         augments.ifPresent(holders -> list.addAll(holders.stream().filter(Holder::isBound).map(Holder::value).toList()));
         parts.ifPresent(holders -> list.addAll(holders.stream().filter(Holder::isBound).map(Holder::value).toList()));
         return list;

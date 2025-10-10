@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
-
+@SuppressWarnings("unused")
 public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
     private static final String KEY = "synthetic_player";
@@ -81,8 +81,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         if(this.complexityManager.testComplexity(new AugmentInstance(augment, this.getPartManager().getPartForAugment(augment)), null) != ComplexityManager.ComplexityResult.SUCCESS) {
             return false;
         }
-
-        return true;
+        return this.augments.stream().noneMatch(p -> p.augment().equals(augment));
     }
 
 

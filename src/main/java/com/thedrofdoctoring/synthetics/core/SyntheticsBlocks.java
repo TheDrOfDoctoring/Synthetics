@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.blocks.AugmentationChamber;
 import com.thedrofdoctoring.synthetics.blocks.OrganSkull;
+import com.thedrofdoctoring.synthetics.blocks.SyntheticForge;
 import com.thedrofdoctoring.synthetics.blocks.SyntheticResearchTable;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsSkulls;
 import net.minecraft.world.item.BlockItem;
@@ -28,6 +29,13 @@ public class SyntheticsBlocks {
             .strength(0.5f)
             .destroyTime(1f)
             .sound(SoundType.WOOD)
+            .noOcclusion()
+    ));
+    public static final DeferredBlock<SyntheticForge> SYNTHETIC_FORGE = registerWithItem("synthetic_forge", () -> new SyntheticForge(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.METAL)
+            .strength(0.75f)
+            .destroyTime(1.5f)
+            .sound(SoundType.METAL)
             .noOcclusion()
     ));
     public static final DeferredBlock<AugmentationChamber> AUGMENTATION_CHAMBER = registerWithItem("augmentation_chamber", () -> new AugmentationChamber(BlockBehaviour.Properties.of()

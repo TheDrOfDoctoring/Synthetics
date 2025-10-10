@@ -47,7 +47,7 @@ public class ServerboundInstallableMenuPacket implements CustomPacketPayload {
                         menu.getInputContainer().setItem(0, ItemStack.EMPTY);
                         int i = 0;
                         for(IBodyInstallable<?> replacedInstallable : replaced) {
-                            ItemStack replace = replacedInstallable.createDefaultItemStack();
+                            ItemStack replace = replacedInstallable.createDefaultItemStack(context.player().registryAccess());
                             if(i >= menu.getResultsContainer().getContainerSize()) {
                                 player.drop(replace, true, false);
                             } else {

@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticPassiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.ComplexityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.*;
@@ -111,8 +112,8 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     protected void renderTooltip(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
         guiGraphics.pose().pushPose();
         for(PlayerSyntheticDisplayScreen screen : displayLayers) {
-            screen.drawTab(guiGraphics, 22 + WIDTH / 2, this.guiTop + 5, screen == selectedLayer);
-            screen.drawIcon(guiGraphics, 22 + WIDTH / 2, this.guiTop + 5);
+            screen.drawTab(guiGraphics, guiLeft - WIDTH / 2 + 12, this.guiTop + 5, screen == selectedLayer);
+            screen.drawIcon(guiGraphics, guiLeft - WIDTH / 2 + 12, this.guiTop + 5);
         }
         guiGraphics.pose().popPose();
 
@@ -196,13 +197,15 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                         text.add(Component.translatable("text.synthetics.augmentation_ability_power_drain", options.powerCost()).withStyle(ChatFormatting.BLUE));
                     }
                 }
-                text.add(Component.translatable("text.synthetics.augmentation_ability_factor", ability.factor()).withStyle(ChatFormatting.BLUE));
-                if(ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
-                    text.add(Component.translatable("text.synthetics.augmentation_ability_operation_add").withStyle(ChatFormatting.BLUE));
-                } else {
-                    text.add(Component.translatable("text.synthetics.augmentation_ability_operation_mult").withStyle(ChatFormatting.BLUE));
-                }
 
+                text.add(Component.translatable("text.synthetics.augmentation_ability_factor", ability.factor()).withStyle(ChatFormatting.BLUE));
+                if(ability.abilityType() instanceof SyntheticPassiveAbilityType) {
+                    if(ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
+                        text.add(Component.translatable("text.synthetics.augmentation_ability_operation_add").withStyle(ChatFormatting.BLUE));
+                    } else {
+                        text.add(Component.translatable("text.synthetics.augmentation_ability_operation_mult").withStyle(ChatFormatting.BLUE));
+                    }
+                }
 
             }
 
@@ -284,9 +287,11 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                 IBodyInstallable<?> installable = item.getInstallableComponent(itemStack);
                 if(SyntheticsPlayer.get(player).canAddInstallable(installable)) {
                     Objects.requireNonNull(Minecraft.getInstance().getConnection()).send(ServerboundInstallableMenuPacket.getInstance());
-                    playSoundEffect(SoundEvents.BEACON_ACTIVATE, 0.5F);
+                    playSoundEffect(SoundEvents.BEACON_ACTIVATE, 1f, 2f);
+                    playSoundEffect(SoundEvents.SCULK_BLOCK_CHARGE, 1f, 1f);
+
                 } else {
-                    playSoundEffect(SoundEvents.NOTE_BLOCK_BASS.value(), 0.5F);
+                    playSoundEffect(SoundEvents.NOTE_BLOCK_BASS.value(), 0.5f, 1f);
                 }
             }
         }
@@ -295,9 +300,9 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
 
 
     @SuppressWarnings("SameParameterValue")
-    private void playSoundEffect(@NotNull SoundEvent event, float pitch) {
+    private void playSoundEffect(@NotNull SoundEvent event, float pitch, float volume) {
         if (this.minecraft != null) {
-            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(event, 1.0F));
+            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(event, pitch, volume));
         }
     }
 

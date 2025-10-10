@@ -15,6 +15,7 @@ public class SyntheticsMenus {
 
 
     public static final DeferredHolder<MenuType<?>, MenuType<AugmentationChamberMenu>> AUGMENTATION_CHAMBER = MENUS.register("augmentation_chamber", () -> create(AugmentationChamberMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<SyntheticForgeMenu>> SYNTHETIC_FORGE = MENUS.register("synthetic_forge", () -> create(SyntheticForgeMenu::new));
 
     private static <T extends AbstractContainerMenu> MenuType<T> create(MenuType.MenuSupplier<T> supplier) {
         return new MenuType<>(supplier, FeatureFlags.DEFAULT_FLAGS);

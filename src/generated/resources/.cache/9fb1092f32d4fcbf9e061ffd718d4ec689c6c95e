@@ -1,5 +1,11 @@
-// 1.21.1	2025-10-08T22:24:35.4700133	Recipes
+// 1.21.1	2025-10-10T23:08:49.1261068	Recipes
 ffd75204e5fa86054cb895015c079bb875bdf4f5 data/synthetics/advancement/recipes/misc/augmentation_chamber.json
+48fc44e6cc262cefe76a5704d499bfac506852c5 data/synthetics/advancement/recipes/misc/synthetic_forge.json
 3a4f8d2700ef846fba7be5c7416c0af8f467d986 data/synthetics/advancement/recipes/misc/synthetic_research_table.json
+2e453c080ea7eaf03b4285ceec193d1a2adafd22 data/synthetics/advancement/recipes/synthetic_forge/inertial_dampeners.json
+9507b39c63ae04cdf9295d0a82670e9d8dd11f21 data/synthetics/advancement/recipes/synthetic_forge/launch_boots.json
 02d342cce90a4109716c72136fcac44be94bc54d data/synthetics/recipe/augmentation_chamber.json
+70c7594afd531238758fef488c0633627eda92e7 data/synthetics/recipe/synthetic_forge.json
+e4b32c025d4648af13ddf5c0dbef721211e2d0a4 data/synthetics/recipe/synthetic_forge/inertial_dampeners.json
+ca4ae23314d2f2adeafedbaeb27d651c0c0cac3b data/synthetics/recipe/synthetic_forge/launch_boots.json
 7e5abdcbe1cc4c317c77c1213176497458d9097d data/synthetics/recipe/synthetic_research_table.json

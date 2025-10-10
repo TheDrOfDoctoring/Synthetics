@@ -19,6 +19,7 @@ public record ResearchRequirements(int experienceCost, Optional<List<Pair<Ingred
             ).listOf().optionalFieldOf("required_items").forGetter(ResearchRequirements::requiredItems)
     ).apply(instance, ResearchRequirements::new));
 
+
     public static ResearchRequirements create(int experienceCost) {
         return new ResearchRequirements(experienceCost, Optional.empty());
     }

@@ -1,6 +1,6 @@
 package com.thedrofdoctoring.synthetics.menus;
 
-import com.thedrofdoctoring.synthetics.blocks.entities.AugmentationChamberBlockEntity;
+import com.thedrofdoctoring.synthetics.blocks.entities.chamber.AugmentationChamberBlockEntity;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import net.minecraft.world.Container;
@@ -97,7 +97,6 @@ public class AugmentationChamberMenu extends AbstractContainerMenu {
 
 
     @Override
-
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);

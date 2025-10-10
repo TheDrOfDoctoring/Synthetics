@@ -10,6 +10,8 @@ public class SyntheticsMenuScreens {
     public void registerScreens(RegisterMenuScreensEvent event) {
 
         event.register(SyntheticsMenus.AUGMENTATION_CHAMBER.get(), AugmentationChamberScreen::new);
+        event.register(SyntheticsMenus.SYNTHETIC_FORGE.get(), SyntheticForgeScreen::new);
+
     }
     public static void register(IEventBus bus) {
         SyntheticsMenuScreens menuScreens = new SyntheticsMenuScreens();

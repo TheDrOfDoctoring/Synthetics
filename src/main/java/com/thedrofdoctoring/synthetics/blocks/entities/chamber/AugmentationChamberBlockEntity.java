@@ -1,4 +1,4 @@
-package com.thedrofdoctoring.synthetics.blocks.entities;
+package com.thedrofdoctoring.synthetics.blocks.entities.chamber;
 
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlockEntities;
 import com.thedrofdoctoring.synthetics.menus.AugmentationChamberMenu;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class AugmentationChamberBlockEntity extends BaseContainerBlockEntity {
+public class AugmentationChamberBlockEntity extends BaseContainerBlockEntity implements IAugmentationChamber {
 
     private @NotNull NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
 

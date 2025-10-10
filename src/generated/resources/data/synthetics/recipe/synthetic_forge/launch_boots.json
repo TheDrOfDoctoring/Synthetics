@@ -1,0 +1,33 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "group": "re",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "tag": "minecraft:wool"
+    },
+    "C": {
+      "item": "minecraft:diamond"
+    },
+    "D": {
+      "item": "minecraft:paper"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " C ",
+    "BDB",
+    "A A"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:launch_boot_research",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:launch_boot"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

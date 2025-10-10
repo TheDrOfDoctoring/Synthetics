@@ -57,7 +57,6 @@ public class SyntheticsKeys {
         if(HIDE_ABILITY_UI.isDown() && action == InputConstants.PRESS) {
             swapAbilityDisplay();
         }
-
     }
 
 

@@ -93,7 +93,7 @@ public class BodyPartDisplayScreen {
                     k += 1;
                 }
                 int xPos = j + x;
-                int yPos = y + (k * 8 * renderDirection);
+                int yPos = y + (k * 22 * renderDirection);
                 if(selectedAugment == i) {
                     pose.pushPose();
                     pose.translate(0, 0, 100);
@@ -150,7 +150,7 @@ public class BodyPartDisplayScreen {
         if(this.selectedAugment < installedAugments.size() && installedAugments.get(selectedAugment) != null) {
             this.selectTick++;
             if(this.selectTick == SELECT_DURATION) {
-                Objects.requireNonNull(Minecraft.getInstance().getConnection()).send(new ServerboundRemoveAugmentPacket(this.installedAugments.get(selectedAugment)));
+                Objects.requireNonNull(Minecraft.getInstance().getConnection()).send(ServerboundRemoveAugmentPacket.create(this.installedAugments.get(selectedAugment)));
                 this.selectTick = 0;
                 playSoundEffect(SoundEvents.EXPERIENCE_ORB_PICKUP, 0.5f);
             }
@@ -172,7 +172,7 @@ public class BodyPartDisplayScreen {
             increment = -1;
         }
         this.selectTick = 0;
-        this.selectedAugment = Math.clamp(this.selectedAugment + increment, 0, this.installedAugments.size() - 1);
+        this.selectedAugment = Math.clamp(this.selectedAugment + increment, 0, Math.max(0, this.installedAugments.size() - 1));
 
     }
 

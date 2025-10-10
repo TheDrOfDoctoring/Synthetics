@@ -7,12 +7,11 @@ import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.*;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -47,6 +46,9 @@ public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart
     public static SyntheticAugment create(int complexity, int powerCost, HolderSet<BodyPart> validParts, HolderSet<SyntheticAbility> abilities, ResourceLocation id) {
         return new SyntheticAugment(complexity, powerCost, validParts, Optional.of(abilities), id);
     }
+
+    public static final Codec<Holder<SyntheticAugment>> HOLDER_CODEC = RegistryFileCodec.create(SyntheticsData.AUGMENTS, CODEC.codec());
+
     public static final Codec<HolderSet<SyntheticAugment>> SET_CODEC = RegistryCodecs.homogeneousList(SyntheticsData.AUGMENTS, CODEC.codec());
 
     @Override
@@ -62,7 +64,13 @@ public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart
     @Override
     public @NotNull ItemStack createDefaultItemStack() {
         ItemStack stack = new ItemStack(SyntheticsItems.AUGMENT_INSTALLABLE);
-        stack.set(SyntheticsDataComponents.AUGMENT, this);
+        stack.set(SyntheticsDataComponents.AUGMENT, Holder.direct(this));
+        return stack;
+    }
+    @Override
+    public @NotNull ItemStack createDefaultItemStack(HolderLookup.Provider provider) {
+        ItemStack stack = new ItemStack(SyntheticsItems.AUGMENT_INSTALLABLE);
+        stack.set(SyntheticsDataComponents.AUGMENT, provider.lookupOrThrow(SyntheticsData.AUGMENTS).getOrThrow(ResourceKey.create(getType(), id())));
         return stack;
     }
 }

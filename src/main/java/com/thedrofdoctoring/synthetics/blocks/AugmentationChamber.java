@@ -1,7 +1,9 @@
 package com.thedrofdoctoring.synthetics.blocks;
 
 import com.mojang.serialization.MapCodec;
-import com.thedrofdoctoring.synthetics.blocks.entities.AugmentationChamberBlockEntity;
+import com.thedrofdoctoring.synthetics.blocks.entities.chamber.AugmentationChamberBlockEntity;
+import com.thedrofdoctoring.synthetics.blocks.entities.chamber.AugmentationChamberDeferBE;
+import com.thedrofdoctoring.synthetics.blocks.entities.chamber.IAugmentationChamber;
 import com.thedrofdoctoring.synthetics.menus.AugmentationChamberMenu;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.core.BlockPos;
@@ -64,7 +66,6 @@ public class AugmentationChamber extends BaseEntityBlock {
     protected static VoxelShape SOUTH_SHAPE_TOP;
     protected static VoxelShape WEST_SHAPE_TOP;
     protected static VoxelShape EAST_SHAPE_TOP;
-
     static {
 
         // bottom sides
@@ -109,18 +110,31 @@ public class AugmentationChamber extends BaseEntityBlock {
     }
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-        return new AugmentationChamberBlockEntity(pos, state);
+        if(state.getValue(PART) == Part.BOTTOM) {
+            return new AugmentationChamberBlockEntity(pos, state);
+        } else {
+            return new AugmentationChamberDeferBE(pos, state);
+        }
     }
+
+
+
 
     @Override
     public MenuProvider getMenuProvider(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
-        if(level.getBlockEntity(pos) instanceof AugmentationChamberBlockEntity chamber) {
+        if(level.getBlockEntity(pos) instanceof IAugmentationChamber chamber) {
             Player activePlayer = chamber.getActivePlayer();
             if(activePlayer == null) {
+                BlockPos position;
+                if(state.getValue(PART) == Part.TOP) {
+                    position = pos.below();
+                } else {
+                    position = pos;
+                }
                 return (new SimpleMenuProvider(
                         (containerId, playerInventory, player) -> {
                             chamber.setActivePlayer(player);
-                            return new AugmentationChamberMenu(containerId, playerInventory, ContainerLevelAccess.create(level, pos));
+                            return new AugmentationChamberMenu(containerId, playerInventory, ContainerLevelAccess.create(level, position));
 
                         }, Component.translatable("menu.title.synthetics.augmentation_menu")
 

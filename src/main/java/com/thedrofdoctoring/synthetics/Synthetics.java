@@ -6,6 +6,7 @@ import com.thedrofdoctoring.synthetics.config.CommonConfig;
 import com.thedrofdoctoring.synthetics.core.*;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
+import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticsRecipes;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.menus.SyntheticsMenus;
 import com.thedrofdoctoring.synthetics.networking.SyntheticsPayloads;
@@ -31,10 +32,12 @@ public class Synthetics {
         SyntheticsEntities.register(modEventBus);
         SyntheticsData.register(modEventBus);
         SyntheticsAttachments.register(modEventBus);
+        SyntheticsRecipes.register(modEventBus);
         SyntheticsBlockEntities.register(modEventBus);
         SyntheticsCommands.register(modEventBus);
         SyntheticsPayloads.register(modEventBus);
         SyntheticsDataComponents.register(modEventBus);
+        SyntheticsCapabilities.register(modEventBus);
         SyntheticsMenus.register(modEventBus);
 
         modEventBus.addListener(this::registerRegistries);
