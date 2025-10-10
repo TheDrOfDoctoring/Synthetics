@@ -16,7 +16,7 @@ If the requirements are met, and any parents are already researched, left-clicki
 
 ## Augmentation Chamber
 
-The augmentation chamber is where you can install or remove parts. 
+The Augmentation Chamber is where you can install or remove parts. 
 To install something, put an installabie item, such as an augment or body part, in the slot above the "Install" button.
 Then, click the "Install" button. Any replaced or removed parts will be dropped into the output slots.
 
@@ -25,3 +25,10 @@ To remove an augment, use scroll wheel to select it, then right click to remove 
 
 On the left, hovering over a part you want to install will show a menu. Initially, it will show information about complexity, a body part or segment cannot have more complexity added to it than it's max.
 Right-clicking will swap to the ability menu. This shows a list of abilities offered by the installable, and the stats of them. You can use the scroll wheel to navigate between abilities.
+
+## Synthetic Forge
+
+The Synthetic Forge is where you can craft new parts. This mod supports JEI for recipe viewing.
+The left meter on the Synthetic Forge represents lava. Each recipe requires some amount of lava to create, and the forge can be filled with either a bucket of lava or automated means.
+Most recipes will also require a specific research. If required, this is displayed on the recipe in JEI. This means a player with that research must initiate crafting.
+Once the recipe begins, it will take some time to complete, the progress is displayed on the arrow in the centre of the interface.
