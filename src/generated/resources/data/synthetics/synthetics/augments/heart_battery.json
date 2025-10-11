@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:heart_battery",
+  "augment_id": "synthetics:heart_battery",
+  "complexity": 3,
+  "validParts": "#synthetics:heart"
+}

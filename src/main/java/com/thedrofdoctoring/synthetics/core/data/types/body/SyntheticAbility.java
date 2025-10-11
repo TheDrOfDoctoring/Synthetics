@@ -29,8 +29,10 @@ public record SyntheticAbility(SyntheticAbilityType abilityType, double factor,
     ).apply(instance, SyntheticAbility::new));
 
     public static SyntheticAbility create(SyntheticPassiveAbilityType abilityType, ActiveAbilityOptions options, ResourceLocation id) {
-        return new SyntheticAbility(abilityType, 1d, AttributeModifier.Operation.ADD_VALUE, Optional.of(options),id);
-
+        return new SyntheticAbility(abilityType, 1d, AttributeModifier.Operation.ADD_VALUE, Optional.of(options), id);
+    }
+    public static SyntheticAbility create(SyntheticPassiveAbilityType abilityType, double factor, ResourceLocation id) {
+        return new SyntheticAbility(abilityType, factor, AttributeModifier.Operation.ADD_VALUE, Optional.empty(), id);
     }
     public static SyntheticAbility create(SyntheticPassiveAbilityType abilityType, ResourceLocation id, double factor, AttributeModifier.Operation operation) {
         return new SyntheticAbility(abilityType, factor, operation, Optional.empty(), id);

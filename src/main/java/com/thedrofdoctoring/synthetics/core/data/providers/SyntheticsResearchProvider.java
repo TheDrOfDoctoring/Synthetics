@@ -61,6 +61,21 @@ public class SyntheticsResearchProvider {
                         ResearchNodes.LAUNCH_BOOTS.location()
                 )
         );
+        context.register(
+                ResearchNodes.HEART_BATTERY,
+                new ResearchNode(
+                        Optional.empty(),
+                        ResearchNode.augmentsUnlock(
+                                getInstallableAugments(augmentLookup, List.of(Augments.HEART_BATTERY))
+                        ),
+                        ResearchRequirements.create(100, List.of(
+                                Pair.of(Ingredient.of(Items.IRON_INGOT), 15)
+                        )),
+                        0,
+                        -50,
+                        ResearchNodes.HEART_BATTERY.location()
+                )
+        );
     }
     public static Optional<Holder<ResearchNode>> getNode(HolderGetter<ResearchNode> lookup, ResourceKey<ResearchNode> part) {
         return Optional.of((lookup.getOrThrow(part)));

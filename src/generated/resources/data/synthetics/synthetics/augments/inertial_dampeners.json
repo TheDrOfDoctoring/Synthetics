@@ -5,5 +5,6 @@
   ],
   "augment_id": "synthetics:inertial_dampeners",
   "complexity": 2,
+  "powerCost": 2,
   "validParts": "#synthetics:feet"
 }

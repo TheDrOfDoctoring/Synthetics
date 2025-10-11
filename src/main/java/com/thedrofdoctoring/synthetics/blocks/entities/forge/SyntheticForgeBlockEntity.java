@@ -4,11 +4,9 @@ import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlockEntities;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticForgeRecipe;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticsRecipes;
+import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import com.thedrofdoctoring.synthetics.menus.SyntheticForgeMenu;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -265,9 +263,13 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
                     }
 
                     if(this.recipeTime == 0) {
-                        if(player == null || !SyntheticsPlayer.get(player).getResearchManager().hasResearched(recipe.getRequiredResearch().value())) {
-                            return;
+                        Holder<ResearchNode> node = recipe.requiredResearch();
+                        if(node != null) {
+                            if(player == null || !SyntheticsPlayer.get(player).getResearchManager().hasResearched(node.value())) {
+                                return;
+                            }
                         }
+
                         this.recipeTime = 1;
                         this.totalRecipeTime = recipe.getRecipeTime();
 

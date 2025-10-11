@@ -39,7 +39,7 @@ public class SyntheticsAugmentsProvider {
                 Augments.CYBERNETIC_INERTIAL_DAMPENERS,
                 SyntheticAugment.create(
                         2,
-                        0,
+                        2,
                         getPart(partLookup, BodyParts.FEET_MAIN),
                         getAbility(abilityLookup, List.of(Abilities.INERTIAL_DAMPENERS_FALL_DAMAGE, Abilities.INERTIAL_DAMPENERS_SAFE_FALL)),
                         Augments.CYBERNETIC_INERTIAL_DAMPENERS.location()
@@ -55,7 +55,16 @@ public class SyntheticsAugmentsProvider {
                         Augments.LAUNCH_BOOT.location()
                 )
         );
-
+        context.register(
+                Augments.HEART_BATTERY,
+                SyntheticAugment.create(
+                        3,
+                        0,
+                        getPart(partLookup, BodyParts.HEART_MAIN),
+                        getAbility(abilityLookup, List.of(Abilities.HEART_BATTERY)),
+                        Augments.HEART_BATTERY.location()
+                )
+        );
     }
 
     public static HolderSet<BodyPart> getPart(HolderGetter<BodyPart> lookup, ResourceKey<BodyPart> part) {

@@ -70,12 +70,18 @@
   "installables.synthetics.body_parts.cybernetic_eyes": "Cybernetic Eyes",
   "installables.synthetics.body_parts.organic_hands": "Hands",
   "installables.synthetics.body_parts.organic_feet": "Feet",
+  "installables.synthetics.augments.heart_battery": "Heart Battery",
+  "abilities.synthetics.battery": "Battery",
   "installables.synthetics.empty_augment": "No Augment",
   "text.synthetics.info_shift": "Hold Shift for More Info",
+  "text.synthetics.battery_storage": "Stored Energy: %1$s/%2$s",
+  "item.synthetics.medium_battery": "Medium Rechargeable Battery",
+
   "tooltips.synthetics.augment_complexity": "Complexity: %s",
   "tooltips.synthetics.body_part": "Installed On: %s",
   "menu.title.synthetics.synthetic_forge": "Synthetic Forge",
   "tooltips.synthetics.max_complexity": "Max Complexity: %s",
   "jei.synthetics.research_required": "Required Research: ",
-  "jei.synthetics.required_lava": "Required Lava: %smB"
+  "jei.synthetics.required_lava": "Required Lava: %smB",
+  "text.synthetics.augmentation_power_storage": "Energy Storage: %s"
 }

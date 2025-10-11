@@ -2,10 +2,12 @@ package com.thedrofdoctoring.synthetics.core;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.components.BatteryComponentOptions;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
+import com.thedrofdoctoring.synthetics.items.RechargeableBatteryItem;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -34,6 +36,7 @@ public class SyntheticsItems {
 
     public static final DeferredHolder<Item, InstallableItem<SyntheticAugment>> AUGMENT_INSTALLABLE = registerInstallable("synthetic_augment_item", () -> new InstallableItem<>(SyntheticsData.AUGMENTS, SyntheticsDataComponents.AUGMENT, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.AUGMENT, Holder.direct(new SyntheticAugment(0, 0, null, Optional.empty(), Synthetics.rl("empty_augment"))))));
     public static final DeferredHolder<Item, InstallableItem<BodyPart>> BODY_PART_INSTALLABLE = registerInstallable("body_part_item", () -> new InstallableItem<>(SyntheticsData.BODY_PARTS, SyntheticsDataComponents.BODY_PART, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.BODY_PART, Holder.direct(new BodyPart(0, null, null, Optional.empty(), Synthetics.rl("empty_body_part"))))));
+    public static final DeferredHolder<Item, RechargeableBatteryItem> MEDIUM_BATTERY = register("medium_battery", () -> new RechargeableBatteryItem(new Item.Properties().stacksTo(1).component(SyntheticsDataComponents.BATTERY_OPTIONS, new BatteryComponentOptions(10000, 500, 500)).component(SyntheticsDataComponents.ENERGY_COMPONENT, 0)));
 
     public static <T extends Item> DeferredHolder<Item, T> register(final String id, final Supplier<? extends T> itemSupplier) {
         DeferredHolder<Item, T> item = ITEMS.register(id, itemSupplier);

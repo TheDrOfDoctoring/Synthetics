@@ -9,6 +9,7 @@ public class ResearchNodes {
 
     public static final ResourceKey<ResearchNode> INERTIAL_DAMPENERS = create("inertial_dampeners_research");
     public static final ResourceKey<ResearchNode> LAUNCH_BOOTS = create("launch_boot_research");
+    public static final ResourceKey<ResearchNode> HEART_BATTERY = create("heart_battery_research");
 
 
 

@@ -11,6 +11,8 @@ public class Augments {
 
     public static final ResourceKey<SyntheticAugment> CYBERNETIC_INERTIAL_DAMPENERS = create("inertial_dampeners");
     public static final ResourceKey<SyntheticAugment> LAUNCH_BOOT = create("launch_boot");
+    public static final ResourceKey<SyntheticAugment> HEART_BATTERY = create("heart_battery");
+
 
     private static ResourceKey<SyntheticAugment> create(String name) {
         return ResourceKey.create(

@@ -1,0 +1,25 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "B": {
+      "tag": "c:ingots/copper"
+    },
+    "C": {
+      "tag": "c:ingots/gold"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " C ",
+    "BAB",
+    " C "
+  ],
+  "recipe_time": 100,
+  "result": {
+    "count": 1,
+    "id": "synthetics:medium_battery"
+  }
+}

@@ -37,9 +37,11 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public static final ResourceLocation MANAGER_KEY = Synthetics.rl(KEY);
 
     private final List<AugmentInstance> augments;
+
     private final AbilityManager abilityManager;
     private final ComplexityManager complexityManager;
     private final PartManager partManager;
+    private final PowerManager powerManager;
     private final ResearchManager researchManager;
     private final Player player;
 
@@ -47,14 +49,13 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     private boolean dirtyAll;
 
 
-    private int totalPowerCost;
-
     public SyntheticsPlayer(Player player) {
         this.player = player;
         this.abilityManager = new AbilityManager(this);
         this.complexityManager = new ComplexityManager(this);
         this.partManager = new PartManager(this);
         this.researchManager = new ResearchManager(this);
+        this.powerManager = new PowerManager(this);
         this.augments = new ArrayList<>();
 
     }
@@ -100,7 +101,9 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
             abilityManager.addAbilities(newInstance.augment());
             abilityManager.addAbilities(newInstance.appliedPart());
         }
-        totalPowerCost = totalPowerCost - old.augment().powerCost() + newInstance.augment().powerCost();
+
+        int totalPowerCost = Math.max(0, this.powerManager.getTotalPowerCost() - old.augment().powerCost() + newInstance.augment().powerCost());
+        this.powerManager.setMaxPower(totalPowerCost);
     }
 
     private void addAugment(@NotNull SyntheticAugment augment) {
@@ -108,7 +111,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         augments.add(instance);
         this.complexityManager.addPart(instance);
         this.abilityManager.addAbilities(augment);
-        totalPowerCost += augment.powerCost();
+        this.powerManager.setTotalPowerCost(this.powerManager.getTotalPowerCost() + augment.powerCost());
     }
 
     @Override
@@ -158,7 +161,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
                 augments.add(instance);
                 this.complexityManager.addPart(instance);
                 this.abilityManager.addAbilities(augment);
-                totalPowerCost += augment.powerCost();
+                this.powerManager.setTotalPowerCost(this.powerManager.getTotalPowerCost() + augment.powerCost());
                 this.markDirtyAll();
             }
             case BodyPart part -> {
@@ -193,7 +196,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         augments.remove(instance);
         abilityManager.removeAbilities(augment);
         complexityManager.removePart(instance);
-        totalPowerCost -= augment.powerCost();
+        powerManager.setTotalPowerCost(Math.max(0, powerManager.getTotalPowerCost() - augment.powerCost()));
         onUpdate(true);
     }
 
@@ -221,6 +224,10 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
                 dirty = true;
                 packet.put(researchManager.nbtKey(), researchManager.serialiseUpdateNBT(this.player.level().registryAccess()));
                 researchManager.setDirty(false);
+            }
+            if(powerManager.onTick()) {
+                dirty = true;
+                packet.put(powerManager.nbtKey(), powerManager.serialiseUpdateNBT(this.player.level().registryAccess()));
             }
 
             if(dirty) {
@@ -254,7 +261,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public CompoundTag serialiseNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = new CompoundTag();
         tag.put("augments", serialiseAugments(provider));
-        tag.putInt("power_cost", totalPowerCost);
+        tag.put(powerManager.nbtKey(), powerManager.serialiseNBT(provider));
 
         tag.put(partManager.nbtKey(), partManager.serialiseNBT(provider));
         tag.put(abilityManager.nbtKey(), abilityManager.serialiseNBT(provider));
@@ -294,7 +301,6 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
     @Override
     public void deserialiseNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
-        this.totalPowerCost = nbt.getInt("power_cost");
         abilityManager.clear();
         partManager.deserialiseNBT(provider, nbt);
 
@@ -303,6 +309,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         abilityManager.deserialiseNBT(provider, nbt);
         complexityManager.deserialiseNBT(provider, nbt);
         researchManager.deserialiseNBT(provider, nbt);
+        powerManager.deserialiseNBT(provider, nbt);
 
 
         this.onUpdate(false);
@@ -327,6 +334,9 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public ResearchManager getResearchManager() {
         return researchManager;
     }
+    public PowerManager getPowerManager() {
+        return this.powerManager;
+    }
 
 
     @Override
@@ -335,6 +345,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         tag.put(this.complexityManager.nbtKey(), this.complexityManager.serialiseUpdateNBT(provider));
         tag.put(this.abilityManager.nbtKey(), this.abilityManager.serialiseUpdateNBT(provider));
         tag.put(this.researchManager.nbtKey(), this.researchManager.serialiseUpdateNBT(provider));
+        tag.put(this.powerManager.nbtKey(), this.powerManager.serialiseUpdateNBT(provider));
 
 
         return tag;
@@ -345,6 +356,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.complexityManager.deserialiseUpdateNBT(provider, nbt);
         this.abilityManager.deserialiseUpdateNBT(provider, nbt);
         this.researchManager.deserialiseUpdateNBT(provider, nbt);
+        this.powerManager.deserialiseUpdateNBT(provider, nbt);
     }
 
 

@@ -74,13 +74,14 @@ public class BodyPartDisplayScreen {
         pose.pushPose();
         if(!installedAugments.isEmpty()) {
             int renderDirection = 1;
-            int yOffsetAugment = 10;
-            int yOffsetNode = 12;
-            int yOffsetTitle = -12;
+            int yOffsetAugment = 27;
+            int yOffsetNode = 25;
+            int yOffsetTitle = 22;
             if(y > 190) {
                 renderDirection = -1;
                 yOffsetAugment = -23;
                 yOffsetNode = -25;
+                yOffsetTitle = -14;
             }
             int j = 0;
             int k = 0;

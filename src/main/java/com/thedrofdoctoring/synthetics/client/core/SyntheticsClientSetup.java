@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.client.core;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.client.overlay.AbilityOverlay;
+import com.thedrofdoctoring.synthetics.client.overlay.EnergyOverlay;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
@@ -20,5 +21,7 @@ public class SyntheticsClientSetup {
 
     public static void registerOverlays(RegisterGuiLayersEvent event) {
         event.registerAbove(VanillaGuiLayers.ARMOR_LEVEL, Synthetics.rl("ability_overlay"), new AbilityOverlay());
+        event.registerAbove(VanillaGuiLayers.ARMOR_LEVEL, Synthetics.rl("energy_overlay"), new EnergyOverlay());
+
     }
 }

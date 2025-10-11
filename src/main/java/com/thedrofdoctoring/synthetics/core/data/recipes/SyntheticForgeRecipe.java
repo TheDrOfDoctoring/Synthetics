@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -34,6 +35,10 @@ public class SyntheticForgeRecipe extends ShapedRecipe {
         this.recipeTime = recipeTime;
         this.requiredResearch = requiredResearch;
     }
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public SyntheticForgeRecipe(String group, ShapedRecipePattern pattern, ItemStack result, int lavaCost, int recipeTime, Optional<Holder<ResearchNode>> requiredResearch) {
+        this(group, pattern, result, lavaCost, recipeTime, requiredResearch.orElse(null));
+    }
 
     public int getRecipeTime() {
         return recipeTime;
@@ -46,9 +51,13 @@ public class SyntheticForgeRecipe extends ShapedRecipe {
         return result;
     }
 
-    public Holder<ResearchNode> getRequiredResearch() {
+    public Optional<Holder<ResearchNode>> getRequiredResearch() {
+        return Optional.ofNullable(requiredResearch);
+    }
+    public @Nullable Holder<ResearchNode> requiredResearch() {
         return requiredResearch;
     }
+
 
     public ShapedRecipePattern getPattern() {
         return pattern;
@@ -75,7 +84,7 @@ public class SyntheticForgeRecipe extends ShapedRecipe {
                 ItemStack.CODEC.fieldOf("result").forGetter(SyntheticForgeRecipe::getResult),
                 Codec.INT.fieldOf("lava_cost").forGetter(SyntheticForgeRecipe::getLavaCost),
                 Codec.INT.fieldOf("recipe_time").forGetter(SyntheticForgeRecipe::getRecipeTime),
-                ResearchNode.HOLDER_CODEC.fieldOf("required_research").forGetter(SyntheticForgeRecipe::getRequiredResearch)
+                ResearchNode.HOLDER_CODEC.optionalFieldOf("required_research").forGetter(SyntheticForgeRecipe::getRequiredResearch)
         ).apply(instance, SyntheticForgeRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, SyntheticForgeRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
@@ -88,7 +97,7 @@ public class SyntheticForgeRecipe extends ShapedRecipe {
             return STREAM_CODEC;
         }
 
-        private static final Holder<ResearchNode> NULL_RESEARCH = Holder.direct(new ResearchNode(Optional.empty(), null, null, 0, 0, Synthetics.rl("null_research_node")));
+        private static final ResourceLocation NULL_RESEARCH = Synthetics.rl("no_research");
         private static SyntheticForgeRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
             String s = buffer.readUtf();
             ShapedRecipePattern pattern = ShapedRecipePattern.STREAM_CODEC.decode(buffer);
@@ -96,7 +105,10 @@ public class SyntheticForgeRecipe extends ShapedRecipe {
             int lavaCost = buffer.readInt();
             int recipeTime = buffer.readInt();
             ResourceLocation research = buffer.readResourceLocation();
-            Holder<ResearchNode> node = buffer.registryAccess().lookupOrThrow(SyntheticsData.RESEARCH_NODES).getOrThrow(ResourceKey.create(SyntheticsData.RESEARCH_NODES, research));
+            Holder<ResearchNode> node = null;
+            if(!research.equals(NULL_RESEARCH)) {
+                node = buffer.registryAccess().lookupOrThrow(SyntheticsData.RESEARCH_NODES).getOrThrow(ResourceKey.create(SyntheticsData.RESEARCH_NODES, research));
+            }
 
             return new SyntheticForgeRecipe(s, pattern, result, lavaCost, recipeTime, node);
         }
@@ -107,7 +119,11 @@ public class SyntheticForgeRecipe extends ShapedRecipe {
             ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
             buffer.writeInt(recipe.lavaCost);
             buffer.writeInt(recipe.recipeTime);
-            buffer.writeResourceLocation(recipe.requiredResearch.value().id());
+            if(recipe.requiredResearch != null) {
+                buffer.writeResourceLocation(recipe.requiredResearch.value().id());
+            } else {
+                buffer.writeResourceLocation(NULL_RESEARCH);
+            }
 
 
         }

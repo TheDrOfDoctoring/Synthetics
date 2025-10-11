@@ -2,29 +2,26 @@
   "type": "synthetics:synthetic_forge",
   "key": {
     "A": {
-      "tag": "c:ingots/iron"
-    },
-    "B": {
-      "tag": "minecraft:wool"
-    },
-    "C": {
       "item": "minecraft:redstone"
     },
-    "D": {
-      "item": "minecraft:paper"
+    "B": {
+      "tag": "c:ingots/copper"
+    },
+    "C": {
+      "tag": "c:ingots/gold"
     }
   },
   "lava_cost": 50,
   "pattern": [
     " C ",
-    "BDB",
-    "A A"
+    "BAB",
+    " C "
   ],
   "recipe_time": 100,
-  "required_research": "synthetics:inertial_dampeners_research",
+  "required_research": "synthetics:heart_battery_research",
   "result": {
     "components": {
-      "synthetics:augments": "synthetics:inertial_dampeners"
+      "synthetics:augments": "synthetics:heart_battery"
     },
     "count": 1,
     "id": "synthetics:synthetic_augment_item"

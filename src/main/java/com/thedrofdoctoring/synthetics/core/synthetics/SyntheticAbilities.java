@@ -39,6 +39,9 @@ public class SyntheticAbilities {
     public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> OXYGEN_BONUS = ABILITIES.register("oxygen_bonus", (id) -> new SyntheticPassiveAbilityType(Attributes.OXYGEN_BONUS, id));
     public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> SWIM_SPEED = ABILITIES.register("swim_speed", (id) -> new SyntheticPassiveAbilityType(Attributes.WATER_MOVEMENT_EFFICIENCY, id));
 
+    public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> BATTERY = ABILITIES.register("battery", SyntheticPassiveAbilityType::new);
+
+
     public static final DeferredHolder<SyntheticAbilityType, LeapAbility> LEAP = ABILITIES.register("cybernetic_leap", LeapAbility::new);
 
 

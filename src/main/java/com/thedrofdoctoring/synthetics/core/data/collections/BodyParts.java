@@ -28,6 +28,8 @@ public class BodyParts {
 
     public static final TagKey<BodyPart> EYES_MAIN = tag("eyes");
     public static final TagKey<BodyPart> FEET_MAIN = tag("feet");
+    public static final TagKey<BodyPart> HEART_MAIN = tag("heart");
+
 
     private static ResourceKey<BodyPart> create(String name) {
         return ResourceKey.create(

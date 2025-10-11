@@ -52,6 +52,8 @@ public class SyntheticsTagProvider {
         protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(BodyParts.EYES_MAIN).add(BodyParts.ORGANIC_EYES, BodyParts.CYBERNETIC_EYES);
             tag(BodyParts.FEET_MAIN).add(BodyParts.ORGANIC_FEET);
+            tag(BodyParts.HEART_MAIN).add(BodyParts.ORGANIC_HEART);
+
         }
     }
     public static class SyntheticBodySegmentsTagProvider extends TagsProvider<BodySegment> {

@@ -14,16 +14,32 @@ import java.util.Optional;
 public class SyntheticAbilityPassiveInstance extends SyntheticAbilityInstance<SyntheticPassiveAbilityType> {
 
     private final AttributeModifier.Operation operation;
+    private boolean hasPowerDraw;
+    private boolean isEnabled = true;
 
     private static final Pair<Holder<Attribute>, AttributeModifier> EMPTY_PAIR = Pair.of(null, null);
 
-    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, float abilityFactor, AttributeModifier.Operation operation, ResourceLocation instanceID) {
+    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, float abilityFactor, AttributeModifier.Operation operation, ResourceLocation instanceID, boolean powerDraw) {
         super(ability, player, abilityFactor, instanceID);
         this.operation = operation;
+        this.hasPowerDraw = powerDraw;
     }
-    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, float abilityFactor, ResourceLocation instanceID) {
+    public SyntheticAbilityPassiveInstance(SyntheticPassiveAbilityType ability, SyntheticsPlayer player, float abilityFactor, ResourceLocation instanceID, boolean powerDraw) {
         super(ability, player, abilityFactor, instanceID);
         this.operation = null;
+        this.hasPowerDraw = powerDraw;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public boolean hasPowerDraw() {
+        return hasPowerDraw;
     }
 
     public Optional<Pair<Holder<Attribute>, AttributeModifier>> getModifiedAttribute(LivingEntity entity) {

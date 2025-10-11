@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.core.data.recipes;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
+import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.ResearchNodes;
@@ -54,7 +55,6 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .recipeTime(100)
                 .requiredResearch(lookup, ResearchNodes.INERTIAL_DAMPENERS)
                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
-                .group("re")
                 .save(output, Synthetics.rl("inertial_dampeners")
                 );
         SyntheticForgeRecipeBuilder.create(createAugmentResult(lookup, Augments.LAUNCH_BOOT), 1)
@@ -69,8 +69,32 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .recipeTime(100)
                 .requiredResearch(lookup, ResearchNodes.LAUNCH_BOOTS)
                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
-                .group("re")
                 .save(output, Synthetics.rl("launch_boots")
+                );
+        SyntheticForgeRecipeBuilder.create(createAugmentResult(lookup, Augments.HEART_BATTERY), 1)
+                .define('A', Items.REDSTONE)
+                .define('B', Tags.Items.INGOTS_COPPER)
+                .define('C', Tags.Items.INGOTS_GOLD)
+                .pattern(" C ")
+                .pattern("BAB")
+                .pattern(" C ")
+                .lavaCost(50)
+                .recipeTime(100)
+                .requiredResearch(lookup, ResearchNodes.HEART_BATTERY)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                .save(output, Synthetics.rl("heart_battery")
+                );
+        SyntheticForgeRecipeBuilder.create(SyntheticsItems.MEDIUM_BATTERY.get().getDefaultInstance() , 1)
+                .define('A', Items.DIAMOND)
+                .define('B', Tags.Items.INGOTS_COPPER)
+                .define('C', Tags.Items.INGOTS_GOLD)
+                .pattern(" C ")
+                .pattern("BAB")
+                .pattern(" C ")
+                .lavaCost(50)
+                .recipeTime(100)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                .save(output, Synthetics.rl("medium_battery")
                 );
     }
 

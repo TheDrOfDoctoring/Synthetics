@@ -17,6 +17,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
@@ -76,8 +77,7 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
     @Override
     public void draw(@NotNull SyntheticForgeRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
-        ResearchNode requiredResearch = recipe.getRequiredResearch().value();
-        MutableComponent requirement = Component.translatable("jei.synthetics.research_required");
+
         this.arrow.draw(guiGraphics, 0, 0);
         float lavaPercentage = Math.min(1, (float) recipe.getLavaCost() / 1000);
         int lavaHeight = SyntheticForgeScreen.LAVA_HEIGHT;
@@ -86,9 +86,21 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
 
 
         guiGraphics.blit(SyntheticForgeScreen.LAVA_FLOW, 4, lavaStartY, 0, 20, SyntheticForgeScreen.LAVA_WIDTH, lavaEndHeight, 16, 320);
+        Holder<ResearchNode> requiredResearch = recipe.requiredResearch();
+        if(requiredResearch != null) {
+            MutableComponent requirement = Component.translatable("jei.synthetics.research_required");
+            requirement.append(requiredResearch.value().title());
+            requirement.withStyle(ChatFormatting.DARK_GRAY);
+            guiGraphics.pose().pushPose();
 
-        requirement.append(requiredResearch.title());
-        requirement.withStyle(ChatFormatting.DARK_GRAY);
+            guiGraphics.pose().scale(0.6f, 0.6f, 1f);
+            guiGraphics.pose().translate(0, 0, 500);
+
+            guiGraphics.drawString(Minecraft.getInstance().font, requirement, 2, 120, -1, false);
+
+            guiGraphics.pose().popPose();
+        }
+
 
         if(mouseX >= 4 && mouseX < 4 + SyntheticForgeScreen.LAVA_WIDTH && mouseY >= lavaStartY && mouseY < lavaStartY + lavaEndHeight) {
             Component component = Component.translatable("jei.synthetics.required_lava", recipe.getLavaCost()).withStyle(ChatFormatting.WHITE);
@@ -103,14 +115,7 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
 
         }
 
-        guiGraphics.pose().pushPose();
 
-        guiGraphics.pose().scale(0.6f, 0.6f, 1f);
-        guiGraphics.pose().translate(0, 0, 500);
-
-        guiGraphics.drawString(Minecraft.getInstance().font, requirement, 2, 120, -1, false);
-
-        guiGraphics.pose().popPose();
 
     }
 }

@@ -5,8 +5,10 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticPassiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.ComplexityManager;
+import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.*;
+import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.menus.AugmentationChamberMenu;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundInstallableMenuPacket;
@@ -199,12 +201,18 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                 }
 
                 text.add(Component.translatable("text.synthetics.augmentation_ability_factor", ability.factor()).withStyle(ChatFormatting.BLUE));
-                if(ability.abilityType() instanceof SyntheticPassiveAbilityType) {
-                    if(ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
-                        text.add(Component.translatable("text.synthetics.augmentation_ability_operation_add").withStyle(ChatFormatting.BLUE));
-                    } else {
-                        text.add(Component.translatable("text.synthetics.augmentation_ability_operation_mult").withStyle(ChatFormatting.BLUE));
+                if(ability.abilityType() instanceof SyntheticPassiveAbilityType passive) {
+                    if(ability.abilityType().equals(SyntheticAbilities.BATTERY.get())) {
+                        text.add(Component.translatable("text.synthetics.augmentation_power_storage", (int) ability.factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
                     }
+                    if(passive.getModifiedAttribute().isPresent()) {
+                        if(ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
+                            text.add(Component.translatable("text.synthetics.augmentation_ability_operation_add").withStyle(ChatFormatting.BLUE));
+                        } else {
+                            text.add(Component.translatable("text.synthetics.augmentation_ability_operation_mult").withStyle(ChatFormatting.BLUE));
+                        }
+                    }
+
                 }
 
             }

@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.core.data.components;
 
+import com.mojang.serialization.Codec;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
@@ -33,5 +34,17 @@ public class SyntheticsDataComponents {
             builder -> builder
                     .persistent(BodyPart.HOLDER_CODEC)
                     .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.BODY_PARTS, BodyPart.STREAM_CODEC))
+    );
+    public static final Supplier<DataComponentType<Integer>> ENERGY_COMPONENT = DATA_COMPONENTS.registerComponentType(
+            "battery_energy",
+            builder -> builder
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.INT)
+    );
+    public static final Supplier<DataComponentType<BatteryComponentOptions>> BATTERY_OPTIONS = DATA_COMPONENTS.registerComponentType(
+            "battery_options",
+            builder -> builder
+                    .persistent(BatteryComponentOptions.CODEC.codec())
+                    .networkSynchronized(BatteryComponentOptions.STREAM_CODEC)
     );
 }

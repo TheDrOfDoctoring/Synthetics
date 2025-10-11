@@ -38,5 +38,13 @@ public class SyntheticsAbilitiesProvider {
                         Abilities.LAUNCHBOOT_LAUNCH.location()
                 )
         );
+        context.register(
+                Abilities.HEART_BATTERY,
+                SyntheticAbility.create(
+                        SyntheticAbilities.BATTERY.get(),
+                        100d,
+                        Abilities.HEART_BATTERY.location()
+                )
+        );
     }
 }

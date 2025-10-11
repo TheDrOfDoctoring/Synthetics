@@ -1,6 +1,5 @@
 {
   "type": "synthetics:synthetic_forge",
-  "group": "re",
   "key": {
     "A": {
       "tag": "c:ingots/iron"
