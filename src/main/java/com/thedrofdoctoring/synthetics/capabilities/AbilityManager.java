@@ -6,6 +6,7 @@ import com.thedrofdoctoring.synthetics.body.abilities.SyntheticAbilityType;
 import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticAbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticActiveAbilityType;
 import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticLastingAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.IAbilityEventListener;
 import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticAbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticPassiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
@@ -101,6 +102,11 @@ public class AbilityManager implements ISyncable {
     public Collection<SyntheticAbilityActiveInstance> getActiveAbilities() {
         return this.activeAbilities.values();
     }
+
+    public Collection<SyntheticAbilityPassiveInstance> getPassiveAbilities() {
+        return this.passiveAbilities.values();
+    }
+
     public float getPercentageForAbilityTime(@NotNull SyntheticAbilityActiveInstance ability) {
         ResourceLocation id = ability.getAbility().getAbilityID();
         if (duration.containsKey(id)) {
@@ -187,6 +193,9 @@ public class AbilityManager implements ISyncable {
                     }
                     passiveAbilities.remove(ability.id());
                 } else if(type instanceof SyntheticActiveAbilityType) {
+                    if(duration.containsKey(ability.abilityType().getAbilityID())) {
+                        duration.removeInt(ability.abilityType().getAbilityID());
+                    }
                     activeAbilities.remove(ability.abilityType().getAbilityID());
                 }
             }
@@ -206,8 +215,12 @@ public class AbilityManager implements ISyncable {
 
     public void onUpdate() {
         this.onUpdate(true);
-
     }
+    public void rebuildAttributes() {
+        this.onUpdate(false);
+    }
+
+
     private void onUpdate(boolean reactivateAbilities) {
         LivingEntity owner = this.manager.getEntity();
         if(!owner.getCommandSenderWorld().isClientSide) {
@@ -252,15 +265,14 @@ public class AbilityManager implements ISyncable {
 
         if(this.manager.getEntity().tickCount % 10 == 0) {
             PowerManager power = this.manager.getPowerManager();
-            for(SyntheticAbilityActiveInstance instance : this.activeAbilities.values()) {
-                if(instance.getPowerDrain() > power.getStoredPower()) {
-                    this.duration.put(instance.getAbility().getAbilityID(), 1);
-                }
-                power.drainPower(instance.getPowerDrain() * 10);
-                power.markDirty();
-            }
+
             boolean shouldRebuild = false;
             for(SyntheticAbilityPassiveInstance instance : this.passiveAbilities.values()) {
+
+                if(instance.getAbility() instanceof IAbilityEventListener listener) {
+                    listener.onTick(instance, this.manager);
+                }
+
                 if(this.manager.getPowerManager().getStoredPower() <= 1 && instance.hasPowerDraw()) {
                     if(instance.isEnabled()) {
                         shouldRebuild = true;
@@ -273,7 +285,16 @@ public class AbilityManager implements ISyncable {
                     instance.setEnabled(true);
                 }
             }
+            for(SyntheticAbilityActiveInstance instance : this.activeAbilities.values()) {
+                if(instance.getPowerDrain() > power.getStoredPower()) {
+                    this.duration.put(instance.getAbility().getAbilityID(), 1);
+                }
+                power.drainPower(instance.getPowerDrain() * 10);
+                power.markDirty();
+            }
+
             if(shouldRebuild) {
+                this.dirty = true;
                 this.onUpdate(false);
             }
 
@@ -292,6 +313,11 @@ public class AbilityManager implements ISyncable {
 
         for (Object2IntMap.Entry<ResourceLocation> entry : duration.object2IntEntrySet()) {
             int newTime = entry.getIntValue() - 1;
+            if(!this.activeAbilities.containsKey(entry.getKey())) {
+                duration.removeInt(entry.getKey());
+                continue;
+
+            }
             SyntheticLastingAbilityType lasting = (SyntheticLastingAbilityType) this.activeAbilities.get(entry.getKey()).getAbility();
             if (newTime == 0 || !this.activeAbilities.containsKey(entry.getKey())) {
                 deactivateAbility(lasting);
@@ -451,8 +477,11 @@ public class AbilityManager implements ISyncable {
         if(!this.manager.getEntity().getCommandSenderWorld().isClientSide) {
             for (ResourceLocation id : duration.keySet()) {
                 SyntheticAbilityActiveInstance instance = this.activeAbilities.get(id);
-                SyntheticLastingAbilityType lasting = (SyntheticLastingAbilityType) instance.getAbility();
-                lasting.onRestoreActivate(manager, instance.getAbilityFactor());
+                if(instance != null) {
+                    SyntheticLastingAbilityType lasting = (SyntheticLastingAbilityType) instance.getAbility();
+                    lasting.onRestoreActivate(manager, instance.getAbilityFactor());
+                }
+
             }
         }
     }

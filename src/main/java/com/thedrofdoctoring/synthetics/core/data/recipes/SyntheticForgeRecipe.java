@@ -37,7 +37,7 @@ public class SyntheticForgeRecipe extends ShapedRecipe {
     }
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public SyntheticForgeRecipe(String group, ShapedRecipePattern pattern, ItemStack result, int lavaCost, int recipeTime, Optional<Holder<ResearchNode>> requiredResearch) {
-        this(group, pattern, result, lavaCost, recipeTime, requiredResearch.orElse(null));
+        this(group,pattern, result, lavaCost, recipeTime, requiredResearch.orElse(null));
     }
 
     public int getRecipeTime() {
@@ -82,6 +82,7 @@ public class SyntheticForgeRecipe extends ShapedRecipe {
                 Codec.STRING.optionalFieldOf("group", "").forGetter(ShapedRecipe::getGroup),
                 ShapedRecipePattern.MAP_CODEC.forGetter(SyntheticForgeRecipe::getPattern),
                 ItemStack.CODEC.fieldOf("result").forGetter(SyntheticForgeRecipe::getResult),
+
                 Codec.INT.fieldOf("lava_cost").forGetter(SyntheticForgeRecipe::getLavaCost),
                 Codec.INT.fieldOf("recipe_time").forGetter(SyntheticForgeRecipe::getRecipeTime),
                 ResearchNode.HOLDER_CODEC.optionalFieldOf("required_research").forGetter(SyntheticForgeRecipe::getRequiredResearch)

@@ -1,0 +1,23 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "B": {
+      "item": "minecraft:string"
+    }
+  },
+  "lava_cost": 10,
+  "pattern": [
+    " B ",
+    "AAA",
+    " B "
+  ],
+  "recipe_time": 50,
+  "required_research": "synthetics:artificial_tissue",
+  "result": {
+    "count": 2,
+    "id": "synthetics:artificial_tissue"
+  }
+}

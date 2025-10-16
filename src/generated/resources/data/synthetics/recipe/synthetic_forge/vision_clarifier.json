@@ -1,0 +1,26 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    },
+    "B": {
+      "tag": "c:glass_panes"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "AAA",
+    "B B",
+    "AAA"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:fluid_augments",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:vision_clarifier"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

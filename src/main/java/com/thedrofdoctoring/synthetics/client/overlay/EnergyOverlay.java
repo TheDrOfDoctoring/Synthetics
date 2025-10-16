@@ -44,7 +44,7 @@ public class EnergyOverlay implements LayeredDraw.Layer {
             guiGraphics.pose().translate(0.0F, 0.0F, -90.0F);
             guiGraphics.blitSprite(ENERGY_BAR_SPRITE, x, y, 62, 12);
             float energyPercentage = (float) manager.getStoredPower() / manager.getMaxPower();
-            guiGraphics.fillGradient(x + 4, y + 2   , (int) (x + 3 + 62 * energyPercentage), y + 10, 0xFF64e3a1, 0xFF198450);
+            guiGraphics.fillGradient(x + 4, y + 2   , (int) (x + 3 + Math.round(56 * energyPercentage)), y + 10, 0xFF64e3a1, 0xFF198450);
 
 
             guiGraphics.pose().popPose();

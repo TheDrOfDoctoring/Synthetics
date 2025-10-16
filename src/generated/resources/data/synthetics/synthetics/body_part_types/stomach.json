@@ -1,0 +1,7 @@
+{
+  "default_part": "synthetics:organic_stomach",
+  "id": "synthetics:stomach",
+  "layer": "organs",
+  "x": -15,
+  "y": 120
+}

@@ -1,0 +1,32 @@
+{
+  "type": {
+    "experience_cost": 50,
+    "required_items": [
+      {
+        "amount": 20,
+        "item": {
+          "item": "minecraft:copper_ingot"
+        }
+      },
+      {
+        "amount": 12,
+        "item": {
+          "item": "synthetics:artificial_capillary"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:artificial_tissue"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:artificial_skin",
+  "parents": "synthetics:artificial_tissue",
+  "unlocked": {
+    "parts": "synthetics:cybernetic_tissue"
+  },
+  "x": 50,
+  "y": 190
+}

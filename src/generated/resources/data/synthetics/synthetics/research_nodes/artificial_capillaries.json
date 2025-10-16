@@ -1,0 +1,33 @@
+{
+  "type": {
+    "experience_cost": 50,
+    "required_items": [
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:rotten_flesh"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:copper_ingot"
+        }
+      },
+      {
+        "amount": 24,
+        "item": {
+          "tag": "c:foods/raw_meat"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:artificial_capillaries",
+  "unlocked": {
+    "item": {
+      "item": "synthetics:artificial_capillary"
+    }
+  },
+  "x": 60,
+  "y": 275
+}

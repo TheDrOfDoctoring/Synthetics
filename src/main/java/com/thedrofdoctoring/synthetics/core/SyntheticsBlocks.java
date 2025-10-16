@@ -49,7 +49,7 @@ public class SyntheticsBlocks {
 
     private static <T extends Block> DeferredBlock<T> registerWithItem(String name, Supplier<T> supplier, Item.@NotNull Properties properties) {
         DeferredBlock<T> block = BLOCKS.register(name, supplier);
-        SyntheticsItems.register(name, () -> new BlockItem(block.get(), properties));
+        SyntheticsItems.registerTab(name, () -> new BlockItem(block.get(), properties));
         return block;
     }
 

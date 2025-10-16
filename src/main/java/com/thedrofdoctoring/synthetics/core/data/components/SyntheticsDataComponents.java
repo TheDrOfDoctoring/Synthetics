@@ -5,6 +5,7 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -34,6 +35,13 @@ public class SyntheticsDataComponents {
             builder -> builder
                     .persistent(BodyPart.HOLDER_CODEC)
                     .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.BODY_PARTS, BodyPart.STREAM_CODEC))
+    );
+    public static final Supplier<DataComponentType<Holder<ResearchNode>>> BLUEPRINT_RESEARCH = DATA_COMPONENTS.registerComponentType(
+            SyntheticsData.RESEARCH_NODES.location().getPath(),
+            builder -> builder
+
+                    .persistent(ResearchNode.HOLDER_CODEC)
+                    .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.RESEARCH_NODES, ResearchNode.STREAM_CODEC))
     );
     public static final Supplier<DataComponentType<Integer>> ENERGY_COMPONENT = DATA_COMPONENTS.registerComponentType(
             "battery_energy",

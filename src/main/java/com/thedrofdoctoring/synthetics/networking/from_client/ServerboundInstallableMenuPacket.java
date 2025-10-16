@@ -56,6 +56,7 @@ public class ServerboundInstallableMenuPacket implements CustomPacketPayload {
 
                             i++;
                         }
+                        synthetics.getAbilityManager().rebuildAttributes();
 
 
                     }

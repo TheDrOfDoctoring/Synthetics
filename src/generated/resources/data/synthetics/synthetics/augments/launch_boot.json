@@ -2,5 +2,5 @@
   "abilities": "synthetics:launchboot_launch",
   "augment_id": "synthetics:launch_boot",
   "complexity": 3,
-  "validParts": "#synthetics:feet"
+  "valid_parts": "#synthetics:feet"
 }

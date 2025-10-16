@@ -2,12 +2,17 @@ package com.thedrofdoctoring.synthetics.client.core.items;
 
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
+import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
+import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
+import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
 import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -52,7 +57,6 @@ public class SyntheticsClientItems {
         } else {
             tooltips.add(Component.translatable("text.synthetics.info_shift").withStyle(ChatFormatting.GRAY));
         }
-
-
     }
+
 }

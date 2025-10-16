@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:spider_eye"
+    },
+    "B": {
+      "item": "minecraft:slime_ball"
+    },
+    "C": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "A A",
+    "BCB",
+    "A A"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:hand_wall_climb",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:emittable_adhesive"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

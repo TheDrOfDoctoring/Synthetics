@@ -1,0 +1,7 @@
+{
+  "abilities": "synthetics:respirator_breath",
+  "augment_id": "synthetics:integrated_respirator",
+  "complexity": 3,
+  "power_cost": 2,
+  "valid_parts": "#synthetics:lungs"
+}

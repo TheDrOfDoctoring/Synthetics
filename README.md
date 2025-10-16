@@ -29,6 +29,13 @@ Right-clicking will swap to the ability menu. This shows a list of abilities off
 ## Synthetic Forge
 
 The Synthetic Forge is where you can craft new parts. This mod supports JEI for recipe viewing.
+
 The left meter on the Synthetic Forge represents lava. Each recipe requires some amount of lava to create, and the forge can be filled with either a bucket of lava or automated means.
 Most recipes will also require a specific research. If required, this is displayed on the recipe in JEI. This means a player with that research must initiate crafting.
 Once the recipe begins, it will take some time to complete, the progress is displayed on the arrow in the centre of the interface.
+
+
+By default, the Synthetic Forge will not start a recipe without a player with the required research present. 
+However, this limitation can be bypassed with the usage of a Blueprint. To create a Blueprint, place an empty blueprint in the slot above the Synthetic Forge's output slot.
+Then, begin the recipe normally, once completed it will replace the Blueprint with one with the required research to complete recipe.
+Any blueprint with the required research to complete a recipe placed in that slot will allow a recipe to be completed without a player present.

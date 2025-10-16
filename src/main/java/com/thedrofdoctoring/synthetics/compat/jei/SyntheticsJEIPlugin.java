@@ -57,7 +57,7 @@ public class SyntheticsJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeTransferHandlers(@NotNull IRecipeTransferRegistration registration) {
-        registration.addRecipeTransferHandler(SyntheticForgeMenu.class, SyntheticsMenus.SYNTHETIC_FORGE.get(), FORGE_CATEGORY, 1, 9, 10, 36);
+        registration.addRecipeTransferHandler(SyntheticForgeMenu.class, SyntheticsMenus.SYNTHETIC_FORGE.get(), FORGE_CATEGORY, 2, 9, 11, 36);
 
     }
 

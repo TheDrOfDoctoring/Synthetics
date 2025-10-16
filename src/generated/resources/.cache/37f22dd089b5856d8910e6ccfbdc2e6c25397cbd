@@ -1,4 +1,10 @@
-// 1.21.1	2025-10-11T18:18:17.3291332	Tags for synthetics:body_parts mod id synthetics
-634ebfe72e3ebad00849dfad0ebae89a903d5743 data/synthetics/tags/synthetics/body_parts/eyes.json
-623ed4f43b6a3aa42bd28745075a4858d3bec813 data/synthetics/tags/synthetics/body_parts/feet.json
+// 1.21.1	2025-10-16T02:08:58.4128366	Tags for synthetics:body_parts mod id synthetics
+ba71d82415429402d0a60e92f3942ff65c012121 data/synthetics/tags/synthetics/body_parts/eyes.json
+dbeb808e832f8c764263e536a50eaed053e98fe6 data/synthetics/tags/synthetics/body_parts/feet.json
+eece9170060130003df2e2a8cac676593d1664eb data/synthetics/tags/synthetics/body_parts/hands.json
 7b5220c19a8ac61f1c546bdb4dd3f05ed53912e8 data/synthetics/tags/synthetics/body_parts/heart.json
+d2b02ffcc16de78e537aa67c1f5ce4c9a9b17628 data/synthetics/tags/synthetics/body_parts/lungs.json
+42b07f941151e56e7f02c29c79e241ef89d8fbdf data/synthetics/tags/synthetics/body_parts/ribcage.json
+82aad39876bf6daa61d8c4124a70618b0b0fa3a0 data/synthetics/tags/synthetics/body_parts/skull.json
+ea00106cd68d9964d4bcdfc813308953474aa11a data/synthetics/tags/synthetics/body_parts/tibia.json
+1a8e5653bf274a47632fd972fe7577dad739fb8b data/synthetics/tags/synthetics/body_parts/tissue.json

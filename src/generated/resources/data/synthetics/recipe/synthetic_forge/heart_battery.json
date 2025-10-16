@@ -18,7 +18,7 @@
     " C "
   ],
   "recipe_time": 100,
-  "required_research": "synthetics:heart_battery_research",
+  "required_research": "synthetics:heart_battery",
   "result": {
     "components": {
       "synthetics:augments": "synthetics:heart_battery"

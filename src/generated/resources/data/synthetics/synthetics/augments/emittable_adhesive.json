@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:hand_wall_climb",
+  "augment_id": "synthetics:emittable_adhesive",
+  "complexity": 2,
+  "valid_parts": "#synthetics:hands"
+}

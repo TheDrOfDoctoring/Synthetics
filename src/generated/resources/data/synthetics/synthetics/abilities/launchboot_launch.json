@@ -1,6 +1,6 @@
 {
   "ability_type": {
-    "ability_id": "synthetics:cybernetic_leap"
+    "ability_id": "synthetics:leap"
   },
   "active_options": {
     "cooldown": 15,

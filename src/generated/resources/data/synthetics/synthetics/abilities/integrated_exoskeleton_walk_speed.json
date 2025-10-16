@@ -1,0 +1,8 @@
+{
+  "ability_type": {
+    "ability_id": "synthetics:movement_speed"
+  },
+  "factor": 0.35,
+  "id": "synthetics:integrated_exoskeleton_walk_speed",
+  "operation": "add_multiplied_base"
+}

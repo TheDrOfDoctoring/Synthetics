@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:artificial_tissue"
+    },
+    "B": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "AAA",
+    "BCB",
+    "AAA"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:stomach_augments",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:metabolic_converter"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

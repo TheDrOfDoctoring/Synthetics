@@ -1,0 +1,7 @@
+{
+  "ability_type": {
+    "ability_id": "synthetics:swim_speed"
+  },
+  "id": "synthetics:integrated_exoskeleton_swim_speed",
+  "operation": "add_multiplied_base"
+}

@@ -1,0 +1,9 @@
+{
+  "abilities": [
+    "synthetics:internal_plating_knockback",
+    "synthetics:internal_plating_armour_toughness"
+  ],
+  "augment_id": "synthetics:internal_plating",
+  "complexity": 2,
+  "valid_parts": "#synthetics:ribcage"
+}

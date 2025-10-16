@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "tag": "c:gems/diamond"
+    },
+    "C": {
+      "item": "minecraft:bone"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "  C",
+    " B ",
+    "AA "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:integrated_exoskeleton",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:integrated_exoskeleton"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "abilities": "synthetics:extend_grip_block_reach",
+  "augment_id": "synthetics:extended_grip",
+  "complexity": 3,
+  "power_cost": 2,
+  "valid_parts": "#synthetics:hands"
+}

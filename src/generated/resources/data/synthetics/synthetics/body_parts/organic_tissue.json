@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:tissue",
+  "body_segment": "#synthetics:torso",
+  "id": "synthetics:organic_tissue",
+  "max_complexity": 6
+}

@@ -1,0 +1,10 @@
+{
+  "abilities": [
+    "synthetics:integrated_exoskeleton_swim_speed",
+    "synthetics:integrated_exoskeleton_walk_speed"
+  ],
+  "augment_id": "synthetics:integrated_exoskeleton",
+  "complexity": 4,
+  "power_cost": 1,
+  "valid_parts": "#synthetics:tibia"
+}

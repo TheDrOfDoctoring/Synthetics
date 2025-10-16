@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:glass_panes"
+    },
+    "B": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "AAA",
+    "BBB",
+    "CCC"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:solar_tissue",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:solar_tissue"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

@@ -2,6 +2,6 @@
   "ability_type": {
     "ability_id": "synthetics:battery"
   },
-  "factor": 100.0,
+  "factor": 1000.0,
   "id": "synthetics:heart_battery"
 }

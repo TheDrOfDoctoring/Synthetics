@@ -1,0 +1,26 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:chain"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " B ",
+    "ABA",
+    " B "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:extended_grip",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:extended_grip"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

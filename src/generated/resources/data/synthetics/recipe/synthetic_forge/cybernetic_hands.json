@@ -1,0 +1,33 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "type": "neoforge:components",
+      "components": {
+        "synthetics:body_parts": "synthetics:organic_hands"
+      },
+      "items": "synthetics:body_part_item"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " BB",
+    " A ",
+    "BBC"
+  ],
+  "recipe_time": 150,
+  "required_research": "synthetics:cybernetic_hands",
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:cybernetic_hands"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

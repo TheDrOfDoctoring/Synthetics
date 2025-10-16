@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:skull",
+  "body_segment": "#synthetics:head",
+  "id": "synthetics:organic_skull",
+  "max_complexity": 4
+}

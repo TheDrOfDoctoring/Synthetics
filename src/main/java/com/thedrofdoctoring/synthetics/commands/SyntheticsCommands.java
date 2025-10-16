@@ -32,6 +32,10 @@ public class SyntheticsCommands {
         dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(Synthetics.MODID).then(SyntheticsAugmentCommand.register(buildContext)));
         dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(Synthetics.MODID).then(SyntheticsPartCommand.register(buildContext)));
         dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(Synthetics.MODID).then(SyntheticsResearchCommand.register(buildContext)));
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(Synthetics.MODID).then(SyntheticsEnergyCommand.register(buildContext)));
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(Synthetics.MODID).then(SyntheticsCooldownsCommand.register(buildContext)));
+
+
 
     }
     private void onCommandsRegister(final RegisterCommandsEvent event) {

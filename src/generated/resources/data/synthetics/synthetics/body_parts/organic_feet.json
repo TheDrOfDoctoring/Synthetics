@@ -2,5 +2,5 @@
   "type": "synthetics:feet",
   "body_segment": "#synthetics:lower_body",
   "id": "synthetics:organic_feet",
-  "max_complexity": 5
+  "max_complexity": 3
 }

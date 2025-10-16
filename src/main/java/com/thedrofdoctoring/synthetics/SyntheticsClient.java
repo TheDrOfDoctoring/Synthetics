@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics;
 
+import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientEventHandler;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientSetup;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsKeys;
@@ -28,6 +29,9 @@ public class SyntheticsClient {
         SyntheticsKeys.register(modBus);
         SyntheticsClientItems.register(modBus);
         SyntheticsMenuScreens.register(modBus);
+        SyntheticsClientEventHandler.register();
+
+
         this.manager = new SyntheticsClientManager();
     }
     public static SyntheticsClient getInstance() {

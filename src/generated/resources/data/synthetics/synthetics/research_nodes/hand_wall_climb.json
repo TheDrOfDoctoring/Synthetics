@@ -1,0 +1,31 @@
+{
+  "type": {
+    "experience_cost": 40,
+    "required_items": [
+      {
+        "amount": 25,
+        "item": {
+          "item": "minecraft:string"
+        }
+      },
+      {
+        "amount": 10,
+        "item": {
+          "item": "minecraft:spider_eye"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:slime_ball"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:hand_wall_climb",
+  "unlocked": {
+    "augments": "synthetics:emittable_adhesive"
+  },
+  "x": 60,
+  "y": 0
+}

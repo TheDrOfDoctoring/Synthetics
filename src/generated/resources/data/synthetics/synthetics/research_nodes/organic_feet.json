@@ -1,0 +1,32 @@
+{
+  "type": {
+    "experience_cost": 175,
+    "required_items": [
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:bone"
+        }
+      },
+      {
+        "amount": 12,
+        "item": {
+          "item": "synthetics:artificial_capillary"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:artificial_tissue"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:organic_feet",
+  "parents": "synthetics:artificial_tissue",
+  "unlocked": {
+    "parts": "synthetics:organic_feet"
+  },
+  "x": 80,
+  "y": 190
+}

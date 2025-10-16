@@ -1,0 +1,31 @@
+{
+  "type": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 2,
+        "item": {
+          "item": "minecraft:iron_block"
+        }
+      },
+      {
+        "amount": 20,
+        "item": {
+          "tag": "minecraft:wool"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:diamond"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:internal_plating",
+  "unlocked": {
+    "augments": "synthetics:internal_plating"
+  },
+  "x": 90,
+  "y": 30
+}

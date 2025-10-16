@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:vision_clarifier",
+  "augment_id": "synthetics:vision_clarifier",
+  "complexity": 3,
+  "valid_parts": "#synthetics:eyes"
+}

@@ -1,0 +1,7 @@
+{
+  "ability_type": {
+    "ability_id": "synthetics:solar_generator"
+  },
+  "factor": 30.0,
+  "id": "synthetics:advanced_tissue_solar"
+}

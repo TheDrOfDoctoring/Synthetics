@@ -1,0 +1,26 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:gems/diamond"
+    },
+    "B": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "BAB",
+    "BBB",
+    " B "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:internal_plating",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:internal_plating"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

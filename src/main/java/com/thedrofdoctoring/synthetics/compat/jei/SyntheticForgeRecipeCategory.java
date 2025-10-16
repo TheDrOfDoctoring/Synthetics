@@ -2,12 +2,14 @@ package com.thedrofdoctoring.synthetics.compat.jei;
 
 import com.thedrofdoctoring.synthetics.client.screens.menu_screens.SyntheticForgeScreen;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
+import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticForgeRecipe;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -32,6 +34,9 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
     private final @NotNull IDrawable background;
     private final @NotNull IDrawable icon;
     private final @NotNull IDrawableAnimated arrow;
+    private final ItemStack blueprint;
+    private final ICraftingGridHelper craftingGridHelper;
+
     @Override
     public @NotNull RecipeType<SyntheticForgeRecipe> getRecipeType() {
         return SyntheticsJEIPlugin.FORGE_CATEGORY;
@@ -45,6 +50,9 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
         this.background = helper.drawableBuilder(SyntheticForgeScreen.BACKGROUND, 4, 4, 165, 78).addPadding(0, 0, 0, 0).build();
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(SyntheticsBlocks.SYNTHETIC_FORGE.get()));
         this.arrow = helper.drawableBuilder(SyntheticForgeScreen.LAVA_ARROW, 0, 0, 22, 15).buildAnimated(600, IDrawableAnimated.StartDirection.LEFT, false);
+        this.blueprint = new ItemStack(SyntheticsItems.BLUEPRINT);
+        craftingGridHelper = guiHelper.createCraftingGridHelper();
+
     }
 
         @Override
@@ -68,9 +76,15 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
         builder.addSlot(RecipeIngredientRole.OUTPUT, 120, 31).addItemStack(recipe.getResult());
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 3; ++j) {
-                builder.addSlot(RecipeIngredientRole.INPUT, 26 + j * 18, 13 + i * 18).addIngredients(ingredients.get(j + i * 3));
+                int index = j + i * 3;
+                if(index < ingredients.size()) {
+                    builder.addSlot(RecipeIngredientRole.INPUT, 26 + j * 18, 13 + i * 18).addIngredients(ingredients.get(index));
+
+                }
             }
         }
+        builder.addSlot(RecipeIngredientRole.CATALYST, 119, 5).addItemStacks(List.of(ItemStack.EMPTY, blueprint));
+
     }
 
 

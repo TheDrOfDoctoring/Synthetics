@@ -2,7 +2,11 @@ package com.thedrofdoctoring.synthetics.core.data.recipes;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
+import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
@@ -11,6 +15,7 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceKey;
@@ -21,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.ItemLike;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
@@ -50,11 +56,25 @@ public class SyntheticForgeRecipeBuilder implements RecipeBuilder {
         this.result = result.getItem();
         this.count = result.getCount();
         this.resultStack = result;
+        result.setCount(count);
 
     }
     public static SyntheticForgeRecipeBuilder create(ItemStack result, int count) {
         result.setCount(count);
         return new SyntheticForgeRecipeBuilder(result);
+    }
+    public static SyntheticForgeRecipeBuilder create(ItemLike result, int count) {
+        ItemStack resultStack = new ItemStack(result, count);
+        return new SyntheticForgeRecipeBuilder(resultStack);
+    }
+
+    public static Ingredient partIngredient(HolderLookup.Provider provider, ResourceKey<BodyPart> partKey) {
+        DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.BODY_PART,  provider.lookupOrThrow(SyntheticsData.BODY_PARTS).getOrThrow(partKey)).build();
+        return DataComponentIngredient.of(false, map, SyntheticsItems.BODY_PART_INSTALLABLE.get());
+    }
+    public static Ingredient augmentIngredient(HolderLookup.Provider provider, ResourceKey<SyntheticAugment> partKey) {
+        DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.AUGMENT,  provider.lookupOrThrow(SyntheticsData.AUGMENTS).getOrThrow(partKey)).build();
+        return DataComponentIngredient.of(false, map, SyntheticsItems.AUGMENT_INSTALLABLE.get());
     }
 
     private ShapedRecipePattern ensureValid(ResourceLocation location) {

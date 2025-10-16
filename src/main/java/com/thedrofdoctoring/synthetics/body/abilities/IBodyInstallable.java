@@ -46,4 +46,9 @@ public interface IBodyInstallable<T extends IBodyInstallable<T>> {
         return Component.translatable("installables." + id().getNamespace() + "." + getType().location().getPath() + "." + "type_title");
     }
 
+
+    //TODO:
+    // Some kind of dynamic tooltip system to determine hover information based on installable instance, to replace hardcoded screen & hover text.
+
+
 }

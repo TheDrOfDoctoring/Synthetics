@@ -132,7 +132,6 @@ public class ResearchScreen extends Screen {
         PoseStack pose = graphics.pose();
         pose.pushPose();
         pose.translate(guiLeft, guiTop, 0);
-        pose.translate(0.0F, 0.0F, -200.0F);
 
 
         graphics.fill(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Mth.floor(this.fade * 255.0F) << 24);
@@ -144,7 +143,7 @@ public class ResearchScreen extends Screen {
                 if (nodeScreen.isMouseOver(scaledMouseX, scaledMouseY, 0, 0)) {
                     flag = true;
                     pose.pushPose();
-                    pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, 0);
+                    pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, 350);
                     pose.scale((float) this.zoom, (float) this.zoom, 1);
                     nodeScreen.renderHover(graphics, scaledMouseX, scaledMouseY, this.fade, 0,0);
                     pose.popPose();
@@ -164,7 +163,7 @@ public class ResearchScreen extends Screen {
 
     private void renderInside(@NotNull GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY) {
         PoseStack pose = guiGraphics.pose();
-        guiGraphics.enableScissor(x, y, x + SCREEN_WIDTH, y + SCREEN_HEIGHT);
+        guiGraphics.enableScissor(x + 9, y + 18, x + SCREEN_WIDTH - 9, y + SCREEN_HEIGHT - 28);
         pose.pushPose();
         pose.translate(x, y, 0);
         pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, 0);
@@ -191,7 +190,7 @@ public class ResearchScreen extends Screen {
         PoseStack pose = guiGraphics.pose();
         pose.pushPose();
         pose.translate(x, y, 0);
-        pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, -250);
+        pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, 0);
         pose.scale((float)this.zoom,(float) this.zoom, 1);
         for(ResearchNodeScreen node : rootNodes.values()) {
             node.renderConnections(guiGraphics, 0,0, true);

@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.client.screens;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
@@ -55,7 +56,7 @@ public class ResearchNodeScreen {
     private FormattedCharSequence experienceCost;
     private final ResearchNodeScreen parent;
 
-    private final IBodyInstallable<?> unlockedPrimary;
+    private final Either<Ingredient, IBodyInstallable<?>> unlockedPrimary;
 
     private final ItemStack experience = new ItemStack(Items.EXPERIENCE_BOTTLE);
     private final List<Pair<ItemStack, Integer>> requirements = new ArrayList<>();
@@ -77,7 +78,7 @@ public class ResearchNodeScreen {
         this.minecraft = Minecraft.getInstance();
         this.parent = parent;
         List<ResearchNode> nodes = SyntheticsClient.getInstance().getManager().parentToChildrenMap.get(node);
-        this.unlockedPrimary = this.node.unlocked().getAllUnlocked().getFirst();
+        this.unlockedPrimary = this.node.unlocked().getDisplayed();
         if(nodes != null) {
             for(ResearchNode child : nodes) {
                 this.children.add(new ResearchNodeScreen(this, child, screen, child.x(), child.y(), manager));
@@ -141,7 +142,7 @@ public class ResearchNodeScreen {
         graphics.blitSprite(RESEARCH_BACKGROUND_SPRITE, x, y, WIDTH, HEIGHT);
 
         RenderSystem.enableBlend();
-        graphics.blit(getResearchIcon(node), x + 5, y + 5, 0, 0, 16, 16, 16, 16);
+        drawIcon(graphics, x + 5, y + 5, 16, 16);
 
         pose.popPose();
 
@@ -222,7 +223,7 @@ public class ResearchNodeScreen {
                 } else {
                     toY += 24;
                     fromY += 1;
-                    fromToY = (toY + fromY) / 2;
+                    fromToY = (toY - fromY) / 2;
 
                 }
                 if(xParentToChild < 0) {
@@ -245,8 +246,6 @@ public class ResearchNodeScreen {
                     graphics.vLine(this.parent.x + 13, fromY, fromY + fromToY, colour);
                     graphics.hLine(fromX, toX, fromY + fromToY,colour);
                     graphics.vLine(toX, fromY + fromToY, toY, colour);
-
-
                 }
             }
 
@@ -267,7 +266,7 @@ public class ResearchNodeScreen {
         if (state == ResearchNodeState.HIDDEN) return;
         PoseStack pose = graphics.pose();
         pose.pushPose();
-        pose.translate(0f, ResearchScreen.SCREEN_HEIGHT, 100);
+        pose.translate(0f, ResearchScreen.SCREEN_HEIGHT, 450);
         int x = this.x;
         int y = this.y;
 
@@ -337,17 +336,27 @@ public class ResearchNodeScreen {
         //draw node
         graphics.setColor(1f, 1f, 1f, 1);
         graphics.blitSprite(RESEARCH_BACKGROUND_SPRITE, scrollX + x, scrollY + y, 26, 26);
-        graphics.blit(getResearchIcon(node), x + scrollX + 5, y + scrollY + 5, 0, 0, 16, 16, 16, 16);
+        drawIcon(graphics, x + scrollX + 5, y + scrollY + 5, 16, 16);
         pose.popPose();
     }
     public boolean isMouseOver(double mouseX, double mouseY, int scrollX, int scrollY) {
         return mouseX >= x + scrollX && mouseX < x + scrollX + (double) WIDTH - 1 && mouseY > scrollY + y + ResearchScreen.SCREEN_HEIGHT && mouseY < scrollY + this.y + 26 + ResearchScreen.SCREEN_HEIGHT;
     }
 
+    private void drawIcon(GuiGraphics graphics, int x, int y, int width, int height) {
+        graphics.pose().pushPose();
+        this.unlockedPrimary.ifLeft(ingredient -> {
+            ItemStack stack = ingredient.getItems()[0];
+            graphics.renderFakeItem(stack, x, y);
+        });
+        this.unlockedPrimary.ifRight(iBodyInstallable -> {
+            graphics.blit(iBodyInstallable.texture(), x, y, 0, 0, width, height, 16, 16);
+        });
+        graphics.pose().popPose();
 
-    private ResourceLocation getResearchIcon(@NotNull ResearchNode node) {
-        return unlockedPrimary.texture();
     }
+
+
 
 
     private ResearchNodeState getState() {

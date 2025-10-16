@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.menus;
 
 import com.thedrofdoctoring.synthetics.blocks.entities.forge.ISyntheticForge;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
+import com.thedrofdoctoring.synthetics.items.BlueprintItem;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,7 +20,7 @@ public class SyntheticForgeMenu extends AbstractContainerMenu {
 
 
     public SyntheticForgeMenu(int containerId, Inventory playerInventory) {
-        this(containerId, playerInventory, new SimpleContainer(10), new SimpleContainerData(4), ContainerLevelAccess.NULL);
+        this(containerId, playerInventory, new SimpleContainer(11), new SimpleContainerData(4), ContainerLevelAccess.NULL);
     }
 
     public SyntheticForgeMenu(int containerId, @NotNull Inventory playerInventory, @NotNull Container forge, ContainerData data, ContainerLevelAccess access) {
@@ -28,10 +29,12 @@ public class SyntheticForgeMenu extends AbstractContainerMenu {
         this.access = access;
         this.forge = forge;
         this.addSlot(new ResultSlot(forge, 0, 124, 35));
+        this.addSlot(new BlueprintSlot(forge, 1, 123, 9));
+
 
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 3; ++j) {
-                this.addSlot(new IngredientSlot(forge, 1 + j + i * 3, 30 + j * 18, 17 + i * 18));
+                this.addSlot(new IngredientSlot(forge, 2 + j + i * 3, 30 + j * 18, 17 + i * 18));
             }
         }
 
@@ -69,22 +72,28 @@ public class SyntheticForgeMenu extends AbstractContainerMenu {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
-                if (!this.moveItemStackTo(itemstack1, 10, 46, true)) {
+                if (!this.moveItemStackTo(itemstack1, 11, 46, true)) {
                     return ItemStack.EMPTY;
                 }
 
                 slot.onQuickCraft(itemstack1, itemstack);
             } else if (index >= 10 && index < 46) {
-                if (!this.moveItemStackTo(itemstack1, 1, 10, false)) {
+                if(itemstack1.getItem() instanceof BlueprintItem) {
+                    if (!this.moveItemStackTo(itemstack1, 1, 1, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+
+                if (!this.moveItemStackTo(itemstack1, 2, 11, false)) {
                     if (index < 37) {
                         if (!this.moveItemStackTo(itemstack1, 37, 46, false)) {
                             return ItemStack.EMPTY;
                         }
-                    } else if (!this.moveItemStackTo(itemstack1, 10, 37, false)) {
+                    } else if (!this.moveItemStackTo(itemstack1, 11, 37, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
-            } else if (!this.moveItemStackTo(itemstack1, 10, 46, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 11, 46, false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -147,6 +156,17 @@ public class SyntheticForgeMenu extends AbstractContainerMenu {
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {
             return false;
+        }
+    }
+    static class BlueprintSlot extends Slot {
+
+        public BlueprintSlot(@NotNull Container inventory, int slotId, int xPos, int yPos) {
+            super(inventory, slotId, xPos, yPos);
+        }
+
+        @Override
+        public boolean mayPlace(@NotNull ItemStack stack) {
+            return stack.getItem() instanceof BlueprintItem;
         }
     }
 

@@ -3,7 +3,10 @@ package com.thedrofdoctoring.synthetics.core.synthetics;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.body.abilities.SyntheticAbilityType;
 import com.thedrofdoctoring.synthetics.body.abilities.active.types.LeapAbility;
+import com.thedrofdoctoring.synthetics.body.abilities.active.types.WallClimbAbility;
 import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticPassiveAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.generators.FoodGeneratorAbility;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.generators.SolarGeneratorAbility;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -23,6 +26,9 @@ public class SyntheticAbilities {
 
     public static final DeferredRegister<SyntheticAbilityType> ABILITIES = DeferredRegister.create(ABILITY_REGISTRY, Synthetics.MODID);
 
+    //TODO:
+    // Abilities replaced with ability types, eg attribute modifier ability, damage resistance, with the specified modified attribute in the ability data gen.
+
     public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> FALL_DAMAGE_ABILITY = ABILITIES.register("fall_damage", (id) -> new SyntheticPassiveAbilityType(Attributes.FALL_DAMAGE_MULTIPLIER, id));
     public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> SAFE_FALL_ABILITY = ABILITIES.register("safe_fall_distance", (id) -> new SyntheticPassiveAbilityType(Attributes.SAFE_FALL_DISTANCE, id));
     public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> ATTACK_DAMAGE = ABILITIES.register("attack_damage", (id) -> new SyntheticPassiveAbilityType(Attributes.ATTACK_DAMAGE, id));
@@ -40,9 +46,13 @@ public class SyntheticAbilities {
     public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> SWIM_SPEED = ABILITIES.register("swim_speed", (id) -> new SyntheticPassiveAbilityType(Attributes.WATER_MOVEMENT_EFFICIENCY, id));
 
     public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> BATTERY = ABILITIES.register("battery", SyntheticPassiveAbilityType::new);
+    public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> SOLAR_GENERATOR = ABILITIES.register("solar_generator", SolarGeneratorAbility::new);
+    public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> UNDERWATER_VISION = ABILITIES.register("underwater_vision", SyntheticPassiveAbilityType::new);
+    public static final DeferredHolder<SyntheticAbilityType, SyntheticPassiveAbilityType> FOOD_GENERATOR = ABILITIES.register("food_generator", FoodGeneratorAbility::new);
 
 
-    public static final DeferredHolder<SyntheticAbilityType, LeapAbility> LEAP = ABILITIES.register("cybernetic_leap", LeapAbility::new);
+    public static final DeferredHolder<SyntheticAbilityType, LeapAbility> LEAP = ABILITIES.register("leap", LeapAbility::new);
+    public static final DeferredHolder<SyntheticAbilityType, WallClimbAbility> WALL_CLIMB = ABILITIES.register("wall_climb", WallClimbAbility::new);
 
 
 

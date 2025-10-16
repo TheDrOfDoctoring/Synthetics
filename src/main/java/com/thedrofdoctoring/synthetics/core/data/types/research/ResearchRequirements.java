@@ -4,6 +4,9 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.List;
@@ -18,6 +21,17 @@ public record ResearchRequirements(int experienceCost, Optional<List<Pair<Ingred
                     Codec.INT.fieldOf("amount").codec()
             ).listOf().optionalFieldOf("required_items").forGetter(ResearchRequirements::requiredItems)
     ).apply(instance, ResearchRequirements::new));
+    private static final StreamCodec<RegistryFriendlyByteBuf, Pair<Ingredient, Integer>> PAIR_STREAM = StreamCodec.composite(
+            Ingredient.CONTENTS_STREAM_CODEC, Pair::getFirst,
+            ByteBufCodecs.INT, Pair::getSecond,
+            Pair::of
+    );
+    public static final StreamCodec<RegistryFriendlyByteBuf, ResearchRequirements> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT, ResearchRequirements::experienceCost,
+            ByteBufCodecs.optional(
+                    PAIR_STREAM.apply(ByteBufCodecs.list())
+            ), ResearchRequirements::requiredItems,
+            ResearchRequirements::new);
 
 
     public static ResearchRequirements create(int experienceCost) {

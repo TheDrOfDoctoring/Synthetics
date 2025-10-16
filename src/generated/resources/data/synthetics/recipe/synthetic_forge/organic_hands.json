@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:artificial_neuron"
+    },
+    "B": {
+      "item": "synthetics:artificial_tissue"
+    },
+    "C": {
+      "item": "synthetics:artificial_capillary"
+    }
+  },
+  "lava_cost": 10,
+  "pattern": [
+    " AB",
+    " A ",
+    "BBC"
+  ],
+  "recipe_time": 80,
+  "required_research": "synthetics:organic_hands",
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:organic_hands"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

@@ -15,6 +15,7 @@ public class SyntheticsEventHandler {
         SyntheticsPlayer.get(event.getEntity()).onTick();
     }
 
+
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
 

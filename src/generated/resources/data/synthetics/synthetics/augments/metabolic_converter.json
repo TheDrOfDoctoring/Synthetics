@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:metabolic_converter",
+  "augment_id": "synthetics:metabolic_converter",
+  "complexity": 3,
+  "valid_parts": "synthetics:organic_stomach"
+}

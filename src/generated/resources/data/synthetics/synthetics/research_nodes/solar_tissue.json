@@ -1,0 +1,32 @@
+{
+  "type": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:copper_ingot"
+        }
+      },
+      {
+        "amount": 24,
+        "item": {
+          "item": "minecraft:gold_ingot"
+        }
+      },
+      {
+        "amount": 40,
+        "item": {
+          "item": "minecraft:lapis_lazuli"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:solar_tissue",
+  "parents": "synthetics:heart_battery",
+  "unlocked": {
+    "augments": "synthetics:solar_tissue"
+  },
+  "x": -150,
+  "y": -80
+}

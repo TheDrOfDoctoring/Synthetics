@@ -1,0 +1,7 @@
+{
+  "ability_type": {
+    "ability_id": "synthetics:armour_toughness"
+  },
+  "factor": 1.5,
+  "id": "synthetics:internal_plating_armour_toughness"
+}

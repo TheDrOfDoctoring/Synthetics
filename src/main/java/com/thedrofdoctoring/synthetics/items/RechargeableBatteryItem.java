@@ -32,7 +32,7 @@ public class RechargeableBatteryItem extends Item {
         SyntheticsPlayer synthetics = SyntheticsPlayer.get(player);
         ItemStack stack = player.getItemInHand(usedHand);
         if(stack.has(SyntheticsDataComponents.BATTERY_OPTIONS) && synthetics.getPowerManager().getStoredPower() < synthetics.getPowerManager().getMaxPower()) {
-            int difference = synthetics.getPowerManager().getMaxPower() - synthetics.getPowerManager().getStoredPower();
+            int difference = synthetics .getPowerManager().getMaxPower() - synthetics.getPowerManager().getStoredPower();
             BatteryComponentOptions options = stack.get(SyntheticsDataComponents.BATTERY_OPTIONS);
             IEnergyStorage cap = stack.getCapability(Capabilities.EnergyStorage.ITEM);
             if(cap != null && options != null) {

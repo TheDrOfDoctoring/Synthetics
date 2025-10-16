@@ -1,0 +1,26 @@
+{
+  "type": {
+    "experience_cost": 50,
+    "required_items": [
+      {
+        "amount": 25,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:redstone"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:stomach_augments",
+  "parents": "synthetics:heart_battery",
+  "unlocked": {
+    "augments": "synthetics:metabolic_converter"
+  },
+  "x": -180,
+  "y": -50
+}

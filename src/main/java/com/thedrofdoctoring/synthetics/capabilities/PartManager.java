@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.capabilities.interfaces.IPartManager;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.*;
@@ -51,7 +52,7 @@ public class PartManager implements ISaveData, IPartManager {
     }
 
     public boolean augmentSupportsBodyPart(SyntheticAugment augment, BodyPart part) {
-        return augment.validParts().contains(Holder.direct(part));
+        return augment.validParts().stream().anyMatch(p -> p.value().equals(part));
     }
 
     public List<IBodyInstallable<?>> replacePart(BodyPart newPart, boolean updatePlayer) {
@@ -63,6 +64,7 @@ public class PartManager implements ISaveData, IPartManager {
                 if(augmentSupportsBodyPart(instance.augment(), newPart)) {
                     this.player.replaceAugmentInstance(instance, new AugmentInstance(instance.augment(), newPart));
                 } else {
+                    this.player.removeAugment(instance.augment());
                     removedInstallables.add(instance.augment());
                 }
             }

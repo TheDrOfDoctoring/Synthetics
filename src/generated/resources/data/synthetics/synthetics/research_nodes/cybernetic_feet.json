@@ -1,0 +1,32 @@
+{
+  "type": {
+    "experience_cost": 175,
+    "required_items": [
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 12,
+        "item": {
+          "item": "minecraft:gold_ingot"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:artificial_tissue"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:cybernetic_feet",
+  "parents": "synthetics:organic_feet",
+  "unlocked": {
+    "parts": "synthetics:cybernetic_feet"
+  },
+  "x": 80,
+  "y": 160
+}

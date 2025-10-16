@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
+import com.thedrofdoctoring.synthetics.capabilities.interfaces.IPowerManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -57,6 +58,11 @@ public class PowerManager implements IPowerManager {
         return receive;
     }
 
+    @Override
+    public void setPower(int amount) {
+        this.storedPower = Math.clamp(amount, 0, maxPower);
+    }
+
     public void markDirty() {
         this.dirty = true;
     }
@@ -72,7 +78,7 @@ public class PowerManager implements IPowerManager {
 
     public boolean onTick() {
         if(this.consumedPowerPerTick > 0) {
-            this.drainPower(this.consumedPowerPerTick);
+             this.drainPower(this.consumedPowerPerTick);
         }
         if(dirty) {
             dirty = false;

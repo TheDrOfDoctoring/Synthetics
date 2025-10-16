@@ -1,0 +1,38 @@
+{
+  "type": {
+    "experience_cost": 175,
+    "required_items": [
+      {
+        "amount": 4,
+        "item": {
+          "item": "minecraft:bone"
+        }
+      },
+      {
+        "amount": 12,
+        "item": {
+          "item": "synthetics:artificial_capillary"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:artificial_tissue"
+        }
+      },
+      {
+        "amount": 12,
+        "item": {
+          "item": "synthetics:artificial_neuron"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:organic_hands",
+  "parents": "synthetics:artificial_tissue",
+  "unlocked": {
+    "parts": "synthetics:organic_hands"
+  },
+  "x": 110,
+  "y": 190
+}

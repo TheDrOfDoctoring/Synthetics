@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:stomach",
+  "body_segment": "#synthetics:torso",
+  "id": "synthetics:organic_stomach",
+  "max_complexity": 6
+}

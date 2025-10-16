@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:advanced_tissue_solar",
+  "augment_id": "synthetics:advanced_solar_tissue",
+  "complexity": 3,
+  "valid_parts": "synthetics:cybernetic_tissue"
+}

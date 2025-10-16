@@ -142,6 +142,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                 pose.pushPose();
                 float xScale = 0.5f;
                 float yScale = 0.5f;
+                pose.translate(0, 0, 350);
                 pose.scale(xScale, yScale, 1f);
                 guiGraphics.blitSprite(DESCRIPTION, (int) (x / xScale), (int) ((y + 15) / yScale), (int) (size / xScale), 5 + (text.size() + 1) * 8);
                 for(int i = 0; i < text.size(); i++) {
@@ -162,7 +163,6 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
 
         if(synthetics.isInstalled(installable)) {
             text.add(Component.translatable("text.synthetics.augmentation.already_installed").withStyle(ChatFormatting.AQUA));
-            return text;
         }
         if(displayAbilities && installable.abilities().isPresent()) {
             HolderSet<SyntheticAbility> abilities = installable.abilities().get();
@@ -354,7 +354,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                     installButton(mouseX, mouseY);
                     int i = 0;
                     for (PlayerSyntheticDisplayScreen tab : this.displayLayers) {
-                        if (tab != this.selectedLayer && tab.isMouseOver((22 + WIDTH / 2), this.guiTop, mouseX, mouseY)) {
+                        if (tab != this.selectedLayer && tab.isMouseOver((guiLeft - WIDTH / 2 + 12), this.guiTop, mouseX, mouseY)) {
                             this.selectedLayerIndex = i;
                             this.selectedLayer = tab;
                             break;

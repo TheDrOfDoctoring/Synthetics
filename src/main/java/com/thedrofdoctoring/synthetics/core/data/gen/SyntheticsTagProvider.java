@@ -50,9 +50,15 @@ public class SyntheticsTagProvider {
 
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
-            tag(BodyParts.EYES_MAIN).add(BodyParts.ORGANIC_EYES, BodyParts.CYBERNETIC_EYES);
-            tag(BodyParts.FEET_MAIN).add(BodyParts.ORGANIC_FEET);
+            tag(BodyParts.EYES_MAIN).add(BodyParts.ORGANIC_EYES);
+            tag(BodyParts.FEET_MAIN).add(BodyParts.ORGANIC_FEET, BodyParts.CYBERNETIC_FEET);
             tag(BodyParts.HEART_MAIN).add(BodyParts.ORGANIC_HEART);
+            tag(BodyParts.TISSUE_MAIN).add(BodyParts.ORGANIC_TISSUE, BodyParts.CYBERNETIC_TISSUE);
+            tag(BodyParts.LUNGS_MAIN).add(BodyParts.ORGANIC_LUNGS);
+            tag(BodyParts.HANDS_MAIN).add(BodyParts.ORGANIC_HANDS, BodyParts.CYBERNETIC_HANDS);
+            tag(BodyParts.TIBIA_MAIN).add(BodyParts.ORGANIC_TIBIA);
+            tag(BodyParts.SKULL_MAIN).add(BodyParts.ORGANIC_SKULL);
+            tag(BodyParts.RIBCAGE_MAIN).add(BodyParts.ORGANIC_RIBCAGE);
 
         }
     }

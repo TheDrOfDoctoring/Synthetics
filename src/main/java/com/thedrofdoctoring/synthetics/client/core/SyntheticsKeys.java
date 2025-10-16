@@ -76,8 +76,21 @@ public class SyntheticsKeys {
     }
     private static void incrementSelectedAction(int i) {
         Player player = Minecraft.getInstance().player;
+        SyntheticsClientManager manager = SyntheticsClient.getInstance().getManager();
+        int selected = manager.selectedAbility;
         if(player != null) {
-            SyntheticsClient.getInstance().getManager().selectedAbility = Math.clamp(SyntheticsClient.getInstance().getManager().selectedAbility + i, 0, SyntheticsPlayer.get(player).getAbilityManager().getActiveAbilities().size() - 1);
+            int maxSize = SyntheticsPlayer.get(player).getAbilityManager().getActiveAbilities().size() - 1;
+
+            if(selected + i > maxSize) {
+                selected = 0;
+            } else if(selected + i < 0) {
+                selected = maxSize;
+            } else {
+                selected = selected + i;
+            }
+
+
+           manager.selectedAbility = selected;
         }
     }
     private static void swapAbilityDisplay() {

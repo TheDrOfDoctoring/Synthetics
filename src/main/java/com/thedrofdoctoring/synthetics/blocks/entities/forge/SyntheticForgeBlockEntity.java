@@ -2,14 +2,18 @@ package com.thedrofdoctoring.synthetics.blocks.entities.forge;
 
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlockEntities;
+import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticForgeRecipe;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticsRecipes;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
+import com.thedrofdoctoring.synthetics.items.BlueprintItem;
 import com.thedrofdoctoring.synthetics.menus.SyntheticForgeMenu;
 import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
@@ -38,7 +42,7 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
 
     private FluidTank lavaTank = new ForgeLavaTank(2000, f -> f.is(FluidTags.LAVA));
 
-    private @NotNull NonNullList<ItemStack> items = NonNullList.withSize(10, ItemStack.EMPTY);
+    private @NotNull NonNullList<ItemStack> items = NonNullList.withSize(11, ItemStack.EMPTY);
     private @Nullable Player player;
 
     private int totalRecipeTime;
@@ -181,12 +185,14 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
         return this;
     }
     public static <T extends BlockEntity> void serverTick(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull T blockEntity) {
-        if(blockEntity instanceof SyntheticForgeBlockEntity forge && forge.getRecipeTime() > 0) {
-
+        if(blockEntity instanceof SyntheticForgeBlockEntity forge && forge.recipeTime > 0) {
+            if (level.getGameTime() % 30 == 0) {
+                level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLASTFURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
             if(forge.recipeTime >= forge.totalRecipeTime && level.getServer() != null && forge.totalRecipeTime > 0) {
-                CraftingInput craftinginput = CraftingInput.of(3, 3, forge.getItems().subList(1, 10));
+                CraftingInput craftinginput = CraftingInput.of(3, 3, forge.getItems().subList(2, 11));
                 Optional<RecipeHolder<SyntheticForgeRecipe>> optional = level.getServer().getRecipeManager().getRecipeFor(SyntheticsRecipes.SYNTHETIC_FORGE_RECIPE.get(), craftinginput, level);
-                if(optional.isPresent() && forge.getItem(0).equals(ItemStack.EMPTY)) {
+                if(optional.isPresent()) {
                     RecipeHolder<SyntheticForgeRecipe> recipe = optional.get();
                     if(recipe.value().getLavaCost() > forge.lavaTank().getFluidAmount()) {
                         forge.recipeTime = 0;
@@ -194,10 +200,24 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
                         forge.setChanged();
                         return;
                     }
+                    ItemStack blueprintStack = forge.getItem(1);
+                    if(blueprintStack.getItem() instanceof BlueprintItem blueprint && recipe.value().requiredResearch() != null) {
+                        Optional<ResearchNode> node = blueprint.getResearch(forge.getItem(1));
+                        if(node.isEmpty()) {
+                            blueprintStack.set(SyntheticsDataComponents.BLUEPRINT_RESEARCH, recipe.value().requiredResearch());
+                        }
+                    }
 
                     ItemStack result = recipe.value().getResult();
-                    forge.setItem(0, result.copy());
-                    for(int i = 1; i < 10; i++) {
+                    ItemStack currentResult = forge.getItem(0);
+                    if(currentResult.is(result.getItem()) && currentResult.getCount() < currentResult.getMaxStackSize()) {
+                        currentResult.setCount(currentResult.getCount() + result.getCount());
+                        forge.setItem(0, currentResult);
+                    } else {
+                        forge.setItem(0, result.copy());
+                    }
+
+                    for(int i = 2; i < 11; i++) {
                         forge.getItem(i).shrink(1);
                     }
                     forge.lavaTank.drain(recipe.value().getLavaCost(), IFluidHandler.FluidAction.EXECUTE);
@@ -250,11 +270,22 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
     @Override
     public void setChanged() {
         if (this.level != null && !this.level.isClientSide) {
-            if(level.getServer() != null && this.items.getFirst().equals(ItemStack.EMPTY)) {
-                CraftingInput craftinginput = CraftingInput.of(3, 3, this.items.subList(1, 10));
+            if(level.getServer() != null) {
+                CraftingInput craftinginput = CraftingInput.of(3, 3, this.items.subList(2, 11));
                 Optional<RecipeHolder<SyntheticForgeRecipe>> optional = level.getServer().getRecipeManager().getRecipeFor(SyntheticsRecipes.SYNTHETIC_FORGE_RECIPE.get(), craftinginput, level);
                 if(optional.isPresent()) {
+
                     SyntheticForgeRecipe recipe = optional.get().value();
+                    ItemStack blueprint = this.items.get(1);
+                    ItemStack result = this.items.get(0);
+                    if(!result.equals(ItemStack.EMPTY)) {
+                        if((!recipe.getResult().is(result.getItem())) || result.getCount() + recipe.getResult().getCount() > result.getMaxStackSize()) {
+
+                            this.recipeTime = 0;
+                            this.totalRecipeTime = 0;
+                            return;
+                        }
+                    }
 
                     if(recipe.getLavaCost() > this.lavaTank.getFluidAmount()) {
                         this.recipeTime = 0;
@@ -265,7 +296,12 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
                     if(this.recipeTime == 0) {
                         Holder<ResearchNode> node = recipe.requiredResearch();
                         if(node != null) {
-                            if(player == null || !SyntheticsPlayer.get(player).getResearchManager().hasResearched(node.value())) {
+
+                            if(blueprint.getItem() instanceof BlueprintItem blueprintItem && blueprintItem.getResearch(blueprint).isPresent()) {
+                                if(!blueprintItem.getResearch(blueprint).get().equals(node.value())) {
+                                    return;
+                                }
+                            } else if(player == null || !SyntheticsPlayer.get(player).getResearchManager().hasResearched(node.value())) {
                                 return;
                             }
                         }

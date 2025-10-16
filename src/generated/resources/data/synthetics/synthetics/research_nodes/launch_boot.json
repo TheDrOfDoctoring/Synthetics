@@ -1,0 +1,20 @@
+{
+  "type": {
+    "experience_cost": 100,
+    "required_items": [
+      {
+        "amount": 15,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:launch_boot",
+  "parents": "synthetics:inertial_dampeners",
+  "unlocked": {
+    "augments": "synthetics:launch_boot"
+  },
+  "x": 0,
+  "y": -50
+}

@@ -1,0 +1,26 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "B": {
+      "tag": "c:ingots/copper"
+    },
+    "C": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "lava_cost": 10,
+  "pattern": [
+    "AAA",
+    "BCB",
+    " C "
+  ],
+  "recipe_time": 50,
+  "required_research": "synthetics:artificial_neurons",
+  "result": {
+    "count": 1,
+    "id": "synthetics:artificial_neuron"
+  }
+}

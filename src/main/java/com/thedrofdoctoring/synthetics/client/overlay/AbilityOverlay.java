@@ -38,6 +38,10 @@ public class AbilityOverlay implements LayeredDraw.Layer {
             int y = ClientConfig.abilityCarouselMiddleY.get();
             guiGraphics.pose().pushPose();
             int selectedAbility = SyntheticsClient.getInstance().getManager().selectedAbility;
+            if(selectedAbility >= manager.getActiveAbilities().size()) {
+                selectedAbility = 0;
+                SyntheticsClient.getInstance().getManager().selectedAbility = 0;
+            }
             if(ClientConfig.abilityCarouselRotation.get() != 0) {
                 float centerX = i - x + 62 / 2f;
                 float centerY = guiGraphics.guiHeight() - y + 22 / 2f;
@@ -56,6 +60,7 @@ public class AbilityOverlay implements LayeredDraw.Layer {
             guiGraphics.pose().popPose();
 
             SyntheticAbilityActiveInstance[] toRender = new SyntheticAbilityActiveInstance[3];
+
             toRender[1] = abilities[selectedAbility];
             if(abilities.length > selectedAbility + 1) {
                 toRender[2] = abilities[selectedAbility + 1];
@@ -71,27 +76,33 @@ public class AbilityOverlay implements LayeredDraw.Layer {
             for (int i1 = 0; i1 < 3; i1++) {
                 int j1 = i - x + i1 * 20 + 3;
                 int k1 = guiGraphics.guiHeight() - y + 3;
-                this.renderAbility(guiGraphics, j1, k1, toRender[i1], manager);
+                this.renderAbility(guiGraphics, j1, k1, toRender[i1], manager, i1 == 1);
             }
             guiGraphics.pose().popPose();
             RenderSystem.disableBlend();
 
         }
     }
-    private void renderAbility(GuiGraphics guiGraphics, int x, int y, SyntheticAbilityActiveInstance instance, AbilityManager abilities) {
+    private void renderAbility(GuiGraphics guiGraphics, int x, int y, SyntheticAbilityActiveInstance instance, AbilityManager abilities, boolean selected) {
         if(instance != null) {
             ResourceLocation id = instance.getAbility().getAbilityID();
             ResourceLocation texture = id.withPath("textures/abilities/" + id.getPath() + ".png");
             int percentage = 17;
-            if(abilities.isAbilityActive(instance.getAbility())) {
-                percentage = (int) ((1 - abilities.getPercentageForAbilityTime(instance)) * 17);
-            } else if(abilities.isAbilityOnCooldown(instance.getAbility())) {
-                percentage = (int) ((1 + abilities.getPercentageForAbilityTime(instance)) * 17);
+            if(!selected) {
+                guiGraphics.setColor(1, 1, 1, 0.5f);
+            } else {
+                guiGraphics.setColor(1, 1, 1, 1);
             }
 
-            guiGraphics.setColor(1, 1, 1, 0.5f);
-            guiGraphics.fillGradient(x, y + percentage, x + 16, y + 17, 0xFF878787, 0xFF5E5E5E);
             guiGraphics.blit(texture, x, y, 0, 0, 0, 16, 16, 16, 16);
+            if(abilities.isAbilityActive(instance.getAbility())) {
+                percentage = (int) ((1 - abilities.getPercentageForAbilityTime(instance)) * 17);
+                guiGraphics.fillGradient(x, y + percentage, x + 16, y + 17, 0x88011f4b, 0x8803396c);
+            } else if(abilities.isAbilityOnCooldown(instance.getAbility())) {
+                percentage = (int) ((1 + abilities.getPercentageForAbilityTime(instance)) * 17);
+                guiGraphics.fillGradient(x, y + percentage, x + 16, y + 17, 0x88900000, 0x88ee2400);
+            }
+
             guiGraphics.setColor(1, 1, 1, 1);
 
         }

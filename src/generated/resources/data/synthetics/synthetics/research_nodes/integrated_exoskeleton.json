@@ -1,0 +1,32 @@
+{
+  "type": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 40,
+        "item": {
+          "item": "minecraft:bone"
+        }
+      },
+      {
+        "amount": 5,
+        "item": {
+          "item": "minecraft:diamond"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:integrated_exoskeleton",
+  "parents": "synthetics:internal_plating",
+  "unlocked": {
+    "augments": "synthetics:integrated_exoskeleton"
+  },
+  "x": 90,
+  "y": 0
+}

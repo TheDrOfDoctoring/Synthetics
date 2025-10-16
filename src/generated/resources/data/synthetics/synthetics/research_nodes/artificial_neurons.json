@@ -1,0 +1,34 @@
+{
+  "type": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 20,
+        "item": {
+          "item": "minecraft:rotten_flesh"
+        }
+      },
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:redstone"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:copper_ingot"
+        }
+      }
+    ]
+  },
+  "id": "synthetics:artificial_neurons",
+  "parents": "synthetics:artificial_capillaries",
+  "unlocked": {
+    "item": {
+      "item": "synthetics:artificial_neuron"
+    }
+  },
+  "x": 40,
+  "y": 235
+}

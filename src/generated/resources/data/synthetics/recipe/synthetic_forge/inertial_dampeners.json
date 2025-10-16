@@ -21,7 +21,7 @@
     "A A"
   ],
   "recipe_time": 100,
-  "required_research": "synthetics:inertial_dampeners_research",
+  "required_research": "synthetics:inertial_dampeners",
   "result": {
     "components": {
       "synthetics:augments": "synthetics:inertial_dampeners"

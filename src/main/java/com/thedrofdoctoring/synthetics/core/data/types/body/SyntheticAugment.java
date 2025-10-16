@@ -24,8 +24,8 @@ public record SyntheticAugment(int complexity, int powerCost, HolderSet<BodyPart
 
     public static final MapCodec<SyntheticAugment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("complexity").forGetter(SyntheticAugment::complexity),
-            Codec.INT.optionalFieldOf("powerCost", 0).forGetter(SyntheticAugment::powerCost),
-            BodyPart.SET_CODEC.fieldOf("validParts").forGetter(SyntheticAugment::validParts),
+            Codec.INT.optionalFieldOf("power_cost", 0).forGetter(SyntheticAugment::powerCost),
+            BodyPart.SET_CODEC.fieldOf("valid_parts").forGetter(SyntheticAugment::validParts),
             SyntheticAbility.SET_CODEC.optionalFieldOf("abilities").forGetter(SyntheticAugment::abilities),
             ResourceLocation.CODEC.fieldOf("augment_id").forGetter(SyntheticAugment::augmentID)
     ).apply(instance, SyntheticAugment::new));

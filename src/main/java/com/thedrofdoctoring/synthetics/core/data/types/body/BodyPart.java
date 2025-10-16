@@ -47,11 +47,11 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder
             ResourceLocation.STREAM_CODEC, BodyPart::id,
             BodyPart::new);
 
-    public static BodyPart create(int complexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, ResourceLocation id) {
-        return new BodyPart(complexity, segment, type, Optional.empty(), id);
+    public static BodyPart create(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, ResourceLocation id) {
+        return new BodyPart(maxComplexity, segment, type, Optional.empty(), id);
     }
-    public static BodyPart create(int complexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, HolderSet<SyntheticAbility> abilities, ResourceLocation id) {
-        return new BodyPart(complexity, segment, type, Optional.of(abilities), id);
+    public static BodyPart create(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, HolderSet<SyntheticAbility> abilities, ResourceLocation id) {
+        return new BodyPart(maxComplexity, segment, type, Optional.of(abilities), id);
     }
 
     @Override

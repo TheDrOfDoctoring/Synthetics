@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.capabilities.interfaces.ISyntheticsEntity;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
@@ -82,6 +83,9 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         if(this.complexityManager.testComplexity(new AugmentInstance(augment, this.getPartManager().getPartForAugment(augment)), null) != ComplexityManager.ComplexityResult.SUCCESS) {
             return false;
         }
+        if(!this.partManager.augmentSupportsBodyPart(augment, getPartManager().getPartForAugment(augment))) {
+            return false;
+        }
         return this.augments.stream().noneMatch(p -> p.augment().equals(augment));
     }
 
@@ -101,9 +105,10 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
             abilityManager.addAbilities(newInstance.augment());
             abilityManager.addAbilities(newInstance.appliedPart());
         }
+        this.augments.add(newInstance);
 
         int totalPowerCost = Math.max(0, this.powerManager.getTotalPowerCost() - old.augment().powerCost() + newInstance.augment().powerCost());
-        this.powerManager.setMaxPower(totalPowerCost);
+        this.powerManager.setTotalPowerCost(totalPowerCost);
     }
 
     private void addAugment(@NotNull SyntheticAugment augment) {
@@ -118,7 +123,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public boolean canAddInstallable(IBodyInstallable<?> installable) {
 
         if(installable instanceof SyntheticAugment augment) {
-            return this.complexityManager.testComplexity(new AugmentInstance(augment, this.getPartManager().getPartForAugment(augment)), null) == ComplexityManager.ComplexityResult.SUCCESS;
+            return this.canAddAugment(augment);
         }
         if(installable instanceof BodyPart part) {
             return this.complexityManager.getTotalPartComplexity(part) <= part.maxComplexity();
@@ -240,6 +245,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
                 dirtyAll = false;
             }
         } else {
+            powerManager.onTick();
             abilityManager.onTick();
         }
     }
