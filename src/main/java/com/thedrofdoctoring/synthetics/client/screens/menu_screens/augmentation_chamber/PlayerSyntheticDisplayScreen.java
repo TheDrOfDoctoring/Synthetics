@@ -172,6 +172,9 @@ public class PlayerSyntheticDisplayScreen {
                 if(button == 1) {
                     part.setSelectTick(0);
                 }
+                if(button == 0) {
+                    this.mainScreen.setSelectedBodyPart(part.getPart());
+                }
                 break;
             }
         }

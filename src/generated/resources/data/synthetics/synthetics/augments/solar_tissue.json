@@ -2,5 +2,8 @@
   "abilities": "synthetics:tissue_solar",
   "augment_id": "synthetics:solar_tissue",
   "complexity": 3,
+  "max_copies_per_part": 2,
+  "max_copies_total": 5,
+  "power_cost": 5,
   "valid_parts": "#synthetics:tissue"
 }

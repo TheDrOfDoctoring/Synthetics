@@ -16,6 +16,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
@@ -31,6 +32,8 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @SuppressWarnings("unused")
 public class AugmentationChamberScreen extends AbstractContainerScreen<AugmentationChamberMenu> {
@@ -45,6 +49,8 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     private static final ResourceLocation BACKGROUND = Synthetics.rl("textures/gui/container/augmentation_chamber.png");
     private static final ResourceLocation DESCRIPTION = Synthetics.rl("generic/description");
     private static final ResourceLocation RIGHT_CLICK_SPRITE = Synthetics.rl("icons/right_click");
+    private static final ResourceLocation BODY_PART_NODE = Synthetics.rl("augmentation/node");
+
 
     public static final int WIDTH = 176;
     public static final int HEIGHT = 194;
@@ -58,6 +64,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     public boolean rightClicked;
     private boolean clicked;
     private int selectedAbility;
+    private boolean tryUpdateSelected;
 
     private boolean displayAbilities;
     private final @NotNull Player player;
@@ -67,6 +74,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     private int selectedLayerIndex;
     public int guiLeft;
     public int guiTop;
+    private BodyPart selectedBodyPart;
 
 
     public AugmentationChamberScreen(AugmentationChamberMenu menu, Inventory playerInventory, Component title) {
@@ -89,25 +97,68 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     @Override
     protected void init() {
         assert this.minecraft != null;
+
         this.guiLeft = (this.width - WIDTH) / 2;
         this.guiTop = (this.height - HEIGHT) / 2;
         this.leftPos = guiLeft;
         this.topPos = guiTop;
 
     }
+
+
+
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.selectedLayer.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
         this.renderHover(guiGraphics, partialTick, mouseX, mouseY);
+
+        this.checkUpdate();
+    }
+
+    private void checkUpdate() {
+        if(this.tryUpdateSelected) {
+            ItemStack stack = this.menu.getSlot(0).getItem();
+            if(!stack.isEmpty() && stack.getItem() instanceof InstallableItem<?> installableItem) {
+                IBodyInstallable<?> installable = installableItem.getInstallableComponent(stack);
+                if(installable instanceof SyntheticAugment augment) {
+                    Holder<BodyPartType> firstType = augment.validParts().get(0).value().type();
+                    boolean onlyOneType = true;
+                    for(Holder<BodyPart> validParts : augment.validParts()) {
+                        Holder<BodyPartType> newType = validParts.value().type();
+                        if(!newType.equals(firstType)) {
+                            onlyOneType = false;
+                            break;
+                        }
+                    }
+                    if(onlyOneType) {
+                        this.selectedBodyPart = synthetics.getPartManager().getPartForType(firstType.value());
+                    }
+
+                }
+                this.tryUpdateSelected = false;
+            }
+        }
     }
 
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(BACKGROUND, this.guiLeft, this.guiTop, 0, 0, this.imageWidth, this.imageHeight);
+        float scaleFactor = 0.7f;
+        int x = (int) ((this.guiLeft + 60) / scaleFactor);
+        int y = (int) ((this.guiTop + 12) / scaleFactor);
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().scale(scaleFactor, scaleFactor, 1);
+        guiGraphics.blitSprite(BODY_PART_NODE,  x, y, 26, 26);
+        if(this.selectedBodyPart != null) {
+            guiGraphics.blit(selectedBodyPart.texture(), x + 5, y + 5, 0, 0, 16, 16, 16, 16);
+        }
+        guiGraphics.pose().popPose();
+
     }
 
     @Override
@@ -124,6 +175,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     }
 
     protected void renderHover(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+        if(this.minecraft == null) return;
         int x = guiLeft + 8;
         int y = guiTop + 33;
         if(isMouseOverButton(mouseX, x, mouseY, y)) {
@@ -135,12 +187,27 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             ItemStack stack = this.menu.getInputContainer().getItem(0);
             if(stack.getItem() instanceof InstallableItem<?> item) {
                 IBodyInstallable<?> installable = item.getInstallableComponent(stack);
+                if(installable instanceof SyntheticAugment augment && this.selectedBodyPart != null && augment.validParts().stream().anyMatch(p -> p.value().equals(selectedBodyPart))) {
+                    installable = new AugmentInstance(augment, this.selectedBodyPart);
+                }
                 List<FormattedCharSequence> text = Language.getInstance().getVisualOrder(getTextForInstallable(installable, synthetics, displayAbilities, selectedAbility));
-                int size = 84;
+
+
                 PoseStack pose = guiGraphics.pose();
                 guiGraphics.blitSprite(RIGHT_CLICK_SPRITE, x + 12, y - 3, 15, 16);
                 pose.pushPose();
+                int largest = 0;
+                for(FormattedCharSequence chars : text) {
+
+                    int width = this.minecraft.font.width(chars);
+                    if(width > largest) {
+                        largest = width;
+                    }
+                }
+
                 float xScale = 0.5f;
+
+                int size = Math.max(84, (int) (largest * xScale) + 3);
                 float yScale = 0.5f;
                 pose.translate(0, 0, 350);
                 pose.scale(xScale, yScale, 1f);
@@ -161,17 +228,17 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     public static List<FormattedText> getTextForInstallable(IBodyInstallable<?> installable, SyntheticsPlayer synthetics, boolean displayAbilities, int selectedAbility) {
         List<FormattedText> text = new ArrayList<>();
 
-        if(synthetics.isInstalled(installable)) {
+        if (synthetics.isInstalled(installable) && !(installable instanceof AugmentInstance || installable instanceof SyntheticAugment)) {
             text.add(Component.translatable("text.synthetics.augmentation.already_installed").withStyle(ChatFormatting.AQUA));
         }
-        if(displayAbilities && installable.abilities().isPresent()) {
+        if (displayAbilities && installable.abilities().isPresent()) {
             HolderSet<SyntheticAbility> abilities = installable.abilities().get();
             int maxSize = abilities.size();
-            if(selectedAbility >= maxSize) {
+            if (selectedAbility >= maxSize) {
                 selectedAbility = 0;
             }
-            if(selectedAbility < maxSize) {
-                if(selectedAbility > 0) {
+            if (selectedAbility < maxSize) {
+                if (selectedAbility > 0) {
                     MutableComponent component = Component.empty();
                     component.append(getAbilityTitle(abilities.get(selectedAbility - 1))).withStyle(ChatFormatting.GRAY);
                     text.add(component);
@@ -179,34 +246,34 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                 MutableComponent component = Component.empty();
                 component.append(getAbilityTitle(abilities.get(selectedAbility))).withStyle(ChatFormatting.WHITE).withStyle(ChatFormatting.UNDERLINE);
                 text.add(component);
-                if(selectedAbility < maxSize - 1) {
+                if (selectedAbility < maxSize - 1) {
                     MutableComponent after = Component.empty();
                     after.append(getAbilityTitle(abilities.get(selectedAbility + 1))).withStyle(ChatFormatting.GRAY);
                     text.add(after);
                 }
                 text.add(Component.empty());
                 SyntheticAbility ability = abilities.get(selectedAbility).value();
-                if(ability.options().isPresent()) {
+                if (ability.options().isPresent()) {
                     ActiveAbilityOptions options = ability.options().get();
                     text.add(Component.translatable("text.synthetics.augmentation_ability_cooldown", options.cooldown()).withStyle(ChatFormatting.BLUE));
-                    if(options.duration() > 0) {
+                    if (options.duration() > 0) {
                         text.add(Component.translatable("text.synthetics.augmentation_ability_duration", options.duration()).withStyle(ChatFormatting.BLUE));
                     }
-                    if(options.powerCost() > 0) {
+                    if (options.powerCost() > 0) {
                         text.add(Component.translatable("text.synthetics.augmentation_ability_power_cost", options.powerCost()).withStyle(ChatFormatting.BLUE));
                     }
-                    if(options.powerDrain() > 0) {
+                    if (options.powerDrain() > 0) {
                         text.add(Component.translatable("text.synthetics.augmentation_ability_power_drain", options.powerCost()).withStyle(ChatFormatting.BLUE));
                     }
                 }
 
                 text.add(Component.translatable("text.synthetics.augmentation_ability_factor", ability.factor()).withStyle(ChatFormatting.BLUE));
-                if(ability.abilityType() instanceof SyntheticPassiveAbilityType passive) {
-                    if(ability.abilityType().equals(SyntheticAbilities.BATTERY.get())) {
+                if (ability.abilityType() instanceof SyntheticPassiveAbilityType passive) {
+                    if (ability.abilityType().equals(SyntheticAbilities.BATTERY.get())) {
                         text.add(Component.translatable("text.synthetics.augmentation_power_storage", (int) ability.factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
                     }
-                    if(passive.getModifiedAttribute().isPresent()) {
-                        if(ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
+                    if (passive.getModifiedAttribute().isPresent()) {
+                        if (ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
                             text.add(Component.translatable("text.synthetics.augmentation_ability_operation_add").withStyle(ChatFormatting.BLUE));
                         } else {
                             text.add(Component.translatable("text.synthetics.augmentation_ability_operation_mult").withStyle(ChatFormatting.BLUE));
@@ -222,17 +289,41 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         text.add(Component.translatable("text.synthetics.augmentation.complexity").withStyle(ChatFormatting.WHITE).withStyle(ChatFormatting.UNDERLINE));
         text.add(Component.empty());
         switch (installable) {
-            case SyntheticAugment augment -> {
-                BodyPart part = synthetics.getPartManager().getPartForAugment(augment);
+
+            case AugmentInstance instance -> {
+
+
+                BodyPart part = instance.appliedPart();
                 BodySegment segment = synthetics.getPartManager().getSegmentForPart(part);
-                ComplexityManager.ComplexityPairs newComplexity = synthetics.getComplexityManager().getNewComplexity(new AugmentInstance(augment, part), null);
+                ComplexityManager.ComplexityPairs newComplexity = synthetics.getComplexityManager().getNewComplexity(new AugmentInstance(instance.augment(), part), null);
 
                 int maxPartComplexity = part.maxComplexity();
                 int maxSegmentComplexity = segment.maxComplexity();
 
+                int installedInstanceCount = synthetics.installedInstanceCount(instance.augment());
+                int installedInstanceCountPart = synthetics.installedInstanceCount(instance.augment(), instance.appliedPart());
+
+
+                text.add(Component.translatable("text.synthetics.augmentation.max_total_fraction", installedInstanceCount, instance.augment().maxTotal()).withStyle(getColourForMax(installedInstanceCountPart, instance.augment().maxTotal())));
+                text.add(Component.translatable("text.synthetics.augmentation.max_per_part_fraction", installedInstanceCountPart, instance.augment().maxPerPart()).withStyle(getColourForMax(installedInstanceCountPart, instance.augment().maxPerPart())));
+
+                text.add(Component.translatable("text.synthetics.augmentation.added_complexity", instance.augment().complexity()).withStyle(ChatFormatting.RED));
+                text.add(Component.translatable("text.synthetics.augmentation.new_part_complexity", newComplexity.partComplexity(), maxPartComplexity).withStyle(getColourForMax(newComplexity.partComplexity(), maxPartComplexity)));
+                text.add(Component.translatable("text.synthetics.augmentation.new_segment_complexity", newComplexity.segmentComplexity(), maxSegmentComplexity).withStyle(getColourForMax(newComplexity.segmentComplexity(), maxSegmentComplexity)));
+
+            }
+
+            case SyntheticAugment augment -> {
+
+                text.add(Component.translatable("text.synthetics.augmentation.no_selected_part").withStyle(ChatFormatting.RED));
+                text.add(Component.translatable("text.synthetics.augmentation.select_part").withStyle(ChatFormatting.RED));
+                text.add(Component.empty());
+
+                text.add(Component.translatable("text.synthetics.augmentation.max_total", augment.maxTotal()).withStyle(ChatFormatting.BLUE));
+                text.add(Component.translatable("text.synthetics.augmentation.max_per_part", augment.maxPerPart()).withStyle(ChatFormatting.BLUE));
+
+
                 text.add(Component.translatable("text.synthetics.augmentation.added_complexity", augment.complexity()).withStyle(ChatFormatting.RED));
-                text.add(Component.translatable("text.synthetics.augmentation.new_part_complexity", newComplexity.partComplexity(), maxPartComplexity).withStyle(getColourForComplexity(newComplexity.partComplexity(), maxPartComplexity)));
-                text.add(Component.translatable("text.synthetics.augmentation.new_segment_complexity", newComplexity.segmentComplexity(), maxSegmentComplexity).withStyle(getColourForComplexity(newComplexity.segmentComplexity(), maxSegmentComplexity)));
 
             }
             case BodyPart part -> {
@@ -241,15 +332,15 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                 int oldPartComplexity = synthetics.getComplexityManager().getTotalPartComplexity(part);
                 int oldSegmentComplexity = synthetics.getComplexityManager().getTotalSegmentComplexity(segment);
 
-                text.add(Component.translatable("text.synthetics.augmentation.old_part_complexity", oldPartComplexity, currentPart.maxComplexity()).withStyle(getColourForComplexity(oldPartComplexity, currentPart.maxComplexity())));
-                text.add(Component.translatable("text.synthetics.augmentation.new_part_complexity", oldPartComplexity, part.maxComplexity()).withStyle(getColourForComplexity(oldPartComplexity, part.maxComplexity())));
-                text.add(Component.translatable("text.synthetics.augmentation.segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForComplexity(oldSegmentComplexity, segment.maxComplexity())));
+                text.add(Component.translatable("text.synthetics.augmentation.old_part_complexity", oldPartComplexity, currentPart.maxComplexity()).withStyle(getColourForMax(oldPartComplexity, currentPart.maxComplexity())));
+                text.add(Component.translatable("text.synthetics.augmentation.new_part_complexity", oldPartComplexity, part.maxComplexity()).withStyle(getColourForMax(oldPartComplexity, part.maxComplexity())));
+                text.add(Component.translatable("text.synthetics.augmentation.segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, segment.maxComplexity())));
             }
             case BodySegment segment -> {
                 BodySegment currentSegment = synthetics.getPartManager().getSegmentForType(segment.type().value());
                 int oldSegmentComplexity = synthetics.getComplexityManager().getTotalSegmentComplexity(currentSegment);
-                text.add(Component.translatable("text.synthetics.augmentation.segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForComplexity(oldSegmentComplexity, currentSegment.maxComplexity())));
-                text.add(Component.translatable("text.synthetics.augmentation.new_segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForComplexity(oldSegmentComplexity, segment.maxComplexity())));
+                text.add(Component.translatable("text.synthetics.augmentation.segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, currentSegment.maxComplexity())));
+                text.add(Component.translatable("text.synthetics.augmentation.new_segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, segment.maxComplexity())));
 
             }
             default -> {
@@ -258,16 +349,13 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         return text;
     }
 
-    private static ChatFormatting getColourForComplexity(int complexity, int maxComplexity) {
-        if(complexity > maxComplexity) {
+    private static ChatFormatting getColourForMax(int value, int maxValue) {
+        if(value > maxValue) {
             return ChatFormatting.RED;
         } else {
             return ChatFormatting.BLUE;
         }
     }
-
-
-
 
 
     @Override
@@ -285,6 +373,17 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
+
+    @Override
+    protected void slotClicked(@NotNull Slot slot, int slotId, int mouseButton, @NotNull ClickType type) {
+
+        if(slotId == 0 && slot.getItem().isEmpty()) {
+            tryUpdateSelected = true;
+        }
+
+        super.slotClicked(slot, slotId, mouseButton, type);
+    }
+
     private boolean isMouseOverButton(double mouseX, int buttonX, double mouseY, int buttonY) {
         return (mouseX >= buttonX && mouseX < buttonX + INSTALL_WIDTH && mouseY > buttonY && mouseY < buttonY + INSTALL_HEIGHT);
     }
@@ -293,8 +392,16 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             ItemStack itemStack = this.menu.getInputContainer().getItem(0);
             if(itemStack.getItem() instanceof InstallableItem<?> item) {
                 IBodyInstallable<?> installable = item.getInstallableComponent(itemStack);
-                if(SyntheticsPlayer.get(player).canAddInstallable(installable)) {
-                    Objects.requireNonNull(Minecraft.getInstance().getConnection()).send(ServerboundInstallableMenuPacket.getInstance());
+                ClientPacketListener connection = Minecraft.getInstance().getConnection();
+
+                if(installable instanceof SyntheticAugment augment) {
+                    if(selectedBodyPart != null) {
+                        installable = new AugmentInstance(augment, selectedBodyPart);
+                    }
+                }
+
+                if( !(installable instanceof SyntheticAugment) && SyntheticsPlayer.get(player).canAddInstallable(installable) && connection != null) {
+                    connection.send(new ServerboundInstallableMenuPacket(Optional.ofNullable(this.selectedBodyPart)));
                     playSoundEffect(SoundEvents.BEACON_ACTIVATE, 1f, 2f);
                     playSoundEffect(SoundEvents.SCULK_BLOCK_CHARGE, 1f, 1f);
 
@@ -346,6 +453,10 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
+    public void setSelectedBodyPart(BodyPart selectedBodyPart) {
+        this.selectedBodyPart = selectedBodyPart;
+    }
+
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0) {
@@ -385,6 +496,9 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         for(var layer : BodyPartType.Layer.values()) {
             this.displayLayers[i] = new PlayerSyntheticDisplayScreen(this, layer, i);
             i++;
+        }
+        if(this.selectedBodyPart != null) {
+            this.selectedBodyPart = this.synthetics.getPartManager().getPartForType(this.selectedBodyPart.type().value());
         }
         this.selectedLayer = this.displayLayers[selectedLayerIndex];
     }

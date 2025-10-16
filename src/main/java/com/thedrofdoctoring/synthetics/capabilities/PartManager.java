@@ -64,7 +64,7 @@ public class PartManager implements ISaveData, IPartManager {
                 if(augmentSupportsBodyPart(instance.augment(), newPart)) {
                     this.player.replaceAugmentInstance(instance, new AugmentInstance(instance.augment(), newPart));
                 } else {
-                    this.player.removeAugment(instance.augment());
+                    this.player.removeAugment(instance);
                     removedInstallables.add(instance.augment());
                 }
             }
@@ -147,7 +147,7 @@ public class PartManager implements ISaveData, IPartManager {
         return getDefaultSegment(type);
     }
 
-    public BodyPart getPartForAugment(@NotNull SyntheticAugment augment) {
+    public BodyPart getDefaultPartForAugment(@NotNull SyntheticAugment augment) {
         HolderSet<BodyPart> validParts = augment.validParts();
         BodyPartType type = validParts.get(0).value().type().value();
         return getPartForType(type);

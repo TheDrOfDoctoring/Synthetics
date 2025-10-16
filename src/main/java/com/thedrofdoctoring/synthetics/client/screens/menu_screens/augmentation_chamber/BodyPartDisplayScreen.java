@@ -26,8 +26,9 @@ public class BodyPartDisplayScreen {
 
     private final int x;
     private final int y;
+
     private final BodyPart part;
-    private final List<SyntheticAugment> installedAugments;
+    private final List<AugmentInstance> installedAugments;
     private final Minecraft minecraft;
 
     private static final int WIDTH = 26;
@@ -55,7 +56,7 @@ public class BodyPartDisplayScreen {
         this.installedAugments = new ArrayList<>();
         for(AugmentInstance instance : instances) {
             if(instance.appliedPart().equals(this.part)) {
-                installedAugments.add(instance.augment());
+                installedAugments.add(instance);
             }
         }
     }
@@ -67,6 +68,11 @@ public class BodyPartDisplayScreen {
     public boolean isMouseOver(double mouseX, double mouseY, int scrollX, int scrollY) {
         return mouseX >= x + scrollX - 6 && mouseX < x + scrollX + (double) WIDTH - 7 && mouseY > scrollY + y && mouseY < scrollY + this.y + HEIGHT;
     }
+
+    public BodyPart getPart() {
+        return part;
+    }
+
     public void renderHover(GuiGraphics graphics, double mouseX, double mouseY) {
         PoseStack pose = graphics.pose();
         pose.pushPose();
@@ -95,24 +101,24 @@ public class BodyPartDisplayScreen {
                 }
                 int xPos = j + x;
                 int yPos = y + (k * 22 * renderDirection);
+                SyntheticAugment augment = installedAugments.get(i).augment();
                 if(selectedAugment == i) {
                     pose.pushPose();
                     pose.translate(0, 0, 100);
                     float selectTick = (float) this.selectTick / SELECT_DURATION;
                     graphics.setColor(1, 1, 1, 1);
-                    Component title = Component.translatable(installedAugments.get(i).title().getString()).withStyle(ChatFormatting.AQUA);
+                    Component title = Component.translatable(augment.title().getString()).withStyle(ChatFormatting.AQUA);
                     graphics.drawString(this.minecraft.font, title, xPos + 18 - 30,  yPos + yOffsetAugment + 3 + yOffsetTitle, -1, true);
                     graphics.setColor(1, 1, 1, 0.75f);
                     graphics.blitSprite(AUGMENT_NODE, xPos, yPos + yOffsetNode, 26, 26);
-                    graphics.blit(installedAugments.get(i).texture(), xPos + 18 - 13,  yPos + yOffsetAugment + 3, 0, 0, 16, 16,16, 16);
+                    graphics.blit(augment.texture(), xPos + 18 - 13,  yPos + yOffsetAugment + 3, 0, 0, 16, 16,16, 16);
                     graphics.fillGradient(xPos +  18 - 14, yPos + yOffsetAugment + 2, xPos + 18 + 3, (int) ((yPos + yOffsetAugment) + (21 * selectTick)), 0xFF878787, 0xFF5E5E5E);
 
                     pose.popPose();
                 } else {
-
                     graphics.setColor(0.5f, 0.5f, 0.5f, 0.65f);
                     graphics.blitSprite(AUGMENT_NODE, xPos, yPos + yOffsetNode, 26, 26);
-                    graphics.blit(installedAugments.get(i).texture(), xPos + 18 - 13,  yPos + yOffsetAugment + 3, 0, 0, 16, 16,16, 16);
+                    graphics.blit(augment.texture(), xPos + 18 - 13,  yPos + yOffsetAugment + 3, 0, 0, 16, 16,16, 16);
                 }
 
 

@@ -20,8 +20,8 @@ public class SolarGeneratorAbility extends SyntheticPassiveAbilityType implement
     }
 
     @Override
-    public void onTick(SyntheticAbilityPassiveInstance instance, SyntheticsPlayer player) {
-        int powerGain = (int) (instance.getAbilityFactor());
+    public void onTick(SyntheticAbilityPassiveInstance instance, int count,SyntheticsPlayer player) {
+        int powerGain = (int) (instance.getAbilityFactor() * count);
         ResourceKey<Level> dimension = player.getEntity().level().dimension();
         if(dimension.equals(Level.NETHER)) {
             player.getPowerManager().addPower(powerGain * 3);

@@ -2,7 +2,6 @@ package com.thedrofdoctoring.synthetics.capabilities.interfaces;
 
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +9,7 @@ import java.util.List;
 
 public interface ISyntheticsEntity {
 
-    boolean canAddAugment(SyntheticAugment augment);
+    boolean canAddAugment(AugmentInstance augment);
 
     boolean canAddInstallable(IBodyInstallable<?> installable);
 
@@ -19,11 +18,10 @@ public interface ISyntheticsEntity {
 
     List<IBodyInstallable<?>> addOrReplaceInstallable(@NotNull IBodyInstallable<?> installable);
 
-    void addAugment(SyntheticAugment augment, boolean sync);
+    void addAugment(AugmentInstance augment, boolean sync);
 
-    void removeAugment(SyntheticAugment augment);
+    void removeAugment(AugmentInstance augment);
 
-    boolean isAugmentInstalled(SyntheticAugment augment);
 
     List<AugmentInstance> getInstalledAugments();
 

@@ -2,5 +2,7 @@
   "abilities": "synthetics:advanced_tissue_solar",
   "augment_id": "synthetics:advanced_solar_tissue",
   "complexity": 3,
+  "max_copies_per_part": 2,
+  "max_copies_total": 5,
   "valid_parts": "synthetics:cybernetic_tissue"
 }

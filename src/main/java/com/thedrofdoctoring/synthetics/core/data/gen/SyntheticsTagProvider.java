@@ -48,6 +48,7 @@ public class SyntheticsTagProvider {
             super(output, SyntheticsData.BODY_PARTS, lookupProvider, Synthetics.MODID, existingFileHelper);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(BodyParts.EYES_MAIN).add(BodyParts.ORGANIC_EYES);
@@ -59,6 +60,8 @@ public class SyntheticsTagProvider {
             tag(BodyParts.TIBIA_MAIN).add(BodyParts.ORGANIC_TIBIA);
             tag(BodyParts.SKULL_MAIN).add(BodyParts.ORGANIC_SKULL);
             tag(BodyParts.RIBCAGE_MAIN).add(BodyParts.ORGANIC_RIBCAGE);
+            tag(BodyParts.ALL_BONES).addTags(BodyParts.SKULL_MAIN, BodyParts.RIBCAGE_MAIN, BodyParts.TIBIA_MAIN);
+
 
         }
     }

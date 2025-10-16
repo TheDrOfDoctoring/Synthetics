@@ -146,5 +146,12 @@
   "research.synthetics.cybernetic_hands": "Cybernetic Hands.",
   "research.synthetics.cybernetic_hands.desc": "Learn how to combine organic hands with machine, to increase maximum complexity.",
   "research.synthetics.extended_grip": "Extended Grip",
-  "research.synthetics.extended_grip.desc": "Learn how to create a retractable hand extension, increasing block reach"
+  "research.synthetics.extended_grip.desc": "Learn how to create a retractable hand extension, increasing block reach",
+  "text.synthetics.augmentation.no_selected_part": "No Valid Selected Body Part to Install To!",
+  "text.synthetics.augmentation.max_total": "Max Augment Copies: %s",
+  "text.synthetics.augmentation.max_per_part": "Max Augment Copies per Body Part: %s",
+  "text.synthetics.augmentation.select_part": "Left Click on Body Part on Right Display",
+  "text.synthetics.augmentation.max_total_fraction": "Max Augment Copies: %1$s/%2$s",
+  "text.synthetics.augmentation.max_per_part_fraction": "Max Augment Copies per Body Part: %1$s/%2$s"
+
 }

@@ -18,6 +18,7 @@ If the requirements are met, and any parents are already researched, left-clicki
 
 The Augmentation Chamber is where you can install or remove parts. 
 To install something, put an installabie item, such as an augment or body part, in the slot above the "Install" button.
+Next, select a valid body part from the player display on the right.
 Then, click the "Install" button. Any replaced or removed parts will be dropped into the output slots.
 
 The menu on the right shows the installed body parts. Hovering over a body part will show what augments are attached to that body part.

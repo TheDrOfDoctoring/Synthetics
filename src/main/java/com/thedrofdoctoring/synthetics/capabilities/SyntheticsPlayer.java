@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
+import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.ISyntheticsEntity;
@@ -78,20 +79,37 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     }
 
     @Override
-    public boolean canAddAugment(SyntheticAugment augment) {
+    public boolean canAddAugment(AugmentInstance instance) {
 
-        if(this.complexityManager.testComplexity(new AugmentInstance(augment, this.getPartManager().getPartForAugment(augment)), null) != ComplexityManager.ComplexityResult.SUCCESS) {
+        if(this.complexityManager.testComplexity(instance, null) != ComplexityManager.ComplexityResult.SUCCESS) {
             return false;
         }
-        if(!this.partManager.augmentSupportsBodyPart(augment, getPartManager().getPartForAugment(augment))) {
+        if(!this.partManager.augmentSupportsBodyPart(instance.augment(), instance.appliedPart())) {
             return false;
         }
-        return this.augments.stream().noneMatch(p -> p.augment().equals(augment));
+        int onPart = 1;
+        int total = 1;
+        for(AugmentInstance installedInstances : augments) {
+
+            if(installedInstances.augment().equals(instance.augment())) {
+                total++;
+                if(installedInstances.appliedPart().equals(instance.appliedPart())) {
+                    onPart++;
+                }
+
+            }
+            if(total > instance.augment().maxTotal() || onPart > instance.augment().maxPerPart()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
+
     @Override
-    public void addAugment(@NotNull SyntheticAugment augment, boolean sync) {
+    public void addAugment(@NotNull AugmentInstance augment, boolean sync) {
         addAugment(augment);
         onUpdate(sync);
     }
@@ -111,19 +129,23 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.powerManager.setTotalPowerCost(totalPowerCost);
     }
 
-    private void addAugment(@NotNull SyntheticAugment augment) {
-        AugmentInstance instance = new AugmentInstance(augment, this.partManager.getPartForAugment(augment));
+    private void addAugment(@NotNull AugmentInstance instance) {
         augments.add(instance);
         this.complexityManager.addPart(instance);
-        this.abilityManager.addAbilities(augment);
-        this.powerManager.setTotalPowerCost(this.powerManager.getTotalPowerCost() + augment.powerCost());
+        this.abilityManager.addAbilities(instance.augment());
+        this.powerManager.setTotalPowerCost(this.powerManager.getTotalPowerCost() + instance.augment().powerCost());
     }
 
     @Override
     public boolean canAddInstallable(IBodyInstallable<?> installable) {
 
+
+        if(installable instanceof AugmentInstance instance) {
+            return this.canAddAugment(instance);
+        }
+
         if(installable instanceof SyntheticAugment augment) {
-            return this.canAddAugment(augment);
+            return this.canAddAugment(new AugmentInstance(augment, this.partManager.getDefaultPartForAugment(augment)));
         }
         if(installable instanceof BodyPart part) {
             return this.complexityManager.getTotalPartComplexity(part) <= part.maxComplexity();
@@ -142,8 +164,12 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     @Override
     public boolean isInstalled(IBodyInstallable<?> installable) {
         switch (installable) {
+            case AugmentInstance instance -> {
+                return this.augments.stream().anyMatch(p -> p.augment().equals(instance.augment()));
+
+            }
             case SyntheticAugment augment -> {
-                return this.isAugmentInstalled(augment);
+                return this.augments.stream().anyMatch(p -> p.augment().equals(augment));
             }
             case BodyPart part -> {
                 return this.partManager.isPartInstalled(part);
@@ -161,13 +187,12 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public List<IBodyInstallable<?>> addOrReplaceInstallable(@NotNull IBodyInstallable<?> installable) {
 
         switch (installable) {
+
+            case AugmentInstance instance -> addAugment(instance, true);
+
             case SyntheticAugment augment -> {
-                AugmentInstance instance = new AugmentInstance(augment, this.partManager.getPartForAugment(augment));
-                augments.add(instance);
-                this.complexityManager.addPart(instance);
-                this.abilityManager.addAbilities(augment);
-                this.powerManager.setTotalPowerCost(this.powerManager.getTotalPowerCost() + augment.powerCost());
-                this.markDirtyAll();
+                AugmentInstance instance = new AugmentInstance(augment, this.partManager.getDefaultPartForAugment(augment));
+                addAugment(instance, true);
             }
             case BodyPart part -> {
                 return this.partManager.replacePart(part, true);
@@ -184,25 +209,21 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
     }
 
-    public boolean isAugmentInstalled(@NotNull SyntheticAugment augment) {
-        return this.augments.stream().anyMatch(p -> p.augment().equals(augment));
-    }
 
     @Override
-    public void removeAugment(SyntheticAugment augment) {
-        AugmentInstance instance = null;
-        for(AugmentInstance instances : augments) {
-            if(instances.augment().equals(augment)) {
-                instance = instances;
-                break;
-            }
-        }
-        if(instance == null) return;
+    public void removeAugment(AugmentInstance instance) {
         augments.remove(instance);
-        abilityManager.removeAbilities(augment);
+        abilityManager.removeAbilities(instance.augment());
         complexityManager.removePart(instance);
-        powerManager.setTotalPowerCost(Math.max(0, powerManager.getTotalPowerCost() - augment.powerCost()));
+        powerManager.setTotalPowerCost(Math.max(0, powerManager.getTotalPowerCost() - instance.augment().powerCost()));
         onUpdate(true);
+    }
+
+    public int installedInstanceCount(SyntheticAugment augment) {
+        return (int) this.augments.stream().filter(p -> p.augment().equals(augment)).count();
+    }
+    public int installedInstanceCount(SyntheticAugment augment, BodyPart part) {
+        return (int) this.augments.stream().filter(p -> p.augment().equals(augment) && p.appliedPart().equals(part)).count();
     }
 
     @Override
@@ -284,22 +305,32 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         if(size == 0) return tag;
 
         for(int i = 0; i < augments.size(); i++) {
-            tag.putString(String.valueOf(i), augments.get(i).augment().augmentID().toString());
+            tag.putString(String.valueOf(i), augments.get(i).createSerialisationID());
         }
         return tag;
     }
 
     private void deserialiseAugments(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
         HolderGetter<SyntheticAugment> lookup = provider.lookupOrThrow(SyntheticsData.AUGMENTS);
+        HolderGetter<BodyPart> partLookup = provider.lookupOrThrow(SyntheticsData.BODY_PARTS);
+
         this.augments.clear();
 
         if(nbt.contains("augments") && nbt.get("augments") instanceof CompoundTag tag && !tag.isEmpty()) {
             int size = tag.size();
             for(int i = 0; i < size; i++) {
-                String augmentIDString = tag.getString(String.valueOf(i));
-                SyntheticAugment augment = Helper.retrieveDataObject(augmentIDString, SyntheticsData.AUGMENTS, lookup);
+                String instanceIDString = tag.getString(String.valueOf(i));
+
+                Pair<ResourceLocation, ResourceLocation> augmentInstance = AugmentInstance.augmentPartSplitIdentifiers(instanceIDString);
+
+                SyntheticAugment augment = Helper.retrieveDataObject(augmentInstance.getFirst(), SyntheticsData.AUGMENTS, lookup);
+                BodyPart part = Helper.retrieveDataObject(augmentInstance.getSecond(), SyntheticsData.BODY_PARTS, partLookup);
                 if(augment != null) {
-                    addAugment(augment);
+                    if(part == null || !partManager.isPartInstalled(part)) {
+                        addAugment(new AugmentInstance(augment, this.partManager.getDefaultPartForAugment(augment)));
+                        continue;
+                    }
+                    addAugment(new AugmentInstance(augment, part));
                 }
             }
         }

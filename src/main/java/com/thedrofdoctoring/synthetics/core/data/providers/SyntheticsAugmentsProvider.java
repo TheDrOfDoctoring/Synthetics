@@ -60,6 +60,7 @@ public class SyntheticsAugmentsProvider {
                 SyntheticAugment.create(
                         3,
                         0,
+                        2, 2,
                         getPart(partLookup, BodyParts.HEART_MAIN),
                         getAbility(abilityLookup, List.of(Abilities.HEART_BATTERY)),
                         Augments.HEART_BATTERY.location()
@@ -69,7 +70,8 @@ public class SyntheticsAugmentsProvider {
                 Augments.SOLAR_TISSUE,
                 SyntheticAugment.create(
                         3,
-                        0,
+                        5,
+                        5,2,
                         getPart(partLookup, BodyParts.TISSUE_MAIN),
                         getAbility(abilityLookup, List.of(Abilities.TISSUE_SOLAR_POWER)),
                         Augments.SOLAR_TISSUE.location()
@@ -80,6 +82,7 @@ public class SyntheticsAugmentsProvider {
                 SyntheticAugment.create(
                         3,
                         0,
+                        5,2,
                         getPart(partLookup, BodyParts.CYBERNETIC_TISSUE),
                         getAbility(abilityLookup, List.of(Abilities.ADVANCED_TISSUE_SOLAR_POWER)),
                         Augments.ADVANCED_SOLAR_TISSUE.location()
@@ -128,8 +131,9 @@ public class SyntheticsAugmentsProvider {
         context.register(
                 Augments.INTEGRATED_EXOSKELETON,
                 SyntheticAugment.create(
-                        4,
-                        1,
+                        2,
+                        2,
+                        2, 2,
                         getPart(partLookup, BodyParts.TIBIA_MAIN),
                         getAbility(abilityLookup, List.of(Abilities.INTEGRATED_EXOSKELETON_SWIM, Abilities.INTEGRATED_EXOSKELETON_WALK)),
                         Augments.INTEGRATED_EXOSKELETON.location()
@@ -140,7 +144,8 @@ public class SyntheticsAugmentsProvider {
                 SyntheticAugment.create(
                         2,
                         0,
-                        getPart(partLookup, BodyParts.RIBCAGE_MAIN),
+                        3, 1,
+                        getPart(partLookup, BodyParts.ALL_BONES),
                         getAbility(abilityLookup, List.of(Abilities.INTERNAL_PLATING_KNOCKBACK, Abilities.INTERNAL_PLATING_ARMOUR_TOUGHNESS)),
                         Augments.INTERNAL_PLATING.location()
                 )

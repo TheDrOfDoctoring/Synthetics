@@ -4,7 +4,9 @@
     "synthetics:integrated_exoskeleton_walk_speed"
   ],
   "augment_id": "synthetics:integrated_exoskeleton",
-  "complexity": 4,
-  "power_cost": 1,
+  "complexity": 2,
+  "max_copies_per_part": 2,
+  "max_copies_total": 2,
+  "power_cost": 2,
   "valid_parts": "#synthetics:tibia"
 }

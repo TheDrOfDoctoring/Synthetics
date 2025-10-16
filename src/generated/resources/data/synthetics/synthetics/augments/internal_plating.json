@@ -5,5 +5,6 @@
   ],
   "augment_id": "synthetics:internal_plating",
   "complexity": 2,
-  "valid_parts": "#synthetics:ribcage"
+  "max_copies_total": 3,
+  "valid_parts": "#synthetics:bones"
 }

@@ -53,6 +53,13 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder
     public static BodyPart create(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, HolderSet<SyntheticAbility> abilities, ResourceLocation id) {
         return new BodyPart(maxComplexity, segment, type, Optional.of(abilities), id);
     }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof BodyPart part) {
+            return part.id.equals(this.id);
+        }
+        return false;
+    }
 
     @Override
     public ResourceKey<Registry<BodyPart>> getType() {

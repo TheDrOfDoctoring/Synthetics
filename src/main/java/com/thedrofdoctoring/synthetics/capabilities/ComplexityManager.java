@@ -44,7 +44,7 @@ public class ComplexityManager implements ISyncable {
     public void addComplexity(int complexity, BodyPart part) {
         this.totalComplexity = Math.max(0, complexity + totalComplexity);
 
-        int currentPartComplexity = totalBodyPartComplexity.getInt(part.id());
+        int currentPartComplexity = totalBodyPartComplexity.getInt(part.type().value().id());
         totalBodyPartComplexity.put(part.type().value().id(), Math.max(0, currentPartComplexity + complexity));
 
         ResourceLocation segmentID = this.player.getPartManager().getSegmentForPart(part).type().value().id();

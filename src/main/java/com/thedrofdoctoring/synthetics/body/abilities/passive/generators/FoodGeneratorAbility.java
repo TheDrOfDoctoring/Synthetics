@@ -12,13 +12,13 @@ public class FoodGeneratorAbility extends SyntheticPassiveAbilityType {
         super(id);
     }
 
-    public void onEaten(SyntheticAbilityPassiveInstance instance, SyntheticsPlayer player, FoodProperties properties) {
+    public void onEaten(SyntheticAbilityPassiveInstance instance, int count, SyntheticsPlayer player, FoodProperties properties) {
         FoodData food = player.getEntity().getFoodData();
         int excessFood = Math.max(0, properties.nutrition() + food.getFoodLevel() - 20);
         if(excessFood > 0) {
             double factor = instance.getAbilityFactor();
             int generated = (int) ((properties.saturation() / 2) * excessFood * factor);
-            player.getPowerManager().addPower(generated);
+            player.getPowerManager().addPower(generated * count);
         }
     }
 }

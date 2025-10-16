@@ -6,6 +6,7 @@ import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.ISyntheticsPlayerCache;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
+import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -47,11 +48,12 @@ public abstract class PlayerMixin extends LivingEntity implements ISyntheticsPla
     @Inject(method = "eat", at = @At("HEAD"))
     private void eat(Level level, ItemStack food, FoodProperties foodProperties, CallbackInfoReturnable<ItemStack> cir) {
         SyntheticsPlayer synthetics = SyntheticsPlayer.get((Player) (Object)this);
-        Collection<SyntheticAbilityPassiveInstance> instances = synthetics.getAbilityManager().getPassiveAbilities();
-        for(SyntheticAbilityPassiveInstance instance : instances) {
+        Collection<IntObjectPair<SyntheticAbilityPassiveInstance>> instances = synthetics.getAbilityManager().getPassiveAbilitiesPairs();
+        for(IntObjectPair<SyntheticAbilityPassiveInstance> pair : instances) {
+            SyntheticAbilityPassiveInstance instance = pair.right();
             if(instance.getAbility().equals(SyntheticAbilities.FOOD_GENERATOR.get())) {
                 FoodGeneratorAbility ability = (FoodGeneratorAbility) instance.getAbility();
-                ability.onEaten(instance, synthetics, foodProperties);
+                ability.onEaten(instance, pair.leftInt(), synthetics, foodProperties);
             }
         }
     }

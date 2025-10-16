@@ -7,5 +7,5 @@ public interface IAbilityEventListener {
     /**
      * Fires every 10 ticks
      */
-    default void onTick(SyntheticAbilityPassiveInstance instance, SyntheticsPlayer player) {}
+    default void onTick(SyntheticAbilityPassiveInstance instance, int instanceCount, SyntheticsPlayer player) {}
 }

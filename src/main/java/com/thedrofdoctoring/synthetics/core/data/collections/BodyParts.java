@@ -50,6 +50,9 @@ public class BodyParts {
     public static final TagKey<BodyPart> SKULL_MAIN = tag("skull");
     public static final TagKey<BodyPart> RIBCAGE_MAIN = tag("ribcage");
 
+    public static final TagKey<BodyPart> ALL_BONES = tag("bones");
+
+
 
     private static ResourceKey<BodyPart> create(String name) {
         return ResourceKey.create(
