@@ -1,12 +1,15 @@
 {
+  "ability_data": {
+    "type": "synthetics:generic_active_ability",
+    "active_data": {
+      "cooldown": 15,
+      "duration": 5,
+      "power_cost": 100
+    },
+    "factor": 2.5
+  },
   "ability_type": {
     "ability_id": "synthetics:leap"
   },
-  "active_options": {
-    "cooldown": 15,
-    "duration": 5,
-    "power_cost": 100
-  },
-  "factor": 2.5,
   "id": "synthetics:launchboot_launch"
 }

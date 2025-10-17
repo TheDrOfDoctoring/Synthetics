@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.client.core;
 
 import com.mojang.blaze3d.shaders.FogShape;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticAbilityPassiveInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import net.minecraft.client.Minecraft;
@@ -43,11 +43,11 @@ public class SyntheticsClientEventHandler {
         SyntheticsPlayer player = getSyntheticsPlayer();
         if (player != null) {
             if (event.getType() == FogType.WATER) {
-                Collection<SyntheticAbilityPassiveInstance> abilities = player.getAbilityManager().getPassiveAbilities();
+                Collection<AbilityPassiveInstance<?>> abilities = player.getAbilityManager().getPassiveAbilities();
                 double viewDistance = event.getFarPlaneDistance();
-                for(SyntheticAbilityPassiveInstance instance : abilities) {
+                for(AbilityPassiveInstance<?> instance : abilities) {
                     if(instance.getAbility().equals(SyntheticAbilities.UNDERWATER_VISION.get())) {
-                        viewDistance += instance.getAbilityFactor();
+                        viewDistance += instance.factor();
                     }
                 }
                 event.setCanceled(true);

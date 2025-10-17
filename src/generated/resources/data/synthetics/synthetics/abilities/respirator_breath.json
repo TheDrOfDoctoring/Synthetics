@@ -1,7 +1,12 @@
 {
-  "ability_type": {
-    "ability_id": "synthetics:oxygen_bonus"
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.oxygen_bonus",
+    "factor": 5.0,
+    "operation": "add_value"
   },
-  "factor": 5.0,
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
   "id": "synthetics:respirator_breath"
 }

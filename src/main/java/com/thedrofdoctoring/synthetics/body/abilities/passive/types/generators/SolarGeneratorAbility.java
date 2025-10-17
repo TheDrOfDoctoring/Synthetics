@@ -1,8 +1,8 @@
-package com.thedrofdoctoring.synthetics.body.abilities.passive.generators;
+package com.thedrofdoctoring.synthetics.body.abilities.passive.types.generators;
 
 import com.thedrofdoctoring.synthetics.body.abilities.passive.IAbilityEventListener;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticAbilityPassiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticPassiveAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityPassiveInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.types.PassiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,22 +13,22 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class SolarGeneratorAbility extends SyntheticPassiveAbilityType implements IAbilityEventListener {
+public class SolarGeneratorAbility extends PassiveAbilityType implements IAbilityEventListener {
 
     public SolarGeneratorAbility(ResourceLocation id) {
         super(id);
     }
 
     @Override
-    public void onTick(SyntheticAbilityPassiveInstance instance, int count,SyntheticsPlayer player) {
-        int powerGain = (int) (instance.getAbilityFactor() * count);
+    public void onTick(AbilityPassiveInstance<?> instance, int count, SyntheticsPlayer player) {
+        int powerGain = (int) (instance.factor() * count);
         ResourceKey<Level> dimension = player.getEntity().level().dimension();
         if(dimension.equals(Level.NETHER)) {
             player.getPowerManager().addPower(powerGain * 3);
 
         } else {
-            if(canBlockSeeSun(player.getEntity().level(),    player.getEntity().blockPosition())) {
-                if(dimension.equals(Level.OVERWORLD)) {
+            if(canBlockSeeSun(player.getEntity().level(), player.getEntity().blockPosition())) {
+                if(dimension.equals(Level.OVERWORLD) && player.getEntity().level().isDay()) {
                     player.getPowerManager().addPower(powerGain * 10);
                 } else {
                     player.getPowerManager().addPower(powerGain * 5);
@@ -39,6 +39,7 @@ public class SolarGeneratorAbility extends SyntheticPassiveAbilityType implement
             }
 
         }
+        player.getPowerManager().markDirty();
 
     }
 

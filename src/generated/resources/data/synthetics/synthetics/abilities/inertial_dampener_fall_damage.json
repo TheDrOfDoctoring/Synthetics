@@ -1,8 +1,12 @@
 {
-  "ability_type": {
-    "ability_id": "synthetics:fall_damage"
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.fall_damage_multiplier",
+    "factor": -0.2,
+    "operation": "add_multiplied_base"
   },
-  "factor": -0.2,
-  "id": "synthetics:inertial_dampener_fall_damage",
-  "operation": "add_multiplied_base"
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:inertial_dampener_fall_damage"
 }

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
-import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticAbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.active.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.AbilityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.config.ClientConfig;
@@ -31,7 +31,7 @@ public class AbilityOverlay implements LayeredDraw.Layer {
             if(!SyntheticsClient.getInstance().getManager().displayAbilities) {
                 return;
             }
-            SyntheticAbilityActiveInstance[] abilities = manager.getActiveAbilities().toArray(new SyntheticAbilityActiveInstance[0]);
+            AbilityActiveInstance<?>[] abilities = manager.getActiveAbilities().toArray(new AbilityActiveInstance[0]);
             if(abilities.length == 0) return;
             int i = guiGraphics.guiWidth() / 2;
             int x = ClientConfig.abilityCarouselMiddleX.get();
@@ -59,7 +59,7 @@ public class AbilityOverlay implements LayeredDraw.Layer {
 
             guiGraphics.pose().popPose();
 
-            SyntheticAbilityActiveInstance[] toRender = new SyntheticAbilityActiveInstance[3];
+            AbilityActiveInstance<?>[] toRender = new AbilityActiveInstance[3];
 
             toRender[1] = abilities[selectedAbility];
             if(abilities.length > selectedAbility + 1) {
@@ -83,7 +83,7 @@ public class AbilityOverlay implements LayeredDraw.Layer {
 
         }
     }
-    private void renderAbility(GuiGraphics guiGraphics, int x, int y, SyntheticAbilityActiveInstance instance, AbilityManager abilities, boolean selected) {
+    private void renderAbility(GuiGraphics guiGraphics, int x, int y, AbilityActiveInstance<?> instance, AbilityManager abilities, boolean selected) {
         if(instance != null) {
             ResourceLocation id = instance.getAbility().getAbilityID();
             ResourceLocation texture = id.withPath("textures/abilities/" + id.getPath() + ".png");

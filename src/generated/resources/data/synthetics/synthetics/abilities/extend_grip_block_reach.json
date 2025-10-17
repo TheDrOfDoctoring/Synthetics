@@ -1,7 +1,12 @@
 {
-  "ability_type": {
-    "ability_id": "synthetics:block_interaction_range"
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:player.block_interaction_range",
+    "factor": 1.75,
+    "operation": "add_value"
   },
-  "factor": 1.75,
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
   "id": "synthetics:extend_grip_block_reach"
 }

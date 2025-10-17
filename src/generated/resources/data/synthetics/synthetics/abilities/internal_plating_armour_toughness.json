@@ -1,7 +1,12 @@
 {
-  "ability_type": {
-    "ability_id": "synthetics:armour_toughness"
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.armor_toughness",
+    "factor": 1.5,
+    "operation": "add_value"
   },
-  "factor": 1.5,
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
   "id": "synthetics:internal_plating_armour_toughness"
 }

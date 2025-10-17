@@ -2,8 +2,8 @@ package com.thedrofdoctoring.synthetics.client.core;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
-import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticAbilityActiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticActiveAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.active.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.AbilityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundActivateAbilityPacket;
@@ -64,10 +64,10 @@ public class SyntheticsKeys {
         Player player = Minecraft.getInstance().player;
         if(player != null && Minecraft.getInstance().getConnection() != null) {
             AbilityManager manager = SyntheticsPlayer.get(player).getAbilityManager();
-            SyntheticAbilityActiveInstance[] abilities = manager.getActiveAbilities().toArray(new SyntheticAbilityActiveInstance[0]);
+            AbilityActiveInstance<?>[] abilities = manager.getActiveAbilities().toArray(new AbilityActiveInstance[0]);
             int selected = SyntheticsClient.getInstance().getManager().selectedAbility;
             if(selected >= 0 && selected < abilities.length) {
-                SyntheticActiveAbilityType ability = abilities[selected].getAbility();
+                ActiveAbilityType ability = abilities[selected].getAbility();
                 Minecraft.getInstance().getConnection().send(new ServerboundActivateAbilityPacket(ability));
 
             }

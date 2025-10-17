@@ -65,7 +65,7 @@ public class SyntheticsClientItems {
             if(installable.abilities().isPresent()) {
                 for(Holder<SyntheticAbility> ability : installable.abilities().get()) {
                     if(ability.value().abilityType().equals(SyntheticAbilities.BATTERY.get())) {
-                        tooltips.add(Component.translatable("text.synthetics.augmentation_power_storage", (int) ability.value().factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
+                        tooltips.add(Component.translatable("text.synthetics.augmentation_power_storage", (int) ability.value().abilityData().factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
                     }
                 }
             }

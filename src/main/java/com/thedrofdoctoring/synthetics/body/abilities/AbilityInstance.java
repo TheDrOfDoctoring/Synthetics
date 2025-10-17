@@ -1,20 +1,21 @@
 package com.thedrofdoctoring.synthetics.body.abilities;
 
+import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.resources.ResourceLocation;
 
-public abstract class SyntheticAbilityInstance<T extends SyntheticAbilityType> {
+public abstract class AbilityInstance<T extends AbilityType> {
 
     protected final T ability;
     protected final SyntheticsPlayer player;
     protected final ResourceLocation instanceID;
-    protected double abilityFactor = 1f;
+    protected final AbilityData data;
 
-    public SyntheticAbilityInstance(T ability, SyntheticsPlayer player, double abilityFactor, ResourceLocation instanceID) {
+    public AbilityInstance(T ability, SyntheticsPlayer player, AbilityData data, ResourceLocation instanceID) {
         this.ability = ability;
         this.player = player;
         this.instanceID  = instanceID;
-        this.abilityFactor = abilityFactor;
+        this.data = data;
     }
 
     public T getAbility() {
@@ -29,7 +30,11 @@ public abstract class SyntheticAbilityInstance<T extends SyntheticAbilityType> {
         return instanceID;
     }
 
-    public double getAbilityFactor() {
-        return abilityFactor;
+    public AbilityData getAbilityData() {
+        return data;
     }
+    public double factor() {
+        return data.factor();
+    }
+
 }

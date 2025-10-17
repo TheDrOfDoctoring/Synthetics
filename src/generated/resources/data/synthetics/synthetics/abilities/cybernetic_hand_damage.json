@@ -1,6 +1,11 @@
 {
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.attack_damage",
+    "operation": "add_value"
+  },
   "ability_type": {
-    "ability_id": "synthetics:attack_damage"
+    "ability_id": "synthetics:attribute_type"
   },
   "id": "synthetics:cybernetic_hand_damage"
 }

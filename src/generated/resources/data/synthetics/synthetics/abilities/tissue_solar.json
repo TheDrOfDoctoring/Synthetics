@@ -1,7 +1,10 @@
 {
+  "ability_data": {
+    "type": "synthetics:generic_passive_ability",
+    "ability_factor": 10.0
+  },
   "ability_type": {
     "ability_id": "synthetics:solar_generator"
   },
-  "factor": 10.0,
   "id": "synthetics:tissue_solar"
 }

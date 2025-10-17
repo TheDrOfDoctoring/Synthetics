@@ -1,8 +1,8 @@
 package com.thedrofdoctoring.synthetics.networking.from_client;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.body.abilities.SyntheticAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticActiveAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.AbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.AbilityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -11,10 +11,10 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-public record ServerboundActivateAbilityPacket(SyntheticAbilityType ability) implements CustomPacketPayload {
+public record ServerboundActivateAbilityPacket(AbilityType ability) implements CustomPacketPayload {
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundActivateAbilityPacket> CODEC = StreamCodec.composite(
-            SyntheticAbilityType.STREAM_CODEC, ServerboundActivateAbilityPacket::ability,
+            AbilityType.STREAM_CODEC, ServerboundActivateAbilityPacket::ability,
             ServerboundActivateAbilityPacket::new
     );
 
@@ -27,7 +27,7 @@ public record ServerboundActivateAbilityPacket(SyntheticAbilityType ability) imp
 
     public static void handle(ServerboundActivateAbilityPacket abilityPacket, final IPayloadContext context) {
         context.enqueueWork(() -> {
-            if(abilityPacket.ability instanceof SyntheticActiveAbilityType active) {
+            if(abilityPacket.ability instanceof ActiveAbilityType active) {
                 AbilityManager manager = SyntheticsPlayer.get(context.player()).getAbilityManager();
                 if(manager.canActivate(active)) {
                     manager.toggleAbility(active);

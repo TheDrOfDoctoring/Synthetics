@@ -1,8 +1,12 @@
 {
-  "ability_type": {
-    "ability_id": "synthetics:movement_speed"
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.movement_speed",
+    "factor": 0.35,
+    "operation": "add_multiplied_base"
   },
-  "factor": 0.35,
-  "id": "synthetics:integrated_exoskeleton_walk_speed",
-  "operation": "add_multiplied_base"
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:integrated_exoskeleton_walk_speed"
 }

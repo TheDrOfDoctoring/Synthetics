@@ -43,7 +43,8 @@ public class PowerManager implements IPowerManager {
     }
 
     public void setMaxPower(int maxPower) {
-        this.maxPower = Math.max(0, this.maxPower = maxPower);
+        this.maxPower = Math.max(0, maxPower);
+        this.storedPower = Math.min(storedPower, maxPower);
     }
 
     @Override
@@ -111,6 +112,9 @@ public class PowerManager implements IPowerManager {
         if(nbt.contains(nbtKey(), Tag.TAG_COMPOUND)) {
             CompoundTag power = (CompoundTag) nbt.get(nbtKey());
             if(power == null) return;
+            this.storedPower = 0;
+            this.consumedPowerPerTick = 0;
+            this.maxPower = 0;
             this.storedPower = power.getInt("stored_power");
         }
     }

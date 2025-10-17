@@ -111,7 +111,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     @Override
     public void addAugment(@NotNull AugmentInstance augment, boolean sync) {
         addAugment(augment);
-        onUpdate(sync);
+        this.markDirtyAll();
     }
 
     public void replaceAugmentInstance(AugmentInstance old, AugmentInstance newInstance) {
@@ -284,11 +284,56 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         }
     }
 
+
+
+    @Override
+    public String nbtKey() {
+        return KEY;
+    }
+
+    public AbilityManager getAbilityManager() {
+        return abilityManager;
+    }
+
+    public ComplexityManager getComplexityManager() {
+        return complexityManager;
+    }
+
+    public PartManager getPartManager() {
+        return partManager;
+    }
+    public ResearchManager getResearchManager() {
+        return researchManager;
+    }
+    public PowerManager getPowerManager() {
+        return this.powerManager;
+    }
+
+
+    @Override
+    public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {
+        CompoundTag tag = new CompoundTag();
+        tag.put(this.complexityManager.nbtKey(), this.complexityManager.serialiseUpdateNBT(provider));
+        tag.put(this.abilityManager.nbtKey(), this.abilityManager.serialiseUpdateNBT(provider));
+        tag.put(this.researchManager.nbtKey(), this.researchManager.serialiseUpdateNBT(provider));
+        tag.put(this.powerManager.nbtKey(), this.powerManager.serialiseUpdateNBT(provider));
+
+
+        return tag;
+    }
+
+    @Override
+    public void deserialiseUpdateNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
+        this.complexityManager.deserialiseUpdateNBT(provider, nbt);
+        this.abilityManager.deserialiseUpdateNBT(provider, nbt);
+        this.researchManager.deserialiseUpdateNBT(provider, nbt);
+        this.powerManager.deserialiseUpdateNBT(provider, nbt);
+    }
     @Override
     public CompoundTag serialiseNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = new CompoundTag();
-        tag.put("augments", serialiseAugments(provider));
         tag.put(powerManager.nbtKey(), powerManager.serialiseNBT(provider));
+        tag.put("augments", serialiseAugments(provider));
 
         tag.put(partManager.nbtKey(), partManager.serialiseNBT(provider));
         tag.put(abilityManager.nbtKey(), abilityManager.serialiseNBT(provider));
@@ -339,61 +384,17 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     @Override
     public void deserialiseNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
         abilityManager.clear();
-        partManager.deserialiseNBT(provider, nbt);
 
+        powerManager.deserialiseNBT(provider, nbt);
+        partManager.deserialiseNBT(provider, nbt);
         this.deserialiseAugments(provider, nbt);
 
         abilityManager.deserialiseNBT(provider, nbt);
         complexityManager.deserialiseNBT(provider, nbt);
         researchManager.deserialiseNBT(provider, nbt);
-        powerManager.deserialiseNBT(provider, nbt);
 
 
         this.onUpdate(false);
-    }
-
-    @Override
-    public String nbtKey() {
-        return KEY;
-    }
-
-    public AbilityManager getAbilityManager() {
-        return abilityManager;
-    }
-
-    public ComplexityManager getComplexityManager() {
-        return complexityManager;
-    }
-
-    public PartManager getPartManager() {
-        return partManager;
-    }
-    public ResearchManager getResearchManager() {
-        return researchManager;
-    }
-    public PowerManager getPowerManager() {
-        return this.powerManager;
-    }
-
-
-    @Override
-    public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {
-        CompoundTag tag = new CompoundTag();
-        tag.put(this.complexityManager.nbtKey(), this.complexityManager.serialiseUpdateNBT(provider));
-        tag.put(this.abilityManager.nbtKey(), this.abilityManager.serialiseUpdateNBT(provider));
-        tag.put(this.researchManager.nbtKey(), this.researchManager.serialiseUpdateNBT(provider));
-        tag.put(this.powerManager.nbtKey(), this.powerManager.serialiseUpdateNBT(provider));
-
-
-        return tag;
-    }
-
-    @Override
-    public void deserialiseUpdateNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
-        this.complexityManager.deserialiseUpdateNBT(provider, nbt);
-        this.abilityManager.deserialiseUpdateNBT(provider, nbt);
-        this.researchManager.deserialiseUpdateNBT(provider, nbt);
-        this.powerManager.deserialiseUpdateNBT(provider, nbt);
     }
 
 

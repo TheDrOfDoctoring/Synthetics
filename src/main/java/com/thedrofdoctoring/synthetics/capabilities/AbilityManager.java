@@ -1,14 +1,15 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.body.abilities.AbilityType;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
-import com.thedrofdoctoring.synthetics.body.abilities.SyntheticAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticAbilityActiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticActiveAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticLastingAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.active.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.active.ActiveAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.active.LastingAbilityType;
 import com.thedrofdoctoring.synthetics.body.abilities.passive.IAbilityEventListener;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticAbilityPassiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticPassiveAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityPassiveInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AttributeAbilityInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.types.PassiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
@@ -39,13 +40,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 // Some of the active ability system handled here is partially based on Vampirism's ActionHandler, licensed under GNU LGPL. https://github.com/TeamLapen/Vampirism/blob/1.21/src/main/java/de/teamlapen/vampirism/entity/player/actions/ActionHandler.java
 @SuppressWarnings("unused")
 public class AbilityManager implements ISyncable {
 
-    private final Object2ObjectMap<ResourceLocation, IntObjectPair<SyntheticAbilityPassiveInstance>> passiveAbilities;
-    private final Object2ObjectMap<ResourceLocation, SyntheticAbilityActiveInstance> activeAbilities;
+    private final Object2ObjectMap<ResourceLocation, IntObjectPair<AbilityPassiveInstance<?>>> passiveAbilities;
+    private final Object2ObjectMap<ResourceLocation, AbilityActiveInstance<?>> activeAbilities;
 
     private final Object2ObjectMap<Holder<Attribute>, List<ResourceLocation>> attributes;
     private final Object2IntMap<ResourceLocation> cooldown;
@@ -86,35 +88,45 @@ public class AbilityManager implements ISyncable {
             }
             for(int i = 0; i < holderSet.size(); i++ ){
                 SyntheticAbility ability = holderSet.get(i).value();
-                SyntheticAbilityType type = ability.abilityType();
-                if(type instanceof SyntheticPassiveAbilityType passive) {
+                AbilityType type = ability.abilityType();
+                if(type instanceof PassiveAbilityType passive) {
                     int count = passiveAbilities.getOrDefault(ability.id(), IntObjectPair.of(0, null)).firstInt();
                     count += 1;
-                    if(passive.equals(SyntheticAbilities.BATTERY.get())) {
-                        int additionalStorage = (int) ability.factor() * PowerManager.BATTERY_STORAGE_BASE;
-                        this.manager.getPowerManager().setMaxPower(this.manager.getPowerManager().getMaxPower() + additionalStorage);
+
+                    var instanceOpt = passive.createInstance(this.manager, ability.abilityData(), ability.id(), powerDraw);
+                    if(instanceOpt.isPresent()) {
+                        passive.onAbilityAdded(instanceOpt.get(), count, manager);
+                        passiveAbilities.put(ability.id(), IntObjectPair.of(count, instanceOpt.get()));
+                    } else {
+                        Synthetics.LOGGER.warn("Failed to create Passive Ability Instance for ability with instance ID: {}", ability.id());
                     }
-                    passiveAbilities.put(ability.id(), IntObjectPair.of(count, new SyntheticAbilityPassiveInstance(passive, this.manager, (float) ability.factor(), ability.operation(), ability.id(), powerDraw)));
-                } else if(type instanceof SyntheticActiveAbilityType active) {
-                    activeAbilities.put(ability.abilityType().getAbilityID(), new SyntheticAbilityActiveInstance(active, this.manager, ability.factor(), ability.options().orElseThrow(), ability.id()));
+
+
+                } else if(type instanceof ActiveAbilityType active) {
+                    var instanceOpt = active.createInstance(this.manager, ability.abilityData(), ability.id());
+                    if(instanceOpt.isPresent()) {
+                        activeAbilities.put(ability.abilityType().getAbilityID(), instanceOpt.get());
+                    } else {
+                        Synthetics.LOGGER.warn("Failed to create Active Ability Instance for ability with instance ID: {}", ability.id());
+                    }
                 }
             }
         }
     }
 
-    public Collection<SyntheticAbilityActiveInstance> getActiveAbilities() {
+    public Collection<AbilityActiveInstance<?>> getActiveAbilities() {
         return this.activeAbilities.values();
     }
 
-    public Collection<SyntheticAbilityPassiveInstance> getPassiveAbilities() {
-        return this.passiveAbilities.values().stream().map(Pair::right).toList();
+    public Collection<AbilityPassiveInstance<?>> getPassiveAbilities() {
+        return this.passiveAbilities.values().stream().map(Pair::right).collect(Collectors.toList());
     }
 
-    public Collection<IntObjectPair<SyntheticAbilityPassiveInstance>> getPassiveAbilitiesPairs() {
+    public Collection<IntObjectPair<AbilityPassiveInstance<?>>> getPassiveAbilitiesPairs() {
         return this.passiveAbilities.values();
     }
 
-    public float getPercentageForAbilityTime(@NotNull SyntheticAbilityActiveInstance ability) {
+    public float getPercentageForAbilityTime(@NotNull AbilityActiveInstance<?> ability) {
         ResourceLocation id = ability.getAbility().getAbilityID();
         if (duration.containsKey(id)) {
             return duration.getInt(id) / ((float) ability.getDuration() * 20);
@@ -128,20 +140,20 @@ public class AbilityManager implements ISyncable {
 
 
     @SuppressWarnings("UnusedReturnValue")
-    public boolean toggleAbility(SyntheticActiveAbilityType activeAbility) {
+    public boolean toggleAbility(ActiveAbilityType activeAbility) {
 
         if(!canActivate(activeAbility)) return false;
-        SyntheticAbilityActiveInstance instance = this.activeAbilities.get(activeAbility.getAbilityID());
+        AbilityActiveInstance<?> instance = this.activeAbilities.get(activeAbility.getAbilityID());
 
         PowerManager power = this.manager.getPowerManager();
 
         if(isAbilityActive(activeAbility)) {
-            deactivateAbility((SyntheticLastingAbilityType) activeAbility);
+            deactivateAbility((LastingAbilityType) activeAbility);
             return true;
-        } else if(instance.getPowerCost() < power.getStoredPower() && !this.isAbilityOnCooldown(activeAbility) && activeAbility.activate(manager, instance.getAbilityFactor())) {
+        } else if(instance.getPowerCost() < power.getStoredPower() && !this.isAbilityOnCooldown(activeAbility) && activeAbility.activate(manager, instance.factor())) {
             int powerCost = instance.getPowerCost();
             power.drainPower(powerCost);
-            if(activeAbility instanceof SyntheticLastingAbilityType) {
+            if(activeAbility instanceof LastingAbilityType) {
                 this.duration.put(activeAbility.getAbilityID(), instance.getDuration() * 20);
             } else {
                 this.cooldown.put(activeAbility.getAbilityID(), instance.getCooldown() * 20);
@@ -155,23 +167,23 @@ public class AbilityManager implements ISyncable {
         return true;
     }
 
-    public boolean canActivate(SyntheticActiveAbilityType type) {
+    public boolean canActivate(ActiveAbilityType type) {
         if(!this.activeAbilities.containsKey(type.getAbilityID())) return false;
         if(isAbilityOnCooldown(type)) return false;
         return type.canBeUsed(manager);
     }
 
-    public int getCountForAbility(SyntheticAbilityPassiveInstance instance) {
+    public int getCountForAbility(AbilityPassiveInstance<?> instance) {
         if (this.passiveAbilities.containsKey(instance.getInstanceID())) {
             return this.passiveAbilities.get(instance.getInstanceID()).firstInt();
         }
         return 0;
     }
 
-    public boolean isAbilityActive(SyntheticActiveAbilityType type) {
+    public boolean isAbilityActive(ActiveAbilityType type) {
         return this.duration.containsKey(type.getAbilityID());
     }
-    public boolean isAbilityOnCooldown(SyntheticActiveAbilityType type) {
+    public boolean isAbilityOnCooldown(ActiveAbilityType type) {
         return this.cooldown.containsKey(type.getAbilityID());
     }
 
@@ -179,7 +191,7 @@ public class AbilityManager implements ISyncable {
         return this.passiveAbilities.containsKey(ability.id()) || this.activeAbilities.containsKey(ability.abilityType().getAbilityID());
     }
     public boolean isAbilityEnabled(SyntheticAbility ability) {
-        if(ability.abilityType() instanceof SyntheticPassiveAbilityType) {
+        if(ability.abilityType() instanceof PassiveAbilityType) {
             return this.passiveAbilities.containsKey(ability.id()) && this.passiveAbilities.get(ability.id()).right().isEnabled();
         }
         return this.duration.containsKey(ability.abilityType().getAbilityID());
@@ -187,10 +199,11 @@ public class AbilityManager implements ISyncable {
 
     public void resetAll() {
         for (ResourceLocation id : duration.keySet()) {
-            deactivateAbility((SyntheticLastingAbilityType) this.activeAbilities.get(id).getAbility());
+            deactivateAbility((LastingAbilityType) this.activeAbilities.get(id).getAbility());
         }
         this.duration.clear();
         this.cooldown.clear();
+
         dirty = true;
     }
 
@@ -199,15 +212,11 @@ public class AbilityManager implements ISyncable {
             HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
             for(int i = 0; i < holderSet.size(); i++ ){
                 SyntheticAbility ability = holderSet.get(i).value();
-                SyntheticAbilityType type = ability.abilityType();
-                if(type instanceof SyntheticPassiveAbilityType passive) {
+                AbilityType type = ability.abilityType();
+                if(type instanceof PassiveAbilityType passive) {
                     if(passiveAbilities.containsKey(ability.id())) {
-                        if(passive.equals(SyntheticAbilities.BATTERY.get())) {
-                            int additionalStorage = (int) ability.factor() * PowerManager.BATTERY_STORAGE_BASE;
-                            this.manager.getPowerManager().setMaxPower(this.manager.getPowerManager().getMaxPower() - additionalStorage);
-                        }
-
-                        IntObjectPair<SyntheticAbilityPassiveInstance> pair = passiveAbilities.get(ability.id());
+                        IntObjectPair<AbilityPassiveInstance<?>> pair = passiveAbilities.get(ability.id());
+                        pair.right().getAbility().onAbilityRemoved(pair.right(), pair.leftInt() - 1, manager);
                         if(pair.firstInt() > 1) {
                             passiveAbilities.put(ability.id(), IntObjectPair.of(pair.leftInt() - 1, pair.right()));
                         } else {
@@ -215,7 +224,7 @@ public class AbilityManager implements ISyncable {
                         }
                     }
 
-                } else if(type instanceof SyntheticActiveAbilityType) {
+                } else if(type instanceof ActiveAbilityType) {
                     if(duration.containsKey(ability.abilityType().getAbilityID())) {
                         duration.removeInt(ability.abilityType().getAbilityID());
                     }
@@ -224,7 +233,7 @@ public class AbilityManager implements ISyncable {
             }
         }
     }
-    public void deactivateAbility(SyntheticLastingAbilityType type) {
+    public void deactivateAbility(LastingAbilityType type) {
         ResourceLocation id = type.getAbilityID();
         if(this.duration.containsKey(id)) {
             duration.removeInt(id);
@@ -264,31 +273,34 @@ public class AbilityManager implements ISyncable {
 
     private void rebuildAttributes(LivingEntity owner) {
         this.attributes.clear();
-        for(IntObjectPair<SyntheticAbilityPassiveInstance> pairs : this.passiveAbilities.values()) {
-            SyntheticAbilityPassiveInstance passive = pairs.right();
-            int count = pairs.leftInt();
-            Optional<Pair<Holder<Attribute>, AttributeModifier>> opt = passive.getModifiedAttribute(owner);
-            if(opt.isPresent() && passive.isEnabled()) {
-                Pair<Holder<Attribute>, AttributeModifier> attributePair = opt.get();
-                AttributeModifier modifier = attributePair.right();
-                AttributeInstance instance = owner.getAttribute(attributePair.left());
-                if(instance == null) continue;
-                if(count > 1) {
-                    modifier = new AttributeModifier(passive.getInstanceID(), modifier.amount() * count, modifier.operation());
-                }
+        for(IntObjectPair<AbilityPassiveInstance<?>> pairs : this.passiveAbilities.values()) {
+            AbilityPassiveInstance<?> passive = pairs.right();
+            if(passive instanceof AttributeAbilityInstance abilityInstance) {
+                int count = pairs.leftInt();
+                Optional<Pair<Holder<Attribute>, AttributeModifier>> opt = abilityInstance.getModifiedAttribute(owner);
+                if(opt.isPresent() && passive.isEnabled()) {
+                    Pair<Holder<Attribute>, AttributeModifier> attributePair = opt.get();
+                    AttributeModifier modifier = attributePair.right();
+                    AttributeInstance instance = owner.getAttribute(attributePair.left());
+                    if(instance == null) continue;
+                    if(count > 1) {
+                        modifier = new AttributeModifier(passive.getInstanceID(), modifier.amount() * count, modifier.operation());
+                    }
 
-                instance.addTransientModifier(modifier);
-                if(this.attributes.containsKey(attributePair.left())) {
-                    List<ResourceLocation> list = this.attributes.get(attributePair.left());
-                    list.add(modifier.id());
-                    this.attributes.put(attributePair.left(), list);
+                    instance.addTransientModifier(modifier);
+                    if(this.attributes.containsKey(attributePair.left())) {
+                        List<ResourceLocation> list = this.attributes.get(attributePair.left());
+                        list.add(modifier.id());
+                        this.attributes.put(attributePair.left(), list);
 
-                } else {
-                    List<ResourceLocation> list = new ArrayList<>();
-                    list.add(modifier.id());
-                    this.attributes.put(attributePair.left(), list);
+                    } else {
+                        List<ResourceLocation> list = new ArrayList<>();
+                        list.add(modifier.id());
+                        this.attributes.put(attributePair.left(), list);
+                    }
                 }
             }
+
         }
     }
     public boolean onTick() {
@@ -297,9 +309,9 @@ public class AbilityManager implements ISyncable {
             PowerManager power = this.manager.getPowerManager();
 
             boolean shouldRebuild = false;
-            for(IntObjectPair<SyntheticAbilityPassiveInstance> pairs : this.passiveAbilities.values()) {
+            for(IntObjectPair<AbilityPassiveInstance<?>> pairs : this.passiveAbilities.values()) {
 
-                SyntheticAbilityPassiveInstance instance = pairs.second();
+                AbilityPassiveInstance<?> instance = pairs.second();
 
                 if(instance.getAbility() instanceof IAbilityEventListener listener) {
                     listener.onTick(instance, pairs.firstInt(), this.manager);
@@ -317,7 +329,10 @@ public class AbilityManager implements ISyncable {
                     instance.setEnabled(true);
                 }
             }
-            for(SyntheticAbilityActiveInstance instance : this.activeAbilities.values()) {
+            for(Object2IntMap.Entry<ResourceLocation> entry : duration.object2IntEntrySet()) {
+
+                AbilityActiveInstance<?> instance = this.activeAbilities.get(entry.getKey());
+
                 if(instance.getPowerDrain() > power.getStoredPower()) {
                     this.duration.put(instance.getAbility().getAbilityID(), 1);
                 }
@@ -350,11 +365,11 @@ public class AbilityManager implements ISyncable {
                 continue;
 
             }
-            SyntheticLastingAbilityType lasting = (SyntheticLastingAbilityType) this.activeAbilities.get(entry.getKey()).getAbility();
+            LastingAbilityType lasting = (LastingAbilityType) this.activeAbilities.get(entry.getKey()).getAbility();
             if (newTime == 0 || !this.activeAbilities.containsKey(entry.getKey())) {
                 deactivateAbility(lasting);
             } else {
-                if (lasting.onTick(manager, this.activeAbilities.get(entry.getKey()).getAbilityFactor())) {
+                if (lasting.onTick(manager, this.activeAbilities.get(entry.getKey()).factor())) {
                     entry.setValue(1);
                 } else {
                     entry.setValue(newTime);
@@ -381,13 +396,13 @@ public class AbilityManager implements ISyncable {
         CompoundTag tag = new CompoundTag();
         CompoundTag passive = new CompoundTag();
         CompoundTag active = new CompoundTag();
-        for(IntObjectPair<SyntheticAbilityPassiveInstance> pairs : passiveAbilities.values()) {
-            SyntheticAbilityPassiveInstance instance = pairs.right();
+        for(IntObjectPair<AbilityPassiveInstance<?>> pairs : passiveAbilities.values()) {
+            AbilityPassiveInstance<?> instance = pairs.right();
             if(instance instanceof ISaveData data) {
                 passive.put(instance.getInstanceID().toString(), data.serialiseNBT(provider));
             }
         }
-        for(SyntheticAbilityActiveInstance instance : activeAbilities.values()) {
+        for(AbilityActiveInstance<?> instance : activeAbilities.values()) {
             if(instance instanceof ISaveData data) {
                 active.put(instance.getAbility().getAbilityID().toString(), data.serialiseNBT(provider));
             }
@@ -474,8 +489,8 @@ public class AbilityManager implements ISyncable {
                     continue;
 
                 }
-                SyntheticAbilityType type = SyntheticAbilities.ABILITY_REGISTRY.get(id);
-                if(type instanceof SyntheticActiveAbilityType && actives.get(key) instanceof CompoundTag activeTag &&  type instanceof ISaveData data) {
+                AbilityType type = SyntheticAbilities.ABILITY_REGISTRY.get(id);
+                if(type instanceof ActiveAbilityType && actives.get(key) instanceof CompoundTag activeTag &&  type instanceof ISaveData data) {
                     data.deserialiseNBT(provider, activeTag);
                 }
             }
@@ -509,10 +524,10 @@ public class AbilityManager implements ISyncable {
     public void reactivateAbilities() {
         if(!this.manager.getEntity().getCommandSenderWorld().isClientSide) {
             for (ResourceLocation id : duration.keySet()) {
-                SyntheticAbilityActiveInstance instance = this.activeAbilities.get(id);
+                AbilityActiveInstance<?> instance = this.activeAbilities.get(id);
                 if(instance != null) {
-                    SyntheticLastingAbilityType lasting = (SyntheticLastingAbilityType) instance.getAbility();
-                    lasting.onRestoreActivate(manager, instance.getAbilityFactor());
+                    LastingAbilityType lasting = (LastingAbilityType) instance.getAbility();
+                    lasting.onRestoreActivate(manager, instance.factor());
                 }
 
             }
@@ -564,23 +579,26 @@ public class AbilityManager implements ISyncable {
                 CompoundTag timers = (CompoundTag) tag.get("duration");
                 assert timers != null;
                 if (this.manager.getEntity().getCommandSenderWorld().isClientSide) {
+                    List<ResourceLocation> toDeactivate = new ArrayList<>();
                     for (Object2IntMap.Entry<ResourceLocation> active : duration.object2IntEntrySet()) {
                         String key = active.getKey().toString();
                         if (timers.contains(key)) {
                             active.setValue(timers.getInt(key));
                             timers.remove(key);
                         } else {
-                            deactivateAbility((SyntheticLastingAbilityType) activeAbilities.get(active.getKey()).getAbility());
+                            toDeactivate.add(active.getKey());
                         }
                     }
+                    toDeactivate.forEach(id -> deactivateAbility((LastingAbilityType) activeAbilities.get(id).getAbility()));
+
                     for (String key : timers.getAllKeys()) {
                         ResourceLocation id = ResourceLocation.parse(key);
-                        SyntheticAbilityActiveInstance instance = this.activeAbilities.get(id);
-                        SyntheticActiveAbilityType ability = instance.getAbility();
+                        AbilityActiveInstance<?> instance = this.activeAbilities.get(id);
+                        ActiveAbilityType ability = instance.getAbility();
                         if (ability == null) {
                             Synthetics.LOGGER.warn("Ability failed to load client side {}", id);
                         } else {
-                            ability.activateClient(manager, instance.getAbilityFactor());
+                            ability.activateClient(manager, instance.factor());
                             duration.put(id, timers.getInt(key));
                         }
                     }

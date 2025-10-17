@@ -1,7 +1,10 @@
 {
+  "ability_data": {
+    "type": "synthetics:generic_passive_ability",
+    "ability_factor": 250.0
+  },
   "ability_type": {
     "ability_id": "synthetics:food_generator"
   },
-  "factor": 250.0,
   "id": "synthetics:metabolic_converter"
 }

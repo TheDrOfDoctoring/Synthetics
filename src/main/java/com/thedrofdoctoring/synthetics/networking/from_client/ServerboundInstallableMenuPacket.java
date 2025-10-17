@@ -71,6 +71,7 @@ public record ServerboundInstallableMenuPacket(Optional<BodyPart> part) implemen
 
                             i++;
                         }
+                        synthetics.markDirtyAll();
                         synthetics.getAbilityManager().rebuildAttributes();
                     }
 

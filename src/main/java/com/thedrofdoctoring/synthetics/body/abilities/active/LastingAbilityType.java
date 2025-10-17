@@ -3,8 +3,8 @@ package com.thedrofdoctoring.synthetics.body.abilities.active;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.resources.ResourceLocation;
 
-public abstract class SyntheticLastingAbilityType extends SyntheticActiveAbilityType {
-    public SyntheticLastingAbilityType(ResourceLocation id) {
+public abstract class LastingAbilityType extends ActiveAbilityType {
+    public LastingAbilityType(ResourceLocation id) {
         super(id);
     }
 

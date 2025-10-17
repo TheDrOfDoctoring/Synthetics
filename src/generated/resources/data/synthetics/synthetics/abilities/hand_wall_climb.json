@@ -1,12 +1,16 @@
 {
+  "ability_data": {
+    "type": "synthetics:generic_active_ability",
+    "active_data": {
+      "cooldown": 30,
+      "duration": 30,
+      "power_cost": 30,
+      "power_drain": 5
+    },
+    "factor": 1.0
+  },
   "ability_type": {
     "ability_id": "synthetics:wall_climb"
-  },
-  "active_options": {
-    "cooldown": 30,
-    "duration": 30,
-    "power_cost": 30,
-    "power_drain": 5
   },
   "id": "synthetics:hand_wall_climb"
 }

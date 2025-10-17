@@ -1,11 +1,11 @@
 package com.thedrofdoctoring.synthetics.body.abilities.active.types;
 
-import com.thedrofdoctoring.synthetics.body.abilities.active.SyntheticLastingAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.active.LastingAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
 import net.minecraft.resources.ResourceLocation;
 
-public class WallClimbAbility extends SyntheticLastingAbilityType {
+public class WallClimbAbility extends LastingAbilityType {
 
     public WallClimbAbility(ResourceLocation id) {
         super(id);

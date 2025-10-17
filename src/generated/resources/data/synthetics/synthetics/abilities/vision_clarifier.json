@@ -1,7 +1,10 @@
 {
+  "ability_data": {
+    "type": "synthetics:generic_passive_ability",
+    "ability_factor": 15.0
+  },
   "ability_type": {
     "ability_id": "synthetics:underwater_vision"
   },
-  "factor": 15.0,
   "id": "synthetics:vision_clarifier"
 }

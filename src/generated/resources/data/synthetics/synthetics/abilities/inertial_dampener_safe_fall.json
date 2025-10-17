@@ -1,7 +1,12 @@
 {
-  "ability_type": {
-    "ability_id": "synthetics:safe_fall_distance"
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.safe_fall_distance",
+    "factor": 4.0,
+    "operation": "add_value"
   },
-  "factor": 4.0,
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
   "id": "synthetics:inertial_dampener_safe_fall"
 }

@@ -49,6 +49,6 @@ public class Synthetics {
     }
 
     public void registerRegistries(final NewRegistryEvent event) {
-        event.register(SyntheticAbilities.ABILITY_REGISTRY);
+        SyntheticAbilities.registerRegistries(event);
     }
 }

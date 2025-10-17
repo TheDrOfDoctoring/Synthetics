@@ -70,7 +70,7 @@ public class SyntheticsAugmentsProvider {
                 Augments.SOLAR_TISSUE,
                 SyntheticAugment.create(
                         3,
-                        5,
+                        0,
                         5,2,
                         getPart(partLookup, BodyParts.TISSUE_MAIN),
                         getAbility(abilityLookup, List.of(Abilities.TISSUE_SOLAR_POWER)),

@@ -3,7 +3,9 @@ package com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.SyntheticPassiveAbilityType;
+import com.thedrofdoctoring.synthetics.body.abilities.active.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AttributeAbilityInstance;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.types.PassiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.ComplexityManager;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
@@ -253,8 +255,9 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                 }
                 text.add(Component.empty());
                 SyntheticAbility ability = abilities.get(selectedAbility).value();
-                if (ability.options().isPresent()) {
-                    ActiveAbilityOptions options = ability.options().get();
+                if (ability.abilityData() instanceof AbilityActiveInstance.ActiveAbilityData data) {
+
+                    ActiveAbilityOptions options = data.options();
                     text.add(Component.translatable("text.synthetics.augmentation_ability_cooldown", options.cooldown()).withStyle(ChatFormatting.BLUE));
                     if (options.duration() > 0) {
                         text.add(Component.translatable("text.synthetics.augmentation_ability_duration", options.duration()).withStyle(ChatFormatting.BLUE));
@@ -267,18 +270,19 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                     }
                 }
 
-                text.add(Component.translatable("text.synthetics.augmentation_ability_factor", ability.factor()).withStyle(ChatFormatting.BLUE));
-                if (ability.abilityType() instanceof SyntheticPassiveAbilityType passive) {
+                text.add(Component.translatable("text.synthetics.augmentation_ability_factor", ability.abilityData().factor()).withStyle(ChatFormatting.BLUE));
+                if (ability.abilityType() instanceof PassiveAbilityType passive) {
                     if (ability.abilityType().equals(SyntheticAbilities.BATTERY.get())) {
-                        text.add(Component.translatable("text.synthetics.augmentation_power_storage", (int) ability.factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
+                        text.add(Component.translatable("text.synthetics.augmentation_power_storage", (int) ability.abilityData().factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
                     }
-                    if (passive.getModifiedAttribute().isPresent()) {
-                        if (ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
+                    if(ability.abilityData() instanceof AttributeAbilityInstance.AttributeAbilityData data) {
+                        if (data.operation() == AttributeModifier.Operation.ADD_VALUE) {
                             text.add(Component.translatable("text.synthetics.augmentation_ability_operation_add").withStyle(ChatFormatting.BLUE));
                         } else {
                             text.add(Component.translatable("text.synthetics.augmentation_ability_operation_mult").withStyle(ChatFormatting.BLUE));
                         }
                     }
+
 
                 }
 

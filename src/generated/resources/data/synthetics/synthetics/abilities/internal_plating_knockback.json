@@ -1,7 +1,12 @@
 {
-  "ability_type": {
-    "ability_id": "synthetics:attack_knockback"
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.knockback_resistance",
+    "factor": 0.15,
+    "operation": "add_value"
   },
-  "factor": 0.15,
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
   "id": "synthetics:internal_plating_knockback"
 }

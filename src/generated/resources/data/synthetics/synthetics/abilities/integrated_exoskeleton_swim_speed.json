@@ -1,7 +1,11 @@
 {
-  "ability_type": {
-    "ability_id": "synthetics:swim_speed"
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.water_movement_efficiency",
+    "operation": "add_multiplied_base"
   },
-  "id": "synthetics:integrated_exoskeleton_swim_speed",
-  "operation": "add_multiplied_base"
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:integrated_exoskeleton_swim_speed"
 }
