@@ -1,7 +1,7 @@
 {
   "type": "synthetics:hands",
   "abilities": "synthetics:cybernetic_hand_damage",
-  "body_segment": "#synthetics:arms",
   "id": "synthetics:cybernetic_hands",
-  "max_complexity": 10
+  "max_complexity": 10,
+  "valid_body_segments": "#synthetics:arms"
 }

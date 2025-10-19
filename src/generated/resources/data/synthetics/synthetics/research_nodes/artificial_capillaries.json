@@ -1,5 +1,6 @@
 {
-  "type": {
+  "id": "synthetics:artificial_capillaries",
+  "requirements": {
     "experience_cost": 50,
     "required_items": [
       {
@@ -22,7 +23,6 @@
       }
     ]
   },
-  "id": "synthetics:artificial_capillaries",
   "unlocked": {
     "item": {
       "item": "synthetics:artificial_capillary"

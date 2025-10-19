@@ -1,5 +1,6 @@
 {
-  "type": {
+  "id": "synthetics:hand_wall_climb",
+  "requirements": {
     "experience_cost": 40,
     "required_items": [
       {
@@ -22,7 +23,6 @@
       }
     ]
   },
-  "id": "synthetics:hand_wall_climb",
   "unlocked": {
     "augments": "synthetics:emittable_adhesive"
   },

@@ -1,34 +1,66 @@
 {
   "variants": {
-    "facing=west,table_part=head": {
+    "facing=west,table_part=head,active=false": {
       "model": "synthetics:block/synthetic_forge_head",
       "y": 90
     },
-    "facing=west,table_part=foot": {
+    "facing=west,table_part=foot,active=false": {
       "model": "synthetics:block/synthetic_forge_foot",
       "y": 90
     },
-    "facing=east,table_part=head": {
+    "facing=east,table_part=head,active=false": {
       "model": "synthetics:block/synthetic_forge_head",
       "y": 270
     },
-    "facing=east,table_part=foot": {
+    "facing=east,table_part=foot,active=false": {
       "model": "synthetics:block/synthetic_forge_foot",
       "y": 270
     },
-    "facing=north,table_part=head": {
+    "facing=north,table_part=head,active=false": {
       "model": "synthetics:block/synthetic_forge_head",
       "y": 180
     },
-    "facing=north,table_part=foot": {
+    "facing=north,table_part=foot,active=false": {
       "model": "synthetics:block/synthetic_forge_foot",
       "y": 180
     },
-    "facing=south,table_part=head": {
+    "facing=south,table_part=head,active=false": {
       "model": "synthetics:block/synthetic_forge_head",
       "y": 0
     },
-    "facing=south,table_part=foot": {
+    "facing=south,table_part=foot,active=false": {
+      "model": "synthetics:block/synthetic_forge_foot",
+      "y": 0
+    },
+    "facing=west,table_part=head,active=true": {
+      "model": "synthetics:block/synthetic_forge_head_on",
+      "y": 90
+    },
+    "facing=west,table_part=foot,active=true": {
+      "model": "synthetics:block/synthetic_forge_foot",
+      "y": 90
+    },
+    "facing=east,table_part=head,active=true": {
+      "model": "synthetics:block/synthetic_forge_head_on",
+      "y": 270
+    },
+    "facing=east,table_part=foot,active=true": {
+      "model": "synthetics:block/synthetic_forge_foot",
+      "y": 270
+    },
+    "facing=north,table_part=head,active=true": {
+      "model": "synthetics:block/synthetic_forge_head_on",
+      "y": 180
+    },
+    "facing=north,table_part=foot,active=true": {
+      "model": "synthetics:block/synthetic_forge_foot",
+      "y": 180
+    },
+    "facing=south,table_part=head,active=true": {
+      "model": "synthetics:block/synthetic_forge_head_on",
+      "y": 0
+    },
+    "facing=south,table_part=foot,active=true": {
       "model": "synthetics:block/synthetic_forge_foot",
       "y": 0
     }

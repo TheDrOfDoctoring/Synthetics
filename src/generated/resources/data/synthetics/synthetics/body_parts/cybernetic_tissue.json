@@ -1,6 +1,6 @@
 {
   "type": "synthetics:tissue",
-  "body_segment": "#synthetics:torso",
   "id": "synthetics:cybernetic_tissue",
-  "max_complexity": 12
+  "max_complexity": 12,
+  "valid_body_segments": "#synthetics:torso"
 }

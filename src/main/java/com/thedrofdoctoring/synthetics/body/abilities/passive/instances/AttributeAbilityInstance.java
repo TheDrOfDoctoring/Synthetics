@@ -36,6 +36,10 @@ public class AttributeAbilityInstance extends AbilityPassiveInstance<AttributeAb
         this.modified = data.attribute;
     }
 
+    public AttributeModifier.Operation operation() {
+        return operation;
+    }
+
     public static class AttributeAbilityData extends AbilityData {
 
         private final AttributeModifier.Operation operation;

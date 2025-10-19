@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.core.data;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsLootModifiersProvider;
 import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsLootTableProvider;
 import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsTagProvider;
 import com.thedrofdoctoring.synthetics.core.data.providers.*;
@@ -68,6 +69,7 @@ public class SyntheticsData {
         DatapackBuiltinEntriesProvider provider = new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, DATA_BUILDER, Set.of(Synthetics.MODID));
         generator.addProvider(event.includeServer(), provider);
         lookupProvider = provider.getRegistryProvider();
+        SyntheticsLootModifiersProvider.register(generator, event, lookupProvider, packOutput);
         SyntheticsLootTableProvider.register(generator, event, lookupProvider, packOutput);
         SyntheticsTagProvider.register(generator, event, packOutput, lookupProvider, existingFileHelper);
         SyntheticsRecipeProvider.register(generator, event, lookupProvider, packOutput);

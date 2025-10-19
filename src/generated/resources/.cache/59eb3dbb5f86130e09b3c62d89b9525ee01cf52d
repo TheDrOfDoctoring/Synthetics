@@ -1,5 +1,7 @@
-// 1.21.1	2025-10-10T18:19:05.4487928	Loot Tables
+// 1.21.1	2025-10-18T21:09:35.2803808	Loot Tables
 2ffb97483e50bf5f214c6e5a3da76010db04ef24 data/synthetics/loot_table/blocks/augmentation_chamber.json
 2d7e4322cb37e986a5209bfece9309216c7596e9 data/synthetics/loot_table/blocks/organ_skull.json
 962de9dc905e169ef373590f902c79b6bc0b1bf3 data/synthetics/loot_table/blocks/research_table.json
 f9f1a4ed9b8fa69d201733f94fa267464d8d1418 data/synthetics/loot_table/blocks/synthetic_forge.json
+9c7f93fb475e9a7da266c7714f76e3bd69b039d5 data/synthetics/loot_table/chests/modified_trial_chamber.json
+77f1ff929b34b4cf48df93cc16d7a22d79068318 data/synthetics/loot_table/chests/modified_trial_chamber_ominous.json

@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.blocks.entities.forge;
 
+import com.thedrofdoctoring.synthetics.blocks.SyntheticForge;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlockEntities;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
@@ -185,7 +186,10 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
         return this;
     }
     public static <T extends BlockEntity> void serverTick(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull T blockEntity) {
-        if(blockEntity instanceof SyntheticForgeBlockEntity forge && forge.recipeTime > 0) {
+        if(!(blockEntity instanceof SyntheticForgeBlockEntity forge)) return;
+        boolean lit = forge.recipeTime > 0;
+
+        if(lit) {
             if (level.getGameTime() % 30 == 0) {
                 level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLASTFURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
@@ -231,7 +235,10 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
 
             forge.recipeTime++;
 
-
+        }
+        if (lit != state.getValue(SyntheticForge.ACTIVE)) {
+            state = state.setValue(SyntheticForge.ACTIVE, lit);
+            level.setBlock(pos, state, 3);
         }
     }
 

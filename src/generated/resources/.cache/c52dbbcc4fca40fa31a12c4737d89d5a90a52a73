@@ -1,0 +1,5 @@
+// 1.21.1	2025-10-17T22:49:35.1756029	Tags for minecraft:block mod id synthetics
+fcdc555768962d79708b86d42f75301df4453a32 data/minecraft/tags/block/mineable/axe.json
+acfe5c1f6d20266e63f28e15cc3b41f0f68a2fdd data/minecraft/tags/block/mineable/pickaxe.json
+acfe5c1f6d20266e63f28e15cc3b41f0f68a2fdd data/minecraft/tags/block/needs_iron_tool.json
+fcdc555768962d79708b86d42f75301df4453a32 data/minecraft/tags/block/needs_stone_tool.json

@@ -23,12 +23,14 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -57,7 +59,7 @@ public class AbilityManager implements ISyncable {
     private final SyntheticsPlayer manager;
     private boolean dirty;
 
-
+    private int timeSinceWarning;
 
     public static final String KEY = "ability_manager";
 
@@ -161,6 +163,10 @@ public class AbilityManager implements ISyncable {
             power.markDirty();
             this.dirty = true;
         } else {
+            if(instance.getPowerCost() > power.getStoredPower()) {
+                this.manager.getEntity().displayClientMessage(Component.translatable("synthetics.abilities.insufficient_power").withStyle(ChatFormatting.RED), true);
+            }
+
             this.manager.getEntity().playNotifySound(SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.MASTER, 0.25f, 0.75f);
         }
 
@@ -308,7 +314,9 @@ public class AbilityManager implements ISyncable {
         if(this.manager.getEntity().tickCount % 10 == 0) {
             PowerManager power = this.manager.getPowerManager();
 
+
             boolean shouldRebuild = false;
+            boolean insufficientPower = false;
             for(IntObjectPair<AbilityPassiveInstance<?>> pairs : this.passiveAbilities.values()) {
 
                 AbilityPassiveInstance<?> instance = pairs.second();
@@ -318,6 +326,7 @@ public class AbilityManager implements ISyncable {
                 }
 
                 if(this.manager.getPowerManager().getStoredPower() <= 1 && instance.hasPowerDraw()) {
+                    insufficientPower = true;
                     if(instance.isEnabled()) {
                         shouldRebuild = true;
                     }
@@ -335,14 +344,26 @@ public class AbilityManager implements ISyncable {
 
                 if(instance.getPowerDrain() > power.getStoredPower()) {
                     this.duration.put(instance.getAbility().getAbilityID(), 1);
+                    Component.translatable("synthetics.abilities.insufficient_power").withStyle(ChatFormatting.RED);
                 }
                 power.drainPower(instance.getPowerDrain() * 10);
                 power.markDirty();
             }
 
             if(shouldRebuild) {
+                if(insufficientPower) {
+                    this.timeSinceWarning = 120;
+                    this.manager.getEntity().displayClientMessage(Component.translatable("synthetics.abilities.insufficient_augment_power").withStyle(ChatFormatting.RED), true);
+                }
                 this.dirty = true;
                 this.onUpdate(false);
+            }
+            if(this.manager.getEntity().tickCount % 20 == 0) {
+                this.timeSinceWarning = Math.max(0, timeSinceWarning - 1);
+                if(insufficientPower && this.timeSinceWarning == 0) {
+                    this.timeSinceWarning = 120;
+                    this.manager.getEntity().displayClientMessage(Component.translatable("synthetics.abilities.insufficient_augment_power").withStyle(ChatFormatting.RED), true);
+                }
             }
 
         }

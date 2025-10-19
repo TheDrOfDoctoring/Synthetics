@@ -11,4 +11,6 @@ public abstract class LastingAbilityType extends ActiveAbilityType {
     public abstract boolean onTick(SyntheticsPlayer syntheticsPlayer, double abilityFactor);
 
     public abstract void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, double abilityFactor);
+
+    public abstract void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer);
 }

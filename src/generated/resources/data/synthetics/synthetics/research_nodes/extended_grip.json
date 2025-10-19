@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:hand_wall_climb",
+  "id": "synthetics:extended_grip",
+  "requirements": {
     "experience_cost": 50,
     "required_items": [
       {
@@ -22,8 +24,6 @@
       }
     ]
   },
-  "id": "synthetics:extended_grip",
-  "parents": "synthetics:hand_wall_climb",
   "unlocked": {
     "augments": "synthetics:extended_grip"
   },

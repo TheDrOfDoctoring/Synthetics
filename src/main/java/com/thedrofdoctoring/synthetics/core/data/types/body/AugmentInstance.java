@@ -25,6 +25,18 @@ public record AugmentInstance(SyntheticAugment augment, BodyPart appliedPart) im
     public static Pair<ResourceLocation, ResourceLocation> augmentPartSplitIdentifiers(String string) {
 
         String[] strings = string.split(";");
+        if(strings.length < 2) {
+
+            ResourceLocation possibleAugmentLocation = ResourceLocation.tryParse(string);
+            if(possibleAugmentLocation != null && !possibleAugmentLocation.getNamespace().contains("minecraft")) {
+                Synthetics.LOGGER.warn("Unable to parse body part data, resorting to default");
+                return Pair.of(possibleAugmentLocation, null);
+            } else {
+                Synthetics.LOGGER.warn("Unable to parse augment instance data");
+                return Pair.of(null, null);
+            }
+
+        }
         String augment = strings[0];
         String part = strings[1];
         ResourceLocation augmentLocation = ResourceLocation.tryParse(augment);

@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:internal_plating",
+  "id": "synthetics:integrated_exoskeleton",
+  "requirements": {
     "experience_cost": 75,
     "required_items": [
       {
@@ -22,8 +24,6 @@
       }
     ]
   },
-  "id": "synthetics:integrated_exoskeleton",
-  "parents": "synthetics:internal_plating",
   "unlocked": {
     "augments": "synthetics:integrated_exoskeleton"
   },

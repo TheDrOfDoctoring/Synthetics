@@ -1,5 +1,6 @@
 {
-  "type": {
+  "id": "synthetics:internal_plating",
+  "requirements": {
     "experience_cost": 75,
     "required_items": [
       {
@@ -22,7 +23,6 @@
       }
     ]
   },
-  "id": "synthetics:internal_plating",
   "unlocked": {
     "augments": "synthetics:internal_plating"
   },

@@ -9,17 +9,20 @@
       "items": "synthetics:body_part_item"
     },
     "B": {
-      "item": "minecraft:iron_ingot"
+      "item": "synthetics:ancient_alloy_ingot"
     },
     "C": {
       "item": "minecraft:gold_ingot"
+    },
+    "D": {
+      "item": "minecraft:redstone"
     }
   },
   "lava_cost": 50,
   "pattern": [
-    " BB",
-    " A ",
-    "BBC"
+    " DD",
+    "BAB",
+    "DCC"
   ],
   "recipe_time": 150,
   "required_research": "synthetics:cybernetic_hands",

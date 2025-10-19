@@ -1,6 +1,6 @@
 {
   "type": "synthetics:tibia",
-  "body_segment": "#synthetics:lower_body",
   "id": "synthetics:organic_tibia",
-  "max_complexity": 4
+  "max_complexity": 4,
+  "valid_body_segments": "#synthetics:lower_body"
 }

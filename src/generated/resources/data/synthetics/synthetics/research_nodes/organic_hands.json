@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:artificial_tissue",
+  "id": "synthetics:organic_hands",
+  "requirements": {
     "experience_cost": 175,
     "required_items": [
       {
@@ -28,8 +30,6 @@
       }
     ]
   },
-  "id": "synthetics:organic_hands",
-  "parents": "synthetics:artificial_tissue",
   "unlocked": {
     "parts": "synthetics:organic_hands"
   },

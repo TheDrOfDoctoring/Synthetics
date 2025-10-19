@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:artificial_tissue",
+  "id": "synthetics:artificial_skin",
+  "requirements": {
     "experience_cost": 50,
     "required_items": [
       {
@@ -22,8 +24,6 @@
       }
     ]
   },
-  "id": "synthetics:artificial_skin",
-  "parents": "synthetics:artificial_tissue",
   "unlocked": {
     "parts": "synthetics:cybernetic_tissue"
   },

@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:solar_tissue",
+  "id": "synthetics:advanced_solar_tissue",
+  "requirements": {
     "experience_cost": 125,
     "required_items": [
       {
@@ -22,8 +24,6 @@
       }
     ]
   },
-  "id": "synthetics:advanced_solar_tissue",
-  "parents": "synthetics:solar_tissue",
   "unlocked": {
     "augments": "synthetics:advanced_solar_tissue"
   },

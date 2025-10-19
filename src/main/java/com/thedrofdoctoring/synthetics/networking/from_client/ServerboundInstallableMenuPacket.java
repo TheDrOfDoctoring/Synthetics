@@ -66,7 +66,7 @@ public record ServerboundInstallableMenuPacket(Optional<BodyPart> part) implemen
                             if(i >= menu.getResultsContainer().getContainerSize()) {
                                 player.drop(replace, true, false);
                             } else {
-                                menu.getResultsContainer().setItem(i, replace);
+                                menu.getResultsContainer().addItem(replace);
                             }
 
                             i++;

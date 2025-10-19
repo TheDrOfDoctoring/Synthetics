@@ -155,7 +155,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
                 return false;
             }
             Holder<BodySegment> segmentHolder = Holder.direct(segment);
-            return this.partManager.getInstalledParts().stream().allMatch(p -> p.segment().contains(segmentHolder));
+            return this.partManager.getInstalledParts().stream().allMatch(p -> p.validSegments().contains(segmentHolder));
         }
 
         return true;

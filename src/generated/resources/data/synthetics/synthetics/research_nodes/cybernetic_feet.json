@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:organic_feet",
+  "id": "synthetics:cybernetic_feet",
+  "requirements": {
     "experience_cost": 175,
     "required_items": [
       {
@@ -22,8 +24,6 @@
       }
     ]
   },
-  "id": "synthetics:cybernetic_feet",
-  "parents": "synthetics:organic_feet",
   "unlocked": {
     "parts": "synthetics:cybernetic_feet"
   },

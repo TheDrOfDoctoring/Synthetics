@@ -1,6 +1,6 @@
 {
   "type": "synthetics:ribcage",
-  "body_segment": "#synthetics:torso",
   "id": "synthetics:organic_ribcage",
-  "max_complexity": 4
+  "max_complexity": 4,
+  "valid_body_segments": "#synthetics:torso"
 }

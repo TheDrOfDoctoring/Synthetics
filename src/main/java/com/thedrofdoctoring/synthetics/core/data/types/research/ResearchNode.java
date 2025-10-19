@@ -23,9 +23,9 @@ public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUn
 
 
     public static final MapCodec<ResearchNode> CODEC = MapCodec.recursive("ResearchNode", (a) -> RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ResearchNode.HOLDER_CODEC.optionalFieldOf("parents").forGetter(ResearchNode::parent),
+            ResearchNode.HOLDER_CODEC.optionalFieldOf("parent").forGetter(ResearchNode::parent),
             ResearchNodeUnlocks.CODEC.fieldOf("unlocked").forGetter(ResearchNode::unlocked),
-            ResearchRequirements.CODEC.fieldOf("type").forGetter(ResearchNode::requirements),
+            ResearchRequirements.CODEC.fieldOf("requirements").forGetter(ResearchNode::requirements),
             Codec.INT.fieldOf("x").forGetter(ResearchNode::x),
             Codec.INT.fieldOf("y").forGetter(ResearchNode::y),
             ResourceLocation.CODEC.fieldOf("id").forGetter(ResearchNode::id)

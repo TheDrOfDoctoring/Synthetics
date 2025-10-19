@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:organic_hands",
+  "id": "synthetics:cybernetic_hands",
+  "requirements": {
     "experience_cost": 175,
     "required_items": [
       {
@@ -22,8 +24,6 @@
       }
     ]
   },
-  "id": "synthetics:cybernetic_hands",
-  "parents": "synthetics:organic_hands",
   "unlocked": {
     "parts": "synthetics:cybernetic_hands"
   },

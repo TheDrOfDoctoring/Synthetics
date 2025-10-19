@@ -17,11 +17,14 @@ import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -34,6 +37,8 @@ import org.jetbrains.annotations.NotNull;
 public class SyntheticForge extends TableBlock implements EntityBlock {
 
     public static final MapCodec<SyntheticForge> CODEC = simpleCodec(SyntheticForge::new);
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+
 
     protected static final VoxelShape BASE;
     protected static final VoxelShape LEG_NORTH_WEST;
@@ -60,8 +65,12 @@ public class SyntheticForge extends TableBlock implements EntityBlock {
 
     public SyntheticForge(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(PART, TablePart.HEAD));
+        this.registerDefaultState(this.stateDefinition.any().setValue(PART, TablePart.HEAD).setValue(ACTIVE, false));
+    }
 
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(ACTIVE);
     }
     protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         Direction direction = getConnectedDirection(state).getOpposite();

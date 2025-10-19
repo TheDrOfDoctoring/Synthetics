@@ -1,5 +1,6 @@
 {
-  "type": {
+  "id": "synthetics:inertial_dampeners",
+  "requirements": {
     "experience_cost": 75,
     "required_items": [
       {
@@ -22,7 +23,6 @@
       }
     ]
   },
-  "id": "synthetics:inertial_dampeners",
   "unlocked": {
     "augments": "synthetics:inertial_dampeners"
   },

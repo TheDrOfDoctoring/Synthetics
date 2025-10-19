@@ -21,15 +21,16 @@ import java.util.Optional;
 
 /**
  * @param maxComplexity - The max complexity that this body part can have on it
- * @param segment - The segments that this body part can belong to
- * @param type - The type of body part this body part is. Note that the first element of this tag is the default.
+ * @param validSegments - The valid body segments that this body part can belong to
+ * @param type - The type of body part this body part is.
+ * @param abilities - The optional set of abilities that this body part has
  * @param id - Self ID
  */
-public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation id) implements IBodyInstallable<BodyPart> {
+public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, Holder<BodyPartType> type, Optional<HolderSet<SyntheticAbility>> abilities, ResourceLocation id) implements IBodyInstallable<BodyPart> {
 
     public static final MapCodec<BodyPart> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodyPart::maxComplexity),
-            BodySegment.SET_CODEC.fieldOf("body_segment").forGetter(BodyPart::segment),
+            BodySegment.SET_CODEC.fieldOf("valid_body_segments").forGetter(BodyPart::validSegments),
             BodyPartType.HOLDER_CODEC.fieldOf("type").forGetter(BodyPart::type),
             SyntheticAbility.SET_CODEC.optionalFieldOf("abilities").forGetter(BodyPart::abilities),
             ResourceLocation.CODEC.fieldOf("id").forGetter(BodyPart::id)
@@ -41,17 +42,17 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> segment, Holder
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodyPart> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT, BodyPart::maxComplexity,
-            ByteBufCodecs.holderSet(SyntheticsData.BODY_SEGMENTS), BodyPart::segment,
+            ByteBufCodecs.holderSet(SyntheticsData.BODY_SEGMENTS), BodyPart::validSegments,
             ByteBufCodecs.holder(SyntheticsData.BODY_PART_TYPES, BodyPartType.STREAM_CODEC), BodyPart::type,
             ByteBufCodecs.optional(ByteBufCodecs.holderSet(SyntheticsData.ABILITIES)), BodyPart::abilities,
             ResourceLocation.STREAM_CODEC, BodyPart::id,
             BodyPart::new);
 
-    public static BodyPart create(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, ResourceLocation id) {
-        return new BodyPart(maxComplexity, segment, type, Optional.empty(), id);
+    public static BodyPart create(int maxComplexity, HolderSet<BodySegment> validSegments, Holder<BodyPartType> type, ResourceLocation id) {
+        return new BodyPart(maxComplexity, validSegments, type, Optional.empty(), id);
     }
-    public static BodyPart create(int maxComplexity, HolderSet<BodySegment> segment, Holder<BodyPartType> type, HolderSet<SyntheticAbility> abilities, ResourceLocation id) {
-        return new BodyPart(maxComplexity, segment, type, Optional.of(abilities), id);
+    public static BodyPart create(int maxComplexity, HolderSet<BodySegment> validSegments, Holder<BodyPartType> type, HolderSet<SyntheticAbility> abilities, ResourceLocation id) {
+        return new BodyPart(maxComplexity, validSegments, type, Optional.of(abilities), id);
     }
     @Override
     public boolean equals(Object obj) {

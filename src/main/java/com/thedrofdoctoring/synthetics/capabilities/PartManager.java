@@ -135,7 +135,7 @@ public class PartManager implements ISaveData, IPartManager {
     }
 
     public BodySegment getSegmentForPart(BodyPart part) {
-        HolderSet<BodySegment> validSegments = part.segment();
+        HolderSet<BodySegment> validSegments = part.validSegments();
         BodySegmentType type = validSegments.get(0).value().type().value();
         return getSegmentForType(type);
     }

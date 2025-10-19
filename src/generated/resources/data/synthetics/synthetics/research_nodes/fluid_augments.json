@@ -1,5 +1,6 @@
 {
-  "type": {
+  "id": "synthetics:fluid_augments",
+  "requirements": {
     "experience_cost": 25,
     "required_items": [
       {
@@ -22,7 +23,6 @@
       }
     ]
   },
-  "id": "synthetics:fluid_augments",
   "unlocked": {
     "augments": [
       "synthetics:integrated_respirator",

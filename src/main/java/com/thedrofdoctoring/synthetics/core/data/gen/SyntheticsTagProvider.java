@@ -26,6 +26,7 @@ public class SyntheticsTagProvider {
         SyntheticsBlockTagProvider blockTagProvider = new SyntheticsBlockTagProvider(output, future, existingFileHelper);
         gen.addProvider(event.includeServer(), new SyntheticBodyPartsTagProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new SyntheticBodySegmentsTagProvider(output, future, existingFileHelper));
+        gen.addProvider(event.includeServer(), blockTagProvider);
     }
     public static class SyntheticsBlockTagProvider extends BlockTagsProvider {
 
@@ -79,4 +80,5 @@ public class SyntheticsTagProvider {
 
         }
     }
+
 }

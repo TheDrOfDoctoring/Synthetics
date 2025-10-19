@@ -5,8 +5,11 @@ import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityD
 import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.GenericPassiveAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("unused")
@@ -29,6 +32,11 @@ public class PassiveAbilityType extends AbilityType {
             return Optional.of(new GenericPassiveAbilityInstance<>(this, player, passive, instanceID, powerDraw));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void addDescriptionInfo(AbilityData data, List<Component> description) {
+        description.add(Component.translatable("abilities.synthetics.description.ability_factor", data.factor()).withStyle(ChatFormatting.BLUE));
     }
 
     public static GenericPassiveAbilityInstance.Data create(double factor) {

@@ -9,6 +9,7 @@ import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
 import com.thedrofdoctoring.synthetics.items.BlueprintItem;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.items.RechargeableBatteryItem;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -16,15 +17,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class SyntheticsItems {
@@ -37,11 +36,33 @@ public class SyntheticsItems {
 
     public static final DeferredHolder<Item, InstallableItem<SyntheticAugment>> AUGMENT_INSTALLABLE = registerInstallable("synthetic_augment_item", () -> new InstallableItem<>(SyntheticsData.AUGMENTS, SyntheticsDataComponents.AUGMENT, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.AUGMENT, Holder.direct(new SyntheticAugment(0, 0, 0, 0,null, Optional.empty(), Synthetics.rl("empty_augment"))))));
     public static final DeferredHolder<Item, InstallableItem<BodyPart>> BODY_PART_INSTALLABLE = registerInstallable("body_part_item", () -> new InstallableItem<>(SyntheticsData.BODY_PARTS, SyntheticsDataComponents.BODY_PART, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.BODY_PART, Holder.direct(new BodyPart(0, null, null, Optional.empty(), Synthetics.rl("empty_body_part"))))));
-    public static final DeferredHolder<Item, RechargeableBatteryItem> MEDIUM_BATTERY = registerTab("medium_battery", () -> new RechargeableBatteryItem(new Item.Properties().stacksTo(1).component(SyntheticsDataComponents.BATTERY_OPTIONS, new BatteryComponentOptions(10000, 500, 500)).component(SyntheticsDataComponents.ENERGY_COMPONENT, 0)));
+    public static final DeferredHolder<Item, RechargeableBatteryItem> MEDIUM_BATTERY = registerTab("medium_battery", () -> new RechargeableBatteryItem(new Item.Properties().stacksTo(1).component(SyntheticsDataComponents.BATTERY_OPTIONS, new BatteryComponentOptions(25000, 10000, 2500)).component(SyntheticsDataComponents.ENERGY_COMPONENT, 0)));
     public static final DeferredHolder<Item, BlueprintItem> BLUEPRINT = registerTab("blueprint", () -> new BlueprintItem(new Item.Properties().stacksTo(1)));
     public static final DeferredHolder<Item, Item> ARTIFICIAL_NEURON = registerTab("artificial_neuron", () -> new Item(new Item.Properties().stacksTo(64)));
     public static final DeferredHolder<Item, Item> ARTIFICIAL_CAPILLARY = registerTab("artificial_capillary", () -> new Item(new Item.Properties().stacksTo(64)));
     public static final DeferredHolder<Item, Item> ARTIFICIAL_TISSUE = registerTab("artificial_tissue", () -> new Item(new Item.Properties().stacksTo(64)));
+
+    public static final DeferredHolder<Item, Item> ANCIENT_SCRAP = registerTab("ancient_scrap", () -> new Item(
+            new Item.Properties().stacksTo(64)) {
+                @Override
+                public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+                    tooltipComponents.add(Component.translatable("info.synthetics.ancient_scrap").withStyle(ChatFormatting.GRAY));
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            }
+    );
+    public static final DeferredHolder<Item, Item> FOSSILISED_SCRAP = registerTab("fossilised_scrap", () -> new Item(
+                    new Item.Properties().stacksTo(64)) {
+                @Override
+                public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+                    tooltipComponents.add(Component.translatable("info.synthetics.fossil_scrap").withStyle(ChatFormatting.GRAY));
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            }
+    );
+    public static final DeferredHolder<Item, Item> ANCIENT_ALLOY = registerTab("ancient_alloy_ingot", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final DeferredHolder<Item, Item> PURE_ANCIENT_ALLOY = registerTab("pure_ancient_alloy_ingot", () -> new Item(new Item.Properties().stacksTo(64)));
+
 
     public static final DeferredHolder<Item, Item> CREATIVE_TAB_ICON_ITEM = register("creative_tab_icon", () -> new Item(new Item.Properties().stacksTo(1)));
 

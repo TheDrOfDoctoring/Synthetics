@@ -15,7 +15,7 @@
   "pattern": [
     "  C",
     " B ",
-    "AA "
+    "A  "
   ],
   "recipe_time": 100,
   "required_research": "synthetics:integrated_exoskeleton",

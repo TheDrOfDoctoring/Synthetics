@@ -1,0 +1,7 @@
+{
+  "entries": [
+    "synthetics:chests/modified_trial_chamber",
+    "synthetics:chests/modified_trial_chamber_ominous"
+  ],
+  "replace": false
+}

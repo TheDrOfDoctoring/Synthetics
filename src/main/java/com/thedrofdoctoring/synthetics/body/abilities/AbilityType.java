@@ -2,11 +2,14 @@ package com.thedrofdoctoring.synthetics.body.abilities;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.List;
 
 public abstract class AbilityType {
 
@@ -18,9 +21,11 @@ public abstract class AbilityType {
 
     public abstract ResourceLocation getAbilityID();
 
-    public Component title() {
+    public Component title(AbilityData data) {
         return Component.translatable("abilities." + getAbilityID().getNamespace() + "." + getAbilityID().getPath());
     }
+
+    public abstract void addDescriptionInfo(AbilityData data, List<Component> description);
 
 
 

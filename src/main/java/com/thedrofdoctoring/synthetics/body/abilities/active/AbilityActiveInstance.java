@@ -41,7 +41,7 @@ public class AbilityActiveInstance<T extends ActiveAbilityType> extends AbilityI
         private final ActiveAbilityOptions options;
 
         public static final MapCodec<ActiveAbilityData> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Codec.DOUBLE.fieldOf("factor").forGetter(ActiveAbilityData::factor),
+                Codec.DOUBLE.optionalFieldOf("factor", 1d).forGetter(ActiveAbilityData::factor),
                 ActiveAbilityOptions.CODEC.fieldOf("active_data").forGetter(ActiveAbilityData::options)
         ).apply(instance, ActiveAbilityData::new));
 

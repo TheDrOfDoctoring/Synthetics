@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:heart_battery",
+  "id": "synthetics:solar_tissue",
+  "requirements": {
     "experience_cost": 75,
     "required_items": [
       {
@@ -22,8 +24,6 @@
       }
     ]
   },
-  "id": "synthetics:solar_tissue",
-  "parents": "synthetics:heart_battery",
   "unlocked": {
     "augments": "synthetics:solar_tissue"
   },

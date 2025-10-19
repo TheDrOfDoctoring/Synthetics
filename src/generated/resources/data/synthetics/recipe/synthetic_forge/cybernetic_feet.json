@@ -12,7 +12,7 @@
       "item": "minecraft:iron_ingot"
     },
     "C": {
-      "item": "minecraft:gold_ingot"
+      "item": "synthetics:ancient_alloy_ingot"
     }
   },
   "lava_cost": 50,

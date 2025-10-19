@@ -1,5 +1,7 @@
 {
-  "type": {
+  "parent": "synthetics:artificial_capillaries",
+  "id": "synthetics:artificial_neurons",
+  "requirements": {
     "experience_cost": 75,
     "required_items": [
       {
@@ -22,8 +24,6 @@
       }
     ]
   },
-  "id": "synthetics:artificial_neurons",
-  "parents": "synthetics:artificial_capillaries",
   "unlocked": {
     "item": {
       "item": "synthetics:artificial_neuron"

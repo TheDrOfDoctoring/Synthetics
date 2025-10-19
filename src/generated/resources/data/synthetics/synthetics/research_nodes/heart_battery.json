@@ -1,5 +1,6 @@
 {
-  "type": {
+  "id": "synthetics:heart_battery",
+  "requirements": {
     "experience_cost": 100,
     "required_items": [
       {
@@ -10,7 +11,6 @@
       }
     ]
   },
-  "id": "synthetics:heart_battery",
   "unlocked": {
     "augments": "synthetics:heart_battery"
   },
