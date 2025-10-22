@@ -1,13 +1,13 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
-import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
 import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AugmentBuilder;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -20,147 +20,142 @@ import java.util.stream.Collectors;
 
 public class SyntheticsAugmentsProvider {
 
-
-
-    private static ResourceKey<SyntheticAugment> create(String name) {
-        return ResourceKey.create(
-                SyntheticsData.AUGMENTS,
-                Synthetics.rl(name)
-        );
-    }
-
-    public static void createAugments(BootstrapContext<SyntheticAugment> context) {
+    public static void createAugments(BootstrapContext<Augment> context) {
 
         HolderGetter<BodyPart> partLookup = context.lookup(SyntheticsData.BODY_PARTS);
-        HolderGetter<SyntheticAbility> abilityLookup = context.lookup(SyntheticsData.ABILITIES);
+        HolderGetter<Ability> abilityLookup = context.lookup(SyntheticsData.ABILITIES);
 
 
-        context.register(
-                Augments.CYBERNETIC_INERTIAL_DAMPENERS,
-                SyntheticAugment.create(
-                        3,
-                        1,
-                        getPart(partLookup, BodyParts.FEET_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.INERTIAL_DAMPENERS_FALL_DAMAGE, Abilities.INERTIAL_DAMPENERS_SAFE_FALL)),
-                        Augments.CYBERNETIC_INERTIAL_DAMPENERS.location()
-                )
+        register(context,
+                AugmentBuilder.of(Augments.CYBERNETIC_INERTIAL_DAMPENERS, getPart(partLookup, BodyParts.FEET_MAIN))
+                        .complexity(3)
+                        .powerCost(1)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.INERTIAL_DAMPENERS_FALL_DAMAGE,
+                                Abilities.INERTIAL_DAMPENERS_SAFE_FALL
+                        )))
         );
-        context.register(
-                Augments.LAUNCH_BOOT,
-                SyntheticAugment.create(
-                        3,
-                        0,
-                        getPart(partLookup, BodyParts.FEET_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.LAUNCHBOOT_LAUNCH)),
-                        Augments.LAUNCH_BOOT.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.LAUNCH_BOOT, getPart(partLookup, BodyParts.FEET_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.LAUNCHBOOT_LAUNCH
+                        )))
         );
-        context.register(
-                Augments.HEART_BATTERY,
-                SyntheticAugment.create(
-                        3,
-                        0,
-                        2, 2,
-                        getPart(partLookup, BodyParts.HEART_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.HEART_BATTERY)),
-                        Augments.HEART_BATTERY.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.HEART_BATTERY, getPart(partLookup, BodyParts.HEART_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(2, 2)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.HEART_BATTERY
+                        )))
         );
-        context.register(
-                Augments.SOLAR_TISSUE,
-                SyntheticAugment.create(
-                        3,
-                        0,
-                        5,2,
-                        getPart(partLookup, BodyParts.TISSUE_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.TISSUE_SOLAR_POWER)),
-                        Augments.SOLAR_TISSUE.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.SOLAR_TISSUE, getPart(partLookup, BodyParts.TISSUE_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(5, 2)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.TISSUE_SOLAR_POWER
+                        )))
         );
-        context.register(
-                Augments.ADVANCED_SOLAR_TISSUE,
-                SyntheticAugment.create(
-                        3,
-                        0,
-                        5,2,
-                        getPart(partLookup, BodyParts.CYBERNETIC_TISSUE),
-                        getAbility(abilityLookup, List.of(Abilities.ADVANCED_TISSUE_SOLAR_POWER)),
-                        Augments.ADVANCED_SOLAR_TISSUE.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.ADVANCED_SOLAR_TISSUE, getPart(partLookup, BodyParts.CYBERNETIC_TISSUE))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(5, 2)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.ADVANCED_TISSUE_SOLAR_POWER
+                        )))
         );
-        context.register(
-                Augments.VISION_CLARIFIER,
-                SyntheticAugment.create(
-                        3,
-                        0,
-                        getPart(partLookup, BodyParts.EYES_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.VISION_CLARIFIER_VIEW)),
-                        Augments.VISION_CLARIFIER.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.VISION_CLARIFIER, getPart(partLookup, BodyParts.EYES_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.VISION_CLARIFIER_VIEW
+                        )))
         );
-        context.register(
-                Augments.INTEGRATED_RESPIRATOR,
-                SyntheticAugment.create(
-                        3,
-                        2,
-                        getPart(partLookup, BodyParts.LUNGS_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.RESPIRATOR_BREATH)),
-                        Augments.INTEGRATED_RESPIRATOR.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.INTEGRATED_RESPIRATOR, getPart(partLookup, BodyParts.LUNGS_MAIN))
+                        .complexity(3)
+                        .powerCost(2)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.RESPIRATOR_BREATH
+                        )))
         );
-        context.register(
-                Augments.METABOLIC_CONVERTER,
-                SyntheticAugment.create(
-                        3,
-                        0,
-                        getPart(partLookup, BodyParts.ORGANIC_STOMACH),
-                        getAbility(abilityLookup, List.of(Abilities.METABOLIC_CONVERTER)),
-                        Augments.METABOLIC_CONVERTER.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.METABOLIC_CONVERTER, getPart(partLookup, BodyParts.ORGANIC_STOMACH))
+                        .complexity(3)
+                        .powerCost(0)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.METABOLIC_CONVERTER
+                        )))
         );
-        context.register(
-                Augments.EMITTABLE_ADHESIVE,
-                SyntheticAugment.create(
-                        2,
-                        0,
-                        getPart(partLookup, BodyParts.HANDS_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.HAND_WALL_CLIMB)),
-                        Augments.EMITTABLE_ADHESIVE.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.EMITTABLE_ADHESIVE, getPart(partLookup, BodyParts.HANDS_MAIN))
+                        .complexity(2)
+                        .powerCost(0)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.HAND_WALL_CLIMB
+                        )))
         );
-        context.register(
-                Augments.INTEGRATED_EXOSKELETON,
-                SyntheticAugment.create(
-                        2,
-                        2,
-                        2, 2,
-                        getPart(partLookup, BodyParts.TIBIA_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.INTEGRATED_EXOSKELETON_SWIM, Abilities.INTEGRATED_EXOSKELETON_WALK)),
-                        Augments.INTEGRATED_EXOSKELETON.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.INTEGRATED_EXOSKELETON, getPart(partLookup, BodyParts.TIBIA_MAIN))
+                        .complexity(2)
+                        .powerCost(2)
+                        .maxCopies(2, 2)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.INTEGRATED_EXOSKELETON_SWIM,
+                                Abilities.INTEGRATED_EXOSKELETON_WALK
+                        )))
         );
-        context.register(
-                Augments.INTERNAL_PLATING,
-                SyntheticAugment.create(
-                        2,
-                        0,
-                        3, 1,
-                        getPart(partLookup, BodyParts.ALL_BONES),
-                        getAbility(abilityLookup, List.of(Abilities.INTERNAL_PLATING_KNOCKBACK, Abilities.INTERNAL_PLATING_ARMOUR_TOUGHNESS)),
-                        Augments.INTERNAL_PLATING.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.INTERNAL_PLATING, getPart(partLookup, BodyParts.ALL_BONES))
+                        .complexity(2)
+                        .powerCost(0)
+                        .maxCopies(3, 1)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.INTERNAL_PLATING_KNOCKBACK,
+                                Abilities.INTERNAL_PLATING_ARMOUR_TOUGHNESS
+                        )))
         );
-        context.register(
-                Augments.EXTENDED_GRIP,
-                SyntheticAugment.create(
-                        3,
-                        2,
-                        getPart(partLookup, BodyParts.HANDS_MAIN),
-                        getAbility(abilityLookup, List.of(Abilities.EXTEND_GRIP_BLOCK_REACH)),
-                        Augments.EXTENDED_GRIP.location()
-                )
+
+        register(context,
+                AugmentBuilder.of(Augments.EXTENDED_GRIP, getPart(partLookup, BodyParts.HANDS_MAIN))
+                        .complexity(3)
+                        .powerCost(2)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.EXTEND_GRIP_BLOCK_REACH
+                        )))
+        );
+
+        register(context,
+                AugmentBuilder.of(Augments.MOTION_AUTOPILOT, getPart(partLookup, BodyParts.ORGANIC_BRAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.AUTOPILOT_STEP_ASSIST
+                        )))
         );
     }
+
+    private static void register(BootstrapContext<Augment> context, AugmentBuilder builder) {
+        context.register(builder.key(), builder.build());
+    }
+
 
     public static HolderSet<BodyPart> getPart(HolderGetter<BodyPart> lookup, ResourceKey<BodyPart> part) {
         return HolderSet.direct(lookup.getOrThrow(part));
@@ -169,17 +164,9 @@ public class SyntheticsAugmentsProvider {
         return lookup.getOrThrow(part);
     }
 
-    public static HolderSet<SyntheticAbility> getAbility(HolderGetter<SyntheticAbility> lookup, ResourceKey<SyntheticAbility> ability) {
-        return HolderSet.direct(lookup.getOrThrow(ability));
-    }
+    public static HolderSet<Ability> getAbility(HolderGetter<Ability> lookup, List<ResourceKey<Ability>> abilities) {
 
-    public static HolderSet<SyntheticAbility> getAbility(HolderGetter<SyntheticAbility> lookup, List<ResourceKey<SyntheticAbility>> abilities) {
-
-        List<Holder<SyntheticAbility>> abilityHolders = abilities.stream().map(lookup::getOrThrow).collect(Collectors.toUnmodifiableList());
+        List<Holder<Ability>> abilityHolders = abilities.stream().map(lookup::getOrThrow).collect(Collectors.toUnmodifiableList());
         return HolderSet.direct(abilityHolders);
-    }
-
-    public static HolderSet<SyntheticAbility> getAbility(HolderGetter<SyntheticAbility> lookup, TagKey<SyntheticAbility> ability) {
-        return lookup.getOrThrow(ability);
     }
 }

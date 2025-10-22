@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
-import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundRemoveAugmentPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -28,7 +28,7 @@ public class BodyPartDisplayScreen {
     private final int y;
 
     private final BodyPart part;
-    private final List<AugmentInstance> installedAugments;
+    private final List<AppliedAugmentInstance> installedAugments;
     private final Minecraft minecraft;
 
     private static final int WIDTH = 26;
@@ -51,10 +51,10 @@ public class BodyPartDisplayScreen {
         this.part = part;
         this.minecraft = minecraft;
         this.size = Math.max(56 + minecraft.font.width(part.title()), 120);
-        List<AugmentInstance> instances = player.getInstalledAugments();
+        List<AppliedAugmentInstance> instances = player.getInstalledAugments();
         this.selectTick = 0;
         this.installedAugments = new ArrayList<>();
-        for(AugmentInstance instance : instances) {
+        for(AppliedAugmentInstance instance : instances) {
             if(instance.appliedPart().equals(this.part)) {
                 installedAugments.add(instance);
             }
@@ -101,7 +101,10 @@ public class BodyPartDisplayScreen {
                 }
                 int xPos = j + x;
                 int yPos = y + (k * 22 * renderDirection);
-                SyntheticAugment augment = installedAugments.get(i).augment();
+                Augment augment = installedAugments.get(i).augment();
+
+                // Only selected augments have their title shown, and are drawn with full opacity.
+
                 if(selectedAugment == i) {
                     pose.pushPose();
                     pose.translate(0, 0, 100);

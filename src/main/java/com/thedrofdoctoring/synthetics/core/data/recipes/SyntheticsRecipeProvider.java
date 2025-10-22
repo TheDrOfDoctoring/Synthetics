@@ -8,8 +8,8 @@ import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.ResearchNodes;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.data.DataGenerator;
@@ -331,10 +331,59 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("extended_grip")
                 );
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_TIBIA) , 1)
+                .define('B', Items.BONE)
+                .define('A', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
+                .pattern("  B")
+                .pattern(" A ")
+                .pattern("B  ")
+                .lavaCost(20)
+                .recipeTime(80)
+                .requiredResearch(lookup, ResearchNodes.ORGANIC_BONES)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("organic_tibia")
+                );
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_SKULL) , 1)
+                .define('B', Items.BONE)
+                .define('A', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
+                .pattern("B B")
+                .pattern("BAB")
+                .pattern("BBB")
+                .lavaCost(20)
+                .recipeTime(80)
+                .requiredResearch(lookup, ResearchNodes.ORGANIC_BONES)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("organic_skull")
+                );
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_RIBCAGE) , 1)
+                .define('B', Items.BONE)
+                .define('A', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
+                .pattern("BAB")
+                .pattern("BAB")
+                .pattern("BAB")
+                .lavaCost(20)
+                .recipeTime(80)
+                .requiredResearch(lookup, ResearchNodes.ORGANIC_BONES)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("organic_ribcage")
+                );
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.MOTION_AUTOPILOT) , 1)
+                .define('A', Items.REDSTONE)
+                .define('B', Items.IRON_INGOT)
+                .define('C', SyntheticsItems.ANCIENT_ALLOY.get())
+                .pattern(" B ")
+                .pattern("ACA")
+                .pattern(" B ")
+                .lavaCost(50)
+                .recipeTime(100)
+                .requiredResearch(lookup, ResearchNodes.AUTOPILOT)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("autopilot_motion")
+                );
     }
 
 
-    private ItemStack createAugment(HolderLookup.Provider provider, ResourceKey<SyntheticAugment> augmentKey) {
+    private ItemStack createAugment(HolderLookup.Provider provider, ResourceKey<Augment> augmentKey) {
         return provider.lookupOrThrow(SyntheticsData.AUGMENTS).get(augmentKey).orElseThrow().value().createDefaultItemStack(provider);
     }
     private ItemStack createPart(HolderLookup.Provider provider, ResourceKey<BodyPart> partKey) {
@@ -345,7 +394,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
         return DataComponentIngredient.of(false, map, SyntheticsItems.BODY_PART_INSTALLABLE.get());
     }
 
-    public static Ingredient augmentIngredient(HolderLookup.Provider provider, ResourceKey<SyntheticAugment> partKey) {
+    public static Ingredient augmentIngredient(HolderLookup.Provider provider, ResourceKey<Augment> partKey) {
         DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.AUGMENT,  provider.lookupOrThrow(SyntheticsData.AUGMENTS).getOrThrow(partKey)).build();
         return DataComponentIngredient.of(false, map, SyntheticsItems.AUGMENT_INSTALLABLE.get());
     }

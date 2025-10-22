@@ -1,10 +1,15 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.IPartManager;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.*;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -51,18 +56,20 @@ public class PartManager implements ISaveData, IPartManager {
         return installedSegments.getOrDefault(segment.type().value(), null).equals(segment);
     }
 
-    public boolean augmentSupportsBodyPart(SyntheticAugment augment, BodyPart part) {
-        return augment.validParts().stream().anyMatch(p -> p.value().equals(part));
+    public boolean augmentSupportsBodyPart(Augment augment, BodyPart part) {
+        return augment.validParts()
+                .stream()
+                .anyMatch(p -> p.value().equals(part));
     }
 
     public List<IBodyInstallable<?>> replacePart(BodyPart newPart, boolean updatePlayer) {
         List<IBodyInstallable<?>> removedInstallables = new ArrayList<>();
         BodyPart old = installedParts.put(newPart.type().value(), newPart);
         if(old != null) {
-            List<AugmentInstance> instancesOfPart = this.player.getInstalledAugments().stream().filter(p -> p.appliedPart().type().equals(old.type())).toList();
-            for(AugmentInstance instance : instancesOfPart) {
+            List<AppliedAugmentInstance> instancesOfPart = this.player.getInstalledAugments().stream().filter(p -> p.appliedPart().type().equals(old.type())).toList();
+            for(AppliedAugmentInstance instance : instancesOfPart) {
                 if(augmentSupportsBodyPart(instance.augment(), newPart)) {
-                    this.player.replaceAugmentInstance(instance, new AugmentInstance(instance.augment(), newPart));
+                    this.player.replaceAugmentInstance(instance, new AppliedAugmentInstance(instance.augment(), newPart));
                 } else {
                     this.player.removeAugment(instance);
                     removedInstallables.add(instance.augment());
@@ -147,7 +154,7 @@ public class PartManager implements ISaveData, IPartManager {
         return getDefaultSegment(type);
     }
 
-    public BodyPart getDefaultPartForAugment(@NotNull SyntheticAugment augment) {
+    public BodyPart getDefaultPartForAugment(@NotNull Augment augment) {
         HolderSet<BodyPart> validParts = augment.validParts();
         BodyPartType type = validParts.get(0).value().type().value();
         return getPartForType(type);

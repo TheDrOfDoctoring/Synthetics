@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
-import com.thedrofdoctoring.synthetics.body.abilities.active.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.active.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.AbilityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.config.ClientConfig;
@@ -87,7 +87,7 @@ public class AbilityOverlay implements LayeredDraw.Layer {
         if(instance != null) {
             ResourceLocation id = instance.getAbility().getAbilityID();
             ResourceLocation texture = id.withPath("textures/abilities/" + id.getPath() + ".png");
-            int percentage = 17;
+            int percentage;
             if(!selected) {
                 guiGraphics.setColor(1, 1, 1, 0.5f);
             } else {

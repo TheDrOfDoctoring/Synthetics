@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:arm_muscle",
+  "id": "synthetics:organic_arm_muscle",
+  "max_complexity": 4,
+  "valid_body_segments": "#synthetics:arms"
+}

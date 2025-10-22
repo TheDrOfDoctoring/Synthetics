@@ -6,7 +6,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.ResearchManager;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import com.thedrofdoctoring.synthetics.util.Helper;
@@ -142,7 +142,7 @@ public class ResearchNodeScreen {
         graphics.blitSprite(RESEARCH_BACKGROUND_SPRITE, x, y, WIDTH, HEIGHT);
 
         RenderSystem.enableBlend();
-        drawIcon(graphics, x + 5, y + 5, 16, 16);
+        drawIcon(graphics, x + 5, y + 5);
 
         pose.popPose();
 
@@ -218,14 +218,13 @@ public class ResearchNodeScreen {
                     // Parent is above child
                     fromY += 24;
                     toY += 1;
-                    fromToY = (toY - fromY) / 2;
 
                 } else {
                     toY += 24;
                     fromY += 1;
-                    fromToY = (toY - fromY) / 2;
 
                 }
+                fromToY = (toY - fromY) / 2;
                 if(xParentToChild < 0) {
                     // Parent is to the left of child;
                     fromX += 13;
@@ -293,65 +292,69 @@ public class ResearchNodeScreen {
         }
 
         //draw title
-        ResourceLocation texture = state.sprite;
+        ResourceLocation nodeTitleTexture = state.sprite;
         if (state == ResearchNodeState.UNLOCKED && !this.manager.hasResearched(this.node)) {
-            texture = ResearchNodeState.LOCKED.sprite;
+            nodeTitleTexture = ResearchNodeState.LOCKED.sprite;
         }
-        int size = this.size;
-        //draw research costs
+        int titleLength = this.size;
+
         if(displayRequirements) {
-            if(experienceCost != null) {
-                graphics.drawString(this.minecraft.font, experienceCost, scrollX + x + 15, scrollY + y + 30, 0x90EE90, true);
-                graphics.renderItem(experience, scrollX + x - 3, scrollY + y + 25);
-                size = Math.max(this.size, this.minecraft.font.width(this.experienceCost) + 28);
-            }
-            int j = 0, k = 1;
-            if(!this.requirements.isEmpty()) {
-
-                for (Pair<ItemStack, Integer> stackCountPair : requirements) {
-                    String count = stackCountPair.getSecond() + "x";
-                    int countWidth = this.minecraft.font.width(count);
-                    int totalWidth = countWidth + 25;
-
-                    if (j + totalWidth > size) {
-                        j = 0;
-                        k += 1;
-                    }
-                    graphics.renderItem(stackCountPair.getFirst(), j + x - 2, scrollY + y + k * 18 + 28);
-                    graphics.drawString(this.minecraft.font, count, j + x + 18, scrollY + y + k * 18 + 32, ChatFormatting.GRAY.getColor(), true);
-
-                    j = j + totalWidth;
-                }
-
-
-            }
-            graphics.blitSprite(RESEARCH_DESCRIPTION_SPRITE, scrollX + x - 5, scrollY + y + 3, size, 30 + (k + 1) * 18);
-
+            titleLength = drawResearchRequirements(graphics, scrollX, scrollY);
         }
         graphics.drawString(this.minecraft.font, this.title, scrollX + x + 30, scrollY + y + 9, -1, true);
 
-        graphics.blitSprite(texture, scrollX + x - 5, scrollY + y+3, size, 20);
+        graphics.blitSprite(nodeTitleTexture, scrollX + x - 5, scrollY + y+3, titleLength, 20);
         graphics.blitSprite(RIGHT_CLICK_SPRITE, scrollX + x - 18, scrollY + y + 3, 15, 16);
 
         //draw node
         graphics.setColor(1f, 1f, 1f, 1);
         graphics.blitSprite(RESEARCH_BACKGROUND_SPRITE, scrollX + x, scrollY + y, 26, 26);
-        drawIcon(graphics, x + scrollX + 5, y + scrollY + 5, 16, 16);
+        drawIcon(graphics, x + scrollX + 5, y + scrollY + 5);
         pose.popPose();
     }
     public boolean isMouseOver(double mouseX, double mouseY, int scrollX, int scrollY) {
         return mouseX >= x + scrollX && mouseX < x + scrollX + (double) WIDTH - 1 && mouseY > scrollY + y + ResearchScreen.SCREEN_HEIGHT && mouseY < scrollY + this.y + 26 + ResearchScreen.SCREEN_HEIGHT;
     }
 
-    private void drawIcon(GuiGraphics graphics, int x, int y, int width, int height) {
+    @SuppressWarnings("DataFlowIssue")
+    private int drawResearchRequirements(GuiGraphics graphics, int scrollX, int scrollY) {
+        int size = 28;
+        if(experienceCost != null) {
+            graphics.drawString(this.minecraft.font, experienceCost, scrollX + x + 15, scrollY + y + 30, 0x90EE90, true);
+            graphics.renderItem(experience, scrollX + x - 3, scrollY + y + 25);
+            size = this.minecraft.font.width(this.experienceCost) + 28;
+        }
+        int j = 0, k = 1;
+        if(!this.requirements.isEmpty()) {
+
+            for (Pair<ItemStack, Integer> stackCountPair : requirements) {
+                String count = stackCountPair.getSecond() + "x";
+                int countWidth = this.minecraft.font.width(count);
+                int totalWidth = countWidth + 25;
+
+                if (j + totalWidth > size) {
+                    j = 0;
+                    k += 1;
+                }
+                graphics.renderItem(stackCountPair.getFirst(), j + x - 2, scrollY + y + k * 18 + 28);
+                graphics.drawString(this.minecraft.font, count, j + x + 18, scrollY + y + k * 18 + 32, ChatFormatting.GRAY.getColor(), true);
+
+                j = j + totalWidth;
+            }
+
+
+        }
+        graphics.blitSprite(RESEARCH_DESCRIPTION_SPRITE, scrollX + x - 5, scrollY + y + 3, size, 30 + (k + 1) * 18);
+        return size;
+    }
+
+    private void drawIcon(GuiGraphics graphics, int x, int y) {
         graphics.pose().pushPose();
         this.unlockedPrimary.ifLeft(ingredient -> {
             ItemStack stack = ingredient.getItems()[0];
             graphics.renderFakeItem(stack, x, y);
         });
-        this.unlockedPrimary.ifRight(iBodyInstallable -> {
-            graphics.blit(iBodyInstallable.texture(), x, y, 0, 0, width, height, 16, 16);
-        });
+        this.unlockedPrimary.ifRight(iBodyInstallable -> graphics.blit(iBodyInstallable.texture(), x, y, 0, 0, 16, 16, 16, 16));
         graphics.pose().popPose();
 
     }

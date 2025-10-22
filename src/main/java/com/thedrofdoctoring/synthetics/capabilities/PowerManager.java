@@ -15,13 +15,8 @@ public class PowerManager implements IPowerManager {
     private int consumedPowerPerTick;
     private int storedPower;
     private int maxPower;
-    private final SyntheticsPlayer player;
 
     private boolean dirty;
-
-    public PowerManager(SyntheticsPlayer player) {
-        this.player = player;
-    }
 
     @Override
     public void setTotalPowerCost(int cost) {
@@ -67,6 +62,11 @@ public class PowerManager implements IPowerManager {
     public void markDirty() {
         this.dirty = true;
     }
+
+    public boolean hasSufficientPower(int amount) {
+        return storedPower > amount;
+    }
+
     @Override
     public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = new CompoundTag();

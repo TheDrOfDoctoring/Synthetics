@@ -6,7 +6,12 @@ import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsLootTableProvider
 import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsTagProvider;
 import com.thedrofdoctoring.synthetics.core.data.providers.*;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticsRecipeProvider;
-import com.thedrofdoctoring.synthetics.core.data.types.body.*;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
@@ -32,8 +37,8 @@ public class SyntheticsData {
     public static final ResourceKey<Registry<BodyPart>> BODY_PARTS = ResourceKey.createRegistryKey(Synthetics.rl("body_parts"));
     public static final ResourceKey<Registry<BodyPartType>> BODY_PART_TYPES = ResourceKey.createRegistryKey(Synthetics.rl("body_part_types"));
 
-    public static final ResourceKey<Registry<SyntheticAugment>> AUGMENTS = ResourceKey.createRegistryKey(Synthetics.rl("augments"));
-    public static final ResourceKey<Registry<SyntheticAbility>> ABILITIES = ResourceKey.createRegistryKey(Synthetics.rl("abilities"));
+    public static final ResourceKey<Registry<Augment>> AUGMENTS = ResourceKey.createRegistryKey(Synthetics.rl("augments"));
+    public static final ResourceKey<Registry<Ability>> ABILITIES = ResourceKey.createRegistryKey(Synthetics.rl("abilities"));
 
     public static final ResourceKey<Registry<ResearchNode>> RESEARCH_NODES = ResourceKey.createRegistryKey(Synthetics.rl("research_nodes"));
 
@@ -54,8 +59,8 @@ public class SyntheticsData {
         event.dataPackRegistry(BODY_SEGMENTS, BodySegment.CODEC.codec(), BodySegment.CODEC.codec());
         event.dataPackRegistry(BODY_PART_TYPES, BodyPartType.CODEC.codec(), BodyPartType.CODEC.codec());
         event.dataPackRegistry(BODY_PARTS, BodyPart.CODEC.codec(), BodyPart.CODEC.codec());
-        event.dataPackRegistry(AUGMENTS, SyntheticAugment.CODEC.codec(), SyntheticAugment.CODEC.codec());
-        event.dataPackRegistry(ABILITIES, SyntheticAbility.CODEC.codec(), SyntheticAbility.CODEC.codec());
+        event.dataPackRegistry(AUGMENTS, Augment.CODEC.codec(), Augment.CODEC.codec());
+        event.dataPackRegistry(ABILITIES, Ability.CODEC.codec(), Ability.CODEC.codec());
         event.dataPackRegistry(RESEARCH_NODES, ResearchNode.CODEC.codec(), ResearchNode.CODEC.codec());
 
     }

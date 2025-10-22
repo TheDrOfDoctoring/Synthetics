@@ -1,0 +1,36 @@
+{
+  "parent": "synthetics:artificial_tissue",
+  "id": "synthetics:organic_bones",
+  "requirements": {
+    "experience_cost": 125,
+    "required_items": [
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:bone"
+        }
+      },
+      {
+        "amount": 6,
+        "item": {
+          "item": "synthetics:artificial_capillary"
+        }
+      },
+      {
+        "amount": 2,
+        "item": {
+          "item": "synthetics:artificial_tissue"
+        }
+      }
+    ]
+  },
+  "unlocked": {
+    "parts": [
+      "synthetics:organic_tibia",
+      "synthetics:organic_ribcage",
+      "synthetics:organic_skull"
+    ]
+  },
+  "x": 140,
+  "y": 190
+}

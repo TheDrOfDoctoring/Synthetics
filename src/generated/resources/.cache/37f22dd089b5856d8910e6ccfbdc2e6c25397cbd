@@ -1,5 +1,6 @@
-// 1.21.1	2025-10-17T02:31:28.4501222	Tags for synthetics:body_parts mod id synthetics
-7a54fe7a49d98f2f1558d64b2977c5c1300fac71 data/synthetics/tags/synthetics/body_parts/bones.json
+// 1.21.1	2025-10-19T22:36:36.3525038	Tags for synthetics:body_parts mod id synthetics
+b435a26595211b4c497967752f32feda4e84307e data/synthetics/tags/synthetics/body_parts/arm_muscle.json
+978b49e1d6c56ee249e06efc9505f8bda457f341 data/synthetics/tags/synthetics/body_parts/bones.json
 ba71d82415429402d0a60e92f3942ff65c012121 data/synthetics/tags/synthetics/body_parts/eyes.json
 dbeb808e832f8c764263e536a50eaed053e98fe6 data/synthetics/tags/synthetics/body_parts/feet.json
 eece9170060130003df2e2a8cac676593d1664eb data/synthetics/tags/synthetics/body_parts/hands.json

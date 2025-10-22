@@ -1,0 +1,25 @@
+{
+  "id": "synthetics:motion_autopilot",
+  "requirements": {
+    "experience_cost": 30,
+    "required_items": [
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:amethyst_shard"
+        }
+      },
+      {
+        "amount": 48,
+        "item": {
+          "item": "minecraft:redstone"
+        }
+      }
+    ]
+  },
+  "unlocked": {
+    "augments": "synthetics:motion_autopilot"
+  },
+  "x": 120,
+  "y": 0
+}

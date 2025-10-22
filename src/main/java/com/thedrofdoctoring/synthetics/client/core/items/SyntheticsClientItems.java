@@ -1,11 +1,11 @@
 package com.thedrofdoctoring.synthetics.client.core.items;
 
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPartType;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import net.minecraft.ChatFormatting;
@@ -36,7 +36,7 @@ public class SyntheticsClientItems {
         if(flag.hasShiftDown()) {
             InstallableItem<?> item = (InstallableItem<?>) stack.getItem();
             IBodyInstallable<?> installable = item.getInstallableComponent(stack);
-            if(installable instanceof SyntheticAugment augment) {
+            if(installable instanceof Augment augment) {
                 tooltips.add(Component.translatable("text.synthetics.augmentation.max_total", augment.maxTotal()).withStyle(ChatFormatting.BLUE));
                 tooltips.add(Component.translatable("text.synthetics.augmentation.max_per_part", augment.maxPerPart()).withStyle(ChatFormatting.BLUE));
                 tooltips.add(Component.translatable("tooltips.synthetics.augment_complexity", augment.complexity()).withStyle(ChatFormatting.RED));
@@ -63,7 +63,7 @@ public class SyntheticsClientItems {
                 tooltips.add(Component.translatable("tooltips.synthetics.max_complexity", part.maxComplexity()).withStyle(ChatFormatting.BLUE));
             }
             if(installable.abilities().isPresent()) {
-                for(Holder<SyntheticAbility> ability : installable.abilities().get()) {
+                for(Holder<Ability> ability : installable.abilities().get()) {
                     if(ability.value().abilityType().equals(SyntheticAbilities.BATTERY.get())) {
                         tooltips.add(Component.translatable("text.synthetics.augmentation_power_storage", (int) ability.value().abilityData().factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
                     }

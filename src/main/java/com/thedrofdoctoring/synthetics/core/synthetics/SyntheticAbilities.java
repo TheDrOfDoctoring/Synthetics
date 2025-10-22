@@ -2,18 +2,18 @@ package com.thedrofdoctoring.synthetics.core.synthetics;
 
 import com.mojang.serialization.MapCodec;
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.body.abilities.AbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.active.AbilityActiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.active.types.LeapAbility;
-import com.thedrofdoctoring.synthetics.body.abilities.active.types.WallClimbAbility;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityData;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AttributeAbilityInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.GenericPassiveAbilityInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.AttributeAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.BatteryAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.PassiveAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.generators.FoodGeneratorAbility;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.generators.SolarGeneratorAbility;
+import com.thedrofdoctoring.synthetics.abilities.AbilityType;
+import com.thedrofdoctoring.synthetics.abilities.active.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.active.types.LeapAbility;
+import com.thedrofdoctoring.synthetics.abilities.active.types.WallClimbAbility;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.AttributeAbilityInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.AttributeAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.BatteryAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.FoodGeneratorAbility;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.SolarGeneratorAbility;
 import net.minecraft.core.Registry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -69,9 +69,6 @@ public class SyntheticAbilities {
             ABILITY_DATA.register("generic_active_ability", () -> AbilityActiveInstance.ActiveAbilityData.CODEC);
     public static final DeferredHolder<StreamCodec<? super RegistryFriendlyByteBuf, ? extends AbilityData>, StreamCodec<? super RegistryFriendlyByteBuf, AbilityActiveInstance.ActiveAbilityData>> ACTIVE_GENERIC_STREAM_TYPE =
             ABILITY_DATA_STREAM.register("generic_active_ability", () -> AbilityActiveInstance.ActiveAbilityData.STREAM_CODEC);
-
-    //TODO:
-    // Abilities replaced with ability types, eg attribute modifier ability, damage resistance, with the specified modified attribute in the ability data gen.
 
     public static final DeferredHolder<AbilityType, AttributeAbilityType> ATTRIBUTE_ABILITY = ABILITIES.register("attribute_type", AttributeAbilityType::new);
     public static final DeferredHolder<AbilityType, BatteryAbilityType> BATTERY = ABILITIES.register("battery", BatteryAbilityType::new);

@@ -4,8 +4,8 @@ import com.google.common.collect.Lists;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
-import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -40,7 +40,8 @@ public class SyntheticsAugmentCommand {
                 );
 
     }
-    private static int modifyAugment(@NotNull CommandContext<CommandSourceStack> context, SyntheticAugment augment, boolean install, @NotNull Collection<ServerPlayer> players) {
+    @SuppressWarnings("SameReturnValue")
+    private static int modifyAugment(@NotNull CommandContext<CommandSourceStack> context, Augment augment, boolean install, @NotNull Collection<ServerPlayer> players) {
         for(ServerPlayer player : players) {
             SyntheticsPlayer synthetics = SyntheticsPlayer.get(player);
             if(install) {
@@ -48,7 +49,7 @@ public class SyntheticsAugmentCommand {
                     context.getSource().sendFailure(Component.translatable("command.synthetics.already_installed", augment.augmentID().toString(), player.getDisplayName()));
                     return 0;
                 }
-                synthetics.addAugment(new AugmentInstance(augment, synthetics.getPartManager().getDefaultPartForAugment(augment)), true);
+                synthetics.addAugment(new AppliedAugmentInstance(augment, synthetics.getPartManager().getDefaultPartForAugment(augment)), true);
                 context.getSource().sendSuccess(() -> Component.translatable("command.synthetics.modify_success"), true);
 
             } else {
@@ -56,7 +57,7 @@ public class SyntheticsAugmentCommand {
                     context.getSource().sendFailure(Component.translatable("command.synthetics.not_installed", augment.id().toString(), player.getDisplayName()));
                     return 0;
                 }
-                synthetics.removeAugment(new AugmentInstance(augment, synthetics.getPartManager().getDefaultPartForAugment(augment)));
+                synthetics.removeAugment(new AppliedAugmentInstance(augment, synthetics.getPartManager().getDefaultPartForAugment(augment)));
                 context.getSource().sendSuccess(() -> Component.translatable("command.synthetics.modify_success"), true);
             }
 

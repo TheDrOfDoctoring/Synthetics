@@ -25,7 +25,10 @@
     ]
   },
   "unlocked": {
-    "parts": "synthetics:cybernetic_tissue"
+    "parts": [
+      "synthetics:cybernetic_tissue",
+      "synthetics:organic_tissue"
+    ]
   },
   "x": 50,
   "y": 190

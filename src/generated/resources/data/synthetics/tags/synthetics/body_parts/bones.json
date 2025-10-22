@@ -2,6 +2,9 @@
   "values": [
     "#synthetics:skull",
     "#synthetics:ribcage",
+    "#synthetics:tibia",
+    "#synthetics:arm_muscle",
+    "#synthetics:ribcage",
     "#synthetics:tibia"
   ]
 }

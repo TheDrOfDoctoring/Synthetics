@@ -2,8 +2,8 @@ package com.thedrofdoctoring.synthetics.core.data.collections;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +24,7 @@ public class BodyParts {
     public static final ResourceKey<BodyPart> ORGANIC_SKULL = create("organic_skull");
     public static final ResourceKey<BodyPart> ORGANIC_TIBIA = create("organic_tibia");
     public static final ResourceKey<BodyPart> CYBERNETIC_HANDS = create("cybernetic_hands");
+    public static final ResourceKey<BodyPart> ORGANIC_ARM_MUSCLE = create("organic_arm_muscle");
 
 
 
@@ -38,6 +39,7 @@ public class BodyParts {
     public static final ResourceKey<BodyPartType> RIBCAGE =  createType("ribcage");
     public static final ResourceKey<BodyPartType> SKULL =  createType("skull");
     public static final ResourceKey<BodyPartType> TIBIA =  createType("tibia");
+    public static final ResourceKey<BodyPartType> ARM_MUSCLE =  createType("arm_muscle");
 
 
     public static final TagKey<BodyPart> EYES_MAIN = tag("eyes");
@@ -49,8 +51,11 @@ public class BodyParts {
     public static final TagKey<BodyPart> TIBIA_MAIN = tag("tibia");
     public static final TagKey<BodyPart> SKULL_MAIN = tag("skull");
     public static final TagKey<BodyPart> RIBCAGE_MAIN = tag("ribcage");
+    public static final TagKey<BodyPart> ARM_MUSCLE_MAIN = tag("arm_muscle");
+
 
     public static final TagKey<BodyPart> ALL_BONES = tag("bones");
+    public static final TagKey<BodyPart> ALL_MUSCLES = tag("bones");
 
 
 

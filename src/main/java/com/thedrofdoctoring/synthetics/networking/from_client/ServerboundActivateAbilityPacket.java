@@ -1,8 +1,8 @@
 package com.thedrofdoctoring.synthetics.networking.from_client;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.body.abilities.AbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.active.ActiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.AbilityType;
+import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.AbilityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.network.RegistryFriendlyByteBuf;

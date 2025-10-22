@@ -1,0 +1,12 @@
+{
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.step_height",
+    "factor": 0.5,
+    "operation": "add_value"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:autopilot_step_assist"
+}

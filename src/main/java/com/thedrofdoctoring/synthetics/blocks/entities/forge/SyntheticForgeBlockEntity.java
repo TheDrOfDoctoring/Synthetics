@@ -169,7 +169,7 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
     }
 
 
-    public @Nullable IFluidHandler getFluidCap(Direction side) {
+    public @Nullable IFluidHandler getFluidCap(Direction ignoredSide) {
         return lavaTank;
     }
     @Override
@@ -199,9 +199,7 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
                 if(optional.isPresent()) {
                     RecipeHolder<SyntheticForgeRecipe> recipe = optional.get();
                     if(recipe.value().getLavaCost() > forge.lavaTank().getFluidAmount()) {
-                        forge.recipeTime = 0;
-                        forge.totalRecipeTime = 0;
-                        forge.setChanged();
+                        forge.clearRecipe();
                         return;
                     }
                     ItemStack blueprintStack = forge.getItem(1);
@@ -227,9 +225,7 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
                     forge.lavaTank.drain(recipe.value().getLavaCost(), IFluidHandler.FluidAction.EXECUTE);
 
                 }
-                forge.recipeTime = 0;
-                forge.totalRecipeTime = 0;
-                forge.setChanged();
+                forge.clearRecipe();
                 return;
             }
 
@@ -240,6 +236,16 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
             state = state.setValue(SyntheticForge.ACTIVE, lit);
             level.setBlock(pos, state, 3);
         }
+    }
+
+    public void clearRecipe() {
+        this.recipeTime = 0;
+        this.totalRecipeTime = 0;
+        this.setChanged();
+    }
+    private void clearRecipeNoUpdate() {
+        this.recipeTime = 0;
+        this.totalRecipeTime = 0;
     }
 
 
@@ -287,16 +293,13 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
                     ItemStack result = this.items.get(0);
                     if(!result.equals(ItemStack.EMPTY)) {
                         if((!recipe.getResult().is(result.getItem())) || result.getCount() + recipe.getResult().getCount() > result.getMaxStackSize()) {
-
-                            this.recipeTime = 0;
-                            this.totalRecipeTime = 0;
+                            this.clearRecipeNoUpdate();
                             return;
                         }
                     }
 
                     if(recipe.getLavaCost() > this.lavaTank.getFluidAmount()) {
-                        this.recipeTime = 0;
-                        this.totalRecipeTime = 0;
+                        this.clearRecipeNoUpdate();
                         return;
                     }
 
@@ -320,13 +323,11 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
 
 
                 } else {
-                    this.recipeTime = 0;
-                    this.totalRecipeTime = 0;
+                    this.clearRecipeNoUpdate();
                 }
 
             } else {
-                this.recipeTime = 0;
-                this.totalRecipeTime = 0;
+                this.clearRecipeNoUpdate();
             }
         }
         super.setChanged();

@@ -2,7 +2,7 @@
   "parent": "synthetics:artificial_tissue",
   "id": "synthetics:organic_feet",
   "requirements": {
-    "experience_cost": 175,
+    "experience_cost": 100,
     "required_items": [
       {
         "amount": 8,
@@ -25,7 +25,7 @@
     ]
   },
   "unlocked": {
-    "parts": "synthetics:organic_feet"
+    "parts": "synthetics:organic_brain"
   },
   "x": 80,
   "y": 190

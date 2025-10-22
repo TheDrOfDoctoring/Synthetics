@@ -1,12 +1,12 @@
 package com.thedrofdoctoring.synthetics.capabilities.interfaces;
 
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegment;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
 
 import java.util.Collection;
 import java.util.List;
-
+@SuppressWarnings("unused")
 public interface IPartManager {
 
     Collection<BodyPart> getInstalledParts();

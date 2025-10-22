@@ -8,7 +8,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -22,11 +22,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class AugmentArgument implements ArgumentType<SyntheticAugment> {
+public class AugmentArgument implements ArgumentType<Augment> {
 
     private static final DynamicCommandExceptionType AUGMENT_NOT_FOUND = new DynamicCommandExceptionType((id) -> Component.translatable("command.synthetics.argument.augment_not_found", id));
 
-    private final HolderLookup<SyntheticAugment> registryLookup;
+    private final HolderLookup<Augment> registryLookup;
 
     private static final Collection<String> EXAMPLES = List.of("synthetics:fail_augment");
 
@@ -35,18 +35,18 @@ public class AugmentArgument implements ArgumentType<SyntheticAugment> {
     }
 
     @Override
-    public SyntheticAugment parse(StringReader reader) throws CommandSyntaxException {
+    public Augment parse(StringReader reader) throws CommandSyntaxException {
         ResourceLocation location = ResourceLocation.read(reader);
 
-        SyntheticAugment augment = Helper.retrieveDataObject(location, SyntheticsData.AUGMENTS, registryLookup, false);
+        Augment augment = Helper.retrieveDataObject(location, SyntheticsData.AUGMENTS, registryLookup, false);
         if(augment == null) throw AUGMENT_NOT_FOUND.create(location);
         return augment;
     }
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
         return SharedSuggestionProvider.suggest(registryLookup.listElements().map(p -> p.key().location().toString()), builder);
     }
-    public static SyntheticAugment getAugment(@NotNull CommandContext<CommandSourceStack> context, String id) {
-        return context.getArgument(id, SyntheticAugment.class);
+    public static Augment getAugment(@NotNull CommandContext<CommandSourceStack> context, String id) {
+        return context.getArgument(id, Augment.class);
     }
 
     @Override

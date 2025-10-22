@@ -2,10 +2,15 @@ package com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.ComplexityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
-import com.thedrofdoctoring.synthetics.core.data.types.body.*;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.menus.AugmentationChamberMenu;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundInstallableMenuPacket;
@@ -120,7 +125,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             ItemStack stack = this.menu.getSlot(0).getItem();
             if(!stack.isEmpty() && stack.getItem() instanceof InstallableItem<?> installableItem) {
                 IBodyInstallable<?> installable = installableItem.getInstallableComponent(stack);
-                if(installable instanceof SyntheticAugment augment) {
+                if(installable instanceof Augment augment) {
                     Holder<BodyPartType> firstType = augment.validParts().get(0).value().type();
                     boolean onlyOneType = true;
                     for(Holder<BodyPart> validParts : augment.validParts()) {
@@ -183,23 +188,16 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             ItemStack stack = this.menu.getInputContainer().getItem(0);
             if(stack.getItem() instanceof InstallableItem<?> item) {
                 IBodyInstallable<?> installable = item.getInstallableComponent(stack);
-                if(installable instanceof SyntheticAugment augment && this.selectedBodyPart != null && augment.validParts().stream().anyMatch(p -> p.value().equals(selectedBodyPart))) {
-                    installable = new AugmentInstance(augment, this.selectedBodyPart);
+                if(installable instanceof Augment augment && this.selectedBodyPart != null && augment.validParts().stream().anyMatch(p -> p.value().equals(selectedBodyPart))) {
+                    installable = new AppliedAugmentInstance(augment, this.selectedBodyPart);
                 }
                 List<FormattedCharSequence> text = Language.getInstance().getVisualOrder(getTextForInstallable(installable, synthetics, displayAbilities, selectedAbility));
-
 
                 PoseStack pose = guiGraphics.pose();
                 guiGraphics.blitSprite(RIGHT_CLICK_SPRITE, x + 12, y - 3, 15, 16);
                 pose.pushPose();
-                int largest = 0;
-                for(FormattedCharSequence chars : text) {
 
-                    int width = this.minecraft.font.width(chars);
-                    if(width > largest) {
-                        largest = width;
-                    }
-                }
+                int largest = text.stream().mapToInt(charSequence -> this.minecraft.font.width(charSequence)).max().orElse(0);
 
                 float xScale = 0.5f;
 
@@ -217,18 +215,18 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
 
         }
     }
-    public static Component getAbilityTitle(Holder<SyntheticAbility> ability) {
+    public static Component getAbilityTitle(Holder<Ability> ability) {
         return ability.value().abilityType().title(ability.value().abilityData());
     }
 
     public static List<FormattedText> getTextForInstallable(IBodyInstallable<?> installable, SyntheticsPlayer synthetics, boolean displayAbilities, int selectedAbility) {
         List<FormattedText> text = new ArrayList<>();
 
-        if (synthetics.isInstalled(installable) && !(installable instanceof AugmentInstance || installable instanceof SyntheticAugment)) {
+        if (synthetics.isInstalled(installable) && !(installable instanceof AppliedAugmentInstance || installable instanceof Augment)) {
             text.add(Component.translatable("text.synthetics.augmentation.already_installed").withStyle(ChatFormatting.AQUA));
         }
         if (displayAbilities && installable.abilities().isPresent()) {
-            HolderSet<SyntheticAbility> abilities = installable.abilities().get();
+            HolderSet<Ability> abilities = installable.abilities().get();
             int maxSize = abilities.size();
             if (selectedAbility >= maxSize) {
                 selectedAbility = 0;
@@ -248,7 +246,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                     text.add(after);
                 }
                 text.add(Component.empty());
-                SyntheticAbility ability = abilities.get(selectedAbility).value();
+                Ability ability = abilities.get(selectedAbility).value();
 
                 ArrayList<Component> abilityDescription = new ArrayList<>();
                 ability.abilityType().addDescriptionInfo(ability.abilityData(), abilityDescription);
@@ -261,12 +259,12 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         text.add(Component.empty());
         switch (installable) {
 
-            case AugmentInstance instance -> {
+            case AppliedAugmentInstance instance -> {
 
 
                 BodyPart part = instance.appliedPart();
                 BodySegment segment = synthetics.getPartManager().getSegmentForPart(part);
-                ComplexityManager.ComplexityPairs newComplexity = synthetics.getComplexityManager().getNewComplexity(new AugmentInstance(instance.augment(), part), null);
+                ComplexityManager.ComplexityPairs newComplexity = synthetics.getComplexityManager().getNewComplexity(new AppliedAugmentInstance(instance.augment(), part), null);
 
                 int maxPartComplexity = part.maxComplexity();
                 int maxSegmentComplexity = segment.maxComplexity();
@@ -284,7 +282,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
 
             }
 
-            case SyntheticAugment augment -> {
+            case Augment augment -> {
 
                 text.add(Component.translatable("text.synthetics.augmentation.no_selected_part").withStyle(ChatFormatting.RED));
                 text.add(Component.translatable("text.synthetics.augmentation.select_part").withStyle(ChatFormatting.RED));
@@ -365,13 +363,13 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                 IBodyInstallable<?> installable = item.getInstallableComponent(itemStack);
                 ClientPacketListener connection = Minecraft.getInstance().getConnection();
 
-                if(installable instanceof SyntheticAugment augment) {
+                if(installable instanceof Augment augment) {
                     if(selectedBodyPart != null) {
-                        installable = new AugmentInstance(augment, selectedBodyPart);
+                        installable = new AppliedAugmentInstance(augment, selectedBodyPart);
                     }
                 }
 
-                if( !(installable instanceof SyntheticAugment) && SyntheticsPlayer.get(player).canAddInstallable(installable) && connection != null) {
+                if( !(installable instanceof Augment) && SyntheticsPlayer.get(player).canAddInstallable(installable) && connection != null) {
                     connection.send(new ServerboundInstallableMenuPacket(Optional.ofNullable(this.selectedBodyPart)));
                     playSoundEffect(SoundEvents.BEACON_ACTIVATE, 1f, 2f);
                     playSoundEffect(SoundEvents.SCULK_BLOCK_CHARGE, 1f, 1f);

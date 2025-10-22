@@ -1,20 +1,20 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.body.abilities.AbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
-import com.thedrofdoctoring.synthetics.body.abilities.active.AbilityActiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.active.ActiveAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.active.LastingAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.IAbilityEventListener;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityPassiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AttributeAbilityInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.PassiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.AbilityType;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.abilities.active.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.active.LastingAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.IAbilityEventListener;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.AttributeAbilityInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import it.unimi.dsi.fastutil.Pair;
@@ -58,8 +58,10 @@ public class AbilityManager implements ISyncable {
 
     private final SyntheticsPlayer manager;
     private boolean dirty;
+    private boolean insufficientPower;
 
     private int timeSinceWarning;
+    private static final int WARNING_TIME = 120;
 
     public static final String KEY = "ability_manager";
 
@@ -83,38 +85,54 @@ public class AbilityManager implements ISyncable {
     }
     public void addAbilities(IBodyInstallable<?> holder) {
         if(holder.abilities().isPresent()) {
-            HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
-            boolean powerDraw = false;
-            if(holder instanceof SyntheticAugment augment) {
-                powerDraw = augment.powerCost() > 0;
-            }
-            for(int i = 0; i < holderSet.size(); i++ ){
-                SyntheticAbility ability = holderSet.get(i).value();
-                AbilityType type = ability.abilityType();
-                if(type instanceof PassiveAbilityType passive) {
-                    int count = passiveAbilities.getOrDefault(ability.id(), IntObjectPair.of(0, null)).firstInt();
-                    count += 1;
-
-                    var instanceOpt = passive.createInstance(this.manager, ability.abilityData(), ability.id(), powerDraw);
-                    if(instanceOpt.isPresent()) {
-                        passive.onAbilityAdded(instanceOpt.get(), count, manager);
-                        passiveAbilities.put(ability.id(), IntObjectPair.of(count, instanceOpt.get()));
-                    } else {
-                        Synthetics.LOGGER.warn("Failed to create Passive Ability Instance for ability with instance ID: {}", ability.id());
-                    }
-
-
-                } else if(type instanceof ActiveAbilityType active) {
-                    var instanceOpt = active.createInstance(this.manager, ability.abilityData(), ability.id());
-                    if(instanceOpt.isPresent()) {
-                        activeAbilities.put(ability.abilityType().getAbilityID(), instanceOpt.get());
-                    } else {
-                        Synthetics.LOGGER.warn("Failed to create Active Ability Instance for ability with instance ID: {}", ability.id());
-                    }
-                }
-            }
+            HolderSet<Ability> holderSet = holder.abilities().get();
+            List<Ability> abilities = holderSet.stream().map(Holder::value).toList();
+            addAbilities(abilities, holder);
         }
     }
+
+    public void addAbilities(List<Ability> abilities, IBodyInstallable<?> source) {
+
+        for (Ability ability : abilities) {
+            AbilityType type = ability.abilityType();
+            if (type instanceof PassiveAbilityType passive) {
+                addAbility(passive, ability, hasPowerDraw(source));
+            } else if (type instanceof ActiveAbilityType active) {
+                addAbility(active, ability);
+            }
+        }
+
+    }
+
+    private boolean hasPowerDraw(IBodyInstallable<?> installable) {
+        return installable instanceof Augment augment && augment.powerCost() > 0;
+    }
+
+    public void addAbility(ActiveAbilityType active, Ability activeAbility) {
+        ResourceLocation instanceID = activeAbility.id();
+        var instanceOpt = active.createInstance(this.manager, activeAbility.abilityData(), instanceID);
+        instanceOpt.ifPresentOrElse(instance ->
+                activeAbilities.put(activeAbility.abilityType().getAbilityID(), instance),
+                () -> Synthetics.LOGGER.warn("Failed to create Active Ability Instance for ability with instance ID: {}", instanceID)
+        );
+    }
+
+    public void addAbility(PassiveAbilityType passive, Ability passiveAbility, boolean hasPowerDraw) {
+
+        int count =
+                passiveAbilities
+                .getOrDefault(passiveAbility.id(), IntObjectPair.of(0, null))
+                .firstInt()
+                + 1;
+        var instanceOpt = passive.createInstance(this.manager, passiveAbility.abilityData(), passiveAbility.id(), hasPowerDraw);
+
+        instanceOpt.ifPresentOrElse(instance -> {
+            passive.onAbilityAdded(instance, count, manager);
+            passiveAbilities.put(passiveAbility.id(), IntObjectPair.of(count, instance));
+            }, () -> Synthetics.LOGGER.warn("Failed to create Passive Ability Instance for ability with instance ID: {}", passiveAbility.id())
+        );
+    }
+
 
     public Collection<AbilityActiveInstance<?>> getActiveAbilities() {
         return this.activeAbilities.values();
@@ -152,25 +170,36 @@ public class AbilityManager implements ISyncable {
         if(isAbilityActive(activeAbility)) {
             deactivateAbility((LastingAbilityType) activeAbility);
             return true;
-        } else if(instance.getPowerCost() < power.getStoredPower() && !this.isAbilityOnCooldown(activeAbility) && activeAbility.activate(manager, instance.factor())) {
-            int powerCost = instance.getPowerCost();
-            power.drainPower(powerCost);
+        } else if(hasSufficientPower(power, instance) && !this.isAbilityOnCooldown(activeAbility) && activeAbility.activate(manager, instance.factor())) {
+            drainPower(power, instance);
             if(activeAbility instanceof LastingAbilityType) {
                 this.duration.put(activeAbility.getAbilityID(), instance.getDuration() * 20);
             } else {
                 this.cooldown.put(activeAbility.getAbilityID(), instance.getCooldown() * 20);
             }
-            power.markDirty();
             this.dirty = true;
         } else {
-            if(instance.getPowerCost() > power.getStoredPower()) {
-                this.manager.getEntity().displayClientMessage(Component.translatable("synthetics.abilities.insufficient_power").withStyle(ChatFormatting.RED), true);
-            }
-
             this.manager.getEntity().playNotifySound(SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.MASTER, 0.25f, 0.75f);
         }
 
         return true;
+    }
+
+    private boolean hasSufficientPower(PowerManager powerManager, AbilityActiveInstance<?> abilityInstance) {
+        if(!powerManager.hasSufficientPower(abilityInstance.getPowerCost())) {
+            sendInsufficientPowerMessage(manager);
+            return false;
+        }
+        return true;
+    }
+
+    private void sendInsufficientPowerMessage(SyntheticsPlayer player) {
+        player.getEntity().displayClientMessage(Component.translatable("synthetics.abilities.insufficient_power").withStyle(ChatFormatting.RED), true);
+    }
+
+    private void drainPower(PowerManager powerManager, AbilityActiveInstance<?> abilityInstance) {
+        powerManager.drainPower(abilityInstance.getPowerCost());
+        powerManager.markDirty();
     }
 
     public boolean canActivate(ActiveAbilityType type) {
@@ -193,10 +222,10 @@ public class AbilityManager implements ISyncable {
         return this.cooldown.containsKey(type.getAbilityID());
     }
 
-    public boolean hasAbility(SyntheticAbility ability) {
+    public boolean hasAbility(Ability ability) {
         return this.passiveAbilities.containsKey(ability.id()) || this.activeAbilities.containsKey(ability.abilityType().getAbilityID());
     }
-    public boolean isAbilityEnabled(SyntheticAbility ability) {
+    public boolean isAbilityEnabled(Ability ability) {
         if(ability.abilityType() instanceof PassiveAbilityType) {
             return this.passiveAbilities.containsKey(ability.id()) && this.passiveAbilities.get(ability.id()).right().isEnabled();
         }
@@ -215,30 +244,45 @@ public class AbilityManager implements ISyncable {
 
     public void removeAbilities(IBodyInstallable<?> holder) {
         if(holder.abilities().isPresent()) {
-            HolderSet<SyntheticAbility> holderSet = holder.abilities().get();
-            for(int i = 0; i < holderSet.size(); i++ ){
-                SyntheticAbility ability = holderSet.get(i).value();
-                AbilityType type = ability.abilityType();
-                if(type instanceof PassiveAbilityType passive) {
-                    if(passiveAbilities.containsKey(ability.id())) {
-                        IntObjectPair<AbilityPassiveInstance<?>> pair = passiveAbilities.get(ability.id());
-                        pair.right().getAbility().onAbilityRemoved(pair.right(), pair.leftInt() - 1, manager);
-                        if(pair.firstInt() > 1) {
-                            passiveAbilities.put(ability.id(), IntObjectPair.of(pair.leftInt() - 1, pair.right()));
-                        } else {
-                            passiveAbilities.remove(ability.id());
-                        }
-                    }
+            HolderSet<Ability> holderSet = holder.abilities().get();
+            removeAbilities(holderSet.stream().map(Holder::value).toList());
+        }
+    }
 
-                } else if(type instanceof ActiveAbilityType) {
-                    if(duration.containsKey(ability.abilityType().getAbilityID())) {
-                        duration.removeInt(ability.abilityType().getAbilityID());
-                    }
-                    activeAbilities.remove(ability.abilityType().getAbilityID());
-                }
+    public void removeAbilities(List<Ability> abilities) {
+        for (Ability ability : abilities) {
+            AbilityType type = ability.abilityType();
+            if (type instanceof PassiveAbilityType passive) {
+                removeAbility(passive, ability);
+            } else if (type instanceof ActiveAbilityType active) {
+                removeAbility(active, ability);
             }
         }
     }
+    private void removeAbility(ActiveAbilityType active, Ability ability) {
+        ResourceLocation id = ability.abilityType().getAbilityID();
+        if(duration.containsKey(id)) {
+            duration.put(id, 1);
+        }
+        activeAbilities.remove(id);
+    }
+
+    private void removeAbility(PassiveAbilityType passive, Ability ability) {
+        passiveAbilities.computeIfPresent(
+                ability.id(),
+                (rl, pair) -> {
+                    AbilityPassiveInstance<?> passiveInstance = pair.right();
+                    int count = pair.leftInt() - 1;
+                    passiveInstance.getAbility().onAbilityRemoved(passiveInstance, count, manager);
+                    if(count > 0) {
+                        return IntObjectPair.of(count, passiveInstance);
+                    } else {
+                        return null;
+                    }
+                }
+        );
+    }
+
     public void deactivateAbility(LastingAbilityType type) {
         ResourceLocation id = type.getAbilityID();
         if(this.duration.containsKey(id)) {
@@ -254,6 +298,7 @@ public class AbilityManager implements ISyncable {
     public void onUpdate() {
         this.onUpdate(true);
     }
+
     public void rebuildAttributes() {
         this.onUpdate(false);
     }
@@ -272,104 +317,145 @@ public class AbilityManager implements ISyncable {
             if(reactivateAbilities) {
                 this.reactivateAbilities();
             }
-            this.rebuildAttributes(owner);
+            this.rebuildAttributeInstances();
         }
 
     }
 
-    private void rebuildAttributes(LivingEntity owner) {
+    private AttributeModifier getAttributeModifier(Pair<Holder<Attribute>, AttributeModifier> attributePair, int count, ResourceLocation instanceID) {
+        AttributeModifier modifier = attributePair.right();
+        if(count > 1) {
+            // Rebuild modifier for added count
+            modifier = new AttributeModifier(instanceID, modifier.amount() * count, modifier.operation());
+        }
+        return modifier;
+    }
+
+    private void rebuildAttribute(AttributeAbilityInstance abilityInstance, int count) {
+        Optional<Pair<Holder<Attribute>, AttributeModifier>> opt = abilityInstance.getModifiedAttribute();
+        if(opt.isPresent()) {
+            Pair<Holder<Attribute>, AttributeModifier> attributePair = opt.get();
+            AttributeInstance instance = this.manager.getEntity().getAttribute(attributePair.left());
+            if(instance == null) return;
+            AttributeModifier modifier = getAttributeModifier(attributePair, count, abilityInstance.getInstanceID());
+            instance.addTransientModifier(modifier);
+            this.attributes.compute(attributePair.left(), (key, list) -> {
+                if (list == null) list = new ArrayList<>();
+                list.add(modifier.id());
+                return list;
+            });
+        }
+    }
+
+    private void rebuildAttributeInstances() {
         this.attributes.clear();
-        for(IntObjectPair<AbilityPassiveInstance<?>> pairs : this.passiveAbilities.values()) {
+        for (IntObjectPair<AbilityPassiveInstance<?>> pairs : this.passiveAbilities.values()) {
             AbilityPassiveInstance<?> passive = pairs.right();
-            if(passive instanceof AttributeAbilityInstance abilityInstance) {
+            if (passive instanceof AttributeAbilityInstance abilityInstance && passive.isEnabled()) {
                 int count = pairs.leftInt();
-                Optional<Pair<Holder<Attribute>, AttributeModifier>> opt = abilityInstance.getModifiedAttribute(owner);
-                if(opt.isPresent() && passive.isEnabled()) {
-                    Pair<Holder<Attribute>, AttributeModifier> attributePair = opt.get();
-                    AttributeModifier modifier = attributePair.right();
-                    AttributeInstance instance = owner.getAttribute(attributePair.left());
-                    if(instance == null) continue;
-                    if(count > 1) {
-                        modifier = new AttributeModifier(passive.getInstanceID(), modifier.amount() * count, modifier.operation());
-                    }
-
-                    instance.addTransientModifier(modifier);
-                    if(this.attributes.containsKey(attributePair.left())) {
-                        List<ResourceLocation> list = this.attributes.get(attributePair.left());
-                        list.add(modifier.id());
-                        this.attributes.put(attributePair.left(), list);
-
-                    } else {
-                        List<ResourceLocation> list = new ArrayList<>();
-                        list.add(modifier.id());
-                        this.attributes.put(attributePair.left(), list);
-                    }
-                }
+                rebuildAttribute(abilityInstance, count);
             }
-
         }
     }
-    public boolean onTick() {
-
-        if(this.manager.getEntity().tickCount % 10 == 0) {
-            PowerManager power = this.manager.getPowerManager();
 
 
-            boolean shouldRebuild = false;
-            boolean insufficientPower = false;
-            for(IntObjectPair<AbilityPassiveInstance<?>> pairs : this.passiveAbilities.values()) {
-
-                AbilityPassiveInstance<?> instance = pairs.second();
-
-                if(instance.getAbility() instanceof IAbilityEventListener listener) {
-                    listener.onTick(instance, pairs.firstInt(), this.manager);
-                }
-
-                if(this.manager.getPowerManager().getStoredPower() <= 1 && instance.hasPowerDraw()) {
-                    insufficientPower = true;
-                    if(instance.isEnabled()) {
-                        shouldRebuild = true;
-                    }
-                    instance.setEnabled(false);
-                } else {
-                    if(!instance.isEnabled()) {
-                        shouldRebuild = true;
-                    }
-                    instance.setEnabled(true);
-                }
-            }
-            for(Object2IntMap.Entry<ResourceLocation> entry : duration.object2IntEntrySet()) {
-
-                AbilityActiveInstance<?> instance = this.activeAbilities.get(entry.getKey());
-
-                if(instance.getPowerDrain() > power.getStoredPower()) {
-                    this.duration.put(instance.getAbility().getAbilityID(), 1);
-                    Component.translatable("synthetics.abilities.insufficient_power").withStyle(ChatFormatting.RED);
-                }
-                power.drainPower(instance.getPowerDrain() * 10);
-                power.markDirty();
-            }
-
-            if(shouldRebuild) {
-                if(insufficientPower) {
-                    this.timeSinceWarning = 120;
-                    this.manager.getEntity().displayClientMessage(Component.translatable("synthetics.abilities.insufficient_augment_power").withStyle(ChatFormatting.RED), true);
-                }
-                this.dirty = true;
-                this.onUpdate(false);
-            }
-            if(this.manager.getEntity().tickCount % 20 == 0) {
-                this.timeSinceWarning = Math.max(0, timeSinceWarning - 1);
-                if(insufficientPower && this.timeSinceWarning == 0) {
-                    this.timeSinceWarning = 120;
-                    this.manager.getEntity().displayClientMessage(Component.translatable("synthetics.abilities.insufficient_augment_power").withStyle(ChatFormatting.RED), true);
-                }
-            }
-
+    private boolean sufficientAbilityPower(PowerManager power, AbilityPassiveInstance<?> instance) {
+        //noinspection RedundantIfStatement
+        if(power.getMaxPower() <= 1 && instance.hasPowerDraw()) {
+            return false;
         }
+        return true;
+    }
+    private boolean passiveIsEnabled(boolean insufficientPower, AbilityPassiveInstance<?> instance) {
+        boolean shouldRebuild = false;
+        if(insufficientPower && instance.isEnabled()) {
+            shouldRebuild = true;
+            instance.setEnabled(false);
+        } else if(!insufficientPower && !instance.isEnabled()) {
+            shouldRebuild = true;
+            instance.setEnabled(true);
+        }
+        return shouldRebuild;
 
+    }
+
+    private boolean tickPassiveAbilities() {
+        PowerManager power = this.manager.getPowerManager();
+        boolean insufficientPower = false;
+        boolean shouldRebuild = false;
+        for (IntObjectPair<AbilityPassiveInstance<?>> pairs : this.passiveAbilities.values()) {
+            AbilityPassiveInstance<?> instance = pairs.second();
+            tickListener(instance, pairs.leftInt());
+
+            if(!sufficientAbilityPower(power, instance)) {
+                insufficientPower = true;
+            }
+            if(passiveIsEnabled(insufficientPower, instance)) {
+                shouldRebuild = true;
+            }
+        }
+        if(shouldRebuild) {
+            if(insufficientPower) {
+                warnForPower();
+            }
+        }
+        this.insufficientPower = insufficientPower;
+        return shouldRebuild;
+    }
+
+    private void warnForPower() {
+        this.timeSinceWarning = WARNING_TIME;
+        this.manager.getEntity().displayClientMessage(Component.translatable("synthetics.abilities.insufficient_augment_power").withStyle(ChatFormatting.RED), true);
+    }
+    private boolean tickWarningSecond() {
+        this.timeSinceWarning = Math.max(0, timeSinceWarning - 1);
+        return timeSinceWarning == 0;
+    }
+
+    private void tickListener(AbilityPassiveInstance<?> instance, int instanceCount) {
+        if(instance.getAbility() instanceof IAbilityEventListener listener) {
+            listener.onTick(instance, instanceCount, this.manager);
+        }
+    }
+
+    private void tickCurrentlyActivePower() {
+        PowerManager manager = this.manager.getPowerManager();
+        for (Object2IntMap.Entry<ResourceLocation> entry : duration.object2IntEntrySet()) {
+            AbilityActiveInstance<?> instance = this.activeAbilities.get(entry.getKey());
+            drainActiveInstancePower(instance, manager);
+        }
+    }
+
+    private void drainActiveInstancePower(AbilityActiveInstance<?> instance, PowerManager power) {
+        int storedPower = power.getStoredPower();
+        power.drainPower(instance.getPowerDrain() * 10);
+        power.markDirty();
+        if(instance.getPowerDrain() > storedPower) {
+            this.duration.put(instance.getAbility().getAbilityID(), 1);
+            Component.translatable("synthetics.abilities.insufficient_power").withStyle(ChatFormatting.RED);
+        }
+    }
+
+    public void halfSecondTick() {
+        tickCurrentlyActivePower();
+        boolean shouldRebuild = tickPassiveAbilities();
+
+        if(shouldRebuild) {
+            this.dirty = true;
+            this.onUpdate(false);
+        }
+        if(this.manager.getEntity().tickCount % 20 == 0 && tickWarningSecond()) {
+            if(insufficientPower) {
+                warnForPower();
+            }
+            timeSinceWarning = WARNING_TIME;
+        }
+    }
+
+
+    private void tickCooldownTimer() {
         Iterator<Object2IntMap.Entry<ResourceLocation>> cooldownIterator = cooldown.object2IntEntrySet().iterator();
-        while (cooldownIterator.hasNext()) {
+        while(cooldownIterator.hasNext()) {
             Object2IntMap.Entry<ResourceLocation> entry = cooldownIterator.next();
             int cooldownTime = entry.getIntValue();
             if (cooldownTime <= 1) {
@@ -378,14 +464,24 @@ public class AbilityManager implements ISyncable {
                 entry.setValue(cooldownTime - 1);
             }
         }
+    }
 
+    private boolean removeEntry(Object2IntMap.Entry<ResourceLocation> entry) {
+        if(!this.activeAbilities.containsKey(entry.getKey())) {
+            duration.removeInt(entry.getKey());
+            return true;
+        }
+        return false;
+    }
+
+    private void tickDurationTimer() {
         for (Object2IntMap.Entry<ResourceLocation> entry : duration.object2IntEntrySet()) {
             int newTime = entry.getIntValue() - 1;
-            if(!this.activeAbilities.containsKey(entry.getKey())) {
-                duration.removeInt(entry.getKey());
-                continue;
 
+            if(removeEntry(entry)) {
+                continue;
             }
+
             LastingAbilityType lasting = (LastingAbilityType) this.activeAbilities.get(entry.getKey()).getAbility();
             if (newTime == 0 || !this.activeAbilities.containsKey(entry.getKey())) {
                 deactivateAbility(lasting);
@@ -397,12 +493,22 @@ public class AbilityManager implements ISyncable {
                 }
             }
         }
+    }
+
+    public boolean onTick() {
+
+        if(this.manager.getEntity().tickCount % 10 == 0) {
+            this.halfSecondTick();
+        }
+
+        tickCooldownTimer();
+        tickDurationTimer();
+
         if(dirty) {
             dirty = false;
             return true;
         }
         return false;
-
     }
 
     public void removeModifier(@NotNull AttributeInstance att, @NotNull ResourceLocation location) {
@@ -487,12 +593,12 @@ public class AbilityManager implements ISyncable {
     @SuppressWarnings("LoggingSimilarMessage")
     public void deserialiseAbilities(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag tag) {
 
-        HolderLookup.RegistryLookup<SyntheticAbility> lookup = provider.lookupOrThrow(SyntheticsData.ABILITIES);
+        HolderLookup.RegistryLookup<Ability> lookup = provider.lookupOrThrow(SyntheticsData.ABILITIES);
 
         if(tag.contains("passives") && tag.get("passives") instanceof CompoundTag passives) {
             Set<String> keys = passives.getAllKeys();
             for(String key : keys) {
-                SyntheticAbility abilityInstance = Helper.retrieveDataObject(key, SyntheticsData.ABILITIES, lookup);
+                Ability abilityInstance = Helper.retrieveDataObject(key, SyntheticsData.ABILITIES, lookup);
                 if(passives.get(key) instanceof CompoundTag passiveTag && abilityInstance != null && abilityInstance.abilityType() instanceof ISaveData data) {
                     data.deserialiseNBT(provider, passiveTag);
                 } else if(abilityInstance == null) {

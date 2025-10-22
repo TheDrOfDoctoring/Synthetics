@@ -195,5 +195,14 @@
   "abilities.synthetics.attribute.attribute.name.player.mining_efficiency": "Mining Efficiency",
   "abilities.synthetics.attribute.attribute.name.player.sneaking_speed": "Sneaking Speed",
   "abilities.synthetics.attribute.attribute.name.player.submerged_mining_speed": "Submerged Mining Speed",
-  "abilities.synthetics.attribute.attribute.name.player.sweeping_damage_ratio": "Sweeping Damage Ratio"
+  "abilities.synthetics.attribute.attribute.name.player.sweeping_damage_ratio": "Sweeping Damage Ratio",
+  "installables.synthetics.augments.empty_augment": "No Augment",
+  "installables.synthetics.body_parts.empty_body_part": "No Part",
+  "installables.synthetics.body_parts.arm_muscle": "Upper Arm Muscle",
+  "research.synthetics.organic_bones": "Organic Bones",
+  "research.synthetics.organic_bones.desc": "Learn how to replicate various organic bones",
+  "installables.synthetics.body_parts.organic_arm_muscle": "Arm Muscle",
+  "installables.synthetics.augments.motion_autopilot": "Motion Autopilot",
+  "research.synthetics.motion_autopilot": "Motion Autopilot",
+  "research.synthetics.motion_autopilot.desc": "Learn how to create a brain augment to automatically step up single blocks"
 }

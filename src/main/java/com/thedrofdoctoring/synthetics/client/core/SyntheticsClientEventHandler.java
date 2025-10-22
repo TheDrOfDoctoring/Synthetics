@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.client.core;
 
 import com.mojang.blaze3d.shaders.FogShape;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityPassiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import net.minecraft.client.Minecraft;

@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.capabilities.interfaces;
 
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
-import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ISyntheticsEntity {
 
-    boolean canAddAugment(AugmentInstance augment);
+    boolean canAddAugment(AppliedAugmentInstance augment);
 
     boolean canAddInstallable(IBodyInstallable<?> installable);
 
@@ -18,12 +18,12 @@ public interface ISyntheticsEntity {
 
     List<IBodyInstallable<?>> addOrReplaceInstallable(@NotNull IBodyInstallable<?> installable);
 
-    void addAugment(AugmentInstance augment, boolean sync);
+    void addAugment(AppliedAugmentInstance augment, boolean sync);
 
-    void removeAugment(AugmentInstance augment);
+    void removeAugment(AppliedAugmentInstance augment);
 
 
-    List<AugmentInstance> getInstalledAugments();
+    List<AppliedAugmentInstance> getInstalledAugments();
 
     void onTick();
 

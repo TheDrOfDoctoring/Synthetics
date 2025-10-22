@@ -3,10 +3,10 @@ package com.thedrofdoctoring.synthetics.core.data.types.research;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record ResearchNodeUnlocks(Optional<Ingredient> item, Optional<HolderSet<SyntheticAugment>> augments, Optional<HolderSet<BodyPart>> parts) {
+public record ResearchNodeUnlocks(Optional<Ingredient> item, Optional<HolderSet<Augment>> augments, Optional<HolderSet<BodyPart>> parts) {
 
     public static final MapCodec<ResearchNodeUnlocks> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Ingredient.CODEC.optionalFieldOf("item").forGetter(ResearchNodeUnlocks::item),
-            SyntheticAugment.SET_CODEC.optionalFieldOf("augments").forGetter(ResearchNodeUnlocks::augments),
+            Augment.SET_CODEC.optionalFieldOf("augments").forGetter(ResearchNodeUnlocks::augments),
             BodyPart.SET_CODEC.optionalFieldOf("parts").forGetter(ResearchNodeUnlocks::parts)
     ).apply(instance, ResearchNodeUnlocks::new));
 

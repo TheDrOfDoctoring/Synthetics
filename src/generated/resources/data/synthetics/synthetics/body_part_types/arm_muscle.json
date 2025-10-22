@@ -1,0 +1,7 @@
+{
+  "default_part": "synthetics:organic_arm_muscle",
+  "id": "synthetics:arm_muscle",
+  "layer": "exterior",
+  "x": 35,
+  "y": 70
+}

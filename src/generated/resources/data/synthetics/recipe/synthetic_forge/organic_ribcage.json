@@ -1,0 +1,26 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:artificial_capillary"
+    },
+    "B": {
+      "item": "minecraft:bone"
+    }
+  },
+  "lava_cost": 20,
+  "pattern": [
+    "BAB",
+    "BAB",
+    "BAB"
+  ],
+  "recipe_time": 80,
+  "required_research": "synthetics:organic_bones",
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:organic_ribcage"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

@@ -1,11 +1,11 @@
 package com.thedrofdoctoring.synthetics.networking.from_client;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.body.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
-import com.thedrofdoctoring.synthetics.core.data.types.body.AugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.menus.AugmentationChamberMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -45,8 +45,8 @@ public record ServerboundInstallableMenuPacket(Optional<BodyPart> part) implemen
                     IBodyInstallable<?> installable = item.getInstallableComponent(stack);
                     List<IBodyInstallable<?>> replaced = List.of();
                     boolean confirmed = false;
-                    if(installable instanceof SyntheticAugment augment && packet.part.isPresent() && synthetics.getPartManager().isPartInstalled(packet.part.get())) {
-                        AugmentInstance instance = new AugmentInstance(augment, packet.part.get());
+                    if(installable instanceof Augment augment && packet.part.isPresent() && synthetics.getPartManager().isPartInstalled(packet.part.get())) {
+                        AppliedAugmentInstance instance = new AppliedAugmentInstance(augment, packet.part.get());
                         if(synthetics.canAddAugment(instance)) {
                             synthetics.addAugment(instance, true);
                             confirmed = true;

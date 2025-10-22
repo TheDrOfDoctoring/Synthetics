@@ -5,8 +5,8 @@ import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -61,7 +61,10 @@ public class SyntheticsTagProvider {
             tag(BodyParts.TIBIA_MAIN).add(BodyParts.ORGANIC_TIBIA);
             tag(BodyParts.SKULL_MAIN).add(BodyParts.ORGANIC_SKULL);
             tag(BodyParts.RIBCAGE_MAIN).add(BodyParts.ORGANIC_RIBCAGE);
+            tag(BodyParts.ARM_MUSCLE_MAIN).add(BodyParts.ORGANIC_ARM_MUSCLE);
+
             tag(BodyParts.ALL_BONES).addTags(BodyParts.SKULL_MAIN, BodyParts.RIBCAGE_MAIN, BodyParts.TIBIA_MAIN);
+            tag(BodyParts.ALL_MUSCLES).addTags(BodyParts.ARM_MUSCLE_MAIN, BodyParts.RIBCAGE_MAIN, BodyParts.TIBIA_MAIN);
 
 
         }

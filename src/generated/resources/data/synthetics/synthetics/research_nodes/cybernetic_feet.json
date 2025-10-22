@@ -2,7 +2,7 @@
   "parent": "synthetics:organic_feet",
   "id": "synthetics:cybernetic_feet",
   "requirements": {
-    "experience_cost": 175,
+    "experience_cost": 100,
     "required_items": [
       {
         "amount": 32,

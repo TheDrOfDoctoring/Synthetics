@@ -4,7 +4,7 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;

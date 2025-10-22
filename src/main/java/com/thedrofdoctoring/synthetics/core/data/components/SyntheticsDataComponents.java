@@ -3,8 +3,8 @@ package com.thedrofdoctoring.synthetics.core.data.components;
 import com.mojang.serialization.Codec;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
@@ -24,11 +24,11 @@ public class SyntheticsDataComponents {
     public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Synthetics.MODID);
 
 
-    public static final Supplier<DataComponentType<Holder<SyntheticAugment>>> AUGMENT = DATA_COMPONENTS.registerComponentType(
+    public static final Supplier<DataComponentType<Holder<Augment>>> AUGMENT = DATA_COMPONENTS.registerComponentType(
             SyntheticsData.AUGMENTS.location().getPath(),
             builder -> builder
-                    .persistent(SyntheticAugment.HOLDER_CODEC)
-                    .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.AUGMENTS, SyntheticAugment.STREAM_CODEC))
+                    .persistent(Augment.HOLDER_CODEC)
+                    .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.AUGMENTS, Augment.STREAM_CODEC))
     );
     public static final Supplier<DataComponentType<Holder<BodyPart>>> BODY_PART = DATA_COMPONENTS.registerComponentType(
             SyntheticsData.BODY_PARTS.location().getPath(),
@@ -36,6 +36,8 @@ public class SyntheticsDataComponents {
                     .persistent(BodyPart.HOLDER_CODEC)
                     .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.BODY_PARTS, BodyPart.STREAM_CODEC))
     );
+
+
     public static final Supplier<DataComponentType<Holder<ResearchNode>>> BLUEPRINT_RESEARCH = DATA_COMPONENTS.registerComponentType(
             SyntheticsData.RESEARCH_NODES.location().getPath(),
             builder -> builder
@@ -43,6 +45,8 @@ public class SyntheticsDataComponents {
                     .persistent(ResearchNode.HOLDER_CODEC)
                     .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.RESEARCH_NODES, ResearchNode.STREAM_CODEC))
     );
+
+
     public static final Supplier<DataComponentType<Integer>> ENERGY_COMPONENT = DATA_COMPONENTS.registerComponentType(
             "battery_energy",
             builder -> builder

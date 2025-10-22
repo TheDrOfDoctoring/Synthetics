@@ -26,6 +26,8 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> ORGANIC_HANDS = create("organic_hands");
     public static final ResourceKey<ResearchNode> CYBERNETIC_HANDS = create("cybernetic_hands");
     public static final ResourceKey<ResearchNode> EXTENDED_GRIP = create("extended_grip");
+    public static final ResourceKey<ResearchNode> ORGANIC_BONES = create("organic_bones");
+    public static final ResourceKey<ResearchNode> AUTOPILOT = create("motion_autopilot");
 
 
     private static ResourceKey<ResearchNode> create(String name) {

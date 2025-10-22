@@ -2,7 +2,7 @@
   "parent": "synthetics:artificial_tissue",
   "id": "synthetics:organic_hands",
   "requirements": {
-    "experience_cost": 175,
+    "experience_cost": 100,
     "required_items": [
       {
         "amount": 4,

@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.mixin;
 
-import com.thedrofdoctoring.synthetics.body.abilities.passive.instances.AbilityPassiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.generators.FoodGeneratorAbility;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.FoodGeneratorAbility;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.ISyntheticsPlayerCache;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;

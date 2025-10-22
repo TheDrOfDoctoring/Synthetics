@@ -9,7 +9,6 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
-import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -30,12 +29,10 @@ import java.util.List;
 
 public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticForgeRecipe> {
 
-    private final IGuiHelper helper;
     private final @NotNull IDrawable background;
     private final @NotNull IDrawable icon;
     private final @NotNull IDrawableAnimated arrow;
     private final ItemStack blueprint;
-    private final ICraftingGridHelper craftingGridHelper;
 
     @Override
     public @NotNull RecipeType<SyntheticForgeRecipe> getRecipeType() {
@@ -46,12 +43,10 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
 
 
     public SyntheticForgeRecipeCategory(IGuiHelper guiHelper) {
-        this.helper = guiHelper;
-        this.background = helper.drawableBuilder(SyntheticForgeScreen.BACKGROUND, 4, 4, 165, 78).addPadding(0, 0, 0, 0).build();
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(SyntheticsBlocks.SYNTHETIC_FORGE.get()));
-        this.arrow = helper.drawableBuilder(SyntheticForgeScreen.LAVA_ARROW, 0, 0, 22, 15).buildAnimated(600, IDrawableAnimated.StartDirection.LEFT, false);
+        this.background = guiHelper.drawableBuilder(SyntheticForgeScreen.BACKGROUND, 4, 4, 165, 78).addPadding(0, 0, 0, 0).build();
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(SyntheticsBlocks.SYNTHETIC_FORGE.get()));
+        this.arrow = guiHelper.drawableBuilder(SyntheticForgeScreen.LAVA_ARROW, 0, 0, 22, 15).buildAnimated(600, IDrawableAnimated.StartDirection.LEFT, false);
         this.blueprint = new ItemStack(SyntheticsItems.BLUEPRINT);
-        craftingGridHelper = guiHelper.createCraftingGridHelper();
 
     }
 

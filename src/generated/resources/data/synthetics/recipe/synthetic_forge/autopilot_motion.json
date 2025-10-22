@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " B ",
+    "ACA",
+    " B "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:motion_autopilot",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:motion_autopilot"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

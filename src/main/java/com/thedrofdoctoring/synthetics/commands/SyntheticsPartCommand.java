@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -30,6 +30,7 @@ public class SyntheticsPartCommand {
                 );
 
     }
+    @SuppressWarnings("SameReturnValue")
     private static int modifyAugment(@NotNull CommandContext<CommandSourceStack> context, BodyPart part, @NotNull Collection<ServerPlayer> players) {
         for(ServerPlayer player : players) {
             SyntheticsPlayer synthetics = SyntheticsPlayer.get(player);

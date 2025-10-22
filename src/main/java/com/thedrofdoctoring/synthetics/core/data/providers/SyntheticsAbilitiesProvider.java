@@ -1,11 +1,11 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
-import com.thedrofdoctoring.synthetics.body.abilities.active.ActiveAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.AttributeAbilityType;
-import com.thedrofdoctoring.synthetics.body.abilities.passive.types.PassiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.AttributeAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityType;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
-import com.thedrofdoctoring.synthetics.core.data.types.body.ActiveAbilityOptions;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -14,11 +14,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 public class SyntheticsAbilitiesProvider {
 
 
-    public static void createAbilities(BootstrapContext<SyntheticAbility> context) {
+    public static void createAbilities(BootstrapContext<Ability> context) {
 
         context.register(
                 Abilities.INERTIAL_DAMPENERS_FALL_DAMAGE,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
                                 -0.2d,
@@ -30,7 +30,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.INERTIAL_DAMPENERS_SAFE_FALL,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
                                 4d,
@@ -42,7 +42,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.LAUNCHBOOT_LAUNCH,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.LEAP.get(),
                         ActiveAbilityType.create(
                                 2.5d,
@@ -53,7 +53,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.HEART_BATTERY,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.BATTERY.get(),
                         PassiveAbilityType.create(1000d),
                         Abilities.HEART_BATTERY.location()
@@ -61,7 +61,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.TISSUE_SOLAR_POWER,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.SOLAR_GENERATOR.get(),
                         PassiveAbilityType.create(10d),
                         Abilities.TISSUE_SOLAR_POWER.location()
@@ -69,7 +69,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.ADVANCED_TISSUE_SOLAR_POWER,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.SOLAR_GENERATOR.get(),
                         PassiveAbilityType.create(30d),
                         Abilities.ADVANCED_TISSUE_SOLAR_POWER.location()
@@ -77,7 +77,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.VISION_CLARIFIER_VIEW,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.UNDERWATER_VISION.get(),
                         PassiveAbilityType.create(15d),
                         Abilities.VISION_CLARIFIER_VIEW.location()
@@ -85,7 +85,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.RESPIRATOR_BREATH,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
                                 5d,
@@ -97,7 +97,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.METABOLIC_CONVERTER,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.FOOD_GENERATOR.get(),
                         PassiveAbilityType.create(250d),
                         Abilities.METABOLIC_CONVERTER.location()
@@ -105,7 +105,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.HAND_WALL_CLIMB,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.WALL_CLIMB.get(),
                         ActiveAbilityType.create(
                                 1.0d,
@@ -116,7 +116,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.INTEGRATED_EXOSKELETON_SWIM,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
                                 1d,
@@ -128,10 +128,10 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.INTEGRATED_EXOSKELETON_WALK,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
-                                0.35d,
+                                0.25d,
                                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE,
                                 Attributes.MOVEMENT_SPEED
                         ),
@@ -140,7 +140,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.INTERNAL_PLATING_ARMOUR_TOUGHNESS,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
                                 1.5d,
@@ -152,7 +152,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.INTERNAL_PLATING_KNOCKBACK,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
                                 0.15d,
@@ -164,7 +164,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.CYBERNETIC_HAND_DAMAGE,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
                                 1d,
@@ -176,7 +176,7 @@ public class SyntheticsAbilitiesProvider {
         );
         context.register(
                 Abilities.EXTEND_GRIP_BLOCK_REACH,
-                SyntheticAbility.create(
+                Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
                                 1.75d,
@@ -184,6 +184,18 @@ public class SyntheticsAbilitiesProvider {
                                 Attributes.BLOCK_INTERACTION_RANGE
                         ),
                         Abilities.EXTEND_GRIP_BLOCK_REACH.location()
+                )
+        );
+        context.register(
+                Abilities.AUTOPILOT_STEP_ASSIST,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                0.5d,
+                                AttributeModifier.Operation.ADD_VALUE,
+                                Attributes.STEP_HEIGHT
+                        ),
+                        Abilities.AUTOPILOT_STEP_ASSIST.location()
                 )
         );
     }

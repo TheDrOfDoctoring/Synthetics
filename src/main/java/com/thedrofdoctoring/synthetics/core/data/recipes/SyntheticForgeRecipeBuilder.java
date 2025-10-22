@@ -5,8 +5,8 @@ import com.google.common.collect.Maps;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAugment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
@@ -37,7 +37,6 @@ import java.util.Objects;
 public class SyntheticForgeRecipeBuilder implements RecipeBuilder {
 
     private final Item result;
-    private final int count;
     private final ItemStack resultStack;
     private final List<String> rows;
     private final Map<Character, Ingredient> key;
@@ -54,7 +53,7 @@ public class SyntheticForgeRecipeBuilder implements RecipeBuilder {
         this.key = Maps.newLinkedHashMap();
         this.criteria = new LinkedHashMap<>();
         this.result = result.getItem();
-        this.count = result.getCount();
+        int count = result.getCount();
         this.resultStack = result;
         result.setCount(count);
 
@@ -68,11 +67,13 @@ public class SyntheticForgeRecipeBuilder implements RecipeBuilder {
         return new SyntheticForgeRecipeBuilder(resultStack);
     }
 
+    @SuppressWarnings("unused")
     public static Ingredient partIngredient(HolderLookup.Provider provider, ResourceKey<BodyPart> partKey) {
         DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.BODY_PART,  provider.lookupOrThrow(SyntheticsData.BODY_PARTS).getOrThrow(partKey)).build();
         return DataComponentIngredient.of(false, map, SyntheticsItems.BODY_PART_INSTALLABLE.get());
     }
-    public static Ingredient augmentIngredient(HolderLookup.Provider provider, ResourceKey<SyntheticAugment> partKey) {
+    @SuppressWarnings("unused")
+    public static Ingredient augmentIngredient(HolderLookup.Provider provider, ResourceKey<Augment> partKey) {
         DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.AUGMENT,  provider.lookupOrThrow(SyntheticsData.AUGMENTS).getOrThrow(partKey)).build();
         return DataComponentIngredient.of(false, map, SyntheticsItems.AUGMENT_INSTALLABLE.get());
     }
@@ -102,8 +103,7 @@ public class SyntheticForgeRecipeBuilder implements RecipeBuilder {
         return this;
     }
     public SyntheticForgeRecipeBuilder requiredResearch(HolderLookup.Provider lookup, ResourceKey<ResearchNode> requiredResearch) {
-        this.requiredResearch = lookup.lookupOrThrow(SyntheticsData.RESEARCH_NODES).getOrThrow(requiredResearch);
-        return this;
+        return requiredResearch(lookup.lookupOrThrow(SyntheticsData.RESEARCH_NODES), requiredResearch);
     }
 
     public SyntheticForgeRecipeBuilder define(Character symbol, ItemLike item) {

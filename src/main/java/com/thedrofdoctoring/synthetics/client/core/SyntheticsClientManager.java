@@ -2,7 +2,7 @@ package com.thedrofdoctoring.synthetics.client.core;
 
 import com.thedrofdoctoring.synthetics.client.screens.ResearchScreen;
 import com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation_chamber.AugmentationChamberScreen;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;

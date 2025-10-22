@@ -2,8 +2,8 @@ package com.thedrofdoctoring.synthetics.core.data.collections;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegmentType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import org.jetbrains.annotations.NotNull;

@@ -2,8 +2,8 @@ package com.thedrofdoctoring.synthetics.client.core;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
-import com.thedrofdoctoring.synthetics.body.abilities.active.AbilityActiveInstance;
-import com.thedrofdoctoring.synthetics.body.abilities.active.ActiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.active.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.AbilityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundActivateAbilityPacket;

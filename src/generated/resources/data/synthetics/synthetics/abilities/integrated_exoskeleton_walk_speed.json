@@ -2,7 +2,7 @@
   "ability_data": {
     "type": "synthetics:attribute",
     "attribute": "minecraft:generic.movement_speed",
-    "factor": 0.35,
+    "factor": 0.25,
     "operation": "add_multiplied_base"
   },
   "ability_type": {

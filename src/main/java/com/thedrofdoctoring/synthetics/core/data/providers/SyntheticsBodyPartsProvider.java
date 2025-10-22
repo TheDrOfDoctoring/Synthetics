@@ -4,10 +4,10 @@ import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodyPartType;
-import com.thedrofdoctoring.synthetics.core.data.types.body.BodySegment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.SyntheticAbility;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -24,7 +24,7 @@ public class SyntheticsBodyPartsProvider {
     public static void createBodyParts(BootstrapContext<BodyPart> context) {
         HolderGetter<BodySegment> lookup = context.lookup(SyntheticsData.BODY_SEGMENTS);
         HolderGetter<BodyPartType> types = context.lookup(SyntheticsData.BODY_PART_TYPES);
-        HolderGetter<SyntheticAbility> abilityLookup = context.lookup(SyntheticsData.ABILITIES);
+        HolderGetter<Ability> abilityLookup = context.lookup(SyntheticsData.ABILITIES);
 
         context.register(
                 BodyParts.ORGANIC_EYES,
@@ -153,6 +153,15 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.CYBERNETIC_HANDS.location()
                 )
         );
+        context.register(
+                BodyParts.ORGANIC_ARM_MUSCLE,
+                BodyPart.create(
+                        4,
+                        getSegment(lookup, BodySegments.ARMS_MAIN),
+                        getPartType(types, BodyParts.ARM_MUSCLE),
+                        BodyParts.ORGANIC_ARM_MUSCLE.location()
+                )
+        );
     }
 
     public static void createBodyPartTypes(BootstrapContext<BodyPartType> context) {
@@ -255,20 +264,26 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.TIBIA.location()
                 )
         );
+        context.register(
+                BodyParts.ARM_MUSCLE,
+                new BodyPartType(
+                        BodyParts.ORGANIC_ARM_MUSCLE,
+                        35, 70,
+                        BodyPartType.Layer.EXTERIOR,
+                        BodyParts.ARM_MUSCLE.location()
+                )
+        );
     }
 
-    public static HolderSet<BodySegment> getSegment(HolderGetter<BodySegment> lookup, ResourceKey<BodySegment> part) {
-        return HolderSet.direct(lookup.getOrThrow(part));
-    }
     public static HolderSet<BodySegment> getSegment(HolderGetter<BodySegment> lookup, TagKey<BodySegment> part) {
         return lookup.getOrThrow(part);
     }
     public static Holder<BodyPartType> getPartType(HolderGetter<BodyPartType> lookup, ResourceKey<BodyPartType> partType) {
         return lookup.getOrThrow(partType);
     }
-    public static HolderSet<SyntheticAbility> getAbility(HolderGetter<SyntheticAbility> lookup, List<ResourceKey<SyntheticAbility>> abilities) {
+    public static HolderSet<Ability> getAbility(HolderGetter<Ability> lookup, List<ResourceKey<Ability>> abilities) {
 
-        List<Holder<SyntheticAbility>> abilityHolders = abilities.stream().map(lookup::getOrThrow).collect(Collectors.toUnmodifiableList());
+        List<Holder<Ability>> abilityHolders = abilities.stream().map(lookup::getOrThrow).collect(Collectors.toUnmodifiableList());
         return HolderSet.direct(abilityHolders);
     }
 
