@@ -9,15 +9,18 @@ import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.core.*;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -84,5 +87,88 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, 
         ItemStack stack = new ItemStack(SyntheticsItems.BODY_PART_INSTALLABLE);
         stack.set(SyntheticsDataComponents.BODY_PART, provider.lookupOrThrow(SyntheticsData.BODY_PARTS).getOrThrow(ResourceKey.create(getType(), id())));
         return stack;
+    }
+    @SuppressWarnings("unused")
+    public static class Builder {
+        private final ResourceKey<BodyPart> resourceKey;
+        private Holder<BodyPartType> type;
+        private HolderSet<Ability> abilities;
+        private HolderSet<BodySegment> validSegments;
+
+        private int maxComplexity = 0;
+
+        private final BootstrapContext<BodyPart> context;
+
+        public Builder(ResourceKey<BodyPart> resourceKey, BootstrapContext<BodyPart> context) {
+            this.resourceKey = resourceKey;
+            this.context = context;
+        }
+
+        public static Builder of(ResourceKey<BodyPart> resourceKey) {
+            return new Builder(resourceKey, null);
+        }
+        public static Builder of(BootstrapContext<BodyPart> context, ResourceKey<BodyPart> resourceKey) {
+            return new Builder(resourceKey, context);
+        }
+
+        public Builder maxComplexity(int maxComplexity) {
+            this.maxComplexity = maxComplexity;
+            return this;
+        }
+
+        public Builder partType(Holder<BodyPartType> type) {
+            this.type = type;
+            return this;
+        }
+        public Builder partType(ResourceKey<BodyPartType> type) {
+            this.type = context.lookup(SyntheticsData.BODY_PART_TYPES).getOrThrow(type);
+            return this;
+        }
+
+        public Builder abilities(HolderSet<Ability> abilities) {
+            this.abilities = abilities;
+            return this;
+        }
+
+        public Builder abilities(List<ResourceKey<Ability>> abilities) {
+            HolderGetter<Ability> getter = context.lookup(SyntheticsData.ABILITIES);
+            this.abilities = HolderSet.direct(abilities.stream().map(getter::getOrThrow).toList());
+            return this;
+        }
+        public Builder validSegments(List<ResourceKey<BodySegment>> validSegments) {
+            HolderGetter<BodySegment> getter = context.lookup(SyntheticsData.BODY_SEGMENTS);
+            this.validSegments = HolderSet.direct(validSegments.stream().map(getter::getOrThrow).toList());
+            return this;
+        }
+        public Builder validSegments(TagKey<BodySegment> validSegments) {
+            HolderGetter<BodySegment> getter = context.lookup(SyntheticsData.BODY_SEGMENTS);
+            this.validSegments = getter.getOrThrow(validSegments);
+            return this;
+        }
+
+        public Builder validSegments(HolderSet<BodySegment> validSegments) {
+            this.validSegments = validSegments;
+            return this;
+        }
+
+        public ResourceLocation id() {
+            return resourceKey.location();
+        }
+        public ResourceKey<BodyPart> key() {
+            return resourceKey;
+        }
+
+
+        public BodyPart build() {
+
+            if(type == null) {
+                throw new IllegalStateException("Body Part built, but no valid body part type");
+            }
+            if(validSegments == null) {
+                throw new IllegalStateException("Body Segment built, but no valid body segments");
+            }
+
+            return new BodyPart(maxComplexity, validSegments, type, Optional.ofNullable(abilities), id());
+        }
     }
 }

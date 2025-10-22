@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-22T16:38:21.1210565	Registries
+// 1.21.1	2025-10-22T21:29:32.0165869	Registries
 bcc5de3c34cef3a9084ae0beb641b685e3c2ea5c data/synthetics/synthetics/abilities/advanced_tissue_solar.json
 39d46449c10b3cd1fd1c876b6cbb9a3148e3b9af data/synthetics/synthetics/abilities/autopilot_step_assist.json
 e2bb698d8eaacb42f7ac950b4f3553daa8306ba7 data/synthetics/synthetics/abilities/cybernetic_hand_damage.json
@@ -33,7 +33,7 @@ e99e2adc4f3f0ba38bfa7faa786a7836c52e4cbd data/synthetics/synthetics/body_parts/c
 436b1cf5241634d7c5706ba71da5a995c09ff786 data/synthetics/synthetics/body_parts/cybernetic_hands.json
 3b9f9a4e54ba7bbfbccdd03c0b19e667f6001a96 data/synthetics/synthetics/body_parts/cybernetic_tissue.json
 2fe98102822e57498db34d76c1a8ca0b2e9a92c8 data/synthetics/synthetics/body_parts/organic_arm_muscle.json
-07679c0a67cb4f086c2cb0e194fb4ba786185557 data/synthetics/synthetics/body_parts/organic_brain.json
+8a471b7c56512714d27cbd35d120143750b16c0d data/synthetics/synthetics/body_parts/organic_brain.json
 1f2bbd571a4d6068945a45df56e80b228f43e359 data/synthetics/synthetics/body_parts/organic_eyes.json
 5ba3def253c2e1b3fa7d2aa66553b2de51e40f4c data/synthetics/synthetics/body_parts/organic_feet.json
 971942111e68c16433c5940e33d69846c8d6a4a8 data/synthetics/synthetics/body_parts/organic_hands.json

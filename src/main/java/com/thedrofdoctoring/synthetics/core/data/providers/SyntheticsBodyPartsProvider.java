@@ -1,168 +1,129 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
-import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderSet;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagKey;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SyntheticsBodyPartsProvider {
 
 
     public static void createBodyParts(BootstrapContext<BodyPart> context) {
-        HolderGetter<BodySegment> lookup = context.lookup(SyntheticsData.BODY_SEGMENTS);
-        HolderGetter<BodyPartType> types = context.lookup(SyntheticsData.BODY_PART_TYPES);
-        HolderGetter<Ability> abilityLookup = context.lookup(SyntheticsData.ABILITIES);
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_EYES)
+                        .partType(BodyParts.EYES)
+                        .validSegments(BodySegments.HEAD_MAIN)
+                        .maxComplexity(5)
+        );
 
-        context.register(
-                BodyParts.ORGANIC_EYES,
-                BodyPart.create(
-                        5,
-                        getSegment(lookup, BodySegments.HEAD_MAIN),
-                        getPartType(types, BodyParts.EYES),
-                        BodyParts.ORGANIC_EYES.location()
-                )
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_FEET)
+                        .partType(BodyParts.FEET)
+                        .validSegments(BodySegments.LOWER_BODY_MAIN)
+                        .maxComplexity(3)
         );
-        context.register(
-                BodyParts.ORGANIC_FEET,
-                BodyPart.create(
-                        3,
-                        getSegment(lookup, BodySegments.LOWER_BODY_MAIN),
-                        getPartType(types, BodyParts.FEET),
-                        BodyParts.ORGANIC_FEET.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_FEET)
+                        .partType(BodyParts.FEET)
+                        .validSegments(BodySegments.LOWER_BODY_MAIN)
+                        .maxComplexity(9)
         );
-        context.register(
-                BodyParts.CYBERNETIC_FEET,
-                BodyPart.create(
-                        9,
-                        getSegment(lookup, BodySegments.LOWER_BODY_MAIN),
-                        getPartType(types, BodyParts.FEET),
-                        BodyParts.CYBERNETIC_FEET.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_BRAIN)
+                        .partType(BodyParts.BRAIN)
+                        .validSegments(BodySegments.HEAD_MAIN)
+                        .maxComplexity(6)
         );
-        context.register(
-                BodyParts.ORGANIC_BRAIN,
-                BodyPart.create(
-                        8,
-                        getSegment(lookup, BodySegments.HEAD_MAIN),
-                        getPartType(types, BodyParts.BRAIN),
-                        BodyParts.ORGANIC_BRAIN.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_LUNGS)
+                        .partType(BodyParts.LUNGS)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(5)
         );
-        context.register(
-                BodyParts.ORGANIC_LUNGS,
-                BodyPart.create(
-                        5,
-                        getSegment(lookup, BodySegments.TORSO_MAIN),
-                        getPartType(types, BodyParts.LUNGS),
-                        BodyParts.ORGANIC_LUNGS.location()
-                )
+
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_HEART)
+                        .partType(BodyParts.HEART)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(3)
         );
-        context.register(
-                BodyParts.ORGANIC_HEART,
-                BodyPart.create(
-                        3,
-                        getSegment(lookup, BodySegments.TORSO_MAIN),
-                        getPartType(types, BodyParts.HEART),
-                        BodyParts.ORGANIC_HEART.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_HANDS)
+                        .partType(BodyParts.HANDS)
+                        .validSegments(BodySegments.ARMS_MAIN)
+                        .maxComplexity(4)
         );
-        context.register(
-                BodyParts.ORGANIC_HANDS,
-                BodyPart.create(
-                        4,
-                        getSegment(lookup, BodySegments.ARMS_MAIN),
-                        getPartType(types, BodyParts.HANDS),
-                        BodyParts.ORGANIC_HANDS.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_TISSUE)
+                        .partType(BodyParts.TISSUE)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(6)
         );
-        context.register(
-                BodyParts.ORGANIC_TISSUE,
-                BodyPart.create(
-                        6,
-                        getSegment(lookup, BodySegments.TORSO_MAIN),
-                        getPartType(types, BodyParts.TISSUE),
-                        BodyParts.ORGANIC_TISSUE.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_TISSUE)
+                        .partType(BodyParts.TISSUE)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(12)
         );
-        context.register(
-                BodyParts.CYBERNETIC_TISSUE,
-                BodyPart.create(
-                        12,
-                        getSegment(lookup, BodySegments.TORSO_MAIN),
-                        getPartType(types, BodyParts.TISSUE),
-                        BodyParts.CYBERNETIC_TISSUE.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_STOMACH)
+                        .partType(BodyParts.STOMACH)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(6)
         );
-        context.register(
-                BodyParts.ORGANIC_STOMACH,
-                BodyPart.create(
-                        6,
-                        getSegment(lookup, BodySegments.TORSO_MAIN),
-                        getPartType(types, BodyParts.STOMACH),
-                        BodyParts.ORGANIC_STOMACH.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_RIBCAGE)
+                        .partType(BodyParts.RIBCAGE)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(4)
         );
-        context.register(
-                BodyParts.ORGANIC_RIBCAGE,
-                BodyPart.create(
-                        4,
-                        getSegment(lookup, BodySegments.TORSO_MAIN),
-                        getPartType(types, BodyParts.RIBCAGE),
-                        BodyParts.ORGANIC_RIBCAGE.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_SKULL)
+                        .partType(BodyParts.SKULL)
+                        .validSegments(BodySegments.HEAD_MAIN)
+                        .maxComplexity(4)
         );
-        context.register(
-                BodyParts.ORGANIC_SKULL,
-                BodyPart.create(
-                        4,
-                        getSegment(lookup, BodySegments.HEAD_MAIN),
-                        getPartType(types, BodyParts.SKULL),
-                        BodyParts.ORGANIC_SKULL.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_TIBIA)
+                        .partType(BodyParts.TIBIA)
+                        .validSegments(BodySegments.LOWER_BODY_MAIN)
+                        .maxComplexity(4)
         );
-        context.register(
-                BodyParts.ORGANIC_TIBIA,
-                BodyPart.create(
-                        4,
-                        getSegment(lookup, BodySegments.LOWER_BODY_MAIN),
-                        getPartType(types, BodyParts.TIBIA),
-                        BodyParts.ORGANIC_TIBIA.location()
-                )
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_HANDS)
+                        .partType(BodyParts.HANDS)
+                        .validSegments(BodySegments.ARMS_MAIN)
+                        .abilities(List.of(Abilities.CYBERNETIC_HAND_DAMAGE))
+                        .maxComplexity(10)
         );
-        context.register(
-                BodyParts.CYBERNETIC_HANDS,
-                BodyPart.create(
-                        10,
-                        getSegment(lookup, BodySegments.ARMS_MAIN),
-                        getPartType(types, BodyParts.HANDS),
-                        getAbility(abilityLookup, List.of(Abilities.CYBERNETIC_HAND_DAMAGE)),
-                        BodyParts.CYBERNETIC_HANDS.location()
-                )
-        );
-        context.register(
-                BodyParts.ORGANIC_ARM_MUSCLE,
-                BodyPart.create(
-                        4,
-                        getSegment(lookup, BodySegments.ARMS_MAIN),
-                        getPartType(types, BodyParts.ARM_MUSCLE),
-                        BodyParts.ORGANIC_ARM_MUSCLE.location()
-                )
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_ARM_MUSCLE)
+                        .partType(BodyParts.ARM_MUSCLE)
+                        .validSegments(BodySegments.ARMS_MAIN)
+                        .maxComplexity(4)
         );
     }
+
+    private static void register(BootstrapContext<BodyPart> context, BodyPart.Builder builder) {
+        context.register(builder.key(), builder.build());
+    }
+
 
     public static void createBodyPartTypes(BootstrapContext<BodyPartType> context) {
         context.register(
@@ -264,6 +225,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.TIBIA.location()
                 )
         );
+
         context.register(
                 BodyParts.ARM_MUSCLE,
                 new BodyPartType(
@@ -273,18 +235,6 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ARM_MUSCLE.location()
                 )
         );
-    }
-
-    public static HolderSet<BodySegment> getSegment(HolderGetter<BodySegment> lookup, TagKey<BodySegment> part) {
-        return lookup.getOrThrow(part);
-    }
-    public static Holder<BodyPartType> getPartType(HolderGetter<BodyPartType> lookup, ResourceKey<BodyPartType> partType) {
-        return lookup.getOrThrow(partType);
-    }
-    public static HolderSet<Ability> getAbility(HolderGetter<Ability> lookup, List<ResourceKey<Ability>> abilities) {
-
-        List<Holder<Ability>> abilityHolders = abilities.stream().map(lookup::getOrThrow).collect(Collectors.toUnmodifiableList());
-        return HolderSet.direct(abilityHolders);
     }
 
 }
