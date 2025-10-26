@@ -17,6 +17,7 @@
       }
     ]
   },
+  "tab": "synthetics:augments",
   "unlocked": {
     "augments": "synthetics:motion_autopilot"
   },

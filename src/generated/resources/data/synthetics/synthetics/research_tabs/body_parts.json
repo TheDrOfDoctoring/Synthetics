@@ -1,0 +1,8 @@
+{
+  "display_icon": {
+    "components": {
+      "synthetics:body_parts": "synthetics:organic_heart"
+    },
+    "id": "synthetics:body_part_item"
+  }
+}

@@ -24,6 +24,7 @@
       }
     ]
   },
+  "tab": "synthetics:augments",
   "unlocked": {
     "augments": "synthetics:advanced_solar_tissue"
   },

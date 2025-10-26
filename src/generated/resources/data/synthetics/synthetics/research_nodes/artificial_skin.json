@@ -24,12 +24,13 @@
       }
     ]
   },
+  "tab": "synthetics:body_parts",
   "unlocked": {
     "parts": [
       "synthetics:cybernetic_tissue",
       "synthetics:organic_tissue"
     ]
   },
-  "x": 50,
-  "y": 190
+  "x": -30,
+  "y": 60
 }

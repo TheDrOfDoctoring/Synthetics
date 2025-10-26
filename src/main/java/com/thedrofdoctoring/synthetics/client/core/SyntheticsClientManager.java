@@ -1,16 +1,20 @@
 package com.thedrofdoctoring.synthetics.client.core;
 
-import com.thedrofdoctoring.synthetics.client.screens.ResearchScreen;
 import com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation_chamber.AugmentationChamberScreen;
+import com.thedrofdoctoring.synthetics.client.screens.research.ResearchScreen;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
+import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchTab;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SyntheticsClientManager {
 
@@ -18,28 +22,27 @@ public class SyntheticsClientManager {
     public boolean displayAbilities = true;
 
     public List<ResearchNode> allResearch = new ArrayList<>();
-    public List<ResearchNode> rootNodes = new ArrayList<>();
+    public Map<ResearchTab, List<ResearchNode>> rootNodes = new HashMap<>();
     public List<BodyPartType> partTypes = new ArrayList<>();
 
-    public Object2ObjectOpenHashMap<ResearchNode, ArrayList<ResearchNode>> parentToChildrenMap;
+    public Map<ResearchNode, List<ResearchNode>> parentToChildrenMap;
 
-    public void setResearch(List<ResearchNode> nodes) {
-        this.allResearch = new ArrayList<>(nodes);
+    public void setResearch(List<ResearchNode> allNodes) {
+        this.allResearch = new ArrayList<>(allNodes);
         if(parentToChildrenMap != null) {
             parentToChildrenMap.clear();
         } else {
             parentToChildrenMap = new Object2ObjectOpenHashMap<>();
         }
-        this.rootNodes = new ArrayList<>(nodes);
-        for(ResearchNode node : nodes) {
-            node.parent().ifPresent(parentNode -> {
-                rootNodes.remove(node);
-                ResearchNode parent = parentNode.value();
-                parentToChildrenMap
-                        .computeIfAbsent(parent, k -> new ArrayList<>())
-                        .add(node);
-            });
-        }
+        rootNodes = allNodes.stream()
+                            .filter(node -> node.parent().isEmpty())
+                            .collect(Collectors.groupingBy(node -> node.tab().value()));
+
+        parentToChildrenMap = allNodes.stream()
+                                      .filter(node -> node.parent().isPresent())
+                                      .collect(Collectors.groupingBy(
+                                              node -> node.parent().get().value())
+                                      );
     }
 
     public static void updateScreen() {

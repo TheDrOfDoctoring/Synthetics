@@ -24,9 +24,10 @@
       }
     ]
   },
+  "tab": "synthetics:body_parts",
   "unlocked": {
     "parts": "synthetics:cybernetic_feet"
   },
-  "x": 80,
-  "y": 160
+  "x": 60,
+  "y": 30
 }

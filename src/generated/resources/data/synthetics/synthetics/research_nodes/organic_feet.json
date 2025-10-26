@@ -24,9 +24,10 @@
       }
     ]
   },
+  "tab": "synthetics:body_parts",
   "unlocked": {
-    "parts": "synthetics:organic_brain"
+    "parts": "synthetics:organic_feet"
   },
-  "x": 80,
-  "y": 190
+  "x": 60,
+  "y": 60
 }

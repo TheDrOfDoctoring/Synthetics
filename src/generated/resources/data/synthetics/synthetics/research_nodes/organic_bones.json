@@ -24,6 +24,7 @@
       }
     ]
   },
+  "tab": "synthetics:body_parts",
   "unlocked": {
     "parts": [
       "synthetics:organic_tibia",
@@ -31,6 +32,6 @@
       "synthetics:organic_skull"
     ]
   },
-  "x": 140,
-  "y": 190
+  "x": 90,
+  "y": 60
 }

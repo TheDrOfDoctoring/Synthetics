@@ -64,7 +64,7 @@ public class SyntheticsTagProvider {
             tag(BodyParts.ARM_MUSCLE_MAIN).add(BodyParts.ORGANIC_ARM_MUSCLE);
 
             tag(BodyParts.ALL_BONES).addTags(BodyParts.SKULL_MAIN, BodyParts.RIBCAGE_MAIN, BodyParts.TIBIA_MAIN);
-            tag(BodyParts.ALL_MUSCLES).addTags(BodyParts.ARM_MUSCLE_MAIN, BodyParts.RIBCAGE_MAIN, BodyParts.TIBIA_MAIN);
+            tag(BodyParts.ALL_MUSCLES).addTags(BodyParts.ARM_MUSCLE_MAIN);
 
 
         }

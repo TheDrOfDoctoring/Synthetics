@@ -30,9 +30,10 @@
       }
     ]
   },
+  "tab": "synthetics:body_parts",
   "unlocked": {
     "parts": "synthetics:organic_hands"
   },
-  "x": 110,
-  "y": 190
+  "x": 0,
+  "y": 60
 }

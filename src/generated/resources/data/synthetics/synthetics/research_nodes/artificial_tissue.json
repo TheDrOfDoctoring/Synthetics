@@ -24,11 +24,12 @@
       }
     ]
   },
+  "tab": "synthetics:body_parts",
   "unlocked": {
     "item": {
       "item": "synthetics:artificial_tissue"
     }
   },
-  "x": 80,
-  "y": 235
+  "x": 30,
+  "y": 90
 }

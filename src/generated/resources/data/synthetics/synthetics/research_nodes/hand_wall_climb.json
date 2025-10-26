@@ -23,6 +23,7 @@
       }
     ]
   },
+  "tab": "synthetics:augments",
   "unlocked": {
     "augments": "synthetics:emittable_adhesive"
   },

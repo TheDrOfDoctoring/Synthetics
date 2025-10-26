@@ -12,6 +12,7 @@
       }
     ]
   },
+  "tab": "synthetics:augments",
   "unlocked": {
     "augments": "synthetics:launch_boot"
   },

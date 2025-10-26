@@ -1,4 +1,4 @@
-package com.thedrofdoctoring.synthetics.client.screens;
+package com.thedrofdoctoring.synthetics.client.screens.research;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -6,8 +6,8 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
+import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchTab;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundResearchPacket;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
@@ -20,11 +20,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 // Based on the Vampirism Skill Screen and Minecraft Advancement Screen, with some changes.
 public class ResearchScreen extends Screen {
@@ -32,8 +32,6 @@ public class ResearchScreen extends Screen {
     public static final int SCREEN_WIDTH = 252;
     public static final int SCREEN_HEIGHT = 219;
 
-    private final Map<ResearchNode, ResearchNodeScreen> rootNodes = new Object2ObjectOpenHashMap<>();
-    private final List<ResearchNodeScreen> allNodes = new ArrayList<>();
     private boolean scrolling;
     private Vec3 mousePos;
     private Vec3 rightClickPos;
@@ -45,13 +43,14 @@ public class ResearchScreen extends Screen {
     private int guiTop;
     private double scrollX;
     private double scrollY;
-    private double minX = Double.MIN_VALUE;
-    private double minY = Double.MAX_VALUE;
-    private double maxX = Double.MAX_VALUE;
-    private double maxY = Double.MIN_VALUE;
+    private final double minX;
+    private final double minY;
+    private final double maxX;
+    private final double maxY;
     private double zoom = 0.5f;
     private final double maxZoom = 2;
     private final double minZoom = 0.25;
+
     private SyntheticsPlayer player;
 
     private static final ResourceLocation BACKGROUND = Synthetics.rl("textures/gui/research/background.png");
@@ -61,18 +60,22 @@ public class ResearchScreen extends Screen {
     private double centerY;
 
     private float fade;
+    private final ArrayList<ResearchTabScreen> researchTabs = new ArrayList<>();
+    private ResearchTabScreen selectedTab;
+    private int selectedTabIndex;
+
     public ResearchScreen() {
         super(Component.translatable("screens.synthetics.research_title"));
         if (Minecraft.getInstance().player != null) {
             this.player = SyntheticsPlayer.get(Minecraft.getInstance().player);
         }
-        List<ResearchNode> nodes = SyntheticsClient.getInstance().getManager().rootNodes;
-        for(ResearchNode node : nodes) {
-            ResearchNodeScreen screen = new ResearchNodeScreen(null, node, this, node.x(), node.y(), player.getResearchManager());
-            this.rootNodes.put(node, screen);
-            addNode(screen);
-
+        Map<ResearchTab, List<ResearchNode>> nodes = SyntheticsClient.getInstance().getManager().rootNodes;
+        int i = 0;
+        for(Map.Entry<ResearchTab, List<ResearchNode>> entry : nodes.entrySet()) {
+            this.researchTabs.add(new ResearchTabScreen(this, entry.getKey().displayIcon(), i, entry.getValue()));
+            i++;
         }
+        this.selectedTab = this.researchTabs.getFirst();
 
 
         this.minY = -(200+16);
@@ -85,35 +88,29 @@ public class ResearchScreen extends Screen {
 
     }
 
-    public void addNode(ResearchNodeScreen node) {
-        this.allNodes.add(node);
-        for(ResearchNodeScreen child : node.getChildren()) {
-            addNode(child);
-        }
-    }
-
-
     @Override
     protected void init() {
         assert this.minecraft != null;
         this.guiLeft = (this.width - SCREEN_WIDTH) / 2;
         this.guiTop = (this.height - SCREEN_HEIGHT) / 2;
-
     }
 
+    public SyntheticsPlayer player() {
+        return player;
+    }
 
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         this.renderInside(guiGraphics, guiLeft, guiTop, mouseX - guiLeft, mouseY - guiTop);
+
         this.renderWindow(guiGraphics, guiLeft, guiTop);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
 
         for(Renderable renderable : this.renderables) {
             renderable.render(guiGraphics, mouseX, mouseY, partialTick);
         }
 
-        this.renderConnections(guiGraphics, guiLeft, guiTop);
-        this.renderTooltips(guiGraphics, mouseX - guiLeft, mouseY - guiTop);
-
+        this.selectedTab.render(guiGraphics, mouseX, mouseY);
 
     }
     public void renderWindow(GuiGraphics guiGraphics, int x, int y) {
@@ -128,37 +125,15 @@ public class ResearchScreen extends Screen {
         RenderSystem.disableBlend();
         stack.popPose();
     }
-    public void renderTooltips(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
-        PoseStack pose = graphics.pose();
-        pose.pushPose();
-        pose.translate(guiLeft, guiTop, 0);
 
-
-        graphics.fill(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Mth.floor(this.fade * 255.0F) << 24);
-        boolean flag = false;
-        if(mouseX >= 0 && mouseX < SCREEN_WIDTH && mouseY >= 0 && mouseY < SCREEN_HEIGHT) {
-            double scaledMouseX = getScaledMouseX(mouseX);
-            double scaledMouseY = getScaledMouseY(mouseY);
-            for (ResearchNodeScreen nodeScreen : this.allNodes) {
-                if (nodeScreen.isMouseOver(scaledMouseX, scaledMouseY, 0, 0)) {
-                    flag = true;
-                    pose.pushPose();
-                    pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, 350);
-                    pose.scale((float) this.zoom, (float) this.zoom, 1);
-                    nodeScreen.renderHover(graphics, scaledMouseX, scaledMouseY, this.fade, 0,0);
-                    pose.popPose();
-                    break;
-                }
-            }
+    private void renderTooltip(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.pose().pushPose();
+        for(ResearchTabScreen screen : this.researchTabs) {
+            screen.drawTab(guiGraphics, guiLeft, this.guiTop + 17, screen == selectedTab);
+            screen.drawIcon(guiGraphics, guiLeft, this.guiTop + 17);
         }
+        guiGraphics.pose().popPose();
 
-
-        pose.popPose();
-        if (flag) {
-            this.fade = Mth.clamp(this.fade + 0.02F, 0.0F, 0.3F);
-        } else {
-            this.fade = Mth.clamp(this.fade - 0.04F, 0.0F, 1.0F);
-        }
     }
 
     private void renderInside(@NotNull GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY) {
@@ -175,31 +150,12 @@ public class ResearchScreen extends Screen {
             }
         }
 
-        for(ResearchNodeScreen node : rootNodes.values()) {
-            node.draw(guiGraphics, x, y);
-        }
-
 
         pose.popPose();
         guiGraphics.disableScissor();
     }
 
-    private void renderConnections(@NotNull GuiGraphics guiGraphics, int x, int y) {
-        guiGraphics.enableScissor(x + 9, y + 18, x + SCREEN_WIDTH - 9, y + SCREEN_HEIGHT - 28);
 
-        PoseStack pose = guiGraphics.pose();
-        pose.pushPose();
-        pose.translate(x, y, 0);
-        pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, 0);
-        pose.scale((float)this.zoom,(float) this.zoom, 1);
-        for(ResearchNodeScreen node : rootNodes.values()) {
-            node.renderConnections(guiGraphics, 0,0, true);
-            node.renderConnections(guiGraphics, 0, 0, false);
-        }
-        pose.popPose();
-        guiGraphics.disableScissor();
-
-    }
     private double getScaledMouseX(double mouseX) {
         return (mouseX -SCREEN_WIDTH/2d - centerX)/zoom;
     }
@@ -207,26 +163,7 @@ public class ResearchScreen extends Screen {
     private double getScaledMouseY(double mouseY) {
         return (mouseY - 20  - centerY) /zoom;
     }
-    @Nullable
-    public ResearchNode getSelected(int mouseX, int mouseY) {
-        for (ResearchNodeScreen nodeScreen : this.allNodes) {
-            ResearchNode selected = nodeScreen.getSelectedNode(getScaledMouseX(mouseX), getScaledMouseY(mouseY),0,0);
-            if (selected != null) {
-                return selected;
-            }
-        }
-        return null;
-    }
-    @Nullable
-    public ResearchNodeScreen getSelectedScreen(int mouseX, int mouseY) {
-        for (ResearchNodeScreen nodeScreen : this.allNodes) {
-            ResearchNodeScreen selected = nodeScreen.getSelectedNodeScreen(getScaledMouseX(mouseX), getScaledMouseY(mouseY),0,0);
-            if (selected != null) {
-                return selected;
-            }
-        }
-        return null;
-    }
+
 
 
     @Override
@@ -251,6 +188,9 @@ public class ResearchScreen extends Screen {
     public void center(double x, double y) {
         this.centerX = Mth.clamp(x, this.minX *zoom, this.maxX*zoom);
         this.centerY = Mth.clamp(y, -SCREEN_HEIGHT * 2 * zoom,  20*zoom);
+        this.selectedTab.setCenterY((int) centerY);
+        this.selectedTab.setCenterX((int) centerX);
+        this.selectedTab.setZoom((float) zoom);
     }
 
     @Override
@@ -273,13 +213,34 @@ public class ResearchScreen extends Screen {
 
         return super.mouseClicked(mouseX, mouseY, button);
     }
+
+    public int guiLeft() {
+        return guiLeft;
+    }
+
+    public int guiTop() {
+        return guiTop;
+    }
+
+
+
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0) {
             if (this.clicked) {
                 if (!this.scrolling || (this.mousePos != null && this.mousePos.distanceTo(new Vec3(mouseX, mouseY, 0)) < 5)) {
+                    int i = 0;
+                    for (ResearchTabScreen tab : this.researchTabs) {
+                        if (tab != this.selectedTab && tab.isMouseOver(this.guiLeft, this.guiTop + 17, mouseX, mouseY)) {
+                            this.selectedTabIndex = i;
+                            this.selectedTab = tab;
+                            break;
+                        }
+                        i++;
+                    }
                     unlockNode(mouseX, mouseY);
                 }
+
             }
             this.clicked = false;
         }
@@ -294,7 +255,7 @@ public class ResearchScreen extends Screen {
         return super.mouseReleased(mouseX, mouseY, button);
     }
     private void unlockNode(double mouseX, double mouseY) {
-        ResearchNode selected = this.getSelected((int) (mouseX - guiLeft), (int) (mouseY - guiTop));
+        ResearchNode selected = this.selectedTab.getSelected((int) (mouseX - guiLeft), (int) (mouseY - guiTop));
         if (selected != null) {
             if (canResearchNode(selected) && Minecraft.getInstance().getConnection() != null) {
                 Minecraft.getInstance().getConnection().send(ServerboundResearchPacket.create(selected));
@@ -306,12 +267,13 @@ public class ResearchScreen extends Screen {
     }
 
     private void switchNodeDisplay(double mouseX, double mouseY) {
-        ResearchNodeScreen selected = this.getSelectedScreen((int) (mouseX - guiLeft), (int) (mouseY - guiTop));
+        ResearchNodeScreen selected = this.selectedTab.getSelectedScreen((int) (mouseX - guiLeft), (int) (mouseY - guiTop));
         if (selected != null) {
             selected.switchDisplay();
 
         }
     }
+
 
     private boolean canResearchNode(@NotNull ResearchNode node) {
         if (this.player == null) return false;

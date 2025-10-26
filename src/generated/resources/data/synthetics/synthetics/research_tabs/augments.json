@@ -1,0 +1,8 @@
+{
+  "display_icon": {
+    "components": {
+      "synthetics:augments": "synthetics:inertial_dampeners"
+    },
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

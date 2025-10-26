@@ -8,8 +8,8 @@ import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.ResearchNodes;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.data.DataGenerator;
@@ -20,6 +20,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -441,17 +442,15 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .save(output, Synthetics.rl("augmentation_chamber")
                 );
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SyntheticsBlocks.SYNTHETIC_FORGE.get())
-                .define('A', Items.IRON_BLOCK)
-                .define('B', Tags.Items.GLASS_BLOCKS)
-                .define('C', Items.POLISHED_DIORITE)
-                .define('D', Items.COPPER_BLOCK)
-                .define('E', Items.REDSTONE)
+                .define('A', Tags.Items.STRIPPED_LOGS)
+                .define('B', Items.IRON_INGOT)
+                .define('C', Blocks.BLAST_FURNACE)
                 .pattern(" C ")
-                .pattern("BDB")
-                .pattern("EAE")
+                .pattern("BBB")
+                .pattern("A A")
                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
                 .save(output, Synthetics.rl("synthetic_forge")
                 );
 
-    }
+        }
 }

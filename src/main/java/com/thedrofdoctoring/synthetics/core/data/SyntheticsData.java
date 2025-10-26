@@ -13,6 +13,7 @@ import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
+import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchTab;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistrySetBuilder;
@@ -41,6 +42,7 @@ public class SyntheticsData {
     public static final ResourceKey<Registry<Ability>> ABILITIES = ResourceKey.createRegistryKey(Synthetics.rl("abilities"));
 
     public static final ResourceKey<Registry<ResearchNode>> RESEARCH_NODES = ResourceKey.createRegistryKey(Synthetics.rl("research_nodes"));
+    public static final ResourceKey<Registry<ResearchTab>> RESEARCH_TABS = ResourceKey.createRegistryKey(Synthetics.rl("research_tabs"));
 
 
 
@@ -51,7 +53,8 @@ public class SyntheticsData {
             .add(BODY_PARTS, SyntheticsBodyPartsProvider::createBodyParts)
             .add(AUGMENTS, SyntheticsAugmentsProvider::createAugments)
             .add(ABILITIES, SyntheticsAbilitiesProvider::createAbilities)
-            .add(RESEARCH_NODES, SyntheticsResearchProvider::createNodes);
+            .add(RESEARCH_NODES, SyntheticsResearchProvider::createNodes)
+            .add(RESEARCH_TABS, SyntheticsResearchProvider::createTabs);
 
 
     public void registerDatapackRegistries(final DataPackRegistryEvent.NewRegistry event) {
@@ -61,6 +64,7 @@ public class SyntheticsData {
         event.dataPackRegistry(BODY_PARTS, BodyPart.CODEC.codec(), BodyPart.CODEC.codec());
         event.dataPackRegistry(AUGMENTS, Augment.CODEC.codec(), Augment.CODEC.codec());
         event.dataPackRegistry(ABILITIES, Ability.CODEC.codec(), Ability.CODEC.codec());
+        event.dataPackRegistry(RESEARCH_TABS, ResearchTab.CODEC.codec(), ResearchTab.CODEC.codec());
         event.dataPackRegistry(RESEARCH_NODES, ResearchNode.CODEC.codec(), ResearchNode.CODEC.codec());
 
     }

@@ -1,4 +1,4 @@
-package com.thedrofdoctoring.synthetics.client.screens;
+package com.thedrofdoctoring.synthetics.client.screens.research;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -31,7 +31,7 @@ import java.util.Optional;
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 
 public class ResearchNodeScreen {
-    private static final ResourceLocation RESEARCH_BACKGROUND_SPRITE = Synthetics.rl("research/node");
+    private static final ResourceLocation RESEARCH_BACKGROUND_SPRITE = Synthetics.rl("textures/gui/research/node.png");
     private static final ResourceLocation RESEARCH_DESCRIPTION_SPRITE = Synthetics.rl("generic/description");
 
     private static final ResourceLocation TITLE_BLUE_SPRITE = Synthetics.rl("research/title_blue");
@@ -43,7 +43,7 @@ public class ResearchNodeScreen {
 
     private final ResearchNode node;
     private final ResearchManager manager;
-    private final ResearchScreen screen;
+    private final ResearchTabScreen screen;
     public boolean displayRequirements;
 
     private final List<ResearchNodeScreen> children = new ArrayList<>();
@@ -69,7 +69,7 @@ public class ResearchNodeScreen {
 
 
 
-    public ResearchNodeScreen(ResearchNodeScreen parent, ResearchNode node, ResearchScreen screen, int x, int y, ResearchManager manager) {
+    public ResearchNodeScreen(ResearchNodeScreen parent, ResearchNode node, ResearchTabScreen screen, int x, int y, ResearchManager manager) {
         this.node = node;
         this.manager = manager;
         this.screen = screen;
@@ -123,6 +123,7 @@ public class ResearchNodeScreen {
     }
 
     public void draw(@NotNull GuiGraphics graphics, int i, int j) {
+        graphics.setColor(1, 1, 1, 1);
         PoseStack pose = graphics.pose();
         pose.pushPose();
         ResearchNodeState state = getState();
@@ -139,13 +140,13 @@ public class ResearchNodeScreen {
         } else {
             graphics.setColor(1, 1, 1, 1);
         }
-        graphics.blitSprite(RESEARCH_BACKGROUND_SPRITE, x, y, WIDTH, HEIGHT);
+        graphics.blit(RESEARCH_BACKGROUND_SPRITE, x, y, 0, 0, WIDTH, HEIGHT, WIDTH, HEIGHT);
 
         RenderSystem.enableBlend();
         drawIcon(graphics, x + 5, y + 5);
 
         pose.popPose();
-
+        graphics.setColor(1, 1, 1, 1);
         for (ResearchNodeScreen child : this.children) {
             child.draw(graphics, i, j);
         }
@@ -308,7 +309,7 @@ public class ResearchNodeScreen {
 
         //draw node
         graphics.setColor(1f, 1f, 1f, 1);
-        graphics.blitSprite(RESEARCH_BACKGROUND_SPRITE, scrollX + x, scrollY + y, 26, 26);
+        graphics.blit(RESEARCH_BACKGROUND_SPRITE, scrollX + x, scrollY + y, 0, 0, WIDTH, HEIGHT, WIDTH, HEIGHT);
         drawIcon(graphics, x + scrollX + 5, y + scrollY + 5);
         pose.popPose();
     }

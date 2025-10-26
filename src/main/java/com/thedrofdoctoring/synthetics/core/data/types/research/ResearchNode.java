@@ -5,11 +5,13 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -18,13 +20,14 @@ import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 import java.util.List;
 import java.util.Optional;
 
 
 @SuppressWarnings("unused")
-public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUnlocks unlocked, ResearchRequirements requirements, int x, int y, ResourceLocation id) {
+public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUnlocks unlocked, ResearchRequirements requirements, int x, int y, Holder<ResearchTab> tab, ResourceLocation id) {
 
 
     public static final MapCodec<ResearchNode> CODEC = MapCodec.recursive("ResearchNode", (a) -> RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -33,17 +36,18 @@ public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUn
             ResearchRequirements.CODEC.fieldOf("requirements").forGetter(ResearchNode::requirements),
             Codec.INT.fieldOf("x").forGetter(ResearchNode::x),
             Codec.INT.fieldOf("y").forGetter(ResearchNode::y),
+            ResearchTab.HOLDER_CODEC.fieldOf("tab").forGetter(ResearchNode::tab),
             ResourceLocation.CODEC.fieldOf("id").forGetter(ResearchNode::id)
-
     ).apply(instance, ResearchNode::new)));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ResearchNode> STREAM_CODEC = StreamCodec.recursive(
-            recursive -> StreamCodec.composite(
+            recursive -> NeoForgeStreamCodecs.composite(
                     ByteBufCodecs.optional(ByteBufCodecs.holder(SyntheticsData.RESEARCH_NODES, ResearchNode.STREAM_CODEC)), ResearchNode::parent,
                     ResearchNodeUnlocks.STREAM_CODEC, ResearchNode::unlocked,
                     ResearchRequirements.STREAM_CODEC, ResearchNode::requirements,
                     ByteBufCodecs.VAR_INT, ResearchNode::x,
                     ByteBufCodecs.VAR_INT, ResearchNode::y,
+                    ByteBufCodecs.holder(SyntheticsData.RESEARCH_TABS, ResearchTab.STREAM_CODEC), ResearchNode::tab,
                     ResourceLocation.STREAM_CODEC, ResearchNode::id,
                     ResearchNode::new
                     )
@@ -79,27 +83,41 @@ public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUn
         private Holder<ResearchNode> parent;
         private ResearchNodeUnlocks unlocked = new ResearchNodeUnlocks(Optional.empty(), Optional.empty(), Optional.empty());
         private ResearchRequirements requirements = new ResearchRequirements(0, Optional.empty());
-        private final int x;
-        private final int y;
+        private int x;
+        private int y;
         private final ResourceKey<ResearchNode> resourceKey;
+        private Holder<ResearchTab> tab;
+        private final BootstrapContext<ResearchNode> context;
+        private boolean setPosition;
 
-        public Builder(ResourceKey<ResearchNode> resourceKey, int x, int y) {
+        public Builder(BootstrapContext<ResearchNode> context, ResourceKey<ResearchNode> resourceKey) {
             this.resourceKey = resourceKey;
-            this.x = x;
-            this.y = y;
+            this.context = context;
         }
 
-        public static Builder of(ResourceKey<ResearchNode> resourceKey, int x, int y) {
-            return new Builder(resourceKey, x, y);
+        public static Builder of(ResourceKey<ResearchNode> resourceKey, BootstrapContext<ResearchNode> context) {
+            return new Builder(context, resourceKey);
+        }
+        public static Builder of(ResourceKey<ResearchNode> resourceKey) {
+            return new Builder(null, resourceKey);
         }
 
         public Builder parent(Holder<ResearchNode> parent) {
             this.parent = parent;
             return this;
         }
+        public Builder parent(ResourceKey<ResearchNode> parent) {
+            this.parent = context.lookup(SyntheticsData.RESEARCH_NODES).getOrThrow(parent);
+            return this;
+        }
 
         public Builder unlocks(ResearchNodeUnlocks unlocked) {
             this.unlocked = unlocked;
+            return this;
+        }
+        public Builder position(int x, int y) {
+            this.setPosition = true;
+            this.x = x; this.y = y;
             return this;
         }
 
@@ -118,6 +136,17 @@ public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUn
             return this;
         }
 
+        public Builder unlocksParts(List<ResourceKey<BodyPart>> validParts) {
+            HolderGetter<BodyPart> getter = context.lookup(SyntheticsData.BODY_PARTS);
+            HolderSet<BodyPart> parts = HolderSet.direct(validParts.stream().map(getter::getOrThrow).toList());
+            return unlocksParts(parts);
+        }
+        public Builder unlocksAugments(List<ResourceKey<Augment>> augments) {
+            HolderGetter<Augment> getter = context.lookup(SyntheticsData.AUGMENTS);
+            HolderSet<Augment> augmentsSet = HolderSet.direct(augments.stream().map(getter::getOrThrow).toList());
+            return unlocksAugments(augmentsSet);
+        }
+
         public Builder requirements(ResearchRequirements requirements) {
             this.requirements = requirements;
             return this;
@@ -125,6 +154,15 @@ public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUn
 
         public Builder experience(int xp) {
             this.requirements = new ResearchRequirements(xp, this.requirements.requiredItems());
+            return this;
+        }
+
+        public Builder tab(Holder<ResearchTab> tab) {
+            this.tab = tab;
+            return this;
+        }
+        public Builder tab(ResourceKey<ResearchTab> tab) {
+            this.tab = context.lookup(SyntheticsData.RESEARCH_TABS).getOrThrow(tab);
             return this;
         }
 
@@ -142,7 +180,15 @@ public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUn
 
 
         public ResearchNode build() {
-            return new ResearchNode(Optional.ofNullable(parent), unlocked, requirements, x, y, resourceKey.location());
+
+            if(tab == null) {
+                throw new IllegalStateException("Research node built but belongs to no valid research tab");
+            }
+            if(!setPosition) {
+                throw new IllegalStateException("Unset position for Research Node");
+            }
+
+            return new ResearchNode(Optional.ofNullable(parent), unlocked, requirements, x, y, tab, resourceKey.location());
         }
 
 

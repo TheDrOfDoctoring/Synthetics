@@ -3,25 +3,19 @@
   "category": "misc",
   "key": {
     "A": {
-      "item": "minecraft:iron_block"
+      "tag": "c:stripped_logs"
     },
     "B": {
-      "tag": "c:glass_blocks"
+      "item": "minecraft:iron_ingot"
     },
     "C": {
-      "item": "minecraft:polished_diorite"
-    },
-    "D": {
-      "item": "minecraft:copper_block"
-    },
-    "E": {
-      "item": "minecraft:redstone"
+      "item": "minecraft:blast_furnace"
     }
   },
   "pattern": [
     " C ",
-    "BDB",
-    "EAE"
+    "BBB",
+    "A A"
   ],
   "result": {
     "count": 1,

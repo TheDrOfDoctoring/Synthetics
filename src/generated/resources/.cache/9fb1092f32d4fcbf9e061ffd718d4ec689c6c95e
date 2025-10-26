@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-21T10:44:12.1802368	Recipes
+// 1.21.1	2025-10-26T18:52:58.4612043	Recipes
 c5cfdd09c4ba581b0f2b48a2fcaaab55e6f57d4c data/synthetics/advancement/recipes/misc/ancient_alloy.json
 ffd75204e5fa86054cb895015c079bb875bdf4f5 data/synthetics/advancement/recipes/misc/augmentation_chamber.json
 247894047caa276fb153a9d98c62ec6db0b2a6c3 data/synthetics/advancement/recipes/misc/blueprint.json
@@ -35,7 +35,7 @@ b0d9ae7e84644e82af25442e782437f47dd9da7a data/synthetics/recipe/ancient_alloy.js
 02d342cce90a4109716c72136fcac44be94bc54d data/synthetics/recipe/augmentation_chamber.json
 6589f652c932ecae80da678b34b1cf5d309c82ad data/synthetics/recipe/blueprint.json
 26eee1ec058a12b91c294e91893f8e785b27585c data/synthetics/recipe/pure_ancient_alloy.json
-70c7594afd531238758fef488c0633627eda92e7 data/synthetics/recipe/synthetic_forge.json
+6f4583f90927d754de21997bc2bf1b3f3e073fb1 data/synthetics/recipe/synthetic_forge.json
 26185faa3234820db790f0978f8d20d26308409f data/synthetics/recipe/synthetic_forge/advanced_solar_tissue.json
 81ee8e2ecfd03b25cc7321c56e7b0700ebba865f data/synthetics/recipe/synthetic_forge/artificial_capillary.json
 54fa6763015b71209ae2bb2eb651086744d59f83 data/synthetics/recipe/synthetic_forge/artificial_neuron.json

@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core.data.collections;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
+import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchTab;
 import net.minecraft.resources.ResourceKey;
 
 public class ResearchNodes {
@@ -29,10 +30,21 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> ORGANIC_BONES = create("organic_bones");
     public static final ResourceKey<ResearchNode> AUTOPILOT = create("motion_autopilot");
 
+    public static final ResourceKey<ResearchTab> TAB_AUGMENTS = createTab("augments");
+    public static final ResourceKey<ResearchTab> TAB_BODY_PARTS = createTab("body_parts");
+
+
 
     private static ResourceKey<ResearchNode> create(String name) {
         return ResourceKey.create(
                 SyntheticsData.RESEARCH_NODES,
+                Synthetics.rl(name)
+        );
+    }
+
+    private static ResourceKey<ResearchTab> createTab(String name) {
+        return ResourceKey.create(
+                SyntheticsData.RESEARCH_TABS,
                 Synthetics.rl(name)
         );
     }
