@@ -41,7 +41,6 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
     }
 
 
-
     public SyntheticForgeRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.drawableBuilder(SyntheticForgeScreen.BACKGROUND, 4, 4, 165, 78).addPadding(0, 0, 0, 0).build();
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(SyntheticsBlocks.SYNTHETIC_FORGE.get()));
@@ -55,10 +54,12 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
         return Component.translatable("menu.title.synthetics.synthetic_forge");
     }
 
+    @SuppressWarnings("removal")
     @Override
     public @NotNull IDrawable getBackground() {
         return this.background;
     }
+
 
     @Override
     public @NotNull IDrawable getIcon() {

@@ -55,7 +55,7 @@ public class BodyParts {
 
 
     public static final TagKey<BodyPart> ALL_BONES = tag("bones");
-    public static final TagKey<BodyPart> ALL_MUSCLES = tag("bones");
+    public static final TagKey<BodyPart> ALL_MUSCLES = tag("muscles");
 
 
 

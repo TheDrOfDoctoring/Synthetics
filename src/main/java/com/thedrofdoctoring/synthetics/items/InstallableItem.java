@@ -41,6 +41,9 @@ public class InstallableItem<T extends IBodyInstallable<T>> extends Item {
         }
         return holder.value();
     }
+    public Holder<T> getInstallableComponentHolder(ItemStack stack) {
+        return stack.get(componentType);
+    }
 
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {

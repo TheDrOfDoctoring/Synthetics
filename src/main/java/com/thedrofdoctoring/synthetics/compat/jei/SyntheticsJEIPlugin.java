@@ -1,29 +1,34 @@
 package com.thedrofdoctoring.synthetics.compat.jei;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation_chamber.AugmentationChamberScreen;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticForgeRecipe;
 import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticsRecipes;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.menus.SyntheticForgeMenu;
 import com.thedrofdoctoring.synthetics.menus.SyntheticsMenus;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Unit;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
 @SuppressWarnings("unused")
 @JeiPlugin
 public class SyntheticsJEIPlugin implements IModPlugin {
@@ -62,13 +67,24 @@ public class SyntheticsJEIPlugin implements IModPlugin {
     }
 
     @Override
+    public void registerGuiHandlers(@NotNull IGuiHandlerRegistration registration) {
+        registration.addGuiContainerHandler(AugmentationChamberScreen.class, new IGuiContainerHandler<>() {
+            @Override
+            public @NotNull List<Rect2i> getGuiExtraAreas(@NotNull AugmentationChamberScreen containerScreen) {
+                return List.of(new Rect2i(containerScreen.guiLeft + AugmentationChamberScreen.WIDTH, containerScreen.guiTop, 30, BodyPartType.Layer.values().length * 30));
+            }
+        });
+    }
+
+
+    @Override
     public void registerItemSubtypes(@NotNull ISubtypeRegistration registration) {
+
         registration.registerSubtypeInterpreter(SyntheticsItems.AUGMENT_INSTALLABLE.get(), new ISubtypeInterpreter<>() {
             @Override
             public @Nullable Object getSubtypeData(@NotNull ItemStack ingredient, @NotNull UidContext context) {
-                ingredient.set(DataComponents.HIDE_ADDITIONAL_TOOLTIP, Unit.INSTANCE);
                 if(ingredient.getItem() instanceof InstallableItem<?> item) {
-                    return item.getInstallableComponent(ingredient);
+                    return item.getInstallableComponentHolder(ingredient);
                 }
 
                 return null;
@@ -76,15 +92,17 @@ public class SyntheticsJEIPlugin implements IModPlugin {
 
             @Override
             public @NotNull String getLegacyStringSubtypeInfo(@NotNull ItemStack ingredient, @NotNull UidContext context) {
+                if(ingredient.getItem() instanceof InstallableItem<?> item) {
+                    return item.getInstallableComponentHolder(ingredient).getRegisteredName();
+                }
                 return "augment_subtype";
             }
         });
         registration.registerSubtypeInterpreter(SyntheticsItems.BODY_PART_INSTALLABLE.get(), new ISubtypeInterpreter<>() {
             @Override
             public @Nullable Object getSubtypeData(@NotNull ItemStack ingredient, @NotNull UidContext context) {
-                ingredient.set(DataComponents.HIDE_ADDITIONAL_TOOLTIP, Unit.INSTANCE);
                 if(ingredient.getItem() instanceof InstallableItem<?> item) {
-                    return item.getInstallableComponent(ingredient);
+                    return item.getInstallableComponentHolder(ingredient);
                 }
 
                 return null;
@@ -92,6 +110,9 @@ public class SyntheticsJEIPlugin implements IModPlugin {
 
             @Override
             public @NotNull String getLegacyStringSubtypeInfo(@NotNull ItemStack ingredient, @NotNull UidContext context) {
+                if(ingredient.getItem() instanceof InstallableItem<?> item) {
+                    return item.getInstallableComponentHolder(ingredient).getRegisteredName();
+                }
                 return "body_part_subtype";
             }
         });
