@@ -20,6 +20,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,6 +28,10 @@ import java.util.*;
 
 public class PartManager implements ISaveData, IPartManager {
     public static final String KEY = "part_manager";
+
+    private static final Object2ObjectMap<String, ResourceLocation> partFixerUpper = new Object2ObjectOpenHashMap<>();
+
+
     private final Object2ObjectMap<BodyPartType, BodyPart> installedParts;
     private final Object2ObjectMap<BodySegmentType, BodySegment> installedSegments;
 
@@ -205,7 +210,9 @@ public class PartManager implements ISaveData, IPartManager {
                 int size = nbt.size();
                 for(int i = 0; i < size; i++) {
                     String partIDString = nbt.getString(String.valueOf(i));
-                    BodyPart part = Helper.retrieveDataObject(partIDString, SyntheticsData.BODY_PARTS, partLookup);
+                    ResourceLocation id = getPartReplacement(partIDString);
+
+                    BodyPart part = Helper.retrieveDataObject(id, SyntheticsData.BODY_PARTS, partLookup);
                     if(part != null) {
                         replacePart(part, false);
                     }
@@ -223,6 +230,19 @@ public class PartManager implements ISaveData, IPartManager {
             }
         }
 
+    }
+
+
+    public static void putPartReplacement(String oldPartName, ResourceLocation newLocation) {
+        partFixerUpper.put(oldPartName, newLocation);
+    }
+
+    public static @Nullable ResourceLocation getPartReplacement(String oldPartName) {
+        return partFixerUpper.getOrDefault(oldPartName, ResourceLocation.tryParse(oldPartName));
+    }
+
+    public static boolean hasPartReplacement(String oldPartName) {
+        return partFixerUpper.containsKey(oldPartName);
     }
 
     @Override

@@ -1,9 +1,9 @@
-// 1.21.1	2025-10-26T20:54:12.0854129	Tags for synthetics:body_parts mod id synthetics
+// 1.21.1	2025-10-29T00:22:49.7602455	Tags for synthetics:body_parts mod id synthetics
 b435a26595211b4c497967752f32feda4e84307e data/synthetics/tags/synthetics/body_parts/arm_muscle.json
 7a54fe7a49d98f2f1558d64b2977c5c1300fac71 data/synthetics/tags/synthetics/body_parts/bones.json
-ba71d82415429402d0a60e92f3942ff65c012121 data/synthetics/tags/synthetics/body_parts/eyes.json
-dbeb808e832f8c764263e536a50eaed053e98fe6 data/synthetics/tags/synthetics/body_parts/feet.json
-eece9170060130003df2e2a8cac676593d1664eb data/synthetics/tags/synthetics/body_parts/hands.json
+8eed922ff9a09e7f26861221eed93c357d8d821c data/synthetics/tags/synthetics/body_parts/eyes.json
+663fde21c2f8b79e75480f790f82600ef5044de8 data/synthetics/tags/synthetics/body_parts/feet.json
+efbb91ebf3b4e5ecf61ad32af1bee03521d7bedf data/synthetics/tags/synthetics/body_parts/hands.json
 7b5220c19a8ac61f1c546bdb4dd3f05ed53912e8 data/synthetics/tags/synthetics/body_parts/heart.json
 d2b02ffcc16de78e537aa67c1f5ce4c9a9b17628 data/synthetics/tags/synthetics/body_parts/lungs.json
 3d557d0c0fbd650edee77f7449c9db6896005176 data/synthetics/tags/synthetics/body_parts/muscles.json

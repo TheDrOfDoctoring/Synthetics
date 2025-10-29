@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:right_eye",
+  "id": "synthetics:organic_right_eye",
+  "max_complexity": 3,
+  "valid_body_segments": "#synthetics:head"
+}

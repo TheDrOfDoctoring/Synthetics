@@ -38,11 +38,13 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
     public SyntheticsRecipeProvider(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pRegistries) {
         super(pOutput, pRegistries);
     }
+
     @Override
     protected void buildRecipes(@NotNull RecipeOutput pRecipeOutput, HolderLookup.@NotNull Provider lookup) {
 
         createShapedRecipes(pRecipeOutput);
         createForgeRecipes(pRecipeOutput, lookup);
+        createPairRecipes(pRecipeOutput, lookup);
 
     }
 
@@ -88,7 +90,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
                 .save(output, Synthetics.rl("heart_battery")
                 );
-        SyntheticForgeRecipeBuilder.create(SyntheticsItems.MEDIUM_BATTERY.get() , 1)
+        SyntheticForgeRecipeBuilder.create(SyntheticsItems.MEDIUM_BATTERY.get(), 1)
                 .define('A', Items.DIAMOND)
                 .define('B', Tags.Items.INGOTS_COPPER)
                 .define('C', Tags.Items.INGOTS_GOLD)
@@ -114,7 +116,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("artificial_neuron")
                 );
-        SyntheticForgeRecipeBuilder.create(SyntheticsItems.ARTIFICIAL_CAPILLARY.get() , 1)
+        SyntheticForgeRecipeBuilder.create(SyntheticsItems.ARTIFICIAL_CAPILLARY.get(), 1)
                 .define('A', Items.ROTTEN_FLESH)
                 .define('B', Tags.Items.INGOTS_COPPER)
                 .pattern(" B ")
@@ -126,7 +128,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_copper", has(Items.COPPER_INGOT))
                 .save(output, Synthetics.rl("artificial_capillary")
                 );
-        SyntheticForgeRecipeBuilder.create(SyntheticsItems.ARTIFICIAL_TISSUE.get() , 2)
+        SyntheticForgeRecipeBuilder.create(SyntheticsItems.ARTIFICIAL_TISSUE.get(), 2)
                 .define('A', Items.ROTTEN_FLESH)
                 .define('B', Items.STRING)
                 .pattern(" B ")
@@ -138,7 +140,20 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("artificial_tissue")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_FEET) , 1)
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_LEFT_FOOT), 1)
+                .define('A', SyntheticsItems.ARTIFICIAL_NEURON.get())
+                .define('B', SyntheticsItems.ARTIFICIAL_TISSUE.get())
+                .define('C', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
+                .pattern("  A")
+                .pattern("  A")
+                .pattern("CBB")
+                .lavaCost(10)
+                .recipeTime(80)
+                .requiredResearch(lookup, ResearchNodes.ORGANIC_FEET)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("organic_left_foot")
+                );
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_RIGHT_FOOT), 1)
                 .define('A', SyntheticsItems.ARTIFICIAL_NEURON.get())
                 .define('B', SyntheticsItems.ARTIFICIAL_TISSUE.get())
                 .define('C', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
@@ -149,10 +164,10 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .recipeTime(80)
                 .requiredResearch(lookup, ResearchNodes.ORGANIC_FEET)
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
-                .save(output, Synthetics.rl("organic_feet")
+                .save(output, Synthetics.rl("organic_right_foot")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.CYBERNETIC_FEET) , 1)
-                .define('A', partIngredient(lookup, BodyParts.ORGANIC_FEET))
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.CYBERNETIC_LEFT_FOOT), 1)
+                .define('A', partIngredient(lookup, BodyParts.ORGANIC_LEFT_FOOT))
                 .define('B', Items.IRON_INGOT)
                 .define('C', SyntheticsItems.ANCIENT_ALLOY.get())
                 .pattern("ABB")
@@ -162,9 +177,22 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .recipeTime(150)
                 .requiredResearch(lookup, ResearchNodes.CYBERNETIC_FEET)
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
-                .save(output, Synthetics.rl("cybernetic_feet")
+                .save(output, Synthetics.rl("cybernetic_left_foot")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.SOLAR_TISSUE) , 1)
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.CYBERNETIC_RIGHT_FOOT), 1)
+                .define('A', partIngredient(lookup, BodyParts.ORGANIC_RIGHT_FOOT))
+                .define('B', Items.IRON_INGOT)
+                .define('C', SyntheticsItems.ANCIENT_ALLOY.get())
+                .pattern("BBA")
+                .pattern("  C")
+                .pattern("   ")
+                .lavaCost(50)
+                .recipeTime(150)
+                .requiredResearch(lookup, ResearchNodes.CYBERNETIC_FEET)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("cybernetic_right_foot")
+                );
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.SOLAR_TISSUE), 1)
                 .define('A', Tags.Items.GLASS_PANES)
                 .define('B', Items.LAPIS_LAZULI)
                 .define('C', Items.COPPER_INGOT)
@@ -177,7 +205,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("solar_tissue")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_TISSUE) , 1)
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_TISSUE), 1)
                 .define('A', SyntheticsItems.ARTIFICIAL_NEURON.get())
                 .define('B', SyntheticsItems.ARTIFICIAL_TISSUE.get())
                 .define('C', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
@@ -190,7 +218,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("organic_tissue")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.CYBERNETIC_TISSUE) , 1)
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.CYBERNETIC_TISSUE), 1)
                 .define('A', partIngredient(lookup, BodyParts.ORGANIC_TISSUE))
                 .define('B', Items.IRON_INGOT)
                 .define('C', Items.GOLD_INGOT)
@@ -204,7 +232,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("cybernetic_tissue")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.ADVANCED_SOLAR_TISSUE) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.ADVANCED_SOLAR_TISSUE), 1)
                 .define('D', augmentIngredient(lookup, Augments.SOLAR_TISSUE))
                 .define('A', Items.DIAMOND)
                 .define('B', Items.LAPIS_LAZULI)
@@ -218,7 +246,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("advanced_solar_tissue")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.INTEGRATED_RESPIRATOR) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.INTEGRATED_RESPIRATOR), 1)
                 .define('A', Items.COPPER_INGOT)
                 .define('B', Items.LAPIS_LAZULI)
                 .pattern("AAA")
@@ -230,7 +258,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("integrated_respirator")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.VISION_CLARIFIER) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.VISION_CLARIFIER), 1)
                 .define('A', Items.COPPER_INGOT)
                 .define('B', Tags.Items.GLASS_PANES)
                 .pattern("AAA")
@@ -242,7 +270,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("vision_clarifier")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.METABOLIC_CONVERTER) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.METABOLIC_CONVERTER), 1)
                 .define('A', SyntheticsItems.ARTIFICIAL_TISSUE.get())
                 .define('B', Tags.Items.INGOTS_IRON)
                 .define('C', Items.REDSTONE)
@@ -255,7 +283,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("metabolic_converter")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.EMITTABLE_ADHESIVE) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.EMITTABLE_ADHESIVE), 1)
                 .define('A', Items.SPIDER_EYE)
                 .define('B', Items.SLIME_BALL)
                 .define('C', Tags.Items.INGOTS_IRON)
@@ -268,7 +296,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("emittable_adhesive")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.INTEGRATED_EXOSKELETON) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.INTEGRATED_EXOSKELETON), 1)
                 .define('A', Tags.Items.INGOTS_IRON)
                 .define('B', Tags.Items.GEMS_DIAMOND)
                 .define('C', Items.BONE)
@@ -281,7 +309,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("integrated_exoskeleton")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.INTERNAL_PLATING) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.INTERNAL_PLATING), 1)
                 .define('A', Tags.Items.GEMS_DIAMOND)
                 .define('B', Tags.Items.INGOTS_IRON)
                 .pattern("BAB")
@@ -293,7 +321,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("internal_plating")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_HANDS) , 1)
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_LEFT_HAND), 1)
                 .define('A', SyntheticsItems.ARTIFICIAL_NEURON.get())
                 .define('B', SyntheticsItems.ARTIFICIAL_TISSUE.get())
                 .define('C', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
@@ -304,10 +332,37 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .recipeTime(80)
                 .requiredResearch(lookup, ResearchNodes.ORGANIC_HANDS)
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
-                .save(output, Synthetics.rl("organic_hands")
+                .save(output, Synthetics.rl("organic_left_hand")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.CYBERNETIC_HANDS) , 1)
-                .define('A', partIngredient(lookup, BodyParts.ORGANIC_HANDS))
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_RIGHT_HAND), 1)
+                .define('A', SyntheticsItems.ARTIFICIAL_NEURON.get())
+                .define('B', SyntheticsItems.ARTIFICIAL_TISSUE.get())
+                .define('C', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
+                .pattern("BA ")
+                .pattern(" A ")
+                .pattern("CCB")
+                .lavaCost(10)
+                .recipeTime(80)
+                .requiredResearch(lookup, ResearchNodes.ORGANIC_HANDS)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("organic_right_hand")
+                );
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.CYBERNETIC_LEFT_HAND), 1)
+                .define('A', partIngredient(lookup, BodyParts.ORGANIC_LEFT_HAND))
+                .define('B', SyntheticsItems.ANCIENT_ALLOY.get())
+                .define('C', Items.GOLD_INGOT)
+                .define('D', Items.REDSTONE)
+                .pattern("DD ")
+                .pattern("BAB")
+                .pattern("DCC")
+                .lavaCost(50)
+                .recipeTime(150)
+                .requiredResearch(lookup, ResearchNodes.CYBERNETIC_HANDS)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("cybernetic_left_hand")
+                );
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.CYBERNETIC_RIGHT_HAND), 1)
+                .define('A', partIngredient(lookup, BodyParts.ORGANIC_RIGHT_HAND))
                 .define('B', SyntheticsItems.ANCIENT_ALLOY.get())
                 .define('C', Items.GOLD_INGOT)
                 .define('D', Items.REDSTONE)
@@ -318,9 +373,9 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .recipeTime(150)
                 .requiredResearch(lookup, ResearchNodes.CYBERNETIC_HANDS)
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
-                .save(output, Synthetics.rl("cybernetic_hands")
+                .save(output, Synthetics.rl("cybernetic_right_hand")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.EXTENDED_GRIP) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.EXTENDED_GRIP), 1)
                 .define('A', Items.REDSTONE)
                 .define('B', Items.CHAIN)
                 .pattern(" B ")
@@ -332,7 +387,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("extended_grip")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_TIBIA) , 1)
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_TIBIA), 1)
                 .define('B', Items.BONE)
                 .define('A', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
                 .pattern("  B")
@@ -344,7 +399,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("organic_tibia")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_SKULL) , 1)
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_SKULL), 1)
                 .define('B', Items.BONE)
                 .define('A', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
                 .pattern("B B")
@@ -356,7 +411,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("organic_skull")
                 );
-        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_RIBCAGE) , 1)
+        SyntheticForgeRecipeBuilder.create(createPart(lookup, BodyParts.ORGANIC_RIBCAGE), 1)
                 .define('B', Items.BONE)
                 .define('A', SyntheticsItems.ARTIFICIAL_CAPILLARY.get())
                 .pattern("BAB")
@@ -368,7 +423,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("organic_ribcage")
                 );
-        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.MOTION_AUTOPILOT) , 1)
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.MOTION_AUTOPILOT), 1)
                 .define('A', Items.REDSTONE)
                 .define('B', Items.IRON_INGOT)
                 .define('C', SyntheticsItems.ANCIENT_ALLOY.get())
@@ -387,18 +442,40 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
     private ItemStack createAugment(HolderLookup.Provider provider, ResourceKey<Augment> augmentKey) {
         return provider.lookupOrThrow(SyntheticsData.AUGMENTS).get(augmentKey).orElseThrow().value().createDefaultItemStack(provider);
     }
+
     private ItemStack createPart(HolderLookup.Provider provider, ResourceKey<BodyPart> partKey) {
         return provider.lookupOrThrow(SyntheticsData.BODY_PARTS).get(partKey).orElseThrow().value().createDefaultItemStack(provider);
     }
+
     public static Ingredient partIngredient(HolderLookup.Provider provider, ResourceKey<BodyPart> partKey) {
-        DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.BODY_PART,  provider.lookupOrThrow(SyntheticsData.BODY_PARTS).getOrThrow(partKey)).build();
+        DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.BODY_PART, provider.lookupOrThrow(SyntheticsData.BODY_PARTS).getOrThrow(partKey)).build();
         return DataComponentIngredient.of(false, map, SyntheticsItems.BODY_PART_INSTALLABLE.get());
     }
 
     public static Ingredient augmentIngredient(HolderLookup.Provider provider, ResourceKey<Augment> partKey) {
-        DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.AUGMENT,  provider.lookupOrThrow(SyntheticsData.AUGMENTS).getOrThrow(partKey)).build();
+        DataComponentMap map = DataComponentMap.builder().set(SyntheticsDataComponents.AUGMENT, provider.lookupOrThrow(SyntheticsData.AUGMENTS).getOrThrow(partKey)).build();
         return DataComponentIngredient.of(false, map, SyntheticsItems.AUGMENT_INSTALLABLE.get());
     }
+
+    private void createPairRecipes(RecipeOutput output, HolderLookup.@NotNull Provider lookup) {
+        createBodyPartPairRecipe(output, lookup, BodyParts.ORGANIC_RIGHT_FOOT, BodyParts.ORGANIC_LEFT_FOOT);
+        createBodyPartPairRecipe(output, lookup, BodyParts.CYBERNETIC_RIGHT_FOOT, BodyParts.CYBERNETIC_LEFT_FOOT);
+        createBodyPartPairRecipe(output, lookup, BodyParts.ORGANIC_RIGHT_HAND, BodyParts.ORGANIC_LEFT_HAND);
+        createBodyPartPairRecipe(output, lookup, BodyParts.CYBERNETIC_RIGHT_HAND, BodyParts.CYBERNETIC_LEFT_HAND);
+        createBodyPartPairRecipe(output, lookup, BodyParts.ORGANIC_LEFT_EYE, BodyParts.ORGANIC_RIGHT_EYE);
+    }
+
+    private void createBodyPartPairRecipe(RecipeOutput output, HolderLookup.Provider lookup, ResourceKey<BodyPart> left, ResourceKey<BodyPart> right) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, createPart(lookup, right))
+                .requires(partIngredient(lookup, left))
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("pair_swap/" + right.location().getPath()));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, createPart(lookup, left))
+                .requires(partIngredient(lookup, right))
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("pair_swap/" + left.location().getPath()));
+    }
+
 
     private void createShapedRecipes(RecipeOutput output) {
 
@@ -452,5 +529,6 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .save(output, Synthetics.rl("synthetic_forge")
                 );
 
-        }
+    }
+
 }

@@ -1,6 +1,8 @@
 {
   "values": [
-    "synthetics:organic_hands",
-    "synthetics:cybernetic_hands"
+    "synthetics:organic_left_hand",
+    "synthetics:organic_right_hand",
+    "synthetics:cybernetic_left_hand",
+    "synthetics:cybernetic_right_hand"
   ]
 }

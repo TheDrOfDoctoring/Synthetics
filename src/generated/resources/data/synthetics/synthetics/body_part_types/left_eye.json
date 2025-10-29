@@ -1,0 +1,7 @@
+{
+  "default_part": "synthetics:organic_left_eye",
+  "id": "synthetics:left_eye",
+  "layer": "organs",
+  "x": -15,
+  "y": 29
+}

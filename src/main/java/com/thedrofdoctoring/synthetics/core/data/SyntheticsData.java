@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.core.data;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.core.data.datamaps.SyntheticsDatamapsProvider;
 import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsLootModifiersProvider;
 import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsLootTableProvider;
 import com.thedrofdoctoring.synthetics.core.data.gen.SyntheticsTagProvider;
@@ -82,6 +83,8 @@ public class SyntheticsData {
         SyntheticsLootTableProvider.register(generator, event, lookupProvider, packOutput);
         SyntheticsTagProvider.register(generator, event, packOutput, lookupProvider, existingFileHelper);
         SyntheticsRecipeProvider.register(generator, event, lookupProvider, packOutput);
+        SyntheticsDatamapsProvider.register(generator, event, lookupProvider, packOutput);
+
     }
 
     public static void register(IEventBus bus) {

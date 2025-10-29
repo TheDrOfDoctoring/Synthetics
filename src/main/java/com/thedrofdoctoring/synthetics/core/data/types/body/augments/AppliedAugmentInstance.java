@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.augments;
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
@@ -42,7 +43,7 @@ public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) impl
         String augment = strings[0];
         String part = strings[1];
         ResourceLocation augmentLocation = ResourceLocation.tryParse(augment);
-        ResourceLocation bodyPartLocation = ResourceLocation.tryParse(part);
+        ResourceLocation bodyPartLocation = PartManager.getPartReplacement(part);
         return Pair.of(augmentLocation, bodyPartLocation);
     }
 

@@ -1,0 +1,36 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "type": "neoforge:components",
+      "components": {
+        "synthetics:body_parts": "synthetics:organic_right_hand"
+      },
+      "items": "synthetics:body_part_item"
+    },
+    "B": {
+      "item": "synthetics:ancient_alloy_ingot"
+    },
+    "C": {
+      "item": "minecraft:gold_ingot"
+    },
+    "D": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " DD",
+    "BAB",
+    "DCC"
+  ],
+  "recipe_time": 150,
+  "required_research": "synthetics:cybernetic_hands",
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:cybernetic_right_hand"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

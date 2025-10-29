@@ -52,12 +52,12 @@ public class SyntheticsTagProvider {
         @SuppressWarnings("unchecked")
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
-            tag(BodyParts.EYES_MAIN).add(BodyParts.ORGANIC_EYES);
-            tag(BodyParts.FEET_MAIN).add(BodyParts.ORGANIC_FEET, BodyParts.CYBERNETIC_FEET);
+            tag(BodyParts.EYES_MAIN).add(BodyParts.ORGANIC_LEFT_EYE, BodyParts.ORGANIC_RIGHT_EYE);
+            tag(BodyParts.FEET_MAIN).add(BodyParts.ORGANIC_LEFT_FOOT, BodyParts.ORGANIC_RIGHT_FOOT, BodyParts.CYBERNETIC_LEFT_FOOT, BodyParts.CYBERNETIC_RIGHT_FOOT);
             tag(BodyParts.HEART_MAIN).add(BodyParts.ORGANIC_HEART);
             tag(BodyParts.TISSUE_MAIN).add(BodyParts.ORGANIC_TISSUE, BodyParts.CYBERNETIC_TISSUE);
             tag(BodyParts.LUNGS_MAIN).add(BodyParts.ORGANIC_LUNGS);
-            tag(BodyParts.HANDS_MAIN).add(BodyParts.ORGANIC_HANDS, BodyParts.CYBERNETIC_HANDS);
+            tag(BodyParts.HANDS_MAIN).add(BodyParts.ORGANIC_LEFT_HAND, BodyParts.ORGANIC_RIGHT_HAND, BodyParts.CYBERNETIC_LEFT_HAND, BodyParts.CYBERNETIC_RIGHT_HAND);
             tag(BodyParts.TIBIA_MAIN).add(BodyParts.ORGANIC_TIBIA);
             tag(BodyParts.SKULL_MAIN).add(BodyParts.ORGANIC_SKULL);
             tag(BodyParts.RIBCAGE_MAIN).add(BodyParts.ORGANIC_RIBCAGE);

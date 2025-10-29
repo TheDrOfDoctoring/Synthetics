@@ -26,7 +26,10 @@
   },
   "tab": "synthetics:body_parts",
   "unlocked": {
-    "parts": "synthetics:cybernetic_hands"
+    "parts": [
+      "synthetics:cybernetic_left_hand",
+      "synthetics:cybernetic_right_hand"
+    ]
   },
   "x": 0,
   "y": 30

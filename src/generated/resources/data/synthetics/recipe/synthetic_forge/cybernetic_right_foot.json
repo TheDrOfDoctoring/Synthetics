@@ -1,0 +1,33 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "type": "neoforge:components",
+      "components": {
+        "synthetics:body_parts": "synthetics:organic_right_foot"
+      },
+      "items": "synthetics:body_part_item"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "BBA",
+    "  C",
+    "   "
+  ],
+  "recipe_time": 150,
+  "required_research": "synthetics:cybernetic_feet",
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:cybernetic_right_foot"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

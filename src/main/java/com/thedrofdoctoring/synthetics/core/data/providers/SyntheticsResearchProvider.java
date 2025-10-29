@@ -89,7 +89,7 @@ public class SyntheticsResearchProvider {
                         )
                         .parent(ResearchNodes.ARTIFICIAL_TISSUE)
                         .unlocksParts(
-                                List.of(BodyParts.ORGANIC_FEET))
+                                List.of(BodyParts.ORGANIC_LEFT_FOOT, BodyParts.ORGANIC_RIGHT_FOOT))
                         .experience(100)
                         .requiredItems(
                                 List.of(
@@ -107,7 +107,7 @@ public class SyntheticsResearchProvider {
                         )
                         .parent(ResearchNodes.ORGANIC_FEET)
                         .unlocksParts(
-                                List.of(BodyParts.CYBERNETIC_FEET))
+                                List.of(BodyParts.CYBERNETIC_LEFT_FOOT, BodyParts.CYBERNETIC_RIGHT_FOOT))
                         .experience(100)
                         .requiredItems(
                                 List.of(
@@ -142,7 +142,7 @@ public class SyntheticsResearchProvider {
                         )
                         .parent(ResearchNodes.ARTIFICIAL_TISSUE)
                         .unlocksParts(
-                                List.of(BodyParts.ORGANIC_HANDS))
+                                List.of(BodyParts.ORGANIC_LEFT_HAND, BodyParts.ORGANIC_RIGHT_HAND))
                         .experience(100)
                         .requiredItems(
                                 List.of(
@@ -161,7 +161,7 @@ public class SyntheticsResearchProvider {
                         )
                         .parent(ResearchNodes.ORGANIC_HANDS)
                         .unlocksParts(
-                                List.of(BodyParts.CYBERNETIC_HANDS))
+                                List.of(BodyParts.CYBERNETIC_LEFT_HAND, BodyParts.CYBERNETIC_RIGHT_HAND))
                         .experience(100)
                         .requiredItems(
                                 List.of(

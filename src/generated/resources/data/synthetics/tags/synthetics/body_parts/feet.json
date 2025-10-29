@@ -1,6 +1,8 @@
 {
   "values": [
-    "synthetics:organic_feet",
-    "synthetics:cybernetic_feet"
+    "synthetics:organic_left_foot",
+    "synthetics:organic_right_foot",
+    "synthetics:cybernetic_left_foot",
+    "synthetics:cybernetic_right_foot"
   ]
 }

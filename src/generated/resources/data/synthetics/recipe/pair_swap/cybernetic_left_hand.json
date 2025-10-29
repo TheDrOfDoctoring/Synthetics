@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "synthetics:body_parts": "synthetics:cybernetic_right_hand"
+      },
+      "items": "synthetics:body_part_item"
+    }
+  ],
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:cybernetic_left_hand"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

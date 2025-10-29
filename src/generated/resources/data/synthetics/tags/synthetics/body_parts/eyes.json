@@ -1,5 +1,6 @@
 {
   "values": [
-    "synthetics:organic_eyes"
+    "synthetics:organic_left_eye",
+    "synthetics:organic_right_eye"
   ]
 }

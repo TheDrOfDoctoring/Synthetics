@@ -1,0 +1,7 @@
+{
+  "default_part": "synthetics:organic_right_foot",
+  "id": "synthetics:right_foot",
+  "layer": "exterior",
+  "x": 7,
+  "y": 220
+}

@@ -5,8 +5,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundRemoveAugmentPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -28,6 +28,8 @@ public class BodyPartDisplayScreen {
     private final int y;
 
     private final BodyPart part;
+    private final double scale;
+
     private final List<AppliedAugmentInstance> installedAugments;
     private final Minecraft minecraft;
 
@@ -45,9 +47,8 @@ public class BodyPartDisplayScreen {
     private static final ResourceLocation TITLE = Synthetics.rl("generic/title_red");
     private static final ResourceLocation RIGHT_CLICK_SPRITE = Synthetics.rl("icons/right_click");
 
-    public BodyPartDisplayScreen(PlayerSyntheticDisplayScreen screen, Minecraft minecraft, int x, int y, SyntheticsPlayer player, BodyPart part) {
-        this.x = x;
-        this.y = y;
+    public BodyPartDisplayScreen(PlayerSyntheticDisplayScreen screen, Minecraft minecraft, int x, int y, SyntheticsPlayer player, BodyPart part, double scale) {
+
         this.part = part;
         this.minecraft = minecraft;
         this.size = Math.max(56 + minecraft.font.width(part.title()), 120);
@@ -59,6 +60,9 @@ public class BodyPartDisplayScreen {
                 installedAugments.add(instance);
             }
         }
+        this.scale = scale;
+        this.x = (int) (x / scale);
+        this.y = (int) (y / scale);
     }
 
     public void setSelectTick(int amount) {
@@ -66,7 +70,13 @@ public class BodyPartDisplayScreen {
     }
 
     public boolean isMouseOver(double mouseX, double mouseY, int scrollX, int scrollY) {
-        return mouseX >= x + scrollX - 6 && mouseX < x + scrollX + (double) WIDTH - 7 && mouseY > scrollY + y && mouseY < scrollY + this.y + HEIGHT;
+        double minX = x + scrollX - 6 * scale;
+        double maxX = x + scrollX + (WIDTH - 7) * scale;
+
+        double minY = y + scrollY;
+        double maxY = y + scrollY + HEIGHT * scale;
+
+        return mouseX >= minX && mouseX < maxX && mouseY > minY && mouseY < maxY;
     }
 
     public BodyPart getPart() {
@@ -75,6 +85,12 @@ public class BodyPartDisplayScreen {
 
     public void renderHover(GuiGraphics graphics, double mouseX, double mouseY) {
         PoseStack pose = graphics.pose();
+        int translation = 0;
+        if(scale <= 0.95) {
+            translation = (int) (1 / scale);
+        }
+        int x = this.x - translation;
+        int y = this.y - translation;
         pose.pushPose();
         pose.translate(-6, 0, 300);
         pose.pushPose();
@@ -136,8 +152,8 @@ public class BodyPartDisplayScreen {
         graphics.drawString(minecraft.font, this.part.title(), x + 30, y + 9, -1, true);
         graphics.blitSprite(TITLE, x - 15, y + 3, size + 10, 20);
         graphics.blitSprite(BODY_PART_NODE,  x, y, 26, 26);
-        graphics.blitSprite(RIGHT_CLICK_SPRITE, x - 13, y + 4, 15, 16);
         graphics.blit(part.texture(), x + 5, y + 5, 0, 0, 16, 16, 16, 16);
+        graphics.blitSprite(RIGHT_CLICK_SPRITE, x - 13, y + 4, 15, 16);
         pose.popPose();
     }
     public void render(GuiGraphics graphics) {
@@ -147,10 +163,15 @@ public class BodyPartDisplayScreen {
         pose.pushPose();
 
         pose.translate(-6, 0, 200);
+        graphics.pose().pushPose();
+        int x = (int) (this.x / scale);
+        int y = (int) (this.y / scale);
+        graphics.pose().scale((float) scale, (float) scale, 1);
         graphics.blitSprite(BODY_PART_NODE, x, y, WIDTH, HEIGHT);
 
         RenderSystem.enableBlend();
         graphics.blit(part.texture(), x + 5, y + 5, 0, 0, 16, 16, 16, 16);
+        graphics.pose().popPose();
 
         pose.popPose();
 

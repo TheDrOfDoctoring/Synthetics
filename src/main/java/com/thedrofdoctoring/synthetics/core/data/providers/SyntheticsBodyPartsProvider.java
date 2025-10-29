@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
+import com.thedrofdoctoring.synthetics.core.data.collections.BodyPartTypes;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
@@ -13,37 +14,17 @@ public class SyntheticsBodyPartsProvider {
 
 
     public static void createBodyParts(BootstrapContext<BodyPart> context) {
-        register(context,
-                BodyPart.Builder.of(context, BodyParts.ORGANIC_EYES)
-                        .partType(BodyParts.EYES)
-                        .validSegments(BodySegments.HEAD_MAIN)
-                        .maxComplexity(5)
-        );
-
-        register(context,
-                BodyPart.Builder.of(context, BodyParts.ORGANIC_FEET)
-                        .partType(BodyParts.FEET)
-                        .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(3)
-        );
-
-        register(context,
-                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_FEET)
-                        .partType(BodyParts.FEET)
-                        .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(9)
-        );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_BRAIN)
-                        .partType(BodyParts.BRAIN)
+                        .partType(BodyPartTypes.BRAIN)
                         .validSegments(BodySegments.HEAD_MAIN)
                         .maxComplexity(6)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_LUNGS)
-                        .partType(BodyParts.LUNGS)
+                        .partType(BodyPartTypes.LUNGS)
                         .validSegments(BodySegments.TORSO_MAIN)
                         .maxComplexity(5)
         );
@@ -51,70 +32,121 @@ public class SyntheticsBodyPartsProvider {
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_HEART)
-                        .partType(BodyParts.HEART)
+                        .partType(BodyPartTypes.HEART)
                         .validSegments(BodySegments.TORSO_MAIN)
                         .maxComplexity(3)
         );
 
-        register(context,
-                BodyPart.Builder.of(context, BodyParts.ORGANIC_HANDS)
-                        .partType(BodyParts.HANDS)
-                        .validSegments(BodySegments.ARMS_MAIN)
-                        .maxComplexity(4)
-        );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_TISSUE)
-                        .partType(BodyParts.TISSUE)
+                        .partType(BodyPartTypes.TISSUE)
                         .validSegments(BodySegments.TORSO_MAIN)
                         .maxComplexity(6)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_TISSUE)
-                        .partType(BodyParts.TISSUE)
+                        .partType(BodyPartTypes.TISSUE)
                         .validSegments(BodySegments.TORSO_MAIN)
                         .maxComplexity(12)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_STOMACH)
-                        .partType(BodyParts.STOMACH)
+                        .partType(BodyPartTypes.STOMACH)
                         .validSegments(BodySegments.TORSO_MAIN)
                         .maxComplexity(6)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_RIBCAGE)
-                        .partType(BodyParts.RIBCAGE)
+                        .partType(BodyPartTypes.RIBCAGE)
                         .validSegments(BodySegments.TORSO_MAIN)
                         .maxComplexity(4)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_SKULL)
-                        .partType(BodyParts.SKULL)
+                        .partType(BodyPartTypes.SKULL)
                         .validSegments(BodySegments.HEAD_MAIN)
                         .maxComplexity(4)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_TIBIA)
-                        .partType(BodyParts.TIBIA)
+                        .partType(BodyPartTypes.TIBIA)
                         .validSegments(BodySegments.LOWER_BODY_MAIN)
                         .maxComplexity(4)
         );
 
         register(context,
-                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_HANDS)
-                        .partType(BodyParts.HANDS)
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_LEFT_HAND)
+                        .partType(BodyPartTypes.LEFT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .abilities(List.of(Abilities.CYBERNETIC_HAND_DAMAGE))
-                        .maxComplexity(10)
+                        .maxComplexity(5)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_RIGHT_HAND)
+                        .partType(BodyPartTypes.RIGHT_HAND)
+                        .validSegments(BodySegments.ARMS_MAIN)
+                        .abilities(List.of(Abilities.CYBERNETIC_HAND_DAMAGE))
+                        .maxComplexity(5)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_LEFT_HAND)
+                        .partType(BodyPartTypes.LEFT_HAND)
+                        .validSegments(BodySegments.ARMS_MAIN)
+                        .maxComplexity(3)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_RIGHT_HAND)
+                        .partType(BodyPartTypes.RIGHT_HAND)
+                        .validSegments(BodySegments.ARMS_MAIN)
+                        .maxComplexity(3)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_LEFT_EYE)
+                        .partType(BodyPartTypes.LEFT_EYE)
+                        .validSegments(BodySegments.HEAD_MAIN)
+                        .maxComplexity(3)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_RIGHT_EYE)
+                        .partType(BodyPartTypes.RIGHT_EYE)
+                        .validSegments(BodySegments.HEAD_MAIN)
+                        .maxComplexity(3)
+        );
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_LEFT_FOOT)
+                        .partType(BodyPartTypes.LEFT_FOOT)
+                        .validSegments(BodySegments.LOWER_BODY_MAIN)
+                        .maxComplexity(3)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ORGANIC_RIGHT_FOOT)
+                        .partType(BodyPartTypes.RIGHT_FOOT)
+                        .validSegments(BodySegments.LOWER_BODY_MAIN)
+                        .maxComplexity(3)
+        );
+
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_LEFT_FOOT)
+                        .partType(BodyPartTypes.LEFT_FOOT)
+                        .validSegments(BodySegments.LOWER_BODY_MAIN)
+                        .maxComplexity(5)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_RIGHT_FOOT)
+                        .partType(BodyPartTypes.RIGHT_FOOT)
+                        .validSegments(BodySegments.LOWER_BODY_MAIN)
+                        .maxComplexity(5)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_ARM_MUSCLE)
-                        .partType(BodyParts.ARM_MUSCLE)
+                        .partType(BodyPartTypes.ARM_MUSCLE)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .maxComplexity(4)
         );
@@ -127,112 +159,139 @@ public class SyntheticsBodyPartsProvider {
 
     public static void createBodyPartTypes(BootstrapContext<BodyPartType> context) {
         context.register(
-                BodyParts.TISSUE,
+                BodyPartTypes.TISSUE,
                 new BodyPartType(
                         BodyParts.ORGANIC_TISSUE,
                         -18, 110,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyParts.TISSUE.location()
+                        BodyPartTypes.TISSUE.location()
                 )
         );
         context.register(
-                BodyParts.EYES,
+                BodyPartTypes.LEFT_EYE,
                 new BodyPartType(
-                        BodyParts.ORGANIC_EYES,
-                        -18, 28,
+                        BodyParts.ORGANIC_LEFT_EYE,
+                        -15, 29,
                         BodyPartType.Layer.ORGANS,
-                        BodyParts.EYES.location()
+                        BodyPartTypes.LEFT_EYE.location()
                 )
         );
         context.register(
-                BodyParts.FEET,
+                BodyPartTypes.RIGHT_EYE,
                 new BodyPartType(
-                        BodyParts.ORGANIC_FEET,
-                        3, 220,
-                        BodyPartType.Layer.EXTERIOR,
-                        BodyParts.FEET.location()
+                        BodyParts.ORGANIC_RIGHT_EYE,
+                        9, 29,
+                        BodyPartType.Layer.ORGANS,
+                        BodyPartTypes.RIGHT_EYE.location()
                 )
         );
         context.register(
-                BodyParts.BRAIN,
+                BodyPartTypes.RIGHT_FOOT,
+                new BodyPartType(
+                        BodyParts.ORGANIC_RIGHT_FOOT,
+                        7, 220,
+                        BodyPartType.Layer.EXTERIOR,
+                        BodyPartTypes.RIGHT_FOOT.location()
+                )
+        );
+        context.register(
+                BodyPartTypes.LEFT_FOOT,
+                new BodyPartType(
+                        BodyParts.ORGANIC_LEFT_FOOT,
+                        -26, 220,
+                        BodyPartType.Layer.EXTERIOR,
+                        BodyPartTypes.LEFT_FOOT.location()
+                )
+        );
+        context.register(
+                BodyPartTypes.BRAIN,
                 new BodyPartType(
                         BodyParts.ORGANIC_BRAIN,
                         3, 10,
                         BodyPartType.Layer.ORGANS,
-                        BodyParts.BRAIN.location()
+                        BodyPartTypes.BRAIN.location()
                 )
         );
         context.register(
-                BodyParts.HEART,
+                BodyPartTypes.HEART,
                 new BodyPartType(
                         BodyParts.ORGANIC_HEART,
                         10, 80,
                         BodyPartType.Layer.ORGANS,
-                        BodyParts.HEART.location()
+                        BodyPartTypes.HEART.location()
                 )
         );
         context.register(
-                BodyParts.LUNGS,
+                BodyPartTypes.LUNGS,
                 new BodyPartType(
                         BodyParts.ORGANIC_LUNGS,
                         -15, 90,
                         BodyPartType.Layer.ORGANS,
-                        BodyParts.LUNGS.location()
+                        BodyPartTypes.LUNGS.location()
                 )
         );
         context.register(
-                BodyParts.HANDS,
+                BodyPartTypes.RIGHT_HAND,
                 new BodyPartType(
-                        BodyParts.ORGANIC_HANDS,
-                        40, 130,
+                        BodyParts.ORGANIC_RIGHT_HAND,
+                        36, 130,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyParts.HANDS.location()
+                        BodyPartTypes.RIGHT_HAND.location()
                 )
         );
         context.register(
-                BodyParts.STOMACH,
+                BodyPartTypes.LEFT_HAND,
+                new BodyPartType(
+                        BodyParts.ORGANIC_LEFT_HAND,
+                        -53, 130,
+                        BodyPartType.Layer.EXTERIOR,
+                        BodyPartTypes.LEFT_HAND.location()
+                )
+        );
+        context.register(
+                BodyPartTypes.STOMACH,
                 new BodyPartType(
                         BodyParts.ORGANIC_STOMACH,
                         -15, 120,
                         BodyPartType.Layer.ORGANS,
-                        BodyParts.STOMACH.location()
+                        BodyPartTypes.STOMACH.location()
                 )
         );
         context.register(
-                BodyParts.RIBCAGE,
+                BodyPartTypes.RIBCAGE,
                 new BodyPartType(
                         BodyParts.ORGANIC_RIBCAGE,
                         -7, 100,
                         BodyPartType.Layer.BONE,
-                        BodyParts.RIBCAGE.location()
+                        BodyPartTypes.RIBCAGE.location()
                 )
         );
         context.register(
-                BodyParts.SKULL,
+                BodyPartTypes.SKULL,
                 new BodyPartType(
                         BodyParts.ORGANIC_SKULL,
                         -3, 35,
                         BodyPartType.Layer.BONE,
-                        BodyParts.SKULL.location()
+                        BodyPartTypes.SKULL.location()
                 )
         );
         context.register(
-                BodyParts.TIBIA,
+                BodyPartTypes.TIBIA,
                 new BodyPartType(
                         BodyParts.ORGANIC_TIBIA,
                         7, 180,
                         BodyPartType.Layer.BONE,
-                        BodyParts.TIBIA.location()
+                        BodyPartTypes.TIBIA.location()
                 )
         );
 
         context.register(
-                BodyParts.ARM_MUSCLE,
+                BodyPartTypes.ARM_MUSCLE,
                 new BodyPartType(
                         BodyParts.ORGANIC_ARM_MUSCLE,
                         35, 70,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyParts.ARM_MUSCLE.location()
+                        BodyPartTypes.ARM_MUSCLE.location()
                 )
         );
     }

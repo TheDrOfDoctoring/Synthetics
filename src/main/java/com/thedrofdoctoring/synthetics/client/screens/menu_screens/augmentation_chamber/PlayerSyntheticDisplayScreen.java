@@ -5,6 +5,7 @@ import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
+import com.thedrofdoctoring.synthetics.core.data.datamaps.SyntheticsDatamaps;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.entities.OrganDisplayMob;
@@ -52,7 +53,9 @@ public class PlayerSyntheticDisplayScreen {
             if(type.bodyLayer() != layer) continue;
             BodyPart part = player.getPartManager().getPartForType(type);
             if(part != null) {
-                partDisplays.add(new BodyPartDisplayScreen(this, mc, type.x(), type.y(), player, part));
+                Double scaleBoxed = part.type().getData(SyntheticsDatamaps.PART_TYPE_DISPLAY_SCALE);
+                double scale = scaleBoxed != null ? scaleBoxed : 1d;
+                partDisplays.add(new BodyPartDisplayScreen(this, mc, type.x(), type.y(), player, part, scale));
             }
         }
 
