@@ -13,6 +13,7 @@
   "keys.synthetics.select_right": "Select Right Ability",
   "keys.synthetics.select_left": "Select Left Ability",
   "keys.synthetics.hide_abilities": "Hide Abilities",
+  "keys.synthetics.hide_energy": "Hide Energy Bar",
   "block.synthetics.research_table": "Synthetic Research Table",
   "screens.synthetics.research_title": "Research",
   "command.synthetics.argument.research_not_found": "Research Node with ID %s not found.",

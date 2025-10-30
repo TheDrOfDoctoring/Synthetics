@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.client.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.config.ClientConfig;
@@ -22,6 +23,9 @@ public class EnergyOverlay implements LayeredDraw.Layer {
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
         if (this.mc.player != null && this.mc.gameMode != null && this.mc.gameMode.getPlayerMode() != GameType.SPECTATOR && this.mc.player.isAlive() && !this.mc.options.hideGui) {
+            if(!SyntheticsClient.getInstance().getManager().displayEnergy) {
+                return;
+            }
             PowerManager manager = SyntheticsPlayer.get(mc.player).getPowerManager();
             if (manager.getMaxPower() == 0) {
                 return;
@@ -44,7 +48,7 @@ public class EnergyOverlay implements LayeredDraw.Layer {
             guiGraphics.pose().translate(0.0F, 0.0F, -90.0F);
             guiGraphics.blitSprite(ENERGY_BAR_SPRITE, x, y, 62, 12);
             float energyPercentage = (float) manager.getStoredPower() / manager.getMaxPower();
-            guiGraphics.fillGradient(x + 4, y + 2   , (int) (x + 3 + Math.round(56 * energyPercentage)), y + 10, 0xFF64e3a1, 0xFF198450);
+            guiGraphics.fillGradient(x + 4, y + 2, (x + 3 + Math.round(56 * energyPercentage)), y + 10, 0xFF64e3a1, 0xFF198450);
 
 
             guiGraphics.pose().popPose();

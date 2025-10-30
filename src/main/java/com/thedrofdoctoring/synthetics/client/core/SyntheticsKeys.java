@@ -27,6 +27,7 @@ public class SyntheticsKeys {
     public static final KeyMapping SWAP_ABILITY_RIGHT = new KeyMapping("keys.synthetics.select_right", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_BRACKET, CATEGORY);
     public static final KeyMapping SWAP_ABILITY_LEFT = new KeyMapping("keys.synthetics.select_left", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_BRACKET, CATEGORY);
     public static final KeyMapping HIDE_ABILITY_UI = new KeyMapping("keys.synthetics.hide_abilities", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_SUBTRACT, CATEGORY);
+    public static final KeyMapping HIDE_ENERGY_UI = new KeyMapping("keys.synthetics.hide_energy", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ADD, CATEGORY);
 
 
     public static void registerKeys(@NotNull RegisterKeyMappingsEvent event) {
@@ -34,6 +35,8 @@ public class SyntheticsKeys {
         event.register(SWAP_ABILITY_RIGHT);
         event.register(SWAP_ABILITY_LEFT);
         event.register(HIDE_ABILITY_UI);
+        event.register(HIDE_ENERGY_UI);
+
     }
 
     public static void register(IEventBus bus) {
@@ -56,6 +59,9 @@ public class SyntheticsKeys {
         }
         if(HIDE_ABILITY_UI.isDown() && action == InputConstants.PRESS) {
             swapAbilityDisplay();
+        }
+        if(HIDE_ENERGY_UI.isDown() && action == InputConstants.PRESS) {
+            swapEnergyDisplay();
         }
     }
 
@@ -96,6 +102,10 @@ public class SyntheticsKeys {
     private static void swapAbilityDisplay() {
         var manager = SyntheticsClient.getInstance().getManager();
         manager.displayAbilities = !manager.displayAbilities;
+    }
+    private static void swapEnergyDisplay() {
+        var manager = SyntheticsClient.getInstance().getManager();
+        manager.displayEnergy = !manager.displayEnergy;
     }
 
 
