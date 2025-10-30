@@ -1,0 +1,35 @@
+{
+  "parent": "synthetics:main/augmentation_chamber",
+  "criteria": {
+    "main": {
+      "conditions": {
+        "trigger": "installed_any_part"
+      },
+      "trigger": "synthetics:generic_criteria"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.synthetics.install_part.desc"
+    },
+    "icon": {
+      "components": {
+        "synthetics:body_parts": "synthetics:cybernetic_right_hand"
+      },
+      "count": 1,
+      "id": "synthetics:body_part_item"
+    },
+    "title": {
+      "translate": "advancement.synthetics.install_part"
+    }
+  },
+  "requirements": [
+    [
+      "main"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  },
+  "sends_telemetry_event": true
+}

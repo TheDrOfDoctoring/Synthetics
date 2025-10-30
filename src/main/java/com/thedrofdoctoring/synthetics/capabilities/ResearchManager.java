@@ -2,6 +2,8 @@ package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.advancements.SyntheticsAdvancementTriggers;
+import com.thedrofdoctoring.synthetics.advancements.criterion.GenericSyntheticsCriterion;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.IResearchManager;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
@@ -200,6 +202,11 @@ public class ResearchManager implements IResearchManager {
                 this.unlockedResearch.add(node);
                 this.toBeAdded.add(node);
                 this.dirty = true;
+            }
+            if(this.player.getEntity() instanceof ServerPlayer serverPlayer) {
+                SyntheticsAdvancementTriggers.RESEARCH_UNLOCKED.get().trigger(serverPlayer, node);
+                SyntheticsAdvancementTriggers.GENERIC.get().trigger(serverPlayer, GenericSyntheticsCriterion.Trigger.ANY_RESEARCH);
+
             }
         }
     }

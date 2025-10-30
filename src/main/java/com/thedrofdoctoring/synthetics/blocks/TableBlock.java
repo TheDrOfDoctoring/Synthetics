@@ -79,7 +79,7 @@ public abstract class TableBlock extends HorizontalDirectionalBlock {
         if (!level.isClientSide && player.isCreative()) {
             TablePart tablePart = state.getValue(PART);
             if (tablePart == TablePart.HEAD) {
-                BlockPos blockpos = pos.relative(getNeighbourDirection(tablePart, state.getValue(FACING).getOpposite()));
+                BlockPos blockpos = pos.relative(getNeighbourDirection(tablePart, state.getValue(FACING)));
                 BlockState blockstate = level.getBlockState(blockpos);
                 if (blockstate.is(this) && blockstate.getValue(PART) == TablePart.FOOT) {
                     level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);

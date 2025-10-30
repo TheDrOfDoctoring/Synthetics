@@ -1,0 +1,35 @@
+{
+  "parent": "synthetics:main/augmentation_chamber",
+  "criteria": {
+    "main": {
+      "conditions": {
+        "augments": "synthetics:heart_battery"
+      },
+      "trigger": "synthetics:augment_installed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.synthetics.install_battery.desc"
+    },
+    "icon": {
+      "components": {
+        "synthetics:augments": "synthetics:heart_battery"
+      },
+      "count": 1,
+      "id": "synthetics:synthetic_augment_item"
+    },
+    "title": {
+      "translate": "advancement.synthetics.install_battery"
+    }
+  },
+  "requirements": [
+    [
+      "main"
+    ]
+  ],
+  "rewards": {
+    "experience": 75
+  },
+  "sends_telemetry_event": true
+}

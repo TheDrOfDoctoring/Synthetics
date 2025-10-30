@@ -209,5 +209,17 @@
   "installables.synthetics.body_parts.organic_arm_muscle": "Arm Muscle",
   "installables.synthetics.augments.motion_autopilot": "Motion Autopilot",
   "research.synthetics.motion_autopilot": "Motion Autopilot",
-  "research.synthetics.motion_autopilot.desc": "Learn how to create a brain augment to automatically step up single blocks"
+  "research.synthetics.motion_autopilot.desc": "Learn how to create a brain augment to automatically step up single blocks",
+  "advancement.synthetics": "Synthetics",
+  "advancement.synthetics.desc": "Beginning your journey with some research",
+  "advancement.synthetics.synthetic_forge": "Lava Crafting",
+  "advancement.synthetics.synthetic_forge.desc": "Create a Synthetic Forge, used for crafting installable parts",
+  "advancement.synthetics.augmentation_chamber": "Augmenting Anew",
+  "advancement.synthetics.augmentation_chamber.desc": "Create the Augmentation Chamber, used to install parts",
+  "advancement.synthetics.install_part": "Ship of Theseus",
+  "advancement.synthetics.install_part.desc": "Install any new Body Part",
+  "advancement.synthetics.install_augment": "I Never Asked For This",
+  "advancement.synthetics.install_battery": "Making It Tick",
+  "advancement.synthetics.install_augment.desc": "Install any Augment",
+  "advancement.synthetics.install_battery.desc": "Install an Internal Battery, such as the Heart Battery"
 }

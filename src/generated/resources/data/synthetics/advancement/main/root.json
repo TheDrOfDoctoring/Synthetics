@@ -1,0 +1,35 @@
+{
+  "criteria": {
+    "main": {
+      "conditions": {
+        "items": [
+          {
+            "items": "synthetics:research_table"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "synthetics:textures/gui/research/background.png",
+    "description": {
+      "translate": "advancement.synthetics.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "synthetics:creative_tab_icon"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.synthetics"
+    }
+  },
+  "requirements": [
+    [
+      "main"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

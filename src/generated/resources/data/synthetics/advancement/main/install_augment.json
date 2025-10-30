@@ -1,0 +1,35 @@
+{
+  "parent": "synthetics:main/augmentation_chamber",
+  "criteria": {
+    "main": {
+      "conditions": {
+        "trigger": "installed_any_augment"
+      },
+      "trigger": "synthetics:generic_criteria"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.synthetics.install_augment.desc"
+    },
+    "icon": {
+      "components": {
+        "synthetics:augments": "synthetics:integrated_exoskeleton"
+      },
+      "count": 1,
+      "id": "synthetics:synthetic_augment_item"
+    },
+    "title": {
+      "translate": "advancement.synthetics.install_augment"
+    }
+  },
+  "requirements": [
+    [
+      "main"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

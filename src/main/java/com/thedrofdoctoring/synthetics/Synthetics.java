@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics;
 
 import com.mojang.logging.LogUtils;
+import com.thedrofdoctoring.synthetics.advancements.SyntheticsAdvancementTriggers;
 import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.commands.SyntheticsCommands;
 import com.thedrofdoctoring.synthetics.config.CommonConfig;
@@ -43,6 +44,7 @@ public class Synthetics {
         SyntheticsPayloads.register(modEventBus);
         SyntheticsDataComponents.register(modEventBus);
         SyntheticsCapabilities.register(modEventBus);
+        SyntheticsAdvancementTriggers.register(modEventBus);
         SyntheticsMenus.register(modEventBus);
 
         modEventBus.addListener(this::registerRegistries);

@@ -1,0 +1,35 @@
+{
+  "parent": "synthetics:main/root",
+  "criteria": {
+    "main": {
+      "conditions": {
+        "items": [
+          {
+            "items": "synthetics:augmentation_chamber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancement.synthetics.augmentation_chamber.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "synthetics:augmentation_chamber"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.synthetics.augmentation_chamber"
+    }
+  },
+  "requirements": [
+    [
+      "main"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

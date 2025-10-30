@@ -16,7 +16,7 @@
               "block": "synthetics:research_table",
               "condition": "minecraft:block_state_property",
               "properties": {
-                "table_part": "head"
+                "table_part": "foot"
               }
             }
           ],

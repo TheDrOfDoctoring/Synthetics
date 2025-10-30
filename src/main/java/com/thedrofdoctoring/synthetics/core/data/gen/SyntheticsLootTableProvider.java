@@ -51,8 +51,8 @@ public class SyntheticsLootTableProvider {
         @Override
         protected void generate() {
 
-            this.add(SyntheticsBlocks.SYNTHETIC_FORGE.get(), block -> createSinglePropConditionTable(block, SyntheticForge.PART, TableBlock.TablePart.HEAD));
-            this.add(SyntheticsBlocks.RESEARCH_TABLE.get(), block -> createSinglePropConditionTable(block, SyntheticResearchTable.PART, TableBlock.TablePart.HEAD));
+            this.add(SyntheticsBlocks.SYNTHETIC_FORGE.get(), block -> createSinglePropConditionTable(block, SyntheticForge.PART, TableBlock.TablePart.FOOT));
+            this.add(SyntheticsBlocks.RESEARCH_TABLE.get(), block -> createSinglePropConditionTable(block, SyntheticResearchTable.PART, TableBlock.TablePart.FOOT));
             this.add(SyntheticsBlocks.AUGMENTATION_CHAMBER.get(), block -> createSinglePropConditionTable(block, AugmentationChamber.PART, AugmentationChamber.Part.BOTTOM));
             this.dropSelf(SyntheticsBlocks.ORGAN_SKULL.get());
         }

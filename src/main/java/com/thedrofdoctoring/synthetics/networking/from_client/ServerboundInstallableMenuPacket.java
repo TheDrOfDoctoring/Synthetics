@@ -2,16 +2,20 @@ package com.thedrofdoctoring.synthetics.networking.from_client;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.advancements.SyntheticsAdvancementTriggers;
+import com.thedrofdoctoring.synthetics.advancements.criterion.GenericSyntheticsCriterion;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.menus.AugmentationChamberMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -71,6 +75,7 @@ public record ServerboundInstallableMenuPacket(Optional<BodyPart> part) implemen
 
                             i++;
                         }
+                        triggerAdvancements((ServerPlayer) player, installable);
                         synthetics.markDirtyAll();
                         synthetics.getAbilityManager().rebuildAttributes();
                     }
@@ -80,5 +85,27 @@ public record ServerboundInstallableMenuPacket(Optional<BodyPart> part) implemen
             }
 
         });
+    }
+
+    private static void triggerAdvancements(ServerPlayer player, IBodyInstallable<?> installable) {
+        switch (installable) {
+            case AppliedAugmentInstance instance -> {
+                SyntheticsAdvancementTriggers.GENERIC.get().trigger(player, GenericSyntheticsCriterion.Trigger.INSTALLED_ANY_AUGMENT);
+                SyntheticsAdvancementTriggers.AUGMENT_INSTALLED.get().trigger(player, instance.augment());
+            }
+            case Augment augment -> {
+                SyntheticsAdvancementTriggers.GENERIC.get().trigger(player, GenericSyntheticsCriterion.Trigger.INSTALLED_ANY_AUGMENT);
+                SyntheticsAdvancementTriggers.AUGMENT_INSTALLED.get().trigger(player, augment);
+            }
+            case BodyPart part -> {
+                SyntheticsAdvancementTriggers.GENERIC.get().trigger(player, GenericSyntheticsCriterion.Trigger.INSTALLED_ANY_PART);
+                SyntheticsAdvancementTriggers.PART_INSTALLED.get().trigger(player, part);
+            }
+            case BodySegment segment -> {
+                SyntheticsAdvancementTriggers.GENERIC.get().trigger(player, GenericSyntheticsCriterion.Trigger.INSTALLED_ANY_SEGMENT);
+                SyntheticsAdvancementTriggers.SEGMENT_INSTALLED.get().trigger(player, segment);
+            }
+            default -> throw new IllegalStateException("Unexpected installable type: " + installable);
+        }
     }
 }

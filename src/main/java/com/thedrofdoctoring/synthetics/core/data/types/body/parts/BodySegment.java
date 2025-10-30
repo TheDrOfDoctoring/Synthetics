@@ -10,6 +10,7 @@ import net.minecraft.core.*;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -27,6 +28,7 @@ public record BodySegment(int maxComplexity, Holder<BodySegmentType> type,  Reso
     ).apply(instance, BodySegment::new));
 
     public static final Codec<HolderSet<BodySegment>> SET_CODEC = RegistryCodecs.homogeneousList(SyntheticsData.BODY_SEGMENTS, CODEC.codec());
+    public static final Codec<Holder<BodySegment>> HOLDER_CODEC = RegistryFileCodec.create(SyntheticsData.BODY_SEGMENTS, CODEC.codec());
 
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodySegment> STREAM_CODEC = StreamCodec.composite(

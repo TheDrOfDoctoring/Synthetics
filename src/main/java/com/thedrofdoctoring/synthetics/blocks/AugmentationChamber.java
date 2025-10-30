@@ -169,6 +169,7 @@ public class AugmentationChamber extends BaseEntityBlock {
     }
 
     protected @NotNull BlockState mirror(BlockState state, Mirror mirror) {
+        //noinspection deprecation
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
@@ -182,7 +183,7 @@ public class AugmentationChamber extends BaseEntityBlock {
             return null;
         }
     }
-
+    @SuppressWarnings("unused")
     public static DoubleBlockCombiner.BlockType getBlockType(BlockState state) {
         Part part = state.getValue(PART);
         return part == Part.BOTTOM ? DoubleBlockCombiner.BlockType.FIRST : DoubleBlockCombiner.BlockType.SECOND;
@@ -231,14 +232,7 @@ public class AugmentationChamber extends BaseEntityBlock {
     public @NotNull BlockState playerWillDestroy(Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
         if (!level.isClientSide && player.isCreative()) {
             Part part = state.getValue(PART);
-            if (part == Part.BOTTOM) {
-                BlockPos blockpos = pos.relative(Direction.UP);
-                BlockState blockstate = level.getBlockState(blockpos);
-                if (blockstate.is(this) && blockstate.getValue(PART) == Part.TOP) {
-                    level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
-                    level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
-                }
-            } else {
+            if (part == Part.TOP) {
                 BlockPos blockpos = pos.relative(Direction.DOWN);
                 BlockState blockstate = level.getBlockState(blockpos);
                 if (blockstate.is(this) && blockstate.getValue(PART) == Part.BOTTOM) {
