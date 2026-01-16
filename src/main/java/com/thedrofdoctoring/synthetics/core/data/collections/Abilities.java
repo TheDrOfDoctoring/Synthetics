@@ -24,6 +24,8 @@ public class Abilities {
     public static final ResourceKey<Ability> CYBERNETIC_HAND_DAMAGE = create("cybernetic_hand_damage");
     public static final ResourceKey<Ability> EXTEND_GRIP_BLOCK_REACH = create("extend_grip_block_reach");
     public static final ResourceKey<Ability> AUTOPILOT_STEP_ASSIST = create("autopilot_step_assist");
+    public static final ResourceKey<Ability> UNIVERSAL_TRANSLATOR_TRADE_PRICES = create("universal_translator_trade_prices");
+    public static final ResourceKey<Ability> HAND_FLAMETHROWER = create("hand_flamethrower");
 
 
     private static ResourceKey<Ability> create(String name) {

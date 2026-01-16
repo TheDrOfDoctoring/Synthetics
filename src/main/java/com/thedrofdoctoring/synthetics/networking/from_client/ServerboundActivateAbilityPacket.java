@@ -27,7 +27,7 @@ public record ServerboundActivateAbilityPacket(AbilityType ability) implements C
 
     public static void handle(ServerboundActivateAbilityPacket abilityPacket, final IPayloadContext context) {
         context.enqueueWork(() -> {
-            if(abilityPacket.ability instanceof ActiveAbilityType active) {
+            if(abilityPacket.ability instanceof ActiveAbilityType<?> active) {
                 AbilityManager manager = SyntheticsPlayer.get(context.player()).getAbilityManager();
                 if(manager.canActivate(active)) {
                     manager.toggleAbility(active);

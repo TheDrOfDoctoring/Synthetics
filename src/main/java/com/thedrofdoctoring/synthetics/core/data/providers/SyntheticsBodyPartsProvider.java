@@ -4,7 +4,7 @@ import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyPartTypes;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import net.minecraft.data.worldgen.BootstrapContext;
 

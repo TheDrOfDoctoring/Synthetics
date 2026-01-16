@@ -4,10 +4,9 @@ import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
 import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AugmentBuilder;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -27,7 +26,7 @@ public class SyntheticsAugmentsProvider {
 
 
         register(context,
-                AugmentBuilder.of(Augments.CYBERNETIC_INERTIAL_DAMPENERS, getPart(partLookup, BodyParts.FEET_MAIN))
+                Augment.Builder.of(Augments.CYBERNETIC_INERTIAL_DAMPENERS, getPart(partLookup, BodyParts.FEET_MAIN))
                         .complexity(3)
                         .powerCost(1)
                         .abilities(getAbility(abilityLookup, List.of(
@@ -37,7 +36,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.LAUNCH_BOOT, getPart(partLookup, BodyParts.FEET_MAIN))
+                Augment.Builder.of(Augments.LAUNCH_BOOT, getPart(partLookup, BodyParts.FEET_MAIN))
                         .complexity(3)
                         .powerCost(0)
                         .abilities(getAbility(abilityLookup, List.of(
@@ -46,7 +45,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.HEART_BATTERY, getPart(partLookup, BodyParts.HEART_MAIN))
+                Augment.Builder.of(Augments.HEART_BATTERY, getPart(partLookup, BodyParts.HEART_MAIN))
                         .complexity(3)
                         .powerCost(0)
                         .maxCopies(2, 2)
@@ -56,7 +55,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.SOLAR_TISSUE, getPart(partLookup, BodyParts.TISSUE_MAIN))
+                Augment.Builder.of(Augments.SOLAR_TISSUE, getPart(partLookup, BodyParts.TISSUE_MAIN))
                         .complexity(3)
                         .powerCost(0)
                         .maxCopies(5, 2)
@@ -66,7 +65,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.ADVANCED_SOLAR_TISSUE, getPart(partLookup, BodyParts.CYBERNETIC_TISSUE))
+                Augment.Builder.of(Augments.ADVANCED_SOLAR_TISSUE, getPart(partLookup, BodyParts.CYBERNETIC_TISSUE))
                         .complexity(3)
                         .powerCost(0)
                         .maxCopies(5, 2)
@@ -76,7 +75,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.VISION_CLARIFIER, getPart(partLookup, BodyParts.EYES_MAIN))
+                Augment.Builder.of(Augments.VISION_CLARIFIER, getPart(partLookup, BodyParts.EYES_MAIN))
                         .complexity(3)
                         .powerCost(0)
                         .abilities(getAbility(abilityLookup, List.of(
@@ -85,7 +84,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.INTEGRATED_RESPIRATOR, getPart(partLookup, BodyParts.LUNGS_MAIN))
+                Augment.Builder.of(Augments.INTEGRATED_RESPIRATOR, getPart(partLookup, BodyParts.LUNGS_MAIN))
                         .complexity(3)
                         .powerCost(2)
                         .abilities(getAbility(abilityLookup, List.of(
@@ -94,7 +93,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.METABOLIC_CONVERTER, getPart(partLookup, BodyParts.ORGANIC_STOMACH))
+                Augment.Builder.of(Augments.METABOLIC_CONVERTER, getPart(partLookup, BodyParts.ORGANIC_STOMACH))
                         .complexity(3)
                         .powerCost(0)
                         .abilities(getAbility(abilityLookup, List.of(
@@ -103,7 +102,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.EMITTABLE_ADHESIVE, getPart(partLookup, BodyParts.HANDS_MAIN))
+                Augment.Builder.of(Augments.EMITTABLE_ADHESIVE, getPart(partLookup, BodyParts.HANDS_MAIN))
                         .complexity(2)
                         .powerCost(0)
                         .abilities(getAbility(abilityLookup, List.of(
@@ -112,7 +111,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.INTEGRATED_EXOSKELETON, getPart(partLookup, BodyParts.TIBIA_MAIN))
+                Augment.Builder.of(Augments.INTEGRATED_EXOSKELETON, getPart(partLookup, BodyParts.TIBIA_MAIN))
                         .complexity(2)
                         .powerCost(2)
                         .maxCopies(2, 2)
@@ -123,7 +122,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.INTERNAL_PLATING, getPart(partLookup, BodyParts.ALL_BONES))
+                Augment.Builder.of(Augments.INTERNAL_PLATING, getPart(partLookup, BodyParts.ALL_BONES))
                         .complexity(2)
                         .powerCost(0)
                         .maxCopies(3, 1)
@@ -134,7 +133,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.EXTENDED_GRIP, getPart(partLookup, BodyParts.HANDS_MAIN))
+                Augment.Builder.of(Augments.EXTENDED_GRIP, getPart(partLookup, BodyParts.HANDS_MAIN))
                         .complexity(3)
                         .powerCost(2)
                         .abilities(getAbility(abilityLookup, List.of(
@@ -143,16 +142,32 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                AugmentBuilder.of(Augments.MOTION_AUTOPILOT, getPart(partLookup, BodyParts.ORGANIC_BRAIN))
+                Augment.Builder.of(Augments.MOTION_AUTOPILOT, getPart(partLookup, BodyParts.ORGANIC_BRAIN))
                         .complexity(3)
                         .powerCost(0)
                         .abilities(getAbility(abilityLookup, List.of(
                                 Abilities.AUTOPILOT_STEP_ASSIST
                         )))
         );
+        register(context,
+                Augment.Builder.of(Augments.UNIVERSAL_TRANSLATOR, getPart(partLookup, BodyParts.SKULL_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.UNIVERSAL_TRANSLATOR_TRADE_PRICES
+                        )))
+        );
+        register(context,
+                Augment.Builder.of(Augments.HAND_FLAMETHROWER, getPart(partLookup, BodyParts.HANDS_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.HAND_FLAMETHROWER
+                        )))
+        );
     }
 
-    private static void register(BootstrapContext<Augment> context, AugmentBuilder builder) {
+    private static void register(BootstrapContext<Augment> context, Augment.Builder builder) {
         context.register(builder.key(), builder.build());
     }
 

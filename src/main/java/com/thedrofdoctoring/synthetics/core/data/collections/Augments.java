@@ -2,7 +2,7 @@ package com.thedrofdoctoring.synthetics.core.data.collections;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +22,9 @@ public class Augments {
     public static final ResourceKey<Augment> INTERNAL_PLATING = create("internal_plating");
     public static final ResourceKey<Augment> EXTENDED_GRIP = create("extended_grip");
     public static final ResourceKey<Augment> MOTION_AUTOPILOT = create("motion_autopilot");
+    public static final ResourceKey<Augment> UNIVERSAL_TRANSLATOR = create("universal_translator");
+    public static final ResourceKey<Augment> HAND_FLAMETHROWER = create("hand_flamethrower");
+
 
 
     private static ResourceKey<Augment> create(String name) {

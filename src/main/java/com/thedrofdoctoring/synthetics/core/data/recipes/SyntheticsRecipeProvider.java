@@ -8,8 +8,8 @@ import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.ResearchNodes;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.data.DataGenerator;
@@ -297,7 +297,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .save(output, Synthetics.rl("emittable_adhesive")
                 );
         SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.INTEGRATED_EXOSKELETON), 1)
-                .define('A', Tags.Items.INGOTS_IRON)
+                .define('A', SyntheticsItems.ANCIENT_ALLOY.get())
                 .define('B', Tags.Items.GEMS_DIAMOND)
                 .define('C', Items.BONE)
                 .pattern("  C")
@@ -435,6 +435,32 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .requiredResearch(lookup, ResearchNodes.AUTOPILOT)
                 .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                 .save(output, Synthetics.rl("autopilot_motion")
+                );
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.UNIVERSAL_TRANSLATOR), 1)
+                .define('A', Items.REDSTONE)
+                .define('B', Items.IRON_INGOT)
+                .define('C', SyntheticsItems.ANCIENT_ALLOY.get())
+                .pattern(" C ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .lavaCost(50)
+                .recipeTime(100)
+                .requiredResearch(lookup, ResearchNodes.UNIVERSAL_TRANSLATOR)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("universal_translator")
+                );
+        SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.HAND_FLAMETHROWER), 1)
+                .define('A', Items.BLAZE_POWDER)
+                .define('B', Items.GUNPOWDER)
+                .define('C', SyntheticsItems.ANCIENT_ALLOY.get())
+                .pattern(" C ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .lavaCost(50)
+                .recipeTime(100)
+                .requiredResearch(lookup, ResearchNodes.HAND_FLAMETHROWER)
+                .unlockedBy("has_capillary", has(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
+                .save(output, Synthetics.rl("hand_flamethrower")
                 );
     }
 

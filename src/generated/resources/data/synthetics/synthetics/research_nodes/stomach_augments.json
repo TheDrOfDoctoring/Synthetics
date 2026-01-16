@@ -1,4 +1,5 @@
 {
+  "parent": "synthetics:heart_battery",
   "id": "synthetics:stomach_augments",
   "requirements": {
     "experience_cost": 50,

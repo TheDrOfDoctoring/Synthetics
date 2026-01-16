@@ -3,7 +3,8 @@
   "package": "com.thedrofdoctoring.synthetics.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "PlayerMixin"
+    "PlayerMixin",
+    "VillagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

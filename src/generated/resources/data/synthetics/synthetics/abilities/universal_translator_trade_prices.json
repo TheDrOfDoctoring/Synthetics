@@ -1,0 +1,12 @@
+{
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "synthetics:trading_prices_multiplier",
+    "factor": 0.25,
+    "operation": "add_value"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:universal_translator_trade_prices"
+}

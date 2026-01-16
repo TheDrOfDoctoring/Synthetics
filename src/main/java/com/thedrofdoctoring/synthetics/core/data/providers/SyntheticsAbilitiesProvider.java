@@ -1,8 +1,10 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
 import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.active.types.FlamethrowerAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.AttributeAbilityType;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityType;
+import com.thedrofdoctoring.synthetics.core.SyntheticsAttributes;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
@@ -196,6 +198,30 @@ public class SyntheticsAbilitiesProvider {
                                 Attributes.STEP_HEIGHT
                         ),
                         Abilities.AUTOPILOT_STEP_ASSIST.location()
+                )
+        );
+        context.register(
+                Abilities.UNIVERSAL_TRANSLATOR_TRADE_PRICES,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                0.25d,
+                                AttributeModifier.Operation.ADD_VALUE,
+                                SyntheticsAttributes.TRADE_PRICES_MULTIPLIER
+                        ),
+                        Abilities.UNIVERSAL_TRANSLATOR_TRADE_PRICES.location()
+                )
+        );
+        context.register(
+                Abilities.HAND_FLAMETHROWER,
+                Ability.create(
+                        SyntheticAbilities.FLAMETHROWER.get(),
+                        FlamethrowerAbility.create(
+                                4d,
+                                ActiveAbilityOptions.options(45, 10, 30, 200),
+                                7
+                        ),
+                        Abilities.HAND_FLAMETHROWER.location()
                 )
         );
     }

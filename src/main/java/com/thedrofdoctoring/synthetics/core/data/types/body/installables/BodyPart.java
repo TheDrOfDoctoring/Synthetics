@@ -1,13 +1,13 @@
-package com.thedrofdoctoring.synthetics.core.data.types.body.parts;
+package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import net.minecraft.core.*;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -60,6 +60,10 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, 
     }
     @Override
     public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+
         if(obj instanceof BodyPart part) {
             return part.id.equals(this.id);
         }

@@ -1,4 +1,4 @@
-package com.thedrofdoctoring.synthetics.abilities;
+package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.core.HolderLookup;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public interface IBodyInstallable<T extends IBodyInstallable<T>> {
+public sealed interface IBodyInstallable<T extends IBodyInstallable<T>> permits BodyPart, BodySegment, Augment, AppliedAugmentInstance {
 
 
     Optional<HolderSet<Ability>> abilities();
@@ -49,14 +49,7 @@ public interface IBodyInstallable<T extends IBodyInstallable<T>> {
     default Component typeTitleID() {
         return Component.translatable("installables." + id().getNamespace() + "." + getType().location().getPath() + "." + "type_title");
     }
-
-
-
-
-
-
     //TODO:
     // Some kind of dynamic tooltip system to determine hover information based on installable instance, to replace hardcoded screen & hover text.
-
 
 }

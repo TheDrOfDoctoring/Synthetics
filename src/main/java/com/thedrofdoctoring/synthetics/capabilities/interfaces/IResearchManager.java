@@ -1,6 +1,6 @@
 package com.thedrofdoctoring.synthetics.capabilities.interfaces;
 
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 @SuppressWarnings("unused")

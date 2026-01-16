@@ -7,8 +7,8 @@ import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.ResearchNodes;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchTab;
 import net.minecraft.core.Holder;
@@ -308,6 +308,7 @@ public class SyntheticsResearchProvider {
                                         Pair.of(Ingredient.of(Items.REDSTONE), 16)
                                 ))
                         .position(-180, -50)
+                        .parent(ResearchNodes.HEART_BATTERY)
                         .tab(ResearchNodes.TAB_AUGMENTS)
         );
 
@@ -324,7 +325,7 @@ public class SyntheticsResearchProvider {
                                         Pair.of(Ingredient.of(Items.SPIDER_EYE), 10),
                                         Pair.of(Ingredient.of(Items.SLIME_BALL), 16)
                                 ))
-                        .position(60, 0)
+                        .position(60, 30)
                         .tab(ResearchNodes.TAB_AUGMENTS)
         );
 
@@ -378,11 +379,10 @@ public class SyntheticsResearchProvider {
                                         Pair.of(Ingredient.of(Items.GOLD_INGOT), 12),
                                         Pair.of(Ingredient.of(Items.STRING), 30)
                                 ))
-                        .position(60, 30)
+                        .position(60, 0)
                         .tab(ResearchNodes.TAB_AUGMENTS)
 
         );
-
 
         register(context,
                 ResearchNode.Builder.of(
@@ -398,6 +398,39 @@ public class SyntheticsResearchProvider {
                                 ))
                         .position(120, 0)
                         .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.UNIVERSAL_TRANSLATOR, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.UNIVERSAL_TRANSLATOR))
+                        .experience(30)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.EMERALD), 25),
+                                        Pair.of(Ingredient.of(Items.DIAMOND), 8)
+                                ))
+                        .position(120, -50)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.HAND_FLAMETHROWER, context
+                        )
+                        .parent(ResearchNodes.EXTENDED_GRIP)
+                        .unlocksAugments(
+                                List.of(Augments.HAND_FLAMETHROWER))
+                        .experience(50)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.IRON_INGOT), 15),
+                                        Pair.of(Ingredient.of(Items.GUNPOWDER), 20),
+                                        Pair.of(Ingredient.of(Items.BLAZE_POWDER), 20)
+                                ))
+                        .position(60, -30)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+
         );
     }
 

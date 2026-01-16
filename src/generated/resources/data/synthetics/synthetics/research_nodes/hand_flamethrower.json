@@ -1,0 +1,33 @@
+{
+  "parent": "synthetics:extended_grip",
+  "id": "synthetics:hand_flamethrower",
+  "requirements": {
+    "experience_cost": 50,
+    "required_items": [
+      {
+        "amount": 15,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 20,
+        "item": {
+          "item": "minecraft:gunpowder"
+        }
+      },
+      {
+        "amount": 20,
+        "item": {
+          "item": "minecraft:blaze_powder"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:hand_flamethrower"
+  },
+  "x": 60,
+  "y": -30
+}

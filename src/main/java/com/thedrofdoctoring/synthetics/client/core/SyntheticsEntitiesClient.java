@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.client.core;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.client.renderers.entities.FlameProjectileEntityRenderer;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.OrganDisplayMobRenderer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -34,5 +35,6 @@ public class SyntheticsEntitiesClient {
     }
     public static void registerRenderers(EntityRenderersEvent.@NotNull RegisterRenderers event) {
         event.registerEntityRenderer(SyntheticsEntities.ORGAN_DISPLAY_MOB.get(), OrganDisplayMobRenderer::new);
+        event.registerEntityRenderer(SyntheticsEntities.FLAME_PROJECTILE.get(), (FlameProjectileEntityRenderer::new));
     }
 }

@@ -1,11 +1,11 @@
 package com.thedrofdoctoring.synthetics.client.core.items;
 
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import net.minecraft.ChatFormatting;

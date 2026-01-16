@@ -6,8 +6,8 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.ResearchManager;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.ChatFormatting;
@@ -63,7 +63,7 @@ public class ResearchNodeScreen {
 
     private static final int WIDTH = 26;
     private static final int HEIGHT = 26;
-
+    private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
 
     private final int size;
 
@@ -360,9 +360,6 @@ public class ResearchNodeScreen {
 
     }
 
-
-
-
     private ResearchNodeState getState() {
         if (this.manager.hasResearched(this.node)) {
             return ResearchNodeState.UNLOCKED;
@@ -375,13 +372,11 @@ public class ResearchNodeScreen {
         }
         return ResearchNodeState.VISIBLE;
     }
-    private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
 
 
     public void switchDisplay() {
         this.displayRequirements = !displayRequirements;
     }
-
 
 
     enum ResearchNodeState {

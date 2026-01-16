@@ -46,6 +46,8 @@ public class Synthetics {
         SyntheticsCapabilities.register(modEventBus);
         SyntheticsAdvancementTriggers.register(modEventBus);
         SyntheticsMenus.register(modEventBus);
+        SyntheticsAttributes.register(modEventBus);
+        SyntheticsParticles.register(modEventBus);
 
         modEventBus.addListener(this::registerRegistries);
 

@@ -51,30 +51,27 @@ public class SyntheticItemModelLoader {
         }
     }
 
-    public static class SyntheticGeometry implements IUnbakedGeometry<SyntheticGeometry> {
-        private final BlockModel base;
-
-        public SyntheticGeometry(BlockModel base) {
-            this.base = base;
-        }
+    @SuppressWarnings("deprecation")
+    public record SyntheticGeometry(BlockModel base) implements IUnbakedGeometry<SyntheticGeometry> {
 
         @Override
-        public @NotNull BakedModel bake(@NotNull IGeometryBakingContext context, @NotNull ModelBaker baker, @NotNull Function<Material, TextureAtlasSprite> spriteGetter, @NotNull ModelState modelState, @NotNull ItemOverrides overrides) {
+            public @NotNull BakedModel bake(@NotNull IGeometryBakingContext context, @NotNull ModelBaker baker, @NotNull Function<Material, TextureAtlasSprite> spriteGetter, @NotNull ModelState modelState, @NotNull ItemOverrides overrides) {
 
-            TextureAtlasSprite particle = spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, MissingTextureAtlasSprite.getLocation()));
+                TextureAtlasSprite particle = spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, MissingTextureAtlasSprite.getLocation()));
 
-            InstallableOverrideHandler installable = new InstallableOverrideHandler(context, modelState);
-            return CompositeModel.Baked.builder(context, particle, installable, context.getTransforms())
-                    .build();
+                InstallableOverrideHandler installable = new InstallableOverrideHandler(context, modelState);
+                return CompositeModel.Baked.builder(context, particle, installable, context.getTransforms())
+                        .build();
+            }
+
+
+            @Override
+            public void resolveParents(@NotNull Function<ResourceLocation, UnbakedModel> modelGetter, @NotNull IGeometryBakingContext context) {
+                base.resolveParents(modelGetter);
+            }
         }
 
-
-        @Override
-        public void resolveParents(@NotNull Function<ResourceLocation, UnbakedModel> modelGetter, @NotNull IGeometryBakingContext context) {
-            base.resolveParents(modelGetter);
-        }
-    }
-
+    @SuppressWarnings("deprecation")
     private static final class InstallableOverrideHandler extends ItemOverrides {
 
         private final Map<ResourceLocation, BakedModel> cache = new ConcurrentHashMap<>();

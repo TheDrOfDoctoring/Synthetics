@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 
 public class SyntheticsClientManager {
 
-    public int selectedAbility = 0;
-    public boolean displayAbilities = true;
     public boolean displayEnergy = true;
 
     public List<ResearchNode> allResearch = new ArrayList<>();

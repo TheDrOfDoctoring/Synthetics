@@ -16,13 +16,14 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 @SuppressWarnings("unused")
 public class Helper {
 
-    public static <T> T retrieveDataObject(ResourceLocation location, ResourceKey<Registry<T>> registryKey, HolderGetter<T> lookup, boolean shouldThrow) {
+    public static @Nullable <T> T retrieveDataObject(ResourceLocation location, ResourceKey<Registry<T>> registryKey, HolderGetter<T> lookup, boolean shouldThrow) {
         if(location == null) return null;
         var objectOpt = lookup.get(ResourceKey.create(registryKey, location));
         if(objectOpt.isPresent()) {
@@ -35,14 +36,14 @@ public class Helper {
         return null;
 
     }
-    public static <T> T retrieveDataObject(ResourceLocation location, ResourceKey<Registry<T>> registryKey, HolderGetter<T> lookup) {
+    public static @Nullable <T> T retrieveDataObject(ResourceLocation location, ResourceKey<Registry<T>> registryKey, HolderGetter<T> lookup) {
         return retrieveDataObject(location, registryKey, lookup, true);
     }
-    public static <T> T retrieveDataObject(String string, ResourceKey<Registry<T>> registryKey, HolderGetter<T> lookup) {
+    public static @Nullable <T> T retrieveDataObject(String string, ResourceKey<Registry<T>> registryKey, HolderGetter<T> lookup) {
         ResourceLocation location = ResourceLocation.tryParse(string);
         return retrieveDataObject(location, registryKey, lookup);
     }
-    public static <T> T retrieveDataObject(String string, ResourceKey<Registry<T>> registryKey, HolderGetter<T> lookup, boolean shouldThrow) {
+    public static @Nullable<T> T retrieveDataObject(String string, ResourceKey<Registry<T>> registryKey, HolderGetter<T> lookup, boolean shouldThrow) {
         ResourceLocation location = ResourceLocation.tryParse(string);
         return retrieveDataObject(location, registryKey, lookup, shouldThrow);
     }

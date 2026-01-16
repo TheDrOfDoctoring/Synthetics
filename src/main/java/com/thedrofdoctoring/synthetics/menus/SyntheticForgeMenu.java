@@ -14,10 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class SyntheticForgeMenu extends AbstractContainerMenu {
 
     private final ContainerLevelAccess access;
-    private final Container forge;
     private final ContainerData data;
-
-
 
     public SyntheticForgeMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, new SimpleContainer(11), new SimpleContainerData(4), ContainerLevelAccess.NULL);
@@ -27,7 +24,6 @@ public class SyntheticForgeMenu extends AbstractContainerMenu {
         super(SyntheticsMenus.SYNTHETIC_FORGE.get(), containerId);
         this.data = data;
         this.access = access;
-        this.forge = forge;
         this.addSlot(new ResultSlot(forge, 0, 124, 35));
         this.addSlot(new BlueprintSlot(forge, 1, 123, 9));
 
@@ -68,7 +64,7 @@ public class SyntheticForgeMenu extends AbstractContainerMenu {
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {

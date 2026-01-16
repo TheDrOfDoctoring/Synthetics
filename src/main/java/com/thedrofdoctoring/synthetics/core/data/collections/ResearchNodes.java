@@ -29,6 +29,9 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> EXTENDED_GRIP = create("extended_grip");
     public static final ResourceKey<ResearchNode> ORGANIC_BONES = create("organic_bones");
     public static final ResourceKey<ResearchNode> AUTOPILOT = create("motion_autopilot");
+    public static final ResourceKey<ResearchNode> UNIVERSAL_TRANSLATOR = create("universal_translator");
+    public static final ResourceKey<ResearchNode> HAND_FLAMETHROWER = create("hand_flamethrower");
+
 
     public static final ResourceKey<ResearchTab> TAB_AUGMENTS = createTab("augments");
     public static final ResourceKey<ResearchTab> TAB_BODY_PARTS = createTab("body_parts");

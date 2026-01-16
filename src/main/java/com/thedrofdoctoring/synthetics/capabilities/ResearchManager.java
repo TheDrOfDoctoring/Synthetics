@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.mojang.datafixers.util.Pair;
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.advancements.SyntheticsAdvancementTriggers;
 import com.thedrofdoctoring.synthetics.advancements.criterion.GenericSyntheticsCriterion;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.IResearchManager;

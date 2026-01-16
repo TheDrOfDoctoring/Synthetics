@@ -1,12 +1,10 @@
-package com.thedrofdoctoring.synthetics.core.data.types.body.augments;
+package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;

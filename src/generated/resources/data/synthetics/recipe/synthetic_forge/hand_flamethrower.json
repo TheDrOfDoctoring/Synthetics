@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:blaze_powder"
+    },
+    "B": {
+      "item": "minecraft:gunpowder"
+    },
+    "C": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " C ",
+    "ABA",
+    " A "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:hand_flamethrower",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:hand_flamethrower"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

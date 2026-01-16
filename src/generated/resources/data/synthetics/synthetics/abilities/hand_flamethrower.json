@@ -1,0 +1,17 @@
+{
+  "ability_data": {
+    "type": "synthetics:flamethrower_ability",
+    "active_ability": {
+      "cooldown": 45,
+      "duration": 10,
+      "power_cost": 30,
+      "power_drain": 200
+    },
+    "damage": 4.0,
+    "flame_time": 7
+  },
+  "ability_type": {
+    "ability_id": "synthetics:flamethrower"
+  },
+  "id": "synthetics:hand_flamethrower"
+}

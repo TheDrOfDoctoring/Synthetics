@@ -1,10 +1,10 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;

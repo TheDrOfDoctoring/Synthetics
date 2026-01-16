@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.advancements.SyntheticsAdvancementTriggers;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;

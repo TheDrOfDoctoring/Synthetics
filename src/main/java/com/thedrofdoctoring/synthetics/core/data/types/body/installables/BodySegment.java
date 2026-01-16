@@ -1,11 +1,11 @@
-package com.thedrofdoctoring.synthetics.core.data.types.body.parts;
+package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import net.minecraft.core.*;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public record BodySegment(int maxComplexity, Holder<BodySegmentType> type,  ResourceLocation id) implements IBodyInstallable<BodySegment> {
+public record BodySegment(int maxComplexity, Holder<BodySegmentType> type, ResourceLocation id) implements IBodyInstallable<BodySegment> {
 
     public static final MapCodec<BodySegment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodySegment::maxComplexity),
@@ -43,6 +43,9 @@ public record BodySegment(int maxComplexity, Holder<BodySegmentType> type,  Reso
     }
     @Override
     public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
         if(obj instanceof BodySegment segment) {
             return segment.id.equals(this.id);
         }

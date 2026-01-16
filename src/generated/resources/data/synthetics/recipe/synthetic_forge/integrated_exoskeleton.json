@@ -2,7 +2,7 @@
   "type": "synthetics:synthetic_forge",
   "key": {
     "A": {
-      "tag": "c:ingots/iron"
+      "item": "synthetics:ancient_alloy_ingot"
     },
     "B": {
       "tag": "c:gems/diamond"

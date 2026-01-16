@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -40,7 +41,6 @@ public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Laye
             Codec.INT.fieldOf("y").forGetter(BodyPartType::y),
             StringRepresentable.fromEnum(Layer::values).fieldOf("layer").forGetter(BodyPartType::bodyLayer),
             ResourceLocation.CODEC.fieldOf("id").forGetter(BodyPartType::id)
-
     ).apply(instance, BodyPartType::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodyPartType> STREAM_CODEC = StreamCodec.composite(
@@ -53,6 +53,21 @@ public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Laye
 
     public static final Codec<Holder<BodyPartType>> HOLDER_CODEC = RegistryFileCodec.create(SyntheticsData.BODY_PART_TYPES, CODEC.codec());
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+
+        if(obj instanceof BodyPartType part) {
+            return part.id.equals(this.id);
+        }
+        return false;
+    }
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 
     public enum Layer implements StringRepresentable {
 

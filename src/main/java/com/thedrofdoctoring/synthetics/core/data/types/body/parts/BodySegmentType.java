@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -24,4 +25,20 @@ public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceL
             BodySegmentType::new);
 
     public static final Codec<Holder<BodySegmentType>> HOLDER_CODEC = RegistryFileCodec.create(SyntheticsData.BODY_SEGMENT_TYPES, CODEC.codec());
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+
+        if(obj instanceof BodySegmentType part) {
+            return part.id.equals(this.id);
+        }
+        return false;
+    }
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

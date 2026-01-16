@@ -3,7 +3,9 @@ package com.thedrofdoctoring.synthetics.core.synthetics;
 import com.mojang.serialization.MapCodec;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
-import com.thedrofdoctoring.synthetics.abilities.active.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.active.instances.FlamethrowerAbilityInstance;
+import com.thedrofdoctoring.synthetics.abilities.active.types.FlamethrowerAbility;
 import com.thedrofdoctoring.synthetics.abilities.active.types.LeapAbility;
 import com.thedrofdoctoring.synthetics.abilities.active.types.WallClimbAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
@@ -23,6 +25,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
+
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class SyntheticAbilities {
@@ -54,21 +58,25 @@ public class SyntheticAbilities {
     public static final DeferredRegister<MapCodec<? extends AbilityData>> ABILITY_DATA = DeferredRegister.create(ABILITY_DATA_TYPE_REGISTRY, Synthetics.MODID);
     public static final DeferredRegister<StreamCodec<? super RegistryFriendlyByteBuf, ? extends AbilityData>> ABILITY_STREAM_DATA = DeferredRegister.create(ABILITY_DATA_STREAM_TYPE_REGISTRY, Synthetics.MODID);
 
+    static {
+        registerType("attribute",
+                () -> AttributeAbilityInstance.AttributeAbilityData.CODEC,
+                () -> AttributeAbilityInstance.AttributeAbilityData.STREAM_CODEC
+        );
+        registerType("generic_passive_ability",
+                () -> GenericPassiveAbilityInstance.Data.CODEC,
+                () -> GenericPassiveAbilityInstance.Data.STREAM_CODEC
+        );
+        registerType("generic_active_ability",
+                () -> AbilityActiveInstance.Data.CODEC,
+                () -> AbilityActiveInstance.Data.STREAM_CODEC
+        );
+        registerType("flamethrower_ability",
+                () -> FlamethrowerAbilityInstance.Data.CODEC,
+                () -> FlamethrowerAbilityInstance.Data.STREAM_CODEC
+        );
 
-    public static final DeferredHolder<MapCodec<? extends AbilityData>, MapCodec<AttributeAbilityInstance.AttributeAbilityData>> ATTRIBUTE_TYPE =
-            ABILITY_DATA.register("attribute", () -> AttributeAbilityInstance.AttributeAbilityData.CODEC);
-    public static final DeferredHolder<StreamCodec<? super RegistryFriendlyByteBuf, ? extends AbilityData>, StreamCodec<? super RegistryFriendlyByteBuf, AttributeAbilityInstance.AttributeAbilityData>> ATTRIBUTE_STREAM_TYPE =
-            ABILITY_DATA_STREAM.register("attribute", () -> AttributeAbilityInstance.AttributeAbilityData.STREAM_CODEC);
-
-    public static final DeferredHolder<MapCodec<? extends AbilityData>, MapCodec<GenericPassiveAbilityInstance.Data>> GENERIC_TYPE =
-            ABILITY_DATA.register("generic_passive_ability", () -> GenericPassiveAbilityInstance.Data.CODEC);
-    public static final DeferredHolder<StreamCodec<? super RegistryFriendlyByteBuf, ? extends AbilityData>, StreamCodec<? super RegistryFriendlyByteBuf, GenericPassiveAbilityInstance.Data>> GENERIC_STREAM_TYPE =
-            ABILITY_DATA_STREAM.register("generic_passive_ability", () -> GenericPassiveAbilityInstance.Data.STREAM_CODEC);
-
-    public static final DeferredHolder<MapCodec<? extends AbilityData>, MapCodec<AbilityActiveInstance.ActiveAbilityData>> ACTIVE_GENERIC_TYPE =
-            ABILITY_DATA.register("generic_active_ability", () -> AbilityActiveInstance.ActiveAbilityData.CODEC);
-    public static final DeferredHolder<StreamCodec<? super RegistryFriendlyByteBuf, ? extends AbilityData>, StreamCodec<? super RegistryFriendlyByteBuf, AbilityActiveInstance.ActiveAbilityData>> ACTIVE_GENERIC_STREAM_TYPE =
-            ABILITY_DATA_STREAM.register("generic_active_ability", () -> AbilityActiveInstance.ActiveAbilityData.STREAM_CODEC);
+    }
 
     public static final DeferredHolder<AbilityType, AttributeAbilityType> ATTRIBUTE_ABILITY = ABILITIES.register("attribute_type", AttributeAbilityType::new);
     public static final DeferredHolder<AbilityType, BatteryAbilityType> BATTERY = ABILITIES.register("battery", BatteryAbilityType::new);
@@ -76,11 +84,15 @@ public class SyntheticAbilities {
     public static final DeferredHolder<AbilityType, PassiveAbilityType> UNDERWATER_VISION = ABILITIES.register("underwater_vision", PassiveAbilityType::new);
     public static final DeferredHolder<AbilityType, FoodGeneratorAbility> FOOD_GENERATOR = ABILITIES.register("food_generator", FoodGeneratorAbility::new);
 
-
     public static final DeferredHolder<AbilityType, LeapAbility> LEAP = ABILITIES.register("leap", LeapAbility::new);
     public static final DeferredHolder<AbilityType, WallClimbAbility> WALL_CLIMB = ABILITIES.register("wall_climb", WallClimbAbility::new);
+    public static final DeferredHolder<AbilityType, FlamethrowerAbility> FLAMETHROWER = ABILITIES.register("flamethrower", FlamethrowerAbility::new);
 
 
+    private static void registerType(String id, Supplier<MapCodec<? extends AbilityData>> codec, Supplier<StreamCodec<? super RegistryFriendlyByteBuf, ? extends AbilityData>> streamCodec) {
+        ABILITY_DATA.register(id, codec);
+        ABILITY_STREAM_DATA.register(id, streamCodec);
+    }
 
     public static void register(IEventBus bus) {
         ABILITIES.register(bus);

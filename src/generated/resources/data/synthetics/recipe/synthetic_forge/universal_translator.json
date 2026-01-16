@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " C ",
+    "ABA",
+    " A "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:universal_translator",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:universal_translator"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

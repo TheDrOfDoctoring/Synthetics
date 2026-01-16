@@ -2,7 +2,7 @@ package com.thedrofdoctoring.synthetics.core.data.providers;
 
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;

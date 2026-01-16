@@ -1,14 +1,12 @@
-package com.thedrofdoctoring.synthetics.core.data.types.body.augments;
+package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
 import net.minecraft.core.*;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -54,6 +52,9 @@ public record Augment(int complexity, int powerCost, int maxTotal, int maxPerPar
 
     @Override
     public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
         if(obj instanceof Augment augment) {
             return augment.augmentID.equals(this.augmentID);
         }
@@ -101,4 +102,56 @@ public record Augment(int complexity, int powerCost, int maxTotal, int maxPerPar
     }
 
 
+    public static class Builder {
+
+        private final ResourceKey<Augment> resourceKey;
+        private final HolderSet<BodyPart> validParts;
+        private int complexity = 1;
+        private int powerCost = 0;
+        private int maxCopies = 1;
+        private int maxCopiesPerPart = 1;
+        private HolderSet<Ability> abilities;
+
+        public Builder(ResourceKey<Augment> resourceKey, HolderSet<BodyPart> validParts) {
+            this.resourceKey = resourceKey;
+            this.validParts = validParts;
+        }
+
+        public static Builder of(ResourceKey<Augment> resourceKey, HolderSet<BodyPart> validParts) {
+            return new Builder(resourceKey, validParts);
+        }
+
+        public Builder complexity(int complexity) {
+            this.complexity = complexity;
+            return this;
+        }
+
+        public Builder powerCost(int powerCost) {
+            this.powerCost = powerCost;
+            return this;
+        }
+
+        public Builder maxCopies(int maxCopies, int maxPerPart) {
+            this.maxCopies = maxCopies;
+            this.maxCopiesPerPart = maxPerPart;
+            return this;
+        }
+
+        public Builder abilities(HolderSet<Ability> abilities) {
+            this.abilities = abilities;
+            return this;
+        }
+
+        public ResourceLocation id() {
+            return resourceKey.location();
+        }
+        public ResourceKey<Augment> key() {
+            return resourceKey;
+        }
+
+
+        public Augment build() {
+            return new Augment(complexity, powerCost, maxCopies, maxCopiesPerPart, validParts, Optional.ofNullable(abilities), id());
+        }
+    }
 }

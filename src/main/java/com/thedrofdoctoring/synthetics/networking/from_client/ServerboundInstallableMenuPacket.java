@@ -1,14 +1,14 @@
 package com.thedrofdoctoring.synthetics.networking.from_client;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.advancements.SyntheticsAdvancementTriggers;
 import com.thedrofdoctoring.synthetics.advancements.criterion.GenericSyntheticsCriterion;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.menus.AugmentationChamberMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;

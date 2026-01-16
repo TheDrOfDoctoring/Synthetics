@@ -6,7 +6,7 @@ import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
 import com.thedrofdoctoring.synthetics.core.data.datamaps.SyntheticsDatamaps;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.entities.OrganDisplayMob;
 import net.minecraft.client.Minecraft;

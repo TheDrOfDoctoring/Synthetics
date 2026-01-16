@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.networking;
 
 import com.thedrofdoctoring.synthetics.networking.from_client.*;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLeapPacket;
+import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLevelUUIDPacket;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateDataCachePacket;
 import net.neoforged.bus.api.IEventBus;
@@ -61,6 +62,11 @@ public class SyntheticsPayloads {
                 ClientboundUpdateDataCachePacket.TYPE,
                 ClientboundUpdateDataCachePacket.CODEC,
                 ClientboundUpdateDataCachePacket::handle
+        );
+        registrar.playToClient(
+                ClientboundLevelUUIDPacket.TYPE,
+                ClientboundLevelUUIDPacket.CODEC,
+                ClientboundLevelUUIDPacket::handle
         );
     }
 

@@ -1,0 +1,26 @@
+{
+  "id": "synthetics:universal_translator",
+  "requirements": {
+    "experience_cost": 30,
+    "required_items": [
+      {
+        "amount": 25,
+        "item": {
+          "item": "minecraft:emerald"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:diamond"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:universal_translator"
+  },
+  "x": 120,
+  "y": -50
+}

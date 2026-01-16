@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.networking;
 
+import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundRequestUpdatePacket;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
@@ -28,6 +29,11 @@ public class NetworkingEventHandler {
     @SubscribeEvent
     public static void onPlayerRespawnedClient(ClientPlayerNetworkEvent.Clone event) {
         event.getPlayer().connection.send(ServerboundRequestUpdatePacket.getInstance());
+    }
+
+    @SubscribeEvent
+    public static void onPlayerDisconnected(ClientPlayerNetworkEvent.LoggingOut event) {
+        SyntheticsClient.getInstance().getWheelManager().setLevelUUID(null);
     }
 
 

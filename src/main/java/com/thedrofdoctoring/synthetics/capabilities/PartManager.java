@@ -1,14 +1,14 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.IPartManager;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -30,7 +30,6 @@ public class PartManager implements ISaveData, IPartManager {
     public static final String KEY = "part_manager";
 
     private static final Object2ObjectMap<String, ResourceLocation> partFixerUpper = new Object2ObjectOpenHashMap<>();
-
 
     private final Object2ObjectMap<BodyPartType, BodyPart> installedParts;
     private final Object2ObjectMap<BodySegmentType, BodySegment> installedSegments;

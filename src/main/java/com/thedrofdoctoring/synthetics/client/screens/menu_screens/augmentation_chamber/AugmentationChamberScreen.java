@@ -2,15 +2,11 @@ package com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.abilities.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.ComplexityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.AppliedAugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.augments.Augment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.*;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegment;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.menus.AugmentationChamberMenu;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundInstallableMenuPacket;

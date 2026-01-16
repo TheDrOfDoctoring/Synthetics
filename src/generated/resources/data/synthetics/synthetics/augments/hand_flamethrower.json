@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:hand_flamethrower",
+  "augment_id": "synthetics:hand_flamethrower",
+  "complexity": 3,
+  "valid_parts": "#synthetics:hands"
+}
