@@ -13,6 +13,7 @@ public class SyntheticsClientSetup {
         modbus.addListener(SyntheticsClientSetup::registerOverlays);
         modbus.addListener(SyntheticsEntitiesClient::registerLayers);
         modbus.addListener(SyntheticsEntitiesClient::registerRenderers);
+        modbus.addListener(SyntheticsEntitiesClient::addRenderLayers);
         modbus.addListener(SyntheticsBEClient::registerBlockEntityRenderers);
         modbus.addListener(SyntheticsSkulls::registerSkullModels);
         modbus.addListener(SyntheticsClientParticles::registerParticles);
