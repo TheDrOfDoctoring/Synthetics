@@ -7,6 +7,7 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.InstallableBakedModel;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -25,6 +26,7 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
 
     private final Map<ResourceLocation, InstallableBakedModel> installableModels = new HashMap<>();
     private final Set<ResourceLocation> requestedModels = new HashSet<>();
+    private final Map<ResourceLocation, ModelResourceLocation> modelLocationCache = new HashMap<>();
 
     private InstallableModelLoader() {
         super(new Gson(), "synthetics/models");
@@ -32,6 +34,7 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> modelJsons, ResourceManager resourceManager, ProfilerFiller profiler) {
+        modelLocationCache.clear();
         installableModels.clear();
         requestedModels.clear();
 
@@ -60,6 +63,10 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
 
     public Collection<ResourceLocation> requestedModels() {
         return requestedModels;
+    }
+
+    public ModelResourceLocation getModelLocation(ResourceLocation location) {
+        return modelLocationCache.computeIfAbsent(location, ModelResourceLocation::standalone);
     }
 
 }
