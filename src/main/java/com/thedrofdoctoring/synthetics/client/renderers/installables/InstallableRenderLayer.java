@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.client.core.assets.InstallableModelLoader;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import org.joml.Vector3fc;
@@ -52,23 +54,23 @@ public class InstallableRenderLayer<E extends LivingEntity, M extends HumanoidMo
         RenderType renderType = RenderType.cutout();
         VertexConsumer buf = bufferSource.getBuffer(renderType);
         parts.forEach(p ->
-                p.installableModel()
+                p.getInstallableModel()
                         .ifPresent(
-                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, model.renderLocation(), renderType)
+                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, p.getModelPosition(), renderType)
                         )
         );
         Collection<BodySegment> segments = partManager.getInstalledSegments();
         segments.forEach(s ->
-                s.installableModel()
+                s.getInstallableModel()
                         .ifPresent(
-                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, model.renderLocation(), renderType)
+                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, s.getModelPosition(), renderType)
                         )
         );
         List<AppliedAugmentInstance> augments = data.getInstalledAugments();
         augments.forEach(a ->
-                a.installableModel()
+                a.getInstallableModel()
                         .ifPresent(
-                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, model.renderLocation(), renderType)
+                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, a.getModelPosition(), renderType)
                         )
         );
     }
@@ -77,7 +79,7 @@ public class InstallableRenderLayer<E extends LivingEntity, M extends HumanoidMo
         poseStack.pushPose();
 
         ModelPart modelPart = getPart(renderLocation);
-        BakedModel bakedModel = installableModel.model();
+        BakedModel bakedModel = getModel(installableModel.model());
         // Move pose to ModelPart
         modelPart.translateAndRotate(poseStack);
         Vector3fc offset = installableModel.translation();
@@ -92,5 +94,9 @@ public class InstallableRenderLayer<E extends LivingEntity, M extends HumanoidMo
 
     protected ModelPart getPart(String name) {
         return modelPartLookupCache.get(name);
+    }
+
+    public BakedModel getModel(ResourceLocation location) {
+        return Minecraft.getInstance().getModelManager().getModel(InstallableModelLoader.INSTANCE.getModelLocation(location));
     }
 }
