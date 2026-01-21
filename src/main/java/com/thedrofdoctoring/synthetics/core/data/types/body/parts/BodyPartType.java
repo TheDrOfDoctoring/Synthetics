@@ -3,6 +3,8 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.parts;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import io.netty.buffer.ByteBuf;
@@ -17,6 +19,7 @@ import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.function.IntFunction;
 
 /**
@@ -33,7 +36,7 @@ import java.util.function.IntFunction;
  *
  * I don't really want to keep these here since it's client only information, but right now I'm not sure of a better place, and I want to keep them configurable
  */
-public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id) {
+public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id) implements IInstallableModelSupplier {
 
     public static final MapCodec<BodyPartType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceKey.codec(SyntheticsData.BODY_PARTS).fieldOf("default_part").forGetter(BodyPartType::defaultPart),
@@ -67,6 +70,16 @@ public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Laye
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public @NotNull String getModelPosition() {
+        return ""; // TODO add this data
+    }
+
+    @Override
+    public @NotNull Optional<IInstallableModel> getInstallableModel() {
+        return IInstallableModelSupplier.getInstallableModel(id());
     }
 
     public enum Layer implements StringRepresentable {

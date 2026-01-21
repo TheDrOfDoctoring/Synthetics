@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.InstallableBakedModel;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -14,6 +15,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.slf4j.Logger;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
@@ -24,7 +26,7 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
 
     public static final InstallableModelLoader INSTANCE = new InstallableModelLoader();
 
-    private final Map<ResourceLocation, InstallableBakedModel> installableModels = new HashMap<>();
+    private final Map<ResourceLocation, IInstallableModel> installableModels = new HashMap<>();
     private final Set<ResourceLocation> requestedModels = new HashSet<>();
     private final Map<ResourceLocation, ModelResourceLocation> modelLocationCache = new HashMap<>();
 
@@ -57,8 +59,12 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
         LOGGER.info("Loaded {} installable models", loaded);
     }
 
-    public InstallableBakedModel get(ResourceLocation location) {
+    public @Nullable IInstallableModel get(ResourceLocation location) {
         return installableModels.get(location);
+    }
+
+    public Optional<IInstallableModel> getOptional(ResourceLocation location) {
+        return Optional.ofNullable(get(location));
     }
 
     public Collection<ResourceLocation> requestedModels() {

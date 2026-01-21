@@ -3,6 +3,8 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.PartManager;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.core.HolderLookup;
@@ -16,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 
-public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) implements IBodyInstallable<Augment> {
+public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) implements IBodyInstallable<Augment>, IInstallableModelSupplier {
 
 
     public String createSerialisationID() {
@@ -68,5 +70,15 @@ public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) impl
     @Override
     public @NotNull ItemStack createDefaultItemStack(HolderLookup.Provider provider) {
         return ItemStack.EMPTY;
+    }
+
+    @Override
+    public @NotNull String getModelPosition() {
+        return appliedPart.getModelPosition();
+    }
+
+    @Override
+    public @NotNull Optional<IInstallableModel> getInstallableModel() {
+        return appliedPart.getInstallableModel();
     }
 }

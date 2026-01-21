@@ -3,6 +3,8 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.parts;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import net.minecraft.core.Holder;
@@ -11,8 +13,11 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
-public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceLocation id) {
+import java.util.Optional;
+
+public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceLocation id) implements IInstallableModelSupplier {
 
     public static final MapCodec<BodySegmentType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceKey.codec(SyntheticsData.BODY_SEGMENTS).fieldOf("default_segment").forGetter(BodySegmentType::defaultSegment),
@@ -40,5 +45,15 @@ public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceL
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public @NotNull String getModelPosition() {
+        return ""; // TODO add this data
+    }
+
+    @Override
+    public @NotNull Optional<IInstallableModel> getInstallableModel() {
+        return IInstallableModelSupplier.getInstallableModel(id());
     }
 }
