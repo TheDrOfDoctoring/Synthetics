@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IBodyPosition;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
@@ -73,7 +74,7 @@ public record BodySegment(int maxComplexity, Holder<BodySegmentType> type, Resou
     }
 
     @Override
-    public @NotNull String getModelPosition() {
+    public IBodyPosition getModelPosition() {
         return IInstallableModelPositioner.getModelPosition(type());
     }
 

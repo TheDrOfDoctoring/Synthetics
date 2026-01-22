@@ -75,7 +75,7 @@ public class InstallableRenderLayer<E extends LivingEntity, M extends HumanoidMo
         );
     }
 
-    public void renderInstallable(PoseStack poseStack, VertexConsumer buf, int packedLight, float partialTick, IInstallableModel installableModel, String renderLocation, RenderType renderType) {
+    public void renderInstallable(PoseStack poseStack, VertexConsumer buf, int packedLight, float partialTick, IInstallableModel installableModel, IBodyPosition renderLocation, RenderType renderType) {
         poseStack.pushPose();
 
         ModelPart modelPart = getPart(renderLocation);
@@ -92,8 +92,8 @@ public class InstallableRenderLayer<E extends LivingEntity, M extends HumanoidMo
         poseStack.popPose();
     }
 
-    protected ModelPart getPart(String name) {
-        return modelPartLookupCache.get(name);
+    protected ModelPart getPart(IBodyPosition position) {
+        return modelPartLookupCache.get(position.part());
     }
 
     public BakedModel getModel(ResourceLocation location) {

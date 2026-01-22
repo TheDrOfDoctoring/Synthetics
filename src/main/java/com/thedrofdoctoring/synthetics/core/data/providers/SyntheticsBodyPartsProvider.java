@@ -164,7 +164,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_TISSUE,
                         -18, 110,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyPartTypes.TISSUE.location()
+                        BodyPartTypes.TISSUE.location(),
                 )
         );
         context.register(
@@ -173,7 +173,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_LEFT_EYE,
                         -15, 29,
                         BodyPartType.Layer.ORGANS,
-                        BodyPartTypes.LEFT_EYE.location()
+                        BodyPartTypes.LEFT_EYE.location(),
                 )
         );
         context.register(
@@ -182,7 +182,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_RIGHT_EYE,
                         9, 29,
                         BodyPartType.Layer.ORGANS,
-                        BodyPartTypes.RIGHT_EYE.location()
+                        BodyPartTypes.RIGHT_EYE.location(),
                 )
         );
         context.register(
@@ -191,7 +191,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_RIGHT_FOOT,
                         7, 220,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyPartTypes.RIGHT_FOOT.location()
+                        BodyPartTypes.RIGHT_FOOT.location(),
                 )
         );
         context.register(
@@ -200,7 +200,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_LEFT_FOOT,
                         -26, 220,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyPartTypes.LEFT_FOOT.location()
+                        BodyPartTypes.LEFT_FOOT.location(),
                 )
         );
         context.register(
@@ -209,7 +209,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_BRAIN,
                         3, 10,
                         BodyPartType.Layer.ORGANS,
-                        BodyPartTypes.BRAIN.location()
+                        BodyPartTypes.BRAIN.location(),
                 )
         );
         context.register(
@@ -218,7 +218,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_HEART,
                         10, 80,
                         BodyPartType.Layer.ORGANS,
-                        BodyPartTypes.HEART.location()
+                        BodyPartTypes.HEART.location(),
                 )
         );
         context.register(
@@ -227,7 +227,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_LUNGS,
                         -15, 90,
                         BodyPartType.Layer.ORGANS,
-                        BodyPartTypes.LUNGS.location()
+                        BodyPartTypes.LUNGS.location(),
                 )
         );
         context.register(
@@ -236,7 +236,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_RIGHT_HAND,
                         36, 130,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyPartTypes.RIGHT_HAND.location()
+                        BodyPartTypes.RIGHT_HAND.location(),
                 )
         );
         context.register(
@@ -245,7 +245,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_LEFT_HAND,
                         -53, 130,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyPartTypes.LEFT_HAND.location()
+                        BodyPartTypes.LEFT_HAND.location(),
                 )
         );
         context.register(
@@ -254,7 +254,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_STOMACH,
                         -15, 120,
                         BodyPartType.Layer.ORGANS,
-                        BodyPartTypes.STOMACH.location()
+                        BodyPartTypes.STOMACH.location(),
                 )
         );
         context.register(
@@ -263,7 +263,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_RIBCAGE,
                         -7, 100,
                         BodyPartType.Layer.BONE,
-                        BodyPartTypes.RIBCAGE.location()
+                        BodyPartTypes.RIBCAGE.location(),
                 )
         );
         context.register(
@@ -272,7 +272,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_SKULL,
                         -3, 35,
                         BodyPartType.Layer.BONE,
-                        BodyPartTypes.SKULL.location()
+                        BodyPartTypes.SKULL.location(),
                 )
         );
         context.register(
@@ -281,7 +281,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_TIBIA,
                         7, 180,
                         BodyPartType.Layer.BONE,
-                        BodyPartTypes.TIBIA.location()
+                        BodyPartTypes.TIBIA.location(),
                 )
         );
 
@@ -291,7 +291,7 @@ public class SyntheticsBodyPartsProvider {
                         BodyParts.ORGANIC_ARM_MUSCLE,
                         35, 70,
                         BodyPartType.Layer.EXTERIOR,
-                        BodyPartTypes.ARM_MUSCLE.location()
+                        BodyPartTypes.ARM_MUSCLE.location(),
                 )
         );
     }

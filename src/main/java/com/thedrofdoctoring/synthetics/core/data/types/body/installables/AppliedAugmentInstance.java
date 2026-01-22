@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.PartManager;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IBodyPosition;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
@@ -74,7 +75,7 @@ public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) impl
     }
 
     @Override
-    public @NotNull String getModelPosition() {
+    public IBodyPosition getModelPosition() {
         return appliedPart.getModelPosition();
     }
 

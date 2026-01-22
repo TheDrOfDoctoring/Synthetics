@@ -3,9 +3,7 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.parts;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
-import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
-import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.*;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import net.minecraft.core.Holder;
@@ -18,16 +16,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceLocation id) implements IInstallableModelSupplier, IInstallableModelPositioner {
+public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceLocation id, BodyPosition bodyPosition) implements IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodySegmentType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceKey.codec(SyntheticsData.BODY_SEGMENTS).fieldOf("default_segment").forGetter(BodySegmentType::defaultSegment),
-            ResourceLocation.CODEC.fieldOf("id").forGetter(BodySegmentType::id)
+            ResourceLocation.CODEC.fieldOf("id").forGetter(BodySegmentType::id),
+            BodyPosition.CODEC.fieldOf("position").forGetter(BodySegmentType::bodyPosition)
     ).apply(instance, BodySegmentType::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodySegmentType> STREAM_CODEC = StreamCodec.composite(
             ResourceKey.streamCodec(SyntheticsData.BODY_SEGMENTS), BodySegmentType::defaultSegment,
             ResourceLocation.STREAM_CODEC, BodySegmentType::id,
+            BodyPosition.STREAM_CODEC, BodySegmentType::bodyPosition,
             BodySegmentType::new);
 
     public static final Codec<Holder<BodySegmentType>> HOLDER_CODEC = RegistryFileCodec.create(SyntheticsData.BODY_SEGMENT_TYPES, CODEC.codec());
@@ -49,8 +49,8 @@ public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceL
     }
 
     @Override
-    public @NotNull String getModelPosition() {
-        return ""; // TODO add this data
+    public IBodyPosition getModelPosition() {
+        return bodyPosition;
     }
 
     @Override
