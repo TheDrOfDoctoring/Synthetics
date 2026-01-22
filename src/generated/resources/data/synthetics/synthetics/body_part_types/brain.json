@@ -2,6 +2,7 @@
   "default_part": "synthetics:organic_brain",
   "id": "synthetics:brain",
   "layer": "organs",
+  "position": "head",
   "x": 3,
   "y": 10
 }

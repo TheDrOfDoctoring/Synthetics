@@ -1,4 +1,5 @@
 {
   "default_segment": "synthetics:organic_lower_body",
-  "id": "synthetics:lower_body"
+  "id": "synthetics:lower_body",
+  "position": "body"
 }
