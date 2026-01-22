@@ -1,7 +1,10 @@
 package com.thedrofdoctoring.synthetics.client.renderers.installables;
 
 import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -19,6 +22,7 @@ public enum BodyPosition implements IBodyPosition {
     LEFT_LEG("left_leg", "left_leg");
 
     public static final Codec<BodyPosition> CODEC = Codec.stringResolver(BodyPosition::id, BodyPosition::fromString);
+    public static final StreamCodec<ByteBuf, BodyPosition> STREAM_CODEC = ByteBufCodecs.STRING_UTF8.map(BodyPosition::fromString, BodyPosition::id);
 
     private static Map<String, BodyPosition> LOOKUP;
 
