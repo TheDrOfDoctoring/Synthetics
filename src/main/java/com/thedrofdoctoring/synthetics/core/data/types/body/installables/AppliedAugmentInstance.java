@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 
-public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) implements IBodyInstallable<Augment>, IInstallableModelSupplier {
+public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) implements IBodyInstallable<Augment>, IInstallableModelSupplier, IInstallableModelPositioner {
 
 
     public String createSerialisationID() {
@@ -79,6 +80,6 @@ public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) impl
 
     @Override
     public @NotNull Optional<IInstallableModel> getInstallableModel() {
-        return appliedPart.getInstallableModel();
+        return augment.getInstallableModel();
     }
 }

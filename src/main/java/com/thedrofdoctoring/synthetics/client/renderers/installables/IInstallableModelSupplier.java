@@ -11,7 +11,6 @@ import java.util.Optional;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public interface IInstallableModelSupplier {
-    String getModelPosition();
     Optional<IInstallableModel> getInstallableModel();
 
     static Optional<IInstallableModel> getInstallableModel(ResourceLocation location) {
@@ -25,7 +24,4 @@ public interface IInstallableModelSupplier {
                 .orThrow();
     }
 
-    static <T extends IInstallableModelSupplier> String getModelPosition(Holder<T> holder) {
-        return holder.value().getModelPosition();
-    }
 }

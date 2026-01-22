@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
@@ -32,7 +33,7 @@ import java.util.Optional;
  * @param abilities - The optional set of abilities that this body part has
  * @param id - Self ID
  */
-public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, Holder<BodyPartType> type, Optional<HolderSet<Ability>> abilities, ResourceLocation id) implements IBodyInstallable<BodyPart>, IInstallableModelSupplier {
+public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, Holder<BodyPartType> type, Optional<HolderSet<Ability>> abilities, ResourceLocation id) implements IBodyInstallable<BodyPart>, IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodyPart> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodyPart::maxComplexity),

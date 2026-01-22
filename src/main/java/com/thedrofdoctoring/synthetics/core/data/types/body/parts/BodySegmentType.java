@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceLocation id) implements IInstallableModelSupplier {
+public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceLocation id) implements IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodySegmentType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceKey.codec(SyntheticsData.BODY_SEGMENTS).fieldOf("default_segment").forGetter(BodySegmentType::defaultSegment),

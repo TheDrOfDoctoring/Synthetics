@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
@@ -20,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public record BodySegment(int maxComplexity, Holder<BodySegmentType> type, ResourceLocation id) implements IBodyInstallable<BodySegment>, IInstallableModelSupplier {
+public record BodySegment(int maxComplexity, Holder<BodySegmentType> type, ResourceLocation id) implements IBodyInstallable<BodySegment>, IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodySegment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodySegment::maxComplexity),
@@ -73,7 +74,7 @@ public record BodySegment(int maxComplexity, Holder<BodySegmentType> type, Resou
 
     @Override
     public @NotNull String getModelPosition() {
-        return IInstallableModelSupplier.getModelPosition(type());
+        return IInstallableModelPositioner.getModelPosition(type());
     }
 
     @Override

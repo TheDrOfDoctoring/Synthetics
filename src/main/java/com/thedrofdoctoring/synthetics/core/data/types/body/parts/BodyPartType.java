@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
@@ -36,7 +37,7 @@ import java.util.function.IntFunction;
  *
  * I don't really want to keep these here since it's client only information, but right now I'm not sure of a better place, and I want to keep them configurable
  */
-public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id) implements IInstallableModelSupplier {
+public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id) implements IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodyPartType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceKey.codec(SyntheticsData.BODY_PARTS).fieldOf("default_part").forGetter(BodyPartType::defaultPart),
