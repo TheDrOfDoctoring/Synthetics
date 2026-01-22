@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.client.core;
 import com.mojang.logging.LogUtils;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.client.core.assets.InstallableModelLoader;
+import com.thedrofdoctoring.synthetics.client.core.assets.SyntheticsAssets;
 import com.thedrofdoctoring.synthetics.client.overlay.EnergyOverlay;
 import com.thedrofdoctoring.synthetics.client.particles.SyntheticsClientParticles;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -27,6 +28,7 @@ public class SyntheticsClientSetup {
         modbus.addListener(SyntheticsBEClient::registerBlockEntityRenderers);
         modbus.addListener(SyntheticsSkulls::registerSkullModels);
         modbus.addListener(SyntheticsClientParticles::registerParticles);
+        modbus.addListener(SyntheticsAssets::dataGen);
 
     }
     
