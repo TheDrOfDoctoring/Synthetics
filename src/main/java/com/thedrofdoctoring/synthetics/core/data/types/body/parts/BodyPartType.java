@@ -80,7 +80,7 @@ public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Laye
 
     @Override
     public @NotNull Optional<IInstallableModel> getInstallableModel() {
-        return IInstallableModelSupplier.getInstallableModel(id());
+        return IInstallableModelSupplier.getBodyPartModel(id());
     }
 
     public enum Layer implements StringRepresentable {

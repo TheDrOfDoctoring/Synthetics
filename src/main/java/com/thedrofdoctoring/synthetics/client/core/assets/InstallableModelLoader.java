@@ -30,16 +30,17 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
     private final Set<ResourceLocation> requestedModels = new HashSet<>();
     private final Map<ResourceLocation, ModelResourceLocation> modelLocationCache = new HashMap<>();
 
+    private final Map<ResourceLocation, ResourceLocation> augmentLookup = new HashMap<>();
+    private final Map<ResourceLocation, ResourceLocation> segmentLookup = new HashMap<>();
+    private final Map<ResourceLocation, ResourceLocation> bodyPartLookup = new HashMap<>();
+
     private InstallableModelLoader() {
         super(new Gson(), "synthetics/models");
     }
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> modelJsons, ResourceManager resourceManager, ProfilerFiller profiler) {
-        modelLocationCache.clear();
-        installableModels.clear();
-        requestedModels.clear();
-
+        clear();
         int loaded = 0;
 
         for (var entry : modelJsons.entrySet()) {
@@ -59,6 +60,27 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
         LOGGER.info("Loaded {} installable models", loaded);
     }
 
+    protected void clear() {
+        modelLocationCache.clear();
+        installableModels.clear();
+        requestedModels.clear();
+        augmentLookup.clear();
+        segmentLookup.clear();
+        bodyPartLookup.clear();
+    }
+
+    public ResourceLocation getAugmentLocation(ResourceLocation location) {
+        return augmentLookup.computeIfAbsent(location, l -> l.withPrefix("augment/"));
+    }
+
+    public ResourceLocation getSegmentLocation(ResourceLocation location) {
+        return segmentLookup.computeIfAbsent(location, l -> l.withPrefix("segment/"));
+    }
+
+    public ResourceLocation getBodyPartLocation(ResourceLocation location) {
+        return bodyPartLookup.computeIfAbsent(location, l -> l.withPrefix("bodypart/"));
+    }
+
     public @Nullable IInstallableModel get(ResourceLocation location) {
         return installableModels.get(location);
     }
@@ -74,5 +96,4 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
     public ModelResourceLocation getModelLocation(ResourceLocation location) {
         return modelLocationCache.computeIfAbsent(location, ModelResourceLocation::standalone);
     }
-
 }

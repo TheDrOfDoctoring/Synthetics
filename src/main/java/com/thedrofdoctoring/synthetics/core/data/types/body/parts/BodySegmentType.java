@@ -55,6 +55,6 @@ public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceL
 
     @Override
     public @NotNull Optional<IInstallableModel> getInstallableModel() {
-        return IInstallableModelSupplier.getInstallableModel(id());
+        return IInstallableModelSupplier.getSegmentModel(id());
     }
 }

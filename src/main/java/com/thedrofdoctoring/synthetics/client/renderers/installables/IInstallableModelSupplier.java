@@ -17,6 +17,18 @@ public interface IInstallableModelSupplier {
         return InstallableModelLoader.INSTANCE.getOptional(location);
     }
 
+    static Optional<IInstallableModel> getAugmentModel(ResourceLocation location) {
+        return getInstallableModel(InstallableModelLoader.INSTANCE.getAugmentLocation(location));
+    }
+
+    static Optional<IInstallableModel> getSegmentModel(ResourceLocation location) {
+        return getInstallableModel(InstallableModelLoader.INSTANCE.getSegmentLocation(location));
+    }
+
+    static Optional<IInstallableModel> getBodyPartModel(ResourceLocation location) {
+        return getInstallableModel(InstallableModelLoader.INSTANCE.getBodyPartLocation(location));
+    }
+
     static <T extends IInstallableModelSupplier> Optional<IInstallableModel> getInstallableModel(Holder<T> holder) {
         return holder.unwrap()
                 .mapLeft(key -> IInstallableModelSupplier.getInstallableModel(key.location()))

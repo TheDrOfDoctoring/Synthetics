@@ -105,7 +105,7 @@ public record Augment(int complexity, int powerCost, int maxTotal, int maxPerPar
 
     @Override
     public @NotNull Optional<IInstallableModel> getInstallableModel() {
-        return IInstallableModelSupplier.getInstallableModel(augmentID());
+        return IInstallableModelSupplier.getAugmentModel(id());
     }
 
 
