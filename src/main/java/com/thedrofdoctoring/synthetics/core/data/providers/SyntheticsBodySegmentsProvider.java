@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
+import com.thedrofdoctoring.synthetics.client.renderers.installables.BodyPosition;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
@@ -53,28 +54,32 @@ public class SyntheticsBodySegmentsProvider {
                 BodySegments.HEAD,
                 new BodySegmentType(
                         BodySegments.ORGANIC_HEAD,
-                        BodySegments.HEAD.location()
+                        BodySegments.HEAD.location(),
+                        BodyPosition.HEAD
                 )
         );
         context.register(
                 BodySegments.TORSO,
                 new BodySegmentType(
                         BodySegments.ORGANIC_TORSO,
-                        BodySegments.TORSO.location()
+                        BodySegments.TORSO.location(),
+                        BodyPosition.BODY
                 )
         );
         context.register(
                 BodySegments.ARMS,
                 new BodySegmentType(
                         BodySegments.ORGANIC_ARMS,
-                        BodySegments.ARMS.location()
+                        BodySegments.ARMS.location(),
+                        BodyPosition.BODY
                 )
         );
         context.register(
                 BodySegments.LOWER_BODY,
                 new BodySegmentType(
                         BodySegments.ORGANIC_LOWER_BODY,
-                        BodySegments.LOWER_BODY.location()
+                        BodySegments.LOWER_BODY.location(),
+                        BodyPosition.BODY
                 )
         );
 
