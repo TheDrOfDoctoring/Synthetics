@@ -63,6 +63,10 @@ public class InstallableModelProvider implements DataProvider {
             models.put(installable, new InstallableBakedModel(model, translation));
         }
 
+        public void model(String installableLocation, String modelLocation, Vector3f translation) {
+            models.put(ResourceLocation.parse(installableLocation), new InstallableBakedModel(ResourceLocation.parse(modelLocation), translation));
+        }
+
         public CompletableFuture<?> saveAll(CachedOutput output) {
             return CompletableFuture.allOf(models.entrySet().stream()
                     .map(entry -> saveEntry(output, entry)
