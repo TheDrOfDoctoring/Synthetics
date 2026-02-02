@@ -10,6 +10,7 @@ import com.thedrofdoctoring.synthetics.client.renderers.installables.Installable
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -18,13 +19,18 @@ import org.slf4j.Logger;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
+public class InstallableModelLoader implements PreparableReloadListener {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static final InstallableModelLoader INSTANCE = new InstallableModelLoader();
+
+    private final Gson gson;
+    private final String directory;
 
     private final Map<ResourceLocation, IInstallableModel> installableModels = new HashMap<>();
     private final Set<ResourceLocation> requestedModels = new HashSet<>();
@@ -35,14 +41,41 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
     private final Map<ResourceLocation, ResourceLocation> bodyPartLookup = new HashMap<>();
 
     private InstallableModelLoader() {
-        super(new Gson(), "synthetics/models");
+        this.gson = new Gson();
+        this.directory = "synthetics/models";
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> modelJsons, ResourceManager resourceManager, ProfilerFiller profiler) {
+    public CompletableFuture<Void> reload(
+            PreparableReloadListener.PreparationBarrier stage,
+            ResourceManager resourceManager,
+            ProfilerFiller preparationsProfiler,
+            ProfilerFiller reloadProfiler,
+            Executor backgroundExecutor,
+            Executor gameExecutor
+    ) {
+        return CompletableFuture.supplyAsync(
+                ()-> prepare(resourceManager, reloadProfiler),
+                gameExecutor
+        ).thenAcceptAsync(
+                elements -> load(elements, reloadProfiler),
+                gameExecutor
+        ).thenCompose(stage::wait);
+    }
+
+    protected Map<ResourceLocation, JsonElement> prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
+        profiler.push("Synthetics Models Prepare");
         clear();
+        Map<ResourceLocation, JsonElement> elements = new HashMap<>();
+        SimpleJsonResourceReloadListener.scanDirectory(resourceManager, this.directory, this.gson, elements);
+        profiler.pop();
+        return elements;
+    }
+
+    protected void load(Map<ResourceLocation, JsonElement> modelJsons, ProfilerFiller profiler) {
         int loaded = 0;
 
+        profiler.push("Synthetics Models Load");
         for (var entry : modelJsons.entrySet()) {
             try {
                 var installable = InstallableBakedModel.CODEC.parse(JsonOps.INSTANCE, entry.getValue())
@@ -56,7 +89,7 @@ public class InstallableModelLoader extends SimpleJsonResourceReloadListener {
                 LOGGER.error("Failed loading installable model {}", entry.getKey(), e);
             }
         }
-
+        profiler.pop();
         LOGGER.info("Loaded {} installable models", loaded);
     }
 
