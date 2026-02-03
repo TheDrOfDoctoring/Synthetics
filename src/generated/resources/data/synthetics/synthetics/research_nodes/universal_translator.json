@@ -14,6 +14,12 @@
         "item": {
           "item": "minecraft:diamond"
         }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
       }
     ]
   },
@@ -21,6 +27,6 @@
   "unlocked": {
     "augments": "synthetics:universal_translator"
   },
-  "x": 120,
-  "y": -50
+  "x": 150,
+  "y": 0
 }

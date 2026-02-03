@@ -74,10 +74,6 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.dirtyAll = true;
     }
 
-    public int getTotalStoredEnergy() {
-        return 0;
-    }
-
     @Override
     public boolean canAddAugment(AppliedAugmentInstance instance) {
 
@@ -270,7 +266,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
             if(dirty) {
                 if(!dirtyAll) {
-                    this.sync(packet);
+                    this.sync(packet, false, false);
                 } else {
                     this.sync(true);
                 }
@@ -292,7 +288,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         }
 
         if(sync || this.dirty) {
-            sync(true);
+            this.sync(true);
         }
     }
 
@@ -443,30 +439,26 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     @Override
     public void sync(boolean syncToAll) {
         if(player instanceof ServerPlayer serverPlayer) {
-            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, this.serialiseNBT(player.level().registryAccess()), true);
+            CompoundTag data = this.serialiseNBT(player.level().registryAccess());
+            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, data, true, true);
             serverPlayer.connection.send(self);
             if (syncToAll) {
                 if (player.level() instanceof ServerLevel level) {
-                    ClientboundPlayerUpdatePacket other = ClientboundPlayerUpdatePacket.create(this.player, this.serialiseUpdateNBT(player.level().registryAccess()), false);
+                    ClientboundPlayerUpdatePacket other = ClientboundPlayerUpdatePacket.create(this.player, data, false, true);
                     ServerChunkCache serverchunkcache = level.getChunkSource();
                     serverchunkcache.broadcast(player, other);
                 }
             }
         }
     }
-    public void sync(CompoundTag data) {
+
+    public void sync(CompoundTag data, boolean syncToAll, boolean fullUpdate) {
         if(player instanceof ServerPlayer serverPlayer) {
-            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, data, false);
-            serverPlayer.connection.send(self);
-        }
-    }
-    public void sync(CompoundTag data, boolean syncToAll) {
-        if(player instanceof ServerPlayer serverPlayer) {
-            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, data, true);
+            ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, data, true, fullUpdate);
             serverPlayer.connection.send(self);
             if (syncToAll) {
                 if (player.level() instanceof ServerLevel level) {
-                    ClientboundPlayerUpdatePacket other = ClientboundPlayerUpdatePacket.create(this.player, data, false);
+                    ClientboundPlayerUpdatePacket other = ClientboundPlayerUpdatePacket.create(this.player, data, false, fullUpdate);
                     ServerChunkCache serverchunkcache = level.getChunkSource();
                     serverchunkcache.broadcast(player, other);
                 }

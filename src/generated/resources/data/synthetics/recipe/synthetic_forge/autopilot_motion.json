@@ -5,7 +5,7 @@
       "item": "minecraft:redstone"
     },
     "B": {
-      "item": "minecraft:iron_ingot"
+      "item": "synthetics:basic_circuit"
     },
     "C": {
       "item": "synthetics:ancient_alloy_ingot"

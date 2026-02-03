@@ -2,5 +2,6 @@
   "abilities": "synthetics:autopilot_step_assist",
   "augment_id": "synthetics:motion_autopilot",
   "complexity": 3,
-  "valid_parts": "synthetics:organic_brain"
+  "power_cost": 5,
+  "valid_parts": "#synthetics:brains_main"
 }

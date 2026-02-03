@@ -1,0 +1,36 @@
+{
+  "parent": "synthetics:organic_eyes",
+  "id": "synthetics:cybernetic_eyes",
+  "requirements": {
+    "experience_cost": 100,
+    "required_items": [
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      },
+      {
+        "amount": 12,
+        "item": {
+          "item": "minecraft:gold_ingot"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:artificial_neuron"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:body_parts",
+  "unlocked": {
+    "parts": [
+      "synthetics:cybernetic_left_eye",
+      "synthetics:cybernetic_right_eye"
+    ]
+  },
+  "x": 150,
+  "y": 30
+}

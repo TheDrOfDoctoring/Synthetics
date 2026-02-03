@@ -13,6 +13,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.advancements.AdvancementTabType;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Skeleton;
@@ -167,6 +170,11 @@ public class PlayerSyntheticDisplayScreen {
             }
         }
     }
+
+    public void playDownSound(SoundManager handler) {
+        handler.play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+    }
+
     public void mouseReleased(double mouseX, double mouseY, int button) {
         double x = getScaledMouseX(mouseX);
         double y = getScaledMouseY(mouseY);
@@ -176,6 +184,7 @@ public class PlayerSyntheticDisplayScreen {
                     part.setSelectTick(0);
                 }
                 if(button == 0) {
+                    this.playDownSound(Minecraft.getInstance().getSoundManager());
                     this.mainScreen.setSelectedBodyPart(part.getPart());
                 }
                 break;

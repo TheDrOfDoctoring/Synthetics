@@ -8,5 +8,6 @@
   "ability_type": {
     "ability_id": "synthetics:attribute_type"
   },
-  "id": "synthetics:integrated_exoskeleton_walk_speed"
+  "id": "synthetics:integrated_exoskeleton_walk_speed",
+  "nature": "beneficial"
 }

@@ -1,0 +1,32 @@
+{
+  "id": "synthetics:internal_camera_link",
+  "requirements": {
+    "experience_cost": 30,
+    "required_items": [
+      {
+        "amount": 6,
+        "item": {
+          "item": "minecraft:ender_pearl"
+        }
+      },
+      {
+        "amount": 20,
+        "item": {
+          "tag": "c:glass_panes"
+        }
+      },
+      {
+        "amount": 5,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:internal_camera_link"
+  },
+  "x": -60,
+  "y": 0
+}

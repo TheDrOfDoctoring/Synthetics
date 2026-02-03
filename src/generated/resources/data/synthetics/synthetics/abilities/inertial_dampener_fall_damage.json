@@ -8,5 +8,6 @@
   "ability_type": {
     "ability_id": "synthetics:attribute_type"
   },
-  "id": "synthetics:inertial_dampener_fall_damage"
+  "id": "synthetics:inertial_dampener_fall_damage",
+  "nature": "beneficial"
 }

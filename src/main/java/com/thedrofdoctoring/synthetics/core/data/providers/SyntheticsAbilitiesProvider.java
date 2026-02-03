@@ -106,14 +106,14 @@ public class SyntheticsAbilitiesProvider {
                 )
         );
         context.register(
-                Abilities.HAND_WALL_CLIMB,
+                Abilities.BASIC_WALL_CLIMB,
                 Ability.create(
                         SyntheticAbilities.WALL_CLIMB.get(),
                         ActiveAbilityType.create(
                                 1.0d,
                                 ActiveAbilityOptions.options(30, 30, 30, 5)
                         ),
-                        Abilities.HAND_WALL_CLIMB.location()
+                        Abilities.BASIC_WALL_CLIMB.location()
                 )
         );
         context.register(
@@ -222,6 +222,53 @@ public class SyntheticsAbilitiesProvider {
                                 7
                         ),
                         Abilities.HAND_FLAMETHROWER.location()
+                )
+        );
+        context.register(
+                Abilities.MECHANICAL_HAND_ATTACK_SPEED,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                -0.15d,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                Attributes.ATTACK_SPEED
+
+                        ),
+                        Ability.AbilityNature.DETRIMENTAL,
+                        Abilities.MECHANICAL_HAND_ATTACK_SPEED.location()
+                )
+        );
+        context.register(
+                Abilities.CYBERNETIC_EYE_VIEW,
+                Ability.create(
+                        SyntheticAbilities.TOGGLE_VIEW_LINKED.get(),
+                        ActiveAbilityType.create(
+                                1.0d,
+                                ActiveAbilityOptions.options(0, 999999, 0, 0)
+                        ),
+                        Abilities.CYBERNETIC_EYE_VIEW.location()
+                )
+        );
+        context.register(
+                Abilities.CYBERNETIC_REDSTONE_LINK,
+                Ability.create(
+                        SyntheticAbilities.INTERACT_LINKED.get(),
+                        ActiveAbilityType.create(
+                                1.0d,
+                                ActiveAbilityOptions.options(1)
+                        ),
+                        Abilities.CYBERNETIC_REDSTONE_LINK.location()
+                )
+        );
+        context.register(
+                Abilities.CYBERNETIC_CAMERA_LINK,
+                Ability.create(
+                        SyntheticAbilities.INTERACT_LINKED.get(),
+                        ActiveAbilityType.create(
+                                1.0d,
+                                ActiveAbilityOptions.options(1)
+                        ),
+                        Abilities.CYBERNETIC_CAMERA_LINK.location()
                 )
         );
     }

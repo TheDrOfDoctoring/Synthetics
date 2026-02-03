@@ -1,0 +1,35 @@
+{
+  "id": "synthetics:mechanical_parts",
+  "requirements": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:redstone"
+        }
+      },
+      {
+        "amount": 24,
+        "item": {
+          "item": "minecraft:copper_ingot"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:body_parts",
+  "unlocked": {
+    "parts": [
+      "synthetics:mechanical_left_hand",
+      "synthetics:mechanical_right_hand"
+    ]
+  },
+  "x": 0,
+  "y": 150
+}

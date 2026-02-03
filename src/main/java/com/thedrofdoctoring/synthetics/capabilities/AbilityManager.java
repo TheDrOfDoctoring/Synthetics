@@ -186,7 +186,8 @@ public class AbilityManager implements ISyncable {
         if(isAbilityActive(activeAbility)) {
             deactivateAbility((LastingAbilityType<?>) activeAbility);
             return true;
-        } else if(hasSufficientPower(power, instance) && !this.isAbilityOnCooldown(activeAbility) && activeAbility.activate(manager, instance.getAbilityData())) {
+        } else if(hasSufficientPower(power, instance) && !this.isAbilityOnCooldown(activeAbility) &&
+                activeAbility.activate(manager, instance.getAbilityData())) {
             drainPower(power, instance);
             if(activeAbility instanceof LastingAbilityType) {
                 this.duration.put(activeAbility.getAbilityID(), instance.getDuration() * 20);
@@ -220,7 +221,6 @@ public class AbilityManager implements ISyncable {
 
     public boolean canActivate(ActiveAbilityType<?> type) {
         if(!this.activeAbilities.containsKey(type.getAbilityID())) return false;
-        if(isAbilityOnCooldown(type)) return false;
         return type.canBeUsed(manager);
     }
 
@@ -239,8 +239,14 @@ public class AbilityManager implements ISyncable {
     }
 
     public boolean hasAbility(Ability ability) {
-        return this.passiveAbilities.containsKey(ability.id()) || this.activeAbilities.containsKey(ability.abilityType().getAbilityID());
+        return this.addedAbilities.stream().anyMatch(ability::equals);
     }
+
+    public boolean hasAbility(ResourceKey<Ability> abilityID) {
+        return this.addedAbilities.stream().anyMatch(ability -> ability.id().equals(abilityID.location()));
+    }
+
+
     public boolean isAbilityEnabled(Ability ability) {
         if(ability.abilityType() instanceof PassiveAbilityType) {
             return this.passiveAbilities.containsKey(ability.id()) && this.passiveAbilities.get(ability.id()).right().isEnabled();
@@ -331,10 +337,10 @@ public class AbilityManager implements ISyncable {
                     removeModifier(instance, modifier);
                 }
             }
-            if(reactivateAbilities) {
-                this.reactivateAbilities();
-            }
             this.rebuildAttributeInstances();
+        }
+        if(reactivateAbilities) {
+            this.reactivateAbilities();
         }
 
     }
@@ -631,7 +637,6 @@ public class AbilityManager implements ISyncable {
                 if(id == null) {
                     Synthetics.LOGGER.warn("Failed to deserialise ability {}", key);
                     continue;
-
                 }
                 AbilityType type = SyntheticAbilities.ABILITY_REGISTRY.get(id);
                 if(type instanceof ActiveAbilityType && actives.get(key) instanceof CompoundTag activeTag &&  type instanceof ISaveData data) {
@@ -666,15 +671,13 @@ public class AbilityManager implements ISyncable {
     }
 
     public void reactivateAbilities() {
-        if(!this.manager.getEntity().getCommandSenderWorld().isClientSide) {
-            for (ResourceLocation id : duration.keySet()) {
-                AbilityActiveInstance<?> instance = this.activeAbilities.get(id);
-                if(instance != null) {
-                    LastingAbilityType<?> lasting = (LastingAbilityType<?>) instance.getAbility();
-                    lasting.onRestoreActivate(manager, instance.getAbilityData());
-                }
-
+        for (ResourceLocation id : duration.keySet()) {
+            AbilityActiveInstance<?> instance = this.activeAbilities.get(id);
+            if(instance != null) {
+                LastingAbilityType<?> lasting = (LastingAbilityType<?>) instance.getAbility();
+                lasting.onRestoreActivate(manager, instance.getAbilityData());
             }
+
         }
     }
 
@@ -738,11 +741,12 @@ public class AbilityManager implements ISyncable {
                     for (String key : timers.getAllKeys()) {
                         ResourceLocation id = ResourceLocation.parse(key);
                         AbilityActiveInstance<?> instance = this.activeAbilities.get(id);
+                        if(instance == null) continue;
                         ActiveAbilityType<?> ability = instance.getAbility();
                         if (ability == null) {
                             Synthetics.LOGGER.warn("Ability failed to load client side {}", id);
-                        } else {
-                            ability.activateClient(manager, instance.getAbilityData());
+                        } else if(ability instanceof LastingAbilityType<?> lasting){
+                            lasting.activateClient(manager, instance.getAbilityData());
                             duration.put(id, timers.getInt(key));
                         }
                     }

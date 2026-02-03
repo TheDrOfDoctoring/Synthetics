@@ -6,12 +6,15 @@
     },
     "B": {
       "item": "minecraft:lapis_lazuli"
+    },
+    "D": {
+      "item": "synthetics:basic_circuit"
     }
   },
   "lava_cost": 50,
   "pattern": [
     "AAA",
-    "B B",
+    "BDB",
     "AAA"
   ],
   "recipe_time": 100,

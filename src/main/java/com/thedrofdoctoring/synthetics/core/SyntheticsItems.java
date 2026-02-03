@@ -41,6 +41,9 @@ public class SyntheticsItems {
     public static final DeferredHolder<Item, Item> ARTIFICIAL_NEURON = registerTab("artificial_neuron", () -> new Item(new Item.Properties().stacksTo(64)));
     public static final DeferredHolder<Item, Item> ARTIFICIAL_CAPILLARY = registerTab("artificial_capillary", () -> new Item(new Item.Properties().stacksTo(64)));
     public static final DeferredHolder<Item, Item> ARTIFICIAL_TISSUE = registerTab("artificial_tissue", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final DeferredHolder<Item, Item> BASIC_CIRCUIT = registerTab("basic_circuit", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final DeferredHolder<Item, Item> IRON_GEAR = registerTab("iron_gear", () -> new Item(new Item.Properties().stacksTo(64)));
+
 
     public static final DeferredHolder<Item, Item> ANCIENT_SCRAP = registerTab("ancient_scrap", () -> new Item(
             new Item.Properties().stacksTo(64)) {

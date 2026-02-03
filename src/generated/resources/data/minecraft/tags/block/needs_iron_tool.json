@@ -1,6 +1,8 @@
 {
   "values": [
     "synthetics:augmentation_chamber",
-    "synthetics:synthetic_forge"
+    "synthetics:synthetic_forge",
+    "synthetics:redstone_linkable_block",
+    "synthetics:camera_linkable_block"
   ]
 }

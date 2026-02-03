@@ -9,13 +9,13 @@
       "items": "synthetics:body_part_item"
     },
     "B": {
-      "item": "synthetics:ancient_alloy_ingot"
+      "item": "synthetics:pure_ancient_alloy_ingot"
     },
     "C": {
-      "item": "minecraft:gold_ingot"
+      "tag": "c:ingots/gold"
     },
     "D": {
-      "item": "minecraft:redstone"
+      "item": "synthetics:basic_circuit"
     }
   },
   "lava_cost": 50,

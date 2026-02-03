@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.networking;
 
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundRequestLinkableUpdatePacket;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundRequestUpdatePacket;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,16 +25,21 @@ public class NetworkingEventHandler {
     @SubscribeEvent
     public static void onPlayerLoggedInClient(ClientPlayerNetworkEvent.LoggingIn event) {
         event.getPlayer().connection.send(ServerboundRequestUpdatePacket.getInstance());
+        event.getPlayer().connection.send(ServerboundRequestLinkableUpdatePacket.getInstance());
     }
 
     @SubscribeEvent
     public static void onPlayerRespawnedClient(ClientPlayerNetworkEvent.Clone event) {
         event.getPlayer().connection.send(ServerboundRequestUpdatePacket.getInstance());
+        event.getPlayer().connection.send(ServerboundRequestLinkableUpdatePacket.getInstance());
     }
 
     @SubscribeEvent
     public static void onPlayerDisconnected(ClientPlayerNetworkEvent.LoggingOut event) {
-        SyntheticsClient.getInstance().getWheelManager().setLevelUUID(null);
+        if(event.getPlayer() != null) {
+            SyntheticsClient.getInstance().getAdvancedClientConfig().saveLevelConfig(event.getPlayer().level());
+        }
+        SyntheticsClient.getInstance().getAdvancedClientConfig().setLevelUUID(null);
     }
 
 

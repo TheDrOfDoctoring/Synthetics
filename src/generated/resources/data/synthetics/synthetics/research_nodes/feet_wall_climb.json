@@ -1,0 +1,33 @@
+{
+  "parent": "synthetics:launch_boot",
+  "id": "synthetics:feet_wall_climb",
+  "requirements": {
+    "experience_cost": 40,
+    "required_items": [
+      {
+        "amount": 25,
+        "item": {
+          "item": "minecraft:string"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:slime_ball"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:magnetic_feet_implants"
+  },
+  "x": 0,
+  "y": -80
+}

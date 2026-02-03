@@ -8,5 +8,6 @@
   "ability_type": {
     "ability_id": "synthetics:attribute_type"
   },
-  "id": "synthetics:internal_plating_armour_toughness"
+  "id": "synthetics:internal_plating_armour_toughness",
+  "nature": "beneficial"
 }

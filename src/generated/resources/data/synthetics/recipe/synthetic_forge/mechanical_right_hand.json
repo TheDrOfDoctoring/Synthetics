@@ -1,0 +1,32 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "B": {
+      "item": "synthetics:ancient_alloy_ingot"
+    },
+    "C": {
+      "tag": "c:gears/iron"
+    },
+    "D": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " DD",
+    " AB",
+    "DCC"
+  ],
+  "recipe_time": 150,
+  "required_research": "synthetics:mechanical_parts",
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:mechanical_right_hand"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

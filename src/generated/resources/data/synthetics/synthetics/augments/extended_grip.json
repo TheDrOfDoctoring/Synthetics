@@ -3,5 +3,5 @@
   "augment_id": "synthetics:extended_grip",
   "complexity": 3,
   "power_cost": 2,
-  "valid_parts": "#synthetics:hands"
+  "valid_parts": "#synthetics:non_organic_hands"
 }

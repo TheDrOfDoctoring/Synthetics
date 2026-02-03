@@ -7,5 +7,6 @@
   "ability_type": {
     "ability_id": "synthetics:attribute_type"
   },
-  "id": "synthetics:cybernetic_hand_damage"
+  "id": "synthetics:cybernetic_hand_damage",
+  "nature": "beneficial"
 }

@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:ender_pearl"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "tag": "c:glass_panes"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " C ",
+    "ABA",
+    " B "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:internal_camera_link",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:internal_camera_link"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

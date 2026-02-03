@@ -1,9 +1,9 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.types;
 
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +28,7 @@ public class BatteryAbilityType extends PassiveAbilityType {
     }
 
     @Override
-    public void addDescriptionInfo(AbilityData data, List<Component> description) {
-        description.add(Component.translatable("abilities.synthetics.description.energy_storage", data.factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
+    public void addDescriptionInfo(Ability ability, List<Component> description) {
+        description.add(Component.translatable("abilities.synthetics.description.energy_storage", ability.abilityData().factor() * PowerManager.BATTERY_STORAGE_BASE).withStyle(ChatFormatting.BLUE));
     }
 }

@@ -40,4 +40,17 @@ public abstract class LastingAbilityType<T extends AbilityActiveInstance.Data> e
         }
         return false;
     }
+
+    public abstract void activateClient(SyntheticsPlayer syntheticsPlayer, T abilityData);
+
+    @SuppressWarnings("unchecked")
+    public void activateClient(SyntheticsPlayer syntheticsPlayer, AbilityData abilityData) {
+        try {
+            T t = (T) abilityData;
+            activateClient(syntheticsPlayer, t);
+
+        } catch (ClassCastException e) {
+            Synthetics.LOGGER.error("Given ability data {} is wrong for type", abilityData.toString());
+        }
+    }
 }

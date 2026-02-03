@@ -102,11 +102,11 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                Augment.Builder.of(Augments.EMITTABLE_ADHESIVE, getPart(partLookup, BodyParts.HANDS_MAIN))
+                Augment.Builder.of(Augments.MAGNETIC_FEET_IMPLANTS, getPart(partLookup, BodyParts.FEET_MAIN))
                         .complexity(2)
                         .powerCost(0)
                         .abilities(getAbility(abilityLookup, List.of(
-                                Abilities.HAND_WALL_CLIMB
+                                Abilities.BASIC_WALL_CLIMB
                         )))
         );
 
@@ -133,7 +133,7 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                Augment.Builder.of(Augments.EXTENDED_GRIP, getPart(partLookup, BodyParts.HANDS_MAIN))
+                Augment.Builder.of(Augments.EXTENDED_GRIP, getPart(partLookup, BodyParts.NON_ORGANIC_HANDS))
                         .complexity(3)
                         .powerCost(2)
                         .abilities(getAbility(abilityLookup, List.of(
@@ -142,9 +142,9 @@ public class SyntheticsAugmentsProvider {
         );
 
         register(context,
-                Augment.Builder.of(Augments.MOTION_AUTOPILOT, getPart(partLookup, BodyParts.ORGANIC_BRAIN))
+                Augment.Builder.of(Augments.MOTION_AUTOPILOT, getPart(partLookup, BodyParts.BRAINS_MAIN))
                         .complexity(3)
-                        .powerCost(0)
+                        .powerCost(5)
                         .abilities(getAbility(abilityLookup, List.of(
                                 Abilities.AUTOPILOT_STEP_ASSIST
                         )))
@@ -158,11 +158,27 @@ public class SyntheticsAugmentsProvider {
                         )))
         );
         register(context,
-                Augment.Builder.of(Augments.HAND_FLAMETHROWER, getPart(partLookup, BodyParts.HANDS_MAIN))
+                Augment.Builder.of(Augments.HAND_FLAMETHROWER, getPart(partLookup, BodyParts.NON_ORGANIC_HANDS))
                         .complexity(3)
                         .powerCost(0)
                         .abilities(getAbility(abilityLookup, List.of(
                                 Abilities.HAND_FLAMETHROWER
+                        )))
+        );
+        register(context,
+                Augment.Builder.of(Augments.INTEGRATED_REDSTONE_LINK, getPart(partLookup, BodyParts.BRAINS_MAIN))
+                        .complexity(3)
+                        .powerCost(1)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.CYBERNETIC_REDSTONE_LINK
+                        )))
+        );
+        register(context,
+                Augment.Builder.of(Augments.INTERNAL_CAMERA_LINK, getPart(partLookup, BodyParts.EYES_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .abilities(getAbility(abilityLookup, List.of(
+                                Abilities.CYBERNETIC_CAMERA_LINK
                         )))
         );
     }

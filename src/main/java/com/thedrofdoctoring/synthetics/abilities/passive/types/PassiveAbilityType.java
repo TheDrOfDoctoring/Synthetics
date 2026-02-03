@@ -5,6 +5,7 @@ import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -34,8 +35,9 @@ public class PassiveAbilityType extends AbilityType {
     }
 
     @Override
-    public void addDescriptionInfo(AbilityData data, List<Component> description) {
-        description.add(Component.translatable("abilities.synthetics.description.ability_factor", data.factor()).withStyle(ChatFormatting.BLUE));
+    public void addDescriptionInfo(Ability ability, List<Component> description) {
+        ChatFormatting colour = ability.abilityNature().defaultColour();
+        description.add(Component.translatable("abilities.synthetics.description.ability_factor", ability.abilityData().factor()).withStyle(colour));
     }
 
     public static GenericPassiveAbilityInstance.Data create(double factor) {

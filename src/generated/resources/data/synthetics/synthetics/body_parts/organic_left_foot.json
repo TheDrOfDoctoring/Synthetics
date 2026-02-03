@@ -1,5 +1,5 @@
 {
-  "type": "synthetics:left_fot",
+  "type": "synthetics:left_foot",
   "id": "synthetics:organic_left_foot",
   "max_complexity": 3,
   "valid_body_segments": "#synthetics:lower_body"

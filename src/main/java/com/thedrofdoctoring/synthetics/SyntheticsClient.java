@@ -1,11 +1,11 @@
 package com.thedrofdoctoring.synthetics;
 
+import com.thedrofdoctoring.synthetics.client.config.AdvancedClientConfiguration;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientEventHandler;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientSetup;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsKeys;
 import com.thedrofdoctoring.synthetics.client.core.items.SyntheticsClientItems;
-import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.WheelManager;
 import com.thedrofdoctoring.synthetics.client.screens.menu_screens.SyntheticsMenuScreens;
 import com.thedrofdoctoring.synthetics.config.ClientConfig;
 import net.neoforged.api.distmarker.Dist;
@@ -21,7 +21,7 @@ public class SyntheticsClient {
 
     private static SyntheticsClient INSTANCE;
     private final SyntheticsClientManager manager;
-    private final WheelManager wheelManager;
+    private final AdvancedClientConfiguration syntheticsClientConfig;
 
     public SyntheticsClient(IEventBus modBus, ModContainer container) {
         INSTANCE = this;
@@ -34,8 +34,8 @@ public class SyntheticsClient {
         SyntheticsClientEventHandler.register();
 
 
-        this.manager      = new SyntheticsClientManager();
-        this.wheelManager = new WheelManager();
+        this.manager  = new SyntheticsClientManager();
+        this.syntheticsClientConfig = new AdvancedClientConfiguration();
     }
     public static SyntheticsClient getInstance() {
         return INSTANCE;
@@ -45,7 +45,7 @@ public class SyntheticsClient {
         return manager;
     }
 
-    public WheelManager getWheelManager() {
-        return wheelManager;
+    public AdvancedClientConfiguration getAdvancedClientConfig() {
+        return syntheticsClientConfig;
     }
 }

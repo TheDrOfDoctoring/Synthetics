@@ -7,5 +7,6 @@
   "ability_type": {
     "ability_id": "synthetics:attribute_type"
   },
-  "id": "synthetics:integrated_exoskeleton_swim_speed"
+  "id": "synthetics:integrated_exoskeleton_swim_speed",
+  "nature": "beneficial"
 }

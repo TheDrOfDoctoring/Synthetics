@@ -6,5 +6,6 @@
   "ability_type": {
     "ability_id": "synthetics:battery"
   },
-  "id": "synthetics:heart_battery"
+  "id": "synthetics:heart_battery",
+  "nature": "beneficial"
 }

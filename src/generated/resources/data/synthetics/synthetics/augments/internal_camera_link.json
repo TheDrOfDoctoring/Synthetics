@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:cybernetic_camera_link",
+  "augment_id": "synthetics:internal_camera_link",
+  "complexity": 3,
+  "valid_parts": "#synthetics:eyes"
+}

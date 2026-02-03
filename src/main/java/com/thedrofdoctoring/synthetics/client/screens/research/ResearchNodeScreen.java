@@ -158,7 +158,7 @@ public class ResearchNodeScreen {
         ResearchNodeState state = getState();
         if (state == ResearchNodeState.HIDDEN) return;
 
-        if (this.parent != null) {
+        if (this.parent != null && this.parent.node.tab().equals(this.node.tab())) {
             PoseStack pose = graphics.pose();
             pose.pushPose();
             int colour = state.pathColor(outerLine);

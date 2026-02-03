@@ -1,0 +1,8 @@
+{
+  "values": [
+    "synthetics:mechanical_left_hand",
+    "synthetics:mechanical_right_hand",
+    "synthetics:cybernetic_left_hand",
+    "synthetics:cybernetic_right_hand"
+  ]
+}

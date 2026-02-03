@@ -2,10 +2,10 @@
   "type": "synthetics:synthetic_forge",
   "key": {
     "A": {
-      "item": "minecraft:redstone"
+      "item": "synthetics:basic_circuit"
     },
     "B": {
-      "item": "minecraft:iron_ingot"
+      "item": "minecraft:emerald"
     },
     "C": {
       "item": "synthetics:ancient_alloy_ingot"

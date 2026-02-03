@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "tag": "c:glass_panes"
+    },
+    "C": {
+      "item": "synthetics:basic_circuit"
+    },
+    "D": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    " CB",
+    "ABA",
+    " D "
+  ],
+  "result": {
+    "count": 1,
+    "id": "synthetics:camera_linkable_block"
+  }
+}

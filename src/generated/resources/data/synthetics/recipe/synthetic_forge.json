@@ -6,7 +6,7 @@
       "tag": "c:stripped_logs"
     },
     "B": {
-      "item": "minecraft:iron_ingot"
+      "tag": "c:ingots/iron"
     },
     "C": {
       "item": "minecraft:blast_furnace"

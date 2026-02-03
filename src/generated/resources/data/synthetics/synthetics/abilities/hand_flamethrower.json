@@ -13,5 +13,6 @@
   "ability_type": {
     "ability_id": "synthetics:flamethrower"
   },
-  "id": "synthetics:hand_flamethrower"
+  "id": "synthetics:hand_flamethrower",
+  "nature": "beneficial"
 }

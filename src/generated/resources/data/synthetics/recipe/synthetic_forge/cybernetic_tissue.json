@@ -9,10 +9,10 @@
       "items": "synthetics:body_part_item"
     },
     "B": {
-      "item": "minecraft:iron_ingot"
+      "item": "synthetics:basic_circuit"
     },
     "C": {
-      "item": "minecraft:gold_ingot"
+      "tag": "c:ingots/gold"
     },
     "D": {
       "item": "synthetics:ancient_alloy_ingot"

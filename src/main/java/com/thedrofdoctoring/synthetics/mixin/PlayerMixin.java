@@ -31,14 +31,6 @@ public abstract class PlayerMixin extends LivingEntity implements ISyntheticsPla
         super(entityType, level);
     }
 
-    @Override
-    public boolean onClimbable() {
-        if(synthetics$syntheticsPlayerCache.hasWallClimb && (this.horizontalCollision || this.minorHorizontalCollision)) {
-
-            return true;
-        }
-        return super.onClimbable();
-    }
 
     @Override
     public SyntheticsPlayerCache synthetics$getCache() {

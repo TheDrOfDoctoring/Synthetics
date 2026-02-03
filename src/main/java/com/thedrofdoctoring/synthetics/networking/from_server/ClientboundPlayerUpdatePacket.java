@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-public record ClientboundPlayerUpdatePacket(int entityID, CompoundTag data, boolean updatingSelf) implements CustomPacketPayload {
+public record ClientboundPlayerUpdatePacket(int entityID, CompoundTag data, boolean updatingSelf, boolean fullUpdate) implements CustomPacketPayload {
 
     public static final Type<ClientboundPlayerUpdatePacket> TYPE = new Type<>(Synthetics.rl("update_player"));
 
@@ -21,15 +21,15 @@ public record ClientboundPlayerUpdatePacket(int entityID, CompoundTag data, bool
             ByteBufCodecs.VAR_INT, ClientboundPlayerUpdatePacket::entityID,
             ByteBufCodecs.COMPOUND_TAG, ClientboundPlayerUpdatePacket::data,
             ByteBufCodecs.BOOL, ClientboundPlayerUpdatePacket::updatingSelf,
+            ByteBufCodecs.BOOL, ClientboundPlayerUpdatePacket::fullUpdate,
             ClientboundPlayerUpdatePacket::new
     );
 
-    public static ClientboundPlayerUpdatePacket create(Player player, CompoundTag data) {
-        return create(player, data, true);
+    public static ClientboundPlayerUpdatePacket create(Player player, CompoundTag data, boolean fullUpdate) {
+        return create(player, data, true, fullUpdate);
     }
-    public static ClientboundPlayerUpdatePacket create(Player player, CompoundTag data, boolean updatingSelf) {
-
-        return new ClientboundPlayerUpdatePacket(player.getId(), data, updatingSelf);
+    public static ClientboundPlayerUpdatePacket create(Player player, CompoundTag data, boolean updatingSelf, boolean fullUpdate) {
+        return new ClientboundPlayerUpdatePacket(player.getId(), data, updatingSelf, fullUpdate);
     }
 
 
@@ -43,24 +43,23 @@ public record ClientboundPlayerUpdatePacket(int entityID, CompoundTag data, bool
             Player player = context.player();
             Level level = player.level();
             if(packet.updatingSelf()) {
-                updateData(player, packet.data(), true);
+                updateData(player, packet.data(), true, packet.fullUpdate);
             } else {
                 Entity entity = level.getEntity(packet.entityID());
                 if(entity == null) {
                     Synthetics.LOGGER.error("Could not find updated entity {}", packet.entityID());
                     return;
                 }
-                updateData(entity, packet.data, false);
+                updateData(entity, packet.data, false, packet.fullUpdate);
             }
 
         });
     }
-    private static void updateData(Entity entity, CompoundTag data, boolean self) {
-        if(self) {
+    private static void updateData(Entity entity, CompoundTag data, boolean self, boolean full) {
+        if(full) {
             entity.getData(SyntheticsAttachments.SYNTHETICS_MANAGER).deserialiseNBT(entity.registryAccess(), data);
         } else {
             entity.getData(SyntheticsAttachments.SYNTHETICS_MANAGER).deserialiseUpdateNBT(entity.registryAccess(), data);
-
         }
     }
 }

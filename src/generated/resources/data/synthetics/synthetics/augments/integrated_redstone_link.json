@@ -1,0 +1,7 @@
+{
+  "abilities": "synthetics:cybernetic_redstone_link",
+  "augment_id": "synthetics:integrated_redstone_link",
+  "complexity": 3,
+  "power_cost": 1,
+  "valid_parts": "#synthetics:brains_main"
+}

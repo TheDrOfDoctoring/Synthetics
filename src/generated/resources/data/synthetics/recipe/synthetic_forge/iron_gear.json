@@ -1,0 +1,22 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "tag": "c:nuggets/iron"
+    }
+  },
+  "lava_cost": 20,
+  "pattern": [
+    " B ",
+    "BAB",
+    " B "
+  ],
+  "recipe_time": 50,
+  "result": {
+    "count": 1,
+    "id": "synthetics:iron_gear"
+  }
+}

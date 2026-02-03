@@ -4,6 +4,7 @@ import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AttributeAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -40,15 +41,21 @@ public class AttributeAbilityType extends PassiveAbilityType {
     }
 
     @Override
-    public void addDescriptionInfo(AbilityData data, List<Component> description) {
-        if(data instanceof AttributeAbilityInstance.AttributeAbilityData attributeData) {
+    public void addDescriptionInfo(Ability ability, List<Component> description) {
+        if(ability.abilityData() instanceof AttributeAbilityInstance.AttributeAbilityData attributeData) {
+            ChatFormatting colour = ability.abilityNature().defaultColour();
             if(attributeData.operation() == AttributeModifier.Operation.ADD_VALUE) {
-                description.add(Component.translatable("abilities.synthetics.description.operation_add").withStyle(ChatFormatting.BLUE));
+                description.add(Component.translatable("abilities.synthetics.description.operation_add").withStyle(colour));
+                super.addDescriptionInfo(ability, description);
             } else {
-                description.add(Component.translatable("abilities.synthetics.description.operation_mult").withStyle(ChatFormatting.BLUE));
-
+                description.add(Component.translatable("abilities.synthetics.description.operation_mult").withStyle(colour));
+                if(ability.abilityData().factor() >= 0) {
+                    description.add(Component.translatable("abilities.synthetics.description.ability_factor_mult_plus", ability.abilityData().factor() * 100f).withStyle(colour));
+                } else {
+                    description.add(Component.translatable("abilities.synthetics.description.ability_factor_mult", ability.abilityData().factor() * 100f).withStyle(colour));
+                }
             }
         }
-        super.addDescriptionInfo(data, description);
+
     }
 }

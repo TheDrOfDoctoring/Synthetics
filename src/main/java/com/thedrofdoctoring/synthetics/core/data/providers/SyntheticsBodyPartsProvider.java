@@ -86,26 +86,40 @@ public class SyntheticsBodyPartsProvider {
                         .partType(BodyPartTypes.LEFT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .abilities(List.of(Abilities.CYBERNETIC_HAND_DAMAGE))
-                        .maxComplexity(5)
+                        .maxComplexity(6)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_RIGHT_HAND)
                         .partType(BodyPartTypes.RIGHT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .abilities(List.of(Abilities.CYBERNETIC_HAND_DAMAGE))
-                        .maxComplexity(5)
+                        .maxComplexity(6)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_LEFT_HAND)
                         .partType(BodyPartTypes.LEFT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
-                        .maxComplexity(3)
+                        .maxComplexity(2)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_RIGHT_HAND)
                         .partType(BodyPartTypes.RIGHT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
-                        .maxComplexity(3)
+                        .maxComplexity(2)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.MECHANICAL_LEFT_HAND)
+                        .partType(BodyPartTypes.LEFT_HAND)
+                        .validSegments(BodySegments.ARMS_MAIN)
+                        .abilities(List.of(Abilities.MECHANICAL_HAND_ATTACK_SPEED))
+                        .maxComplexity(4)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.MECHANICAL_RIGHT_HAND)
+                        .partType(BodyPartTypes.RIGHT_HAND)
+                        .validSegments(BodySegments.ARMS_MAIN)
+                        .abilities(List.of(Abilities.MECHANICAL_HAND_ATTACK_SPEED))
+                        .maxComplexity(4)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_LEFT_EYE)
@@ -150,6 +164,20 @@ public class SyntheticsBodyPartsProvider {
                         .partType(BodyPartTypes.ARM_MUSCLE)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .maxComplexity(4)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_LEFT_EYE)
+                        .partType(BodyPartTypes.LEFT_EYE)
+                        .validSegments(BodySegments.HEAD_MAIN)
+                        .abilities(List.of(Abilities.CYBERNETIC_EYE_VIEW))
+                        .maxComplexity(5)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_RIGHT_EYE)
+                        .partType(BodyPartTypes.RIGHT_EYE)
+                        .validSegments(BodySegments.HEAD_MAIN)
+                        .abilities(List.of(Abilities.CYBERNETIC_EYE_VIEW))
+                        .maxComplexity(5)
         );
     }
 
@@ -243,7 +271,7 @@ public class SyntheticsBodyPartsProvider {
                 BodyPartTypes.RIGHT_HAND,
                 new BodyPartType(
                         BodyParts.ORGANIC_RIGHT_HAND,
-                        36, 130,
+                        -53, 130,
                         BodyPartType.Layer.EXTERIOR,
                         BodyPartTypes.RIGHT_HAND.location(),
                         BodyPosition.RIGHT_ARM
@@ -253,7 +281,7 @@ public class SyntheticsBodyPartsProvider {
                 BodyPartTypes.LEFT_HAND,
                 new BodyPartType(
                         BodyParts.ORGANIC_LEFT_HAND,
-                        -53, 130,
+                        36, 130,
                         BodyPartType.Layer.EXTERIOR,
                         BodyPartTypes.LEFT_HAND.location(),
                         BodyPosition.LEFT_ARM

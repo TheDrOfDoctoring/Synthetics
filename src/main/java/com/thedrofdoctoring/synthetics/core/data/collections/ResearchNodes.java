@@ -21,7 +21,7 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> ARTIFICIAL_SKIN = create("artificial_skin");
     public static final ResourceKey<ResearchNode> FLUID_AUGMENTS = create("fluid_augments");
     public static final ResourceKey<ResearchNode> STOMACH_AUGMENTS = create("stomach_augments");
-    public static final ResourceKey<ResearchNode> HAND_WALL_CLIMB = create("hand_wall_climb");
+    public static final ResourceKey<ResearchNode> FEET_WALL_CLIMB = create("feet_wall_climb");
     public static final ResourceKey<ResearchNode> INTEGRATED_EXOSKELETON = create("integrated_exoskeleton");
     public static final ResourceKey<ResearchNode> INTERNAL_PLATING = create("internal_plating");
     public static final ResourceKey<ResearchNode> ORGANIC_HANDS = create("organic_hands");
@@ -31,6 +31,11 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> AUTOPILOT = create("motion_autopilot");
     public static final ResourceKey<ResearchNode> UNIVERSAL_TRANSLATOR = create("universal_translator");
     public static final ResourceKey<ResearchNode> HAND_FLAMETHROWER = create("hand_flamethrower");
+    public static final ResourceKey<ResearchNode> MECHANICAL_PARTS = create("mechanical_parts");
+    public static final ResourceKey<ResearchNode> ORGANIC_EYES = create("organic_eyes");
+    public static final ResourceKey<ResearchNode> CYBERNETIC_EYES = create("cybernetic_eyes");
+    public static final ResourceKey<ResearchNode> INTEGRATED_REDSTONE_LINK = create("integrated_redstone_link");
+    public static final ResourceKey<ResearchNode> INTERNAL_CAMERA_LINK = create("internal_camera_link");
 
 
     public static final ResourceKey<ResearchTab> TAB_AUGMENTS = createTab("augments");

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "synthetics:block/redstone_linkable_block_off"
+    },
+    "active=true": {
+      "model": "synthetics:block/redstone_linkable_block_on"
+    }
+  }
+}

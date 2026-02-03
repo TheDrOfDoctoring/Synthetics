@@ -1,0 +1,13 @@
+{
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.attack_speed",
+    "factor": -0.15,
+    "operation": "add_multiplied_base"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:mechanical_hand_attack_speed",
+  "nature": "detrimental"
+}

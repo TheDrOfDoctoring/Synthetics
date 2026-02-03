@@ -211,9 +211,19 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
 
         }
     }
-    public static Component getAbilityTitle(Holder<Ability> ability) {
-        return ability.value().abilityType().title(ability.value().abilityData());
+    public static Component getAbilityTitle(Holder<Ability> ability, boolean isHovered) {
+        MutableComponent title = Component.empty();
+        if(isHovered) {
+            ChatFormatting colour = ability.value().abilityNature() != Ability.AbilityNature.DETRIMENTAL ? ChatFormatting.WHITE : ChatFormatting.RED;
+            title.append(ability.value().abilityType().title(ability.value().abilityData())).withStyle(colour).withStyle(ChatFormatting.UNDERLINE);
+            return title;
+        }
+        ChatFormatting colour = ability.value().abilityNature() != Ability.AbilityNature.DETRIMENTAL ? ChatFormatting.GRAY : ChatFormatting.DARK_RED;
+        title.append(ability.value().abilityType().title(ability.value().abilityData())).withStyle(colour);
+        return title;
     }
+
+
 
     public static List<FormattedText> getTextForInstallable(IBodyInstallable<?> installable, SyntheticsPlayer synthetics, boolean displayAbilities, int selectedAbility) {
         List<FormattedText> text = new ArrayList<>();
@@ -229,23 +239,17 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             }
             if (selectedAbility < maxSize) {
                 if (selectedAbility > 0) {
-                    MutableComponent component = Component.empty();
-                    component.append(getAbilityTitle(abilities.get(selectedAbility - 1))).withStyle(ChatFormatting.GRAY);
-                    text.add(component);
+                    text.add(getAbilityTitle(abilities.get(selectedAbility - 1), false));
                 }
-                MutableComponent component = Component.empty();
-                component.append(getAbilityTitle(abilities.get(selectedAbility))).withStyle(ChatFormatting.WHITE).withStyle(ChatFormatting.UNDERLINE);
-                text.add(component);
+                text.add(getAbilityTitle(abilities.get(selectedAbility), true));
                 if (selectedAbility < maxSize - 1) {
-                    MutableComponent after = Component.empty();
-                    after.append(getAbilityTitle(abilities.get(selectedAbility + 1))).withStyle(ChatFormatting.GRAY);
-                    text.add(after);
+                    text.add(getAbilityTitle(abilities.get(selectedAbility + 1), false));
                 }
                 text.add(Component.empty());
                 Ability ability = abilities.get(selectedAbility).value();
 
                 ArrayList<Component> abilityDescription = new ArrayList<>();
-                ability.abilityType().addDescriptionInfo(ability.abilityData(), abilityDescription);
+                ability.abilityType().addDescriptionInfo(ability, abilityDescription);
                 text.addAll(abilityDescription);
             }
 

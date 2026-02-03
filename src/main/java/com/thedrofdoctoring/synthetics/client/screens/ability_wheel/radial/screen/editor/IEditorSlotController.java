@@ -14,7 +14,7 @@ public interface IEditorSlotController<T extends RadialMenuSlot, U extends ISlot
 
     T createEmptySlot(GenericRadialMenu<T> owner);
 
-    void save(List<List<T>> wheels, Player player);
+    void save(WheelEditorScreen<U, T> editorScreen, List<List<T>> wheels, Player player);
 
     ObjectSelectionList<?> createSelectionList(WheelEditorScreen<U, T> editor, Player player);
 }

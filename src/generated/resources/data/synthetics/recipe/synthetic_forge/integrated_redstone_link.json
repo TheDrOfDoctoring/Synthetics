@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:ender_pearl"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " C ",
+    "ABA",
+    " B "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:integrated_redstone_link",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:integrated_redstone_link"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

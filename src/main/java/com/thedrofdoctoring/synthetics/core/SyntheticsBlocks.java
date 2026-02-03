@@ -5,6 +5,8 @@ import com.thedrofdoctoring.synthetics.blocks.AugmentationChamber;
 import com.thedrofdoctoring.synthetics.blocks.OrganSkull;
 import com.thedrofdoctoring.synthetics.blocks.SyntheticForge;
 import com.thedrofdoctoring.synthetics.blocks.SyntheticResearchTable;
+import com.thedrofdoctoring.synthetics.blocks.linkables.CameraLinkableBlock;
+import com.thedrofdoctoring.synthetics.blocks.linkables.RedstoneLinkableBlock;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsSkulls;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -42,6 +44,21 @@ public class SyntheticsBlocks {
             .mapColor(MapColor.METAL)
             .strength(2f)
             .destroyTime(1.5f)
+            .sound(SoundType.METAL)
+            .noOcclusion()
+    ));
+    public static final DeferredBlock<RedstoneLinkableBlock> REDSTONE_LINKABLE_BLOCK = registerWithItem("redstone_linkable_block", () -> new RedstoneLinkableBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.FIRE)
+            .requiresCorrectToolForDrops()
+            .strength(5.0F, 6.0F)
+            .lightLevel(state -> state.getValue(RedstoneLinkableBlock.ACTIVE) ? 6 : 0)
+            .sound(SoundType.METAL)
+            .noOcclusion()
+    ));
+    public static final DeferredBlock<CameraLinkableBlock> CAMERA_LINKABLE_BLOCK = registerWithItem("camera_linkable_block", () -> new CameraLinkableBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.METAL)
+            .requiresCorrectToolForDrops()
+            .strength(2.5F, 2.0F)
             .sound(SoundType.METAL)
             .noOcclusion()
     ));

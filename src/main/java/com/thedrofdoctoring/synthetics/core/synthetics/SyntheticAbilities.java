@@ -5,9 +5,7 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.FlamethrowerAbilityInstance;
-import com.thedrofdoctoring.synthetics.abilities.active.types.FlamethrowerAbility;
-import com.thedrofdoctoring.synthetics.abilities.active.types.LeapAbility;
-import com.thedrofdoctoring.synthetics.abilities.active.types.WallClimbAbility;
+import com.thedrofdoctoring.synthetics.abilities.active.types.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AttributeAbilityInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
@@ -86,6 +84,8 @@ public class SyntheticAbilities {
 
     public static final DeferredHolder<AbilityType, LeapAbility> LEAP = ABILITIES.register("leap", LeapAbility::new);
     public static final DeferredHolder<AbilityType, WallClimbAbility> WALL_CLIMB = ABILITIES.register("wall_climb", WallClimbAbility::new);
+    public static final DeferredHolder<AbilityType, ViewLinkedAbility> TOGGLE_VIEW_LINKED = ABILITIES.register("toggle_view_linked", ViewLinkedAbility::new);
+    public static final DeferredHolder<AbilityType, InteractLinkedAbility> INTERACT_LINKED = ABILITIES.register("interact_linked", InteractLinkedAbility::new);
     public static final DeferredHolder<AbilityType, FlamethrowerAbility> FLAMETHROWER = ABILITIES.register("flamethrower", FlamethrowerAbility::new);
 
 

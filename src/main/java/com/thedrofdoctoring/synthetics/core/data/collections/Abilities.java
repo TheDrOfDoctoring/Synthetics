@@ -16,7 +16,7 @@ public class Abilities {
     public static final ResourceKey<Ability> RESPIRATOR_BREATH = create("respirator_breath");
     public static final ResourceKey<Ability> VISION_CLARIFIER_VIEW = create("vision_clarifier");
     public static final ResourceKey<Ability> METABOLIC_CONVERTER = create("metabolic_converter");
-    public static final ResourceKey<Ability> HAND_WALL_CLIMB = create("hand_wall_climb");
+    public static final ResourceKey<Ability> BASIC_WALL_CLIMB = create("basic_wall_climb");
     public static final ResourceKey<Ability> INTEGRATED_EXOSKELETON_WALK = create("integrated_exoskeleton_walk_speed");
     public static final ResourceKey<Ability> INTEGRATED_EXOSKELETON_SWIM = create("integrated_exoskeleton_swim_speed");
     public static final ResourceKey<Ability> INTERNAL_PLATING_KNOCKBACK = create("internal_plating_knockback");
@@ -26,6 +26,10 @@ public class Abilities {
     public static final ResourceKey<Ability> AUTOPILOT_STEP_ASSIST = create("autopilot_step_assist");
     public static final ResourceKey<Ability> UNIVERSAL_TRANSLATOR_TRADE_PRICES = create("universal_translator_trade_prices");
     public static final ResourceKey<Ability> HAND_FLAMETHROWER = create("hand_flamethrower");
+    public static final ResourceKey<Ability> MECHANICAL_HAND_ATTACK_SPEED = create("mechanical_hand_attack_speed");
+    public static final ResourceKey<Ability> CYBERNETIC_EYE_VIEW = create("cybernetic_eye_view");
+    public static final ResourceKey<Ability> CYBERNETIC_REDSTONE_LINK = create("cybernetic_redstone_link");
+    public static final ResourceKey<Ability> CYBERNETIC_CAMERA_LINK = create("cybernetic_camera_link");
 
 
     private static ResourceKey<Ability> create(String name) {

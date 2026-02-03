@@ -3,7 +3,9 @@ package com.thedrofdoctoring.synthetics.client.core;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.AbilityWheelScreen;
-import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.editor.WheelEditorScreen;
+import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.editor.AbilityWheelEditorScreen;
+import it.unimi.dsi.fastutil.ints.Int2LongArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +19,10 @@ import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
+
+// The key-ability hotkey toggle is based on Vampirism's similar system, licensed under GNU LGPL. https://github.com/TeamLapen/Vampirism/blob/version/1.21/latest/src/main/java/de/teamlapen/vampirism/client/core/ModKeys.java
+
+
 public class SyntheticsKeys {
 
     private static final String CATEGORY = "keys.synthetics.category";
@@ -29,6 +35,22 @@ public class SyntheticsKeys {
     public static final KeyMapping WHEEL_ADD_SLOT = new KeyMapping("keys.synthetics.wheel.add_slot", KeyConflictContext.GUI, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_N, CATEGORY);
     public static final KeyMapping WHEEL_ADD_WHEEL = new KeyMapping("keys.synthetics.wheel.add_wheel", KeyConflictContext.GUI, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_M, CATEGORY);
 
+    public static final KeyMapping ABILITY1 = new KeyMapping("keys.synthetics.ability_1", KeyConflictContext.IN_GAME, KeyModifier.ALT, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_1, CATEGORY);
+    public static final KeyMapping ABILITY2 = new KeyMapping("keys.synthetics.ability_2", KeyConflictContext.IN_GAME, KeyModifier.ALT, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_2, CATEGORY);
+    public static final KeyMapping ABILITY3 = new KeyMapping("keys.synthetics.ability_3", KeyConflictContext.IN_GAME, KeyModifier.ALT, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_3, CATEGORY);
+    public static final KeyMapping ABILITY4 = new KeyMapping("keys.synthetics.ability_4", KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, CATEGORY);
+    public static final KeyMapping ABILITY5 = new KeyMapping("keys.synthetics.ability_5", KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, CATEGORY);
+    public static final KeyMapping ABILITY6 = new KeyMapping("keys.synthetics.ability_6", KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, CATEGORY);
+    public static final KeyMapping ABILITY7 = new KeyMapping("keys.synthetics.ability_7", KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, CATEGORY);
+    public static final KeyMapping ABILITY8 = new KeyMapping("keys.synthetics.ability_8", KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, CATEGORY);
+    public static final KeyMapping ABILITY9 = new KeyMapping("keys.synthetics.ability_9", KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, CATEGORY);
+
+    public static final Int2ObjectArrayMap<KeyMapping> ABILITY_HOTKEYS = new Int2ObjectArrayMap<>(
+            new int[]{1,2,3,4,5,6,7,8,9},
+            new KeyMapping[]{ABILITY1, ABILITY2, ABILITY3, ABILITY4, ABILITY5, ABILITY6, ABILITY7, ABILITY8, ABILITY9});
+
+    private static final Int2LongArrayMap abilityTriggerTime = new Int2LongArrayMap();
+    private static final long ABILITY_PRESS_COOLDOWN = 400;
 
     public static void registerKeys(@NotNull RegisterKeyMappingsEvent event) {
         event.register(HIDE_ENERGY_UI);
@@ -38,6 +60,8 @@ public class SyntheticsKeys {
         event.register(WHEEL_ADD_SLOT);
         event.register(WHEEL_ADD_WHEEL);
         event.register(ABILITY_WHEEl_EDITOR);
+
+        ABILITY_HOTKEYS.forEach((i, k) -> event.register(k));
 
     }
 
@@ -50,14 +74,30 @@ public class SyntheticsKeys {
     @SubscribeEvent
     public static void handleKey(InputEvent.Key event) {
         int action = event.getAction();
-        if(HIDE_ENERGY_UI.isDown() && action == InputConstants.PRESS) {
-            swapEnergyDisplay();
+        if(action == InputConstants.PRESS) {
+
+            if(HIDE_ENERGY_UI.isDown()) {
+                swapEnergyDisplay();
+            }
+            if(ABILITY_WHEEL.isDown()) {
+                openAbilityWheel();
+            }
+            if(ABILITY_WHEEl_EDITOR.isDown()) {
+                openAbilityWheelEditor();
+            }
+            ABILITY_HOTKEYS.int2ObjectEntrySet().fastForEach(entry -> {
+                if(entry.getValue().isDown()) {
+                    toggleAbility(entry.getIntKey());
+                }
+            });
         }
-        if(ABILITY_WHEEL.isDown() && action == InputConstants.PRESS) {
-            openAbilityWheel();
-        }
-        if(ABILITY_WHEEl_EDITOR.isDown() && action == InputConstants.PRESS) {
-            openAbilityWheelEditor();
+    }
+
+    private static void toggleAbility(int i) {
+        long t = System.currentTimeMillis();
+        if (t - abilityTriggerTime.getOrDefault(i,0) > ABILITY_PRESS_COOLDOWN) {
+            abilityTriggerTime.put(i, t);
+            SyntheticsClient.getInstance().getAdvancedClientConfig().toggleAction(i);
         }
     }
 
@@ -70,7 +110,7 @@ public class SyntheticsKeys {
     private static void openAbilityWheelEditor() {
         Player player = Minecraft.getInstance().player;
         if (player != null && player.isAlive() && !player.isSpectator()) {
-            WheelEditorScreen.show();
+            AbilityWheelEditorScreen.show();
         }
     }
 

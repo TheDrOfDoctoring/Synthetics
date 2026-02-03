@@ -1,0 +1,33 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:ancient_alloy_ingot"
+    },
+    "C": {
+      "item": "synthetics:basic_circuit"
+    },
+    "D": {
+      "type": "neoforge:components",
+      "components": {
+        "synthetics:body_parts": "synthetics:organic_left_eye"
+      },
+      "items": "synthetics:body_part_item"
+    }
+  },
+  "lava_cost": 10,
+  "pattern": [
+    " AA",
+    " D ",
+    "CCC"
+  ],
+  "recipe_time": 80,
+  "required_research": "synthetics:cybernetic_eyes",
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:cybernetic_right_eye"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

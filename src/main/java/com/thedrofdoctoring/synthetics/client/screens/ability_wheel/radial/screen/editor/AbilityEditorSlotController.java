@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.client.config.AbilityKeyManager;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.AbilityWheel;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.WheelManager;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.menu.GenericRadialMenu;
@@ -16,6 +17,7 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -23,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 public class AbilityEditorSlotController implements IEditorSlotController<AbilityRadialSlot, Ability> {
 
@@ -43,7 +46,7 @@ public class AbilityEditorSlotController implements IEditorSlotController<Abilit
     }
 
     @Override
-    public void save(List<List<AbilityRadialSlot>> wheels, Player player) {
+    public void save(WheelEditorScreen<Ability, AbilityRadialSlot> screen, List<List<AbilityRadialSlot>> wheels, Player player) {
         List<AbilityWheel> wheelData = wheels
                 .stream()
                 .map(
@@ -51,9 +54,14 @@ public class AbilityEditorSlotController implements IEditorSlotController<Abilit
                                 .map(AbilityRadialSlot::slotData)
                                 .toList()))
                 .toList();
-        WheelManager wheelManager = SyntheticsClient.getInstance().getWheelManager();
-        wheelManager.setWheelForLevel(player.level(), wheelData);
-        wheelManager.saveWheelsToFile(player.level());
+        if(screen instanceof AbilityWheelEditorScreen abilityWheelEditorScreen) {
+            Map<Integer, Holder<Ability>> bindings = abilityWheelEditorScreen.getAbilityBindings();
+            AbilityKeyManager keyManager = SyntheticsClient.getInstance().getAdvancedClientConfig().currentKeyManager();
+            if(keyManager != null) keyManager.setAbilityBinds(bindings);
+        }
+        WheelManager wheelManager = SyntheticsClient.getInstance().getAdvancedClientConfig().currentLevelWheelManager();
+        if(wheelManager != null) wheelManager.setWheelsForLevel(wheelData);
+        SyntheticsClient.getInstance().getAdvancedClientConfig().saveLevelConfig(player.level());
 
     }
 

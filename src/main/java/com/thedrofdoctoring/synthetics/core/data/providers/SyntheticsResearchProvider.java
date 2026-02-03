@@ -21,10 +21,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Vector2i;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "DataFlowIssue"})
 public class SyntheticsResearchProvider {
 
     
@@ -33,13 +37,31 @@ public class SyntheticsResearchProvider {
         createBodyPartNodes(context);
     }
 
+    private static final Map<ResourceKey<ResearchNode>, ResearchNode> nodes = new HashMap<>();
+
     private static void createBodyPartNodes(BootstrapContext<ResearchNode> context) {
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.MECHANICAL_PARTS, context
+                        )
+                        .unlocksParts(List.of(BodyParts.MECHANICAL_LEFT_HAND, BodyParts.MECHANICAL_RIGHT_HAND))
+                        .experience(75)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.IRON_INGOT), 32),
+                                        Pair.of(Ingredient.of(Items.REDSTONE), 32),
+                                        Pair.of(Ingredient.of(Items.COPPER_INGOT), 24)
+                                ))
+                        .position(0, 150)
+                        .tab(ResearchNodes.TAB_BODY_PARTS)
+        );
         register(context,
                 ResearchNode.Builder.of(
                                 ResearchNodes.ARTIFICIAL_CAPILLARIES, context
                         )
                         .unlocksItem(Ingredient.of(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()))
                         .experience(50)
+                        .parent(ResearchNodes.MECHANICAL_PARTS)
                         .requiredItems(
                                 List.of(
                                         Pair.of(Ingredient.of(Items.ROTTEN_FLESH), 32),
@@ -191,6 +213,43 @@ public class SyntheticsResearchProvider {
                         .position(90, 60)
                         .tab(ResearchNodes.TAB_BODY_PARTS)
         );
+
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.ORGANIC_EYES, context
+                        )
+                        .parent(ResearchNodes.ARTIFICIAL_TISSUE)
+                        .unlocksParts(
+                                List.of(BodyParts.ORGANIC_LEFT_EYE, BodyParts.ORGANIC_RIGHT_EYE))
+                        .experience(100)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.GLASS), 16),
+                                        Pair.of(Ingredient.of(SyntheticsItems.ARTIFICIAL_CAPILLARY.get()), 12),
+                                        Pair.of(Ingredient.of(SyntheticsItems.ARTIFICIAL_NEURON.get()), 8)
+                                ))
+                        .position(150, 60)
+                        .tab(ResearchNodes.TAB_BODY_PARTS)
+        );
+
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.CYBERNETIC_EYES, context
+                        )
+                        .parent(ResearchNodes.ORGANIC_EYES)
+                        .unlocksParts(
+                                List.of(BodyParts.CYBERNETIC_LEFT_EYE, BodyParts.CYBERNETIC_RIGHT_EYE))
+                        .experience(100)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 8),
+                                        Pair.of(Ingredient.of(Items.GOLD_INGOT), 12),
+                                        Pair.of(Ingredient.of(SyntheticsItems.ARTIFICIAL_NEURON.get()), 8)
+                                ))
+                        .position(150, 30)
+                        .tab(ResearchNodes.TAB_BODY_PARTS)
+        );
+
     }
     private static void createAugmentNodes(BootstrapContext<ResearchNode> context) {
         register(context,
@@ -314,18 +373,19 @@ public class SyntheticsResearchProvider {
 
         register(context,
                 ResearchNode.Builder.of(
-                                ResearchNodes.HAND_WALL_CLIMB, context
+                                ResearchNodes.FEET_WALL_CLIMB, context
                         )
                         .unlocksAugments(
-                                List.of(Augments.EMITTABLE_ADHESIVE))
+                                List.of(Augments.MAGNETIC_FEET_IMPLANTS))
                         .experience(40)
                         .requiredItems(
                                 List.of(
                                         Pair.of(Ingredient.of(Items.STRING), 25),
-                                        Pair.of(Ingredient.of(Items.SPIDER_EYE), 10),
+                                        Pair.of(Ingredient.of(Items.IRON_INGOT), 16),
                                         Pair.of(Ingredient.of(Items.SLIME_BALL), 16)
                                 ))
-                        .position(60, 30)
+                        .position(0, -80)
+                        .parent(ResearchNodes.LAUNCH_BOOTS)
                         .tab(ResearchNodes.TAB_AUGMENTS)
         );
 
@@ -369,7 +429,6 @@ public class SyntheticsResearchProvider {
                 ResearchNode.Builder.of(
                                 ResearchNodes.EXTENDED_GRIP, context
                         )
-                        .parent(ResearchNodes.HAND_WALL_CLIMB)
                         .unlocksAugments(
                                 List.of(Augments.EXTENDED_GRIP))
                         .experience(50)
@@ -394,7 +453,8 @@ public class SyntheticsResearchProvider {
                         .requiredItems(
                                 List.of(
                                         Pair.of(Ingredient.of(Items.AMETHYST_SHARD), 32),
-                                        Pair.of(Ingredient.of(Items.REDSTONE), 48)
+                                        Pair.of(Ingredient.of(Items.REDSTONE), 48),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 10)
                                 ))
                         .position(120, 0)
                         .tab(ResearchNodes.TAB_AUGMENTS)
@@ -409,9 +469,10 @@ public class SyntheticsResearchProvider {
                         .requiredItems(
                                 List.of(
                                         Pair.of(Ingredient.of(Items.EMERALD), 25),
-                                        Pair.of(Ingredient.of(Items.DIAMOND), 8)
+                                        Pair.of(Ingredient.of(Items.DIAMOND), 8),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 8)
                                 ))
-                        .position(120, -50)
+                        .position(right(ResearchNodes.AUTOPILOT))
                         .tab(ResearchNodes.TAB_AUGMENTS)
         );
         register(context,
@@ -432,6 +493,39 @@ public class SyntheticsResearchProvider {
                         .tab(ResearchNodes.TAB_AUGMENTS)
 
         );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.INTEGRATED_REDSTONE_LINK, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.INTEGRATED_REDSTONE_LINK))
+                        .experience(30)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.ENDER_PEARL), 6),
+                                        Pair.of(Ingredient.of(Items.REDSTONE), 20),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 5)
+                                ))
+                        .position(above(ResearchNodes.AUTOPILOT))
+                        .parent(ResearchNodes.AUTOPILOT)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.INTERNAL_CAMERA_LINK, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.INTERNAL_CAMERA_LINK))
+                        .experience(30)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.ENDER_PEARL), 6),
+                                        Pair.of(Ingredient.of(Tags.Items.GLASS_PANES), 20),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 5)
+                                ))
+                        .position(-60, 0)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
     }
 
     public static void createTabs(BootstrapContext<ResearchTab> context) {
@@ -450,8 +544,49 @@ public class SyntheticsResearchProvider {
     }
 
     private static void register(BootstrapContext<ResearchNode> context, ResearchNode.Builder builder) {
-        context.register(builder.key(), builder.build());
+        ResearchNode node = builder.build();
+        context.register(builder.key(), node);
+        nodes.put(builder.key(), node);
     }
+
+    // used for position offsets, needs listed node to already be registered
+    private static @Nullable ResearchNode getNodeUnsafe(ResourceKey<ResearchNode> node) {
+        return nodes.get(node);
+    }
+
+    private static Vector2i above(ResourceKey<ResearchNode> nodeKey, int amount) {
+        ResearchNode node = getNodeUnsafe(nodeKey);
+        return new Vector2i(node.x(), node.y() - amount);
+    }
+
+    private static Vector2i above(ResourceKey<ResearchNode> nodeKey) {
+        return above(nodeKey, 30);
+    }
+
+    private static Vector2i left(ResourceKey<ResearchNode> nodeKey, int amount) {
+        ResearchNode node = getNodeUnsafe(nodeKey);
+        return new Vector2i(node.x() - amount, node.y());
+    }
+
+    private static Vector2i right(ResourceKey<ResearchNode> nodeKey, int amount) {
+        return left(nodeKey, -amount);
+    }
+
+    private static Vector2i right(ResourceKey<ResearchNode> nodeKey) {
+        return right(nodeKey, 30);
+    }
+
+    private static Vector2i left(ResourceKey<ResearchNode> nodeKey) {
+        return left(nodeKey, -30);
+    }
+
+    private static Vector2i offset(ResourceKey<ResearchNode> nodeKey, int x, int y) {
+        ResearchNode node = getNodeUnsafe(nodeKey);
+        return new Vector2i(node.x() + x, node.y() + y);
+    }
+
+
+
     public static Holder<ResearchNode> getNode(HolderGetter<ResearchNode> lookup, ResourceKey<ResearchNode> part) {
         return (lookup.getOrThrow(part));
     }

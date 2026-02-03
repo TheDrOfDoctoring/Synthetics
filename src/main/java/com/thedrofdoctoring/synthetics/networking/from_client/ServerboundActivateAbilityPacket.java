@@ -5,7 +5,9 @@ import com.thedrofdoctoring.synthetics.abilities.AbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.AbilityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -31,6 +33,8 @@ public record ServerboundActivateAbilityPacket(AbilityType ability) implements C
                 AbilityManager manager = SyntheticsPlayer.get(context.player()).getAbilityManager();
                 if(manager.canActivate(active)) {
                     manager.toggleAbility(active);
+                } else {
+                    context.player().displayClientMessage(Component.translatable("text.synthetics.ability_unavailable").withStyle(ChatFormatting.RED), true);
                 }
 
             } else {

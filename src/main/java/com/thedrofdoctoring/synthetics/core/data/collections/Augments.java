@@ -17,13 +17,15 @@ public class Augments {
     public static final ResourceKey<Augment> INTEGRATED_RESPIRATOR = create("integrated_respirator");
     public static final ResourceKey<Augment> VISION_CLARIFIER = create("vision_clarifier");
     public static final ResourceKey<Augment> METABOLIC_CONVERTER = create("metabolic_converter");
-    public static final ResourceKey<Augment> EMITTABLE_ADHESIVE = create("emittable_adhesive");
+    public static final ResourceKey<Augment> MAGNETIC_FEET_IMPLANTS = create("magnetic_feet_implants");
     public static final ResourceKey<Augment> INTEGRATED_EXOSKELETON = create("integrated_exoskeleton");
     public static final ResourceKey<Augment> INTERNAL_PLATING = create("internal_plating");
     public static final ResourceKey<Augment> EXTENDED_GRIP = create("extended_grip");
     public static final ResourceKey<Augment> MOTION_AUTOPILOT = create("motion_autopilot");
     public static final ResourceKey<Augment> UNIVERSAL_TRANSLATOR = create("universal_translator");
     public static final ResourceKey<Augment> HAND_FLAMETHROWER = create("hand_flamethrower");
+    public static final ResourceKey<Augment> INTEGRATED_REDSTONE_LINK = create("integrated_redstone_link");
+    public static final ResourceKey<Augment> INTERNAL_CAMERA_LINK = create("internal_camera_link");
 
 
 

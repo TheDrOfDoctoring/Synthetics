@@ -16,6 +16,8 @@ public class BodyParts {
     public static final ResourceKey<BodyPart> CYBERNETIC_LEFT_HAND = create("cybernetic_left_hand");
     public static final ResourceKey<BodyPart> ORGANIC_LEFT_HAND = create("organic_left_hand");
     public static final ResourceKey<BodyPart> CYBERNETIC_RIGHT_HAND = create("cybernetic_right_hand");
+    public static final ResourceKey<BodyPart> MECHANICAL_RIGHT_HAND = create("mechanical_right_hand");
+    public static final ResourceKey<BodyPart> MECHANICAL_LEFT_HAND = create("mechanical_left_hand");
     public static final ResourceKey<BodyPart> ORGANIC_RIGHT_HAND = create("organic_right_hand");
     public static final ResourceKey<BodyPart> ORGANIC_LEFT_EYE = create("organic_left_eye");
     public static final ResourceKey<BodyPart> ORGANIC_RIGHT_EYE = create("organic_right_eye");
@@ -29,6 +31,8 @@ public class BodyParts {
     public static final ResourceKey<BodyPart> ORGANIC_SKULL = create("organic_skull");
     public static final ResourceKey<BodyPart> ORGANIC_TIBIA = create("organic_tibia");
     public static final ResourceKey<BodyPart> ORGANIC_ARM_MUSCLE = create("organic_arm_muscle");
+    public static final ResourceKey<BodyPart> CYBERNETIC_LEFT_EYE = create("cybernetic_left_eye");
+    public static final ResourceKey<BodyPart> CYBERNETIC_RIGHT_EYE = create("cybernetic_right_eye");
 
     public static final TagKey<BodyPart> EYES_MAIN = tag("eyes");
     public static final TagKey<BodyPart> TISSUE_MAIN = tag("tissue");
@@ -39,7 +43,10 @@ public class BodyParts {
     public static final TagKey<BodyPart> TIBIA_MAIN = tag("tibia");
     public static final TagKey<BodyPart> SKULL_MAIN = tag("skull");
     public static final TagKey<BodyPart> RIBCAGE_MAIN = tag("ribcage");
+    public static final TagKey<BodyPart> BRAINS_MAIN = tag("brains_main");
     public static final TagKey<BodyPart> ARM_MUSCLE_MAIN = tag("arm_muscle");
+
+    public static final TagKey<BodyPart> NON_ORGANIC_HANDS = tag("non_organic_hands");
 
 
     public static final TagKey<BodyPart> ALL_BONES = tag("bones");

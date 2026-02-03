@@ -11,5 +11,6 @@
   "ability_type": {
     "ability_id": "synthetics:leap"
   },
-  "id": "synthetics:launchboot_launch"
+  "id": "synthetics:launchboot_launch",
+  "nature": "beneficial"
 }

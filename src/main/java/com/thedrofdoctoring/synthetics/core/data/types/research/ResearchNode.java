@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
+import org.joml.Vector2i;
 
 import java.util.List;
 import java.util.Optional;
@@ -118,6 +119,12 @@ public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUn
         public Builder position(int x, int y) {
             this.setPosition = true;
             this.x = x; this.y = y;
+            return this;
+        }
+
+        public Builder position(Vector2i pos) {
+            this.setPosition = true;
+            this.x = pos.x; this.y = pos.y;
             return this;
         }
 

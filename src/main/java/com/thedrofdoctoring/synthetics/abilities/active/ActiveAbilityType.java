@@ -5,6 +5,7 @@ import com.thedrofdoctoring.synthetics.abilities.AbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -29,8 +30,6 @@ public abstract class ActiveAbilityType<T extends AbilityActiveInstance.Data> ex
 
     public abstract boolean activate(SyntheticsPlayer syntheticsPlayer, T abilityData);
 
-    public abstract void activateClient(SyntheticsPlayer syntheticsPlayer, T abilityData);
-
     @SuppressWarnings("unchecked")
     public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityData abilityData) {
         try {
@@ -41,17 +40,6 @@ public abstract class ActiveAbilityType<T extends AbilityActiveInstance.Data> ex
             Synthetics.LOGGER.error("Given ability data {} is wrong for type", abilityData.toString());
         }
         return false;
-    }
-
-    @SuppressWarnings("unchecked")
-    public void activateClient(SyntheticsPlayer syntheticsPlayer, AbilityData abilityData) {
-        try {
-            T t = (T) abilityData;
-            activateClient(syntheticsPlayer, t);
-
-        } catch (ClassCastException e) {
-            Synthetics.LOGGER.error("Given ability data {} is wrong for type", abilityData.toString());
-        }
     }
 
     public abstract boolean canBeUsed(SyntheticsPlayer syntheticsPlayer);
@@ -68,8 +56,8 @@ public abstract class ActiveAbilityType<T extends AbilityActiveInstance.Data> ex
     }
 
     @Override
-    public void addDescriptionInfo(AbilityData data, List<Component> description) {
-        if (data instanceof AbilityActiveInstance.Data activeData) {
+    public void addDescriptionInfo(Ability ability, List<Component> description) {
+        if (ability.abilityData() instanceof AbilityActiveInstance.Data activeData) {
             ActiveAbilityOptions options = activeData.options();
             description.add(Component.translatable("abilities.synthetics.description.cooldown", options.cooldown()).withStyle(ChatFormatting.BLUE));
             if (options.duration() > 0) {

@@ -1,5 +1,4 @@
 {
-  "parent": "synthetics:hand_wall_climb",
   "id": "synthetics:extended_grip",
   "requirements": {
     "experience_cost": 50,

@@ -1,0 +1,7 @@
+{
+  "type": "synthetics:left_eye",
+  "abilities": "synthetics:cybernetic_eye_view",
+  "id": "synthetics:cybernetic_left_eye",
+  "max_complexity": 5,
+  "valid_body_segments": "#synthetics:head"
+}

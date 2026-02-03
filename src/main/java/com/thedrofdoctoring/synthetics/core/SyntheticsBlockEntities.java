@@ -6,6 +6,8 @@ import com.thedrofdoctoring.synthetics.blocks.entities.chamber.AugmentationChamb
 import com.thedrofdoctoring.synthetics.blocks.entities.chamber.AugmentationChamberDeferBE;
 import com.thedrofdoctoring.synthetics.blocks.entities.forge.SyntheticForgeBlockEntity;
 import com.thedrofdoctoring.synthetics.blocks.entities.forge.SyntheticForgeDeferBE;
+import com.thedrofdoctoring.synthetics.blocks.entities.linkables.CameraLinkableBlockEntity;
+import com.thedrofdoctoring.synthetics.blocks.entities.linkables.RedstoneLinkableBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,6 +29,9 @@ public class SyntheticsBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SyntheticForgeDeferBE>> SYNTHETIC_FORGE_DEFERRED = BLOCK_ENTITY_TYPES.register("synthetic_forgedefer", () -> create(SyntheticForgeDeferBE::new, SyntheticsBlocks.SYNTHETIC_FORGE.get()));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OrganSkullBlockEntity>> ORGAN_SKULL = BLOCK_ENTITY_TYPES.register("organ_skull", () -> create(OrganSkullBlockEntity::new, SyntheticsBlocks.ORGAN_SKULL.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RedstoneLinkableBlockEntity>> REDSTONE_LINKABLE = BLOCK_ENTITY_TYPES.register("redstone_linkable", () -> create(RedstoneLinkableBlockEntity::new, SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CameraLinkableBlockEntity>> CAMERA_LINKABLE = BLOCK_ENTITY_TYPES.register("camera_linkable", () -> create(CameraLinkableBlockEntity::new, SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get()));
+
 
     @SuppressWarnings("ConstantConditions")
     private static <T extends BlockEntity> @NotNull BlockEntityType<T> create(BlockEntityType.@NotNull BlockEntitySupplier<T> factoryIn, Block... blocks) {

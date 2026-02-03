@@ -1,0 +1,8 @@
+{
+  "default_part": "synthetics:organic_left_foot",
+  "id": "synthetics:left_foot",
+  "layer": "exterior",
+  "position": "left_leg",
+  "x": -26,
+  "y": 220
+}

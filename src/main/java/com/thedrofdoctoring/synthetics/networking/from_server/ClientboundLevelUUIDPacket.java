@@ -26,6 +26,9 @@ public record ClientboundLevelUUIDPacket(UUID uuid) implements CustomPacketPaylo
     }
 
     public static void handle(ClientboundLevelUUIDPacket packet, final IPayloadContext context) {
-        context.enqueueWork(() -> SyntheticsClient.getInstance().getWheelManager().setLevelUUID(packet.uuid));
+        context.enqueueWork(() -> {
+            SyntheticsClient.getInstance().getAdvancedClientConfig().setLevelUUID(packet.uuid);
+            SyntheticsClient.getInstance().getAdvancedClientConfig().loadLevelConfig(context.player().level());
+        });
     }
 }

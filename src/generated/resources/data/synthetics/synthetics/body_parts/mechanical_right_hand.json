@@ -1,0 +1,7 @@
+{
+  "type": "synthetics:right_hand",
+  "abilities": "synthetics:mechanical_hand_attack_speed",
+  "id": "synthetics:mechanical_right_hand",
+  "max_complexity": 4,
+  "valid_body_segments": "#synthetics:arms"
+}

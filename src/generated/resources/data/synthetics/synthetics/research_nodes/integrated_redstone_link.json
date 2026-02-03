@@ -1,0 +1,33 @@
+{
+  "parent": "synthetics:motion_autopilot",
+  "id": "synthetics:integrated_redstone_link",
+  "requirements": {
+    "experience_cost": 30,
+    "required_items": [
+      {
+        "amount": 6,
+        "item": {
+          "item": "minecraft:ender_pearl"
+        }
+      },
+      {
+        "amount": 20,
+        "item": {
+          "item": "minecraft:redstone"
+        }
+      },
+      {
+        "amount": 5,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:integrated_redstone_link"
+  },
+  "x": 120,
+  "y": -30
+}

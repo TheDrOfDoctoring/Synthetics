@@ -20,7 +20,7 @@ public class BodyPartTypes {
     public static final ResourceKey<BodyPartType> RIGHT_HAND = createType("right_hand");
     public static final ResourceKey<BodyPartType> LEFT_EYE = createType("left_eye");
     public static final ResourceKey<BodyPartType> RIGHT_EYE = createType("right_eye");
-    public static final ResourceKey<BodyPartType> LEFT_FOOT = createType("left_fot");
+    public static final ResourceKey<BodyPartType> LEFT_FOOT = createType("left_foot");
     public static final ResourceKey<BodyPartType> RIGHT_FOOT = createType("right_foot");
 
 

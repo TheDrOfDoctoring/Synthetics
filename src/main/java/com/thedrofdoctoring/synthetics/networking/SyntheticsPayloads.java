@@ -1,10 +1,7 @@
 package com.thedrofdoctoring.synthetics.networking;
 
 import com.thedrofdoctoring.synthetics.networking.from_client.*;
-import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLeapPacket;
-import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLevelUUIDPacket;
-import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
-import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateDataCachePacket;
+import com.thedrofdoctoring.synthetics.networking.from_server.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -15,9 +12,6 @@ public class SyntheticsPayloads {
         final PayloadRegistrar registrar = event.registrar("1.0.0");
         registerToServerPackets(registrar);
         registerToClientPackets(registrar);
-
-
-
     }
 
     private static void registerToServerPackets(PayloadRegistrar registrar) {
@@ -46,6 +40,22 @@ public class SyntheticsPayloads {
                 ServerboundRemoveAugmentPacket.CODEC,
                 ServerboundRemoveAugmentPacket::handle
         );
+        registrar.playToServer(
+                ServerboundRequestLinkableUpdatePacket.TYPE,
+                ServerboundRequestLinkableUpdatePacket.CODEC,
+                ServerboundRequestLinkableUpdatePacket::handle
+        );
+        registrar.playToServer(
+                ServerboundClimbPacket.TYPE,
+                ServerboundClimbPacket.CODEC,
+                ServerboundClimbPacket::handle
+        );
+        registrar.playToServer(
+                ServerboundLinkedInputPacket.TYPE,
+                ServerboundLinkedInputPacket.CODEC,
+                ServerboundLinkedInputPacket::handle
+        );
+
     }
     private static void registerToClientPackets(PayloadRegistrar registrar) {
         registrar.playToClient(
@@ -68,6 +78,27 @@ public class SyntheticsPayloads {
                 ClientboundLevelUUIDPacket.CODEC,
                 ClientboundLevelUUIDPacket::handle
         );
+        registrar.playToClient(
+                ClientboundLinkableUpdatePacket.TYPE,
+                ClientboundLinkableUpdatePacket.CODEC,
+                ClientboundLinkableUpdatePacket::handle
+        );
+        registrar.playToClient(
+                ClientboundLinkedInteractPacket.TYPE,
+                ClientboundLinkedInteractPacket.CODEC,
+                ClientboundLinkedInteractPacket::handle
+        );
+        registrar.playToClient(
+                ClientboundWallClimbPacket.TYPE,
+                ClientboundWallClimbPacket.CODEC,
+                ClientboundWallClimbPacket::handle
+        );
+        registrar.playToClient(
+                ClientboundViewLinkPacket.TYPE,
+                ClientboundViewLinkPacket.CODEC,
+                ClientboundViewLinkPacket::handle
+        );
+
     }
 
     public static void register(IEventBus bus) {

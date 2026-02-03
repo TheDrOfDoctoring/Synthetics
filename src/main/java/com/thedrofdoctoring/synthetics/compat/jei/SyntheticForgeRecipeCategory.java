@@ -3,7 +3,7 @@ package com.thedrofdoctoring.synthetics.compat.jei;
 import com.thedrofdoctoring.synthetics.client.screens.menu_screens.SyntheticForgeScreen;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
-import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticForgeRecipe;
+import com.thedrofdoctoring.synthetics.core.data.providers.recipes.SyntheticForgeRecipe;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

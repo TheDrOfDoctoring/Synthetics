@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "synthetics:block/redstone_linkable_block_off"
+  }
+}

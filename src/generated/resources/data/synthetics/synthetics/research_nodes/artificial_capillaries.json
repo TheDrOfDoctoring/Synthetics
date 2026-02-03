@@ -1,4 +1,5 @@
 {
+  "parent": "synthetics:mechanical_parts",
   "id": "synthetics:artificial_capillaries",
   "requirements": {
     "experience_cost": 50,

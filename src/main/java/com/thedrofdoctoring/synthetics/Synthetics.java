@@ -9,7 +9,7 @@ import com.thedrofdoctoring.synthetics.core.*;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.datamaps.SyntheticsDatamaps;
-import com.thedrofdoctoring.synthetics.core.data.recipes.SyntheticsRecipes;
+import com.thedrofdoctoring.synthetics.core.data.providers.recipes.SyntheticsRecipes;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.menus.SyntheticsMenus;
 import com.thedrofdoctoring.synthetics.networking.SyntheticsPayloads;

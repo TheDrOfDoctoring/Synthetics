@@ -1,0 +1,36 @@
+{
+  "parent": "synthetics:artificial_tissue",
+  "id": "synthetics:organic_eyes",
+  "requirements": {
+    "experience_cost": 100,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:glass"
+        }
+      },
+      {
+        "amount": 12,
+        "item": {
+          "item": "synthetics:artificial_capillary"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:artificial_neuron"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:body_parts",
+  "unlocked": {
+    "parts": [
+      "synthetics:organic_left_eye",
+      "synthetics:organic_right_eye"
+    ]
+  },
+  "x": 150,
+  "y": 60
+}

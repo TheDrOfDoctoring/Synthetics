@@ -6,5 +6,6 @@
   "ability_type": {
     "ability_id": "synthetics:solar_generator"
   },
-  "id": "synthetics:advanced_tissue_solar"
+  "id": "synthetics:advanced_tissue_solar",
+  "nature": "beneficial"
 }

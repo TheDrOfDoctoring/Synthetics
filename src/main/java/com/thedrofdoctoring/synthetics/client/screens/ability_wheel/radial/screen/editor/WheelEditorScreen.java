@@ -4,7 +4,6 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsKeys;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.ISlotEntry;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.menu.GenericRadialMenu;
-import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.AbilityWheelScreen;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.GenericWheelScreen;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.slot.RadialMenuSlot;
 import net.minecraft.client.Minecraft;
@@ -31,7 +30,7 @@ public class WheelEditorScreen<T extends ISlotEntry<U>, U extends RadialMenuSlot
 
     private ObjectSelectionList<?> list;
     private List<List<U>> currentWheels;
-    private @Nullable T selectedEntry;
+    protected @Nullable T selectedEntry;
 
     protected WheelEditorScreen(IEditorSlotController<U, T> controller, GenericWheelScreen<U> screen, LocalPlayer player) {
         super(Component.translatable("menu.title.synthetics.wheel_editor"));
@@ -39,14 +38,6 @@ public class WheelEditorScreen<T extends ISlotEntry<U>, U extends RadialMenuSlot
         this.player = player;
         this.controller = controller;
         this.currentWheels = screen.menu().getWheels();
-    }
-
-    public static void show() {
-        if(Minecraft.getInstance().player != null) {
-            LocalPlayer player = Minecraft.getInstance().player;
-            Minecraft.getInstance().setScreen(new WheelEditorScreen<>(new AbilityEditorSlotController(), new AbilityWheelScreen(player), player));
-
-        }
     }
 
     @Override
@@ -100,7 +91,7 @@ public class WheelEditorScreen<T extends ISlotEntry<U>, U extends RadialMenuSlot
     }
 
     public void save() {
-        this.controller.save(currentWheels, player);
+        this.controller.save(this, currentWheels, player);
     }
 
     @Override
@@ -185,7 +176,6 @@ public class WheelEditorScreen<T extends ISlotEntry<U>, U extends RadialMenuSlot
                 return true;
 
             } else if(!screen.menu().getWheels().isEmpty()){
-                int selectedWheel = screen.menu().selectedWheel();
                 RadialMenuSlot replace = slot.removeSelectedItem();
                 this.replaceSlotInWheel(slot, replace);
                 return true;
@@ -231,6 +221,9 @@ public class WheelEditorScreen<T extends ISlotEntry<U>, U extends RadialMenuSlot
         if(!this.currentWheels.isEmpty()) {
             screen.menu().draw(graphics, partialTicks, mouseX, mouseY);
         }
+        if(this.selectedEntry != null) {
+            this.selectedEntry.drawSelected(graphics, this.screen.menu(), mouseX, mouseY);
+        }
     }
 
 
@@ -238,7 +231,5 @@ public class WheelEditorScreen<T extends ISlotEntry<U>, U extends RadialMenuSlot
     public boolean isPauseScreen() {
         return false;
     }
-
-
 
 }

@@ -8,5 +8,13 @@ public class SyntheticsPlayerCache {
         return ((ISyntheticsPlayerCache) player).synthetics$getCache();
     }
 
+
+    public boolean canViewLinked;
+    public boolean isNotViewingSelf;
+
+
+    public int     onRoofTimer;
+    public boolean onWall;
+    public boolean onRoof;
     public boolean hasWallClimb;
 }

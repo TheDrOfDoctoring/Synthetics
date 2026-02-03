@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:basic_wall_climb",
+  "augment_id": "synthetics:magnetic_feet_implants",
+  "complexity": 2,
+  "valid_parts": "#synthetics:feet"
+}

@@ -37,7 +37,7 @@ public class ServerboundRequestUpdatePacket implements CustomPacketPayload {
 
     public static void handle(ServerboundRequestUpdatePacket __, final IPayloadContext context) {
         context.enqueueWork(() -> {
-            ClientboundPlayerUpdatePacket update = ClientboundPlayerUpdatePacket.create(context.player(), SyntheticsPlayer.get(context.player()).serialiseNBT(context.player().level().registryAccess()), true);
+            ClientboundPlayerUpdatePacket update = ClientboundPlayerUpdatePacket.create(context.player(), SyntheticsPlayer.get(context.player()).serialiseNBT(context.player().level().registryAccess()), true, true);
             MinecraftServer server = context.player().level().getServer();
             if(server != null) {
                 UUID uuid = IDSavedData.getData(server);

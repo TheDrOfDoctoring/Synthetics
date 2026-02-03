@@ -25,9 +25,7 @@ public class AbilityRadialMenu extends GenericRadialMenu<AbilityRadialSlot> {
 
     public AbilityRadialMenu(Minecraft minecraft, IRadialMenuHost host) {
         super(minecraft, host);
-        SyntheticsClient.getInstance().getWheelManager().saveWheelsToFile(minecraft.level);
-        List<AbilityWheel> wheels = SyntheticsClient.getInstance().getWheelManager().loadWheelsForCurrentLevel(minecraft.level);
-
+        List<AbilityWheel> wheels = SyntheticsClient.getInstance().getAdvancedClientConfig().levelWheels();
 
         this.abilityManager = SyntheticsPlayer.get(Objects.requireNonNull(minecraft.player)).getAbilityManager();
         allSlots = wheels.stream().map(wheel ->
@@ -82,6 +80,14 @@ public class AbilityRadialMenu extends GenericRadialMenu<AbilityRadialSlot> {
         Ability selected = slot.getSelectedAbility();
         if(selected != null) {
 
+            if(!this.abilityManager.hasAbility(selected)) {
+                int colourBase = slot.isHovered() ? 200 : 160;
+                int colourA = (60) | (60 << 8) | (colourBase << 16) | (100 << 24);
+                super.drawPieArc(slot, buffer, x, y, z, radiusIn, radiusOut, startAngle, endAngle, colourA);
+                super.drawPieArc(slot, buffer, x, y, z, radiusIn, radiusIn + ((radiusOut - radiusIn)), startAngle, endAngle, colourA);
+                return;
+            }
+
             AbilityActiveInstance<?> instance = abilityManager.getActiveAbilityInstanceById(selected.abilityType().getAbilityID());
             if(instance == null) {
                 super.drawPieArc(slot, buffer, x, y, z, radiusIn, radiusOut, startAngle, endAngle, colour);
@@ -95,7 +101,6 @@ public class AbilityRadialMenu extends GenericRadialMenu<AbilityRadialSlot> {
                 super.drawPieArc(slot, buffer, x, y, z, radiusIn, radiusOut, startAngle, endAngle, colourA);
                 super.drawPieArc(slot, buffer, x, y, z, radiusIn, radiusIn + ((radiusOut - radiusIn) * actionPercentage), startAngle, endAngle, colourA);
                 return;
-
             } else if(selected.abilityType() instanceof ActiveAbilityType<?> active && abilityManager.isAbilityOnCooldown(active)) {
                 float actionPercentage = -abilityManager.getPercentageForAbilityTime(instance);
                 int colourBase = slot.isHovered() ? 200 : 160;

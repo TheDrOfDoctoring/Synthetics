@@ -69,7 +69,9 @@ public class PartManager implements ISaveData, IPartManager {
     public List<IBodyInstallable<?>> replacePart(BodyPart newPart, boolean updatePlayer) {
         List<IBodyInstallable<?>> removedInstallables = new ArrayList<>();
         BodyPart old = installedParts.put(newPart.type().value(), newPart);
+
         if(old != null) {
+            this.player.getAbilityManager().removeAbilities(old);
             List<AppliedAugmentInstance> instancesOfPart = this.player.getInstalledAugments().stream().filter(p -> p.appliedPart().type().equals(old.type())).toList();
             for(AppliedAugmentInstance instance : instancesOfPart) {
                 if(augmentSupportsBodyPart(instance.augment(), newPart)) {
@@ -83,6 +85,7 @@ public class PartManager implements ISaveData, IPartManager {
                 this.player.markDirtyAll();
             }
         }
+        this.player.getAbilityManager().addAbilities(newPart);
         removedInstallables.add(old);
         return removedInstallables;
     }
