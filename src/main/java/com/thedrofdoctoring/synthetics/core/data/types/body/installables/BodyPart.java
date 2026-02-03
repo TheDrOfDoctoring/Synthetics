@@ -3,6 +3,10 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IBodyPosition;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
@@ -30,7 +34,7 @@ import java.util.Optional;
  * @param abilities - The optional set of abilities that this body part has
  * @param id - Self ID
  */
-public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, Holder<BodyPartType> type, Optional<HolderSet<Ability>> abilities, ResourceLocation id) implements IBodyInstallable<BodyPart> {
+public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, Holder<BodyPartType> type, Optional<HolderSet<Ability>> abilities, ResourceLocation id) implements IBodyInstallable<BodyPart>, IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodyPart> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodyPart::maxComplexity),
@@ -92,6 +96,17 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, 
         stack.set(SyntheticsDataComponents.BODY_PART, provider.lookupOrThrow(SyntheticsData.BODY_PARTS).getOrThrow(ResourceKey.create(getType(), id())));
         return stack;
     }
+
+    @Override
+    public IBodyPosition getModelPosition() {
+        return type.value().getModelPosition();
+    }
+
+    @Override
+    public @NotNull Optional<IInstallableModel> getInstallableModel() {
+        return IInstallableModelSupplier.getInstallableModel(type);
+    }
+
     @SuppressWarnings("unused")
     public static class Builder {
         private final ResourceKey<BodyPart> resourceKey;

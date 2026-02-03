@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.client.core;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.FlameProjectileEntityRenderer;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.OrganDisplayMobRenderer;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.InstallableRenderLayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -10,6 +11,8 @@ import net.minecraft.client.model.SkullModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.PlayerSkin;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,5 +39,13 @@ public class SyntheticsEntitiesClient {
     public static void registerRenderers(EntityRenderersEvent.@NotNull RegisterRenderers event) {
         event.registerEntityRenderer(SyntheticsEntities.ORGAN_DISPLAY_MOB.get(), OrganDisplayMobRenderer::new);
         event.registerEntityRenderer(SyntheticsEntities.FLAME_PROJECTILE.get(), (FlameProjectileEntityRenderer::new));
+    }
+
+    public static void addRenderLayers(EntityRenderersEvent.AddLayers event) {
+        for (PlayerSkin.Model skinModel : event.getSkins()) {
+            if (event.getSkin(skinModel) instanceof PlayerRenderer playerRenderer) {
+                playerRenderer.addLayer(new InstallableRenderLayer<>(playerRenderer));
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.parts;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.*;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import io.netty.buffer.ByteBuf;
@@ -17,6 +18,7 @@ import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.function.IntFunction;
 
 /**
@@ -33,14 +35,15 @@ import java.util.function.IntFunction;
  *
  * I don't really want to keep these here since it's client only information, but right now I'm not sure of a better place, and I want to keep them configurable
  */
-public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id) {
+public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id, BodyPosition bodyPosition) implements IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodyPartType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceKey.codec(SyntheticsData.BODY_PARTS).fieldOf("default_part").forGetter(BodyPartType::defaultPart),
             Codec.INT.fieldOf("x").forGetter(BodyPartType::x),
             Codec.INT.fieldOf("y").forGetter(BodyPartType::y),
             StringRepresentable.fromEnum(Layer::values).fieldOf("layer").forGetter(BodyPartType::bodyLayer),
-            ResourceLocation.CODEC.fieldOf("id").forGetter(BodyPartType::id)
+            ResourceLocation.CODEC.fieldOf("id").forGetter(BodyPartType::id),
+            BodyPosition.CODEC.fieldOf("position").forGetter(BodyPartType::bodyPosition)
     ).apply(instance, BodyPartType::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodyPartType> STREAM_CODEC = StreamCodec.composite(
@@ -49,6 +52,7 @@ public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Laye
             ByteBufCodecs.VAR_INT, BodyPartType::y,
             Layer.STREAM_CODEC, BodyPartType::bodyLayer,
             ResourceLocation.STREAM_CODEC, BodyPartType::id,
+            BodyPosition.STREAM_CODEC, BodyPartType::bodyPosition,
             BodyPartType::new);
 
     public static final Codec<Holder<BodyPartType>> HOLDER_CODEC = RegistryFileCodec.create(SyntheticsData.BODY_PART_TYPES, CODEC.codec());
@@ -67,6 +71,16 @@ public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Laye
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public IBodyPosition getModelPosition() {
+        return bodyPosition;
+    }
+
+    @Override
+    public @NotNull Optional<IInstallableModel> getInstallableModel() {
+        return IInstallableModelSupplier.getBodyPartModel(id());
     }
 
     public enum Layer implements StringRepresentable {

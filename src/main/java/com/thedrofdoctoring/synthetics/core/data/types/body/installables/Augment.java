@@ -3,6 +3,8 @@ package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
@@ -21,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 
-public record Augment(int complexity, int powerCost, int maxTotal, int maxPerPart, HolderSet<BodyPart> validParts, Optional<HolderSet<Ability>> abilities, ResourceLocation augmentID) implements IBodyInstallable<Augment> {
+public record Augment(int complexity, int powerCost, int maxTotal, int maxPerPart, HolderSet<BodyPart> validParts, Optional<HolderSet<Ability>> abilities, ResourceLocation augmentID) implements IBodyInstallable<Augment>, IInstallableModelSupplier {
 
     public static final MapCodec<Augment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("complexity").forGetter(Augment::complexity),
@@ -99,6 +101,11 @@ public record Augment(int complexity, int powerCost, int maxTotal, int maxPerPar
         ItemStack stack = new ItemStack(SyntheticsItems.AUGMENT_INSTALLABLE);
         stack.set(SyntheticsDataComponents.AUGMENT, provider.lookupOrThrow(SyntheticsData.AUGMENTS).getOrThrow(ResourceKey.create(getType(), id())));
         return stack;
+    }
+
+    @Override
+    public @NotNull Optional<IInstallableModel> getInstallableModel() {
+        return IInstallableModelSupplier.getAugmentModel(id());
     }
 
 

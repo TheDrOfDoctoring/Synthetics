@@ -1,4 +1,5 @@
 {
   "default_segment": "synthetics:organic_head",
-  "id": "synthetics:head"
+  "id": "synthetics:head",
+  "position": "head"
 }

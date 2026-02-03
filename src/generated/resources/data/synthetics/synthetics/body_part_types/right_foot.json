@@ -2,6 +2,7 @@
   "default_part": "synthetics:organic_right_foot",
   "id": "synthetics:right_foot",
   "layer": "exterior",
+  "position": "right_leg",
   "x": 7,
   "y": 220
 }

@@ -2,6 +2,7 @@
   "default_part": "synthetics:organic_right_hand",
   "id": "synthetics:right_hand",
   "layer": "exterior",
+  "position": "right_arm",
   "x": 36,
   "y": 130
 }
