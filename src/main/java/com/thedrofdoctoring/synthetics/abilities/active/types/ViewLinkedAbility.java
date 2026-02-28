@@ -13,13 +13,13 @@ public class ViewLinkedAbility extends StandardLastingAbility {
     }
 
     @Override
-    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         activate(syntheticsPlayer);
         return true;
     }
 
     @Override
-    public boolean onTick(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public boolean onTick(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         return false;
     }
     private void activate(SyntheticsPlayer player) {
@@ -28,7 +28,7 @@ public class ViewLinkedAbility extends StandardLastingAbility {
     }
 
     @Override
-    public void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         activate(syntheticsPlayer);
     }
 
@@ -40,7 +40,7 @@ public class ViewLinkedAbility extends StandardLastingAbility {
     }
 
     @Override
-    public void activateClient(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public void activateClient(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         activate(syntheticsPlayer);
     }
 

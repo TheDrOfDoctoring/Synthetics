@@ -42,10 +42,10 @@ public record ClientboundPlayerUpdatePacket(int entityID, CompoundTag data, bool
         context.enqueueWork(() -> {
             Player player = context.player();
             Level level = player.level();
-            if(packet.updatingSelf()) {
+            Entity entity = level.getEntity(packet.entityID);
+            if(packet.updatingSelf() && entity == player) {
                 updateData(player, packet.data(), true, packet.fullUpdate);
             } else {
-                Entity entity = level.getEntity(packet.entityID());
                 if(entity == null) {
                     Synthetics.LOGGER.error("Could not find updated entity {}", packet.entityID());
                     return;

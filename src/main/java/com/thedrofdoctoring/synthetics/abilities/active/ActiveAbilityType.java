@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.abilities.active;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
+import com.thedrofdoctoring.synthetics.abilities.IAbilityInstance;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public abstract class ActiveAbilityType<T extends AbilityActiveInstance.Data> extends AbilityType {
+public abstract class ActiveAbilityType<T extends IAbilityInstance> extends AbilityType {
 
     private final ResourceLocation ID;
 
@@ -31,13 +32,13 @@ public abstract class ActiveAbilityType<T extends AbilityActiveInstance.Data> ex
     public abstract boolean activate(SyntheticsPlayer syntheticsPlayer, T abilityData);
 
     @SuppressWarnings("unchecked")
-    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityData abilityData) {
+    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> instance) {
         try {
-            T t = (T) abilityData;
+            T t = (T) instance;
             return activate(syntheticsPlayer, t);
 
         } catch (ClassCastException e) {
-            Synthetics.LOGGER.error("Given ability data {} is wrong for type", abilityData.toString());
+            Synthetics.LOGGER.error("Given ability data {} is wrong for type", instance.toString());
         }
         return false;
     }

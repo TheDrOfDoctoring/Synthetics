@@ -2,16 +2,16 @@
   "type": "synthetics:synthetic_forge",
   "key": {
     "A": {
-      "tag": "c:ingots/iron"
+      "item": "synthetics:pure_ancient_alloy_ingot"
     },
     "B": {
       "tag": "minecraft:wool"
     },
     "C": {
-      "item": "minecraft:redstone"
+      "item": "minecraft:emerald"
     },
     "D": {
-      "item": "minecraft:paper"
+      "item": "synthetics:basic_circuit"
     }
   },
   "lava_cost": 50,

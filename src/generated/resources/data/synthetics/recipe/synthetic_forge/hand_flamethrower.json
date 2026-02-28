@@ -11,13 +11,13 @@
       "item": "synthetics:ancient_alloy_ingot"
     }
   },
-  "lava_cost": 50,
+  "lava_cost": 200,
   "pattern": [
     " C ",
     "ABA",
     " A "
   ],
-  "recipe_time": 100,
+  "recipe_time": 200,
   "required_research": "synthetics:hand_flamethrower",
   "result": {
     "components": {

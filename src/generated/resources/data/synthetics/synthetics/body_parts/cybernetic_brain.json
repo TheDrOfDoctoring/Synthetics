@@ -1,0 +1,7 @@
+{
+  "type": "synthetics:brain",
+  "abilities": "synthetics:remote_linked_interaction",
+  "id": "synthetics:cybernetic_brain",
+  "max_complexity": 12,
+  "valid_body_segments": "#synthetics:head"
+}

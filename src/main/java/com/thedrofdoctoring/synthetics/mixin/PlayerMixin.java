@@ -1,15 +1,19 @@
 package com.thedrofdoctoring.synthetics.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.FoodGeneratorAbility;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.ISyntheticsPlayerCache;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
+import com.thedrofdoctoring.synthetics.core.SyntheticsAttributes;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -43,10 +47,16 @@ public abstract class PlayerMixin extends LivingEntity implements ISyntheticsPla
         Collection<IntObjectPair<AbilityPassiveInstance<?>>> instances = synthetics.getAbilityManager().getPassiveAbilitiesPairs();
         for(IntObjectPair<AbilityPassiveInstance<?>> pair : instances) {
             AbilityPassiveInstance<?> instance = pair.right();
-            if(instance.getAbility().equals(SyntheticAbilities.FOOD_GENERATOR.get())) {
-                FoodGeneratorAbility ability = (FoodGeneratorAbility) instance.getAbility();
+            if(instance.type().equals(SyntheticAbilities.FOOD_GENERATOR.get())) {
+                FoodGeneratorAbility ability = (FoodGeneratorAbility) instance.type();
                 ability.onEaten(instance, pair.leftInt(), synthetics, foodProperties);
             }
         }
+    }
+
+    @WrapOperation(method = "causeFoodExhaustion", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/food/FoodData;addExhaustion(F)V"))
+    private void addExhaustionScale(FoodData instance, float exhaustion, Operation<Void> original) {
+        float exhaustionScale = (float) this.getAttributeValue(SyntheticsAttributes.EXHAUSTION_MULTIPLIER);
+        original.call(instance, (exhaustion * exhaustionScale));
     }
 }

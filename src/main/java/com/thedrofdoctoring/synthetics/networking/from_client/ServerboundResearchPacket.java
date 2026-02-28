@@ -41,7 +41,7 @@ public record ServerboundResearchPacket(ResourceLocation nodeID) implements Cust
                 if(objectOpt.isPresent()) {
                     Holder.Reference<ResearchNode> node = objectOpt.get();
                     ResearchManager manager = SyntheticsPlayer.get(context.player()).getResearchManager();
-                    boolean canResearch = manager.canResearch(node.value());
+                    boolean canResearch = manager.canResearch(node.value()) && !node.value().hidden();
                     if(canResearch) {
                         manager.handleResearchCosts(node.value());
                         manager.addResearched(node.value());

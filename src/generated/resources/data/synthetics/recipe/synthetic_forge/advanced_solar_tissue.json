@@ -24,7 +24,7 @@
     "BDB",
     "CCC"
   ],
-  "recipe_time": 100,
+  "recipe_time": 200,
   "required_research": "synthetics:advanced_solar_tissue",
   "result": {
     "components": {

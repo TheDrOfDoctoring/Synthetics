@@ -1,0 +1,32 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:basic_circuit"
+    },
+    "B": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "C": {
+      "item": "minecraft:emerald"
+    },
+    "D": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    "DBD",
+    "ACA",
+    "DBD"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:neural_chamber",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:neural_chamber"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

@@ -151,13 +151,13 @@ public class SyntheticsBodyPartsProvider {
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_LEFT_FOOT)
                         .partType(BodyPartTypes.LEFT_FOOT)
                         .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(5)
+                        .maxComplexity(8)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_RIGHT_FOOT)
                         .partType(BodyPartTypes.RIGHT_FOOT)
                         .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(5)
+                        .maxComplexity(8)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_ARM_MUSCLE)
@@ -178,6 +178,25 @@ public class SyntheticsBodyPartsProvider {
                         .validSegments(BodySegments.HEAD_MAIN)
                         .abilities(List.of(Abilities.CYBERNETIC_EYE_VIEW))
                         .maxComplexity(5)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_BRAIN)
+                        .partType(BodyPartTypes.BRAIN)
+                        .validSegments(BodySegments.HEAD_MAIN)
+                        .abilities(List.of(Abilities.REMOTE_LINKED_INTERACTION))
+                        .maxComplexity(12)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.MECHANICAL_HEART)
+                        .partType(BodyPartTypes.HEART)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(6)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.CYBERNETIC_HEART)
+                        .partType(BodyPartTypes.HEART)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(12)
         );
     }
 

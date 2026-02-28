@@ -1,4 +1,5 @@
 {
+  "hidden": false,
   "id": "synthetics:extended_grip",
   "requirements": {
     "experience_cost": 50,

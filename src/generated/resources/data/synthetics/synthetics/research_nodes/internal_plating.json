@@ -1,4 +1,5 @@
 {
+  "hidden": false,
   "id": "synthetics:internal_plating",
   "requirements": {
     "experience_cost": 75,

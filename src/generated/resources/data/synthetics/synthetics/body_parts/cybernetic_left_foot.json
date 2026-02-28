@@ -1,6 +1,6 @@
 {
   "type": "synthetics:left_foot",
   "id": "synthetics:cybernetic_left_foot",
-  "max_complexity": 5,
+  "max_complexity": 8,
   "valid_body_segments": "#synthetics:lower_body"
 }

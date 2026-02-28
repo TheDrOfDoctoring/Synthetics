@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.networking.from_server;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -26,7 +27,10 @@ public record ClientboundViewLinkPacket(boolean isNotViewingSelf) implements Cus
     public static void handle(ClientboundViewLinkPacket packet, final IPayloadContext context) {
         context.enqueueWork(() -> {
             SyntheticsPlayerCache cache = SyntheticsPlayerCache.get(context.player());
-            cache.isNotViewingSelf = packet.isNotViewingSelf();
+            if(Minecraft.getInstance().cameraEntity != context.player()) {
+                cache.isNotViewingSelf = packet.isNotViewingSelf();
+                Minecraft.getInstance().setScreen(null);
+            }
         });
     }
 }

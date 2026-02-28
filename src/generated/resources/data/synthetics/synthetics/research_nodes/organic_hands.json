@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:artificial_tissue",
+  "hidden": false,
   "id": "synthetics:organic_hands",
   "requirements": {
     "experience_cost": 100,

@@ -2,7 +2,7 @@
   "ability_data": {
     "type": "synthetics:attribute",
     "attribute": "minecraft:generic.safe_fall_distance",
-    "factor": 4.0,
+    "factor": 10.0,
     "operation": "add_value"
   },
   "ability_type": {

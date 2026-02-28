@@ -4,8 +4,8 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.BatteryComponentOptions;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.items.BlueprintItem;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.items.RechargeableBatteryItem;
@@ -34,7 +34,7 @@ public class SyntheticsItems {
     private static final DeferredRegister<CreativeModeTab> SYNTHETICS_CREATIVE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Synthetics.MODID);
     private static final ResourceKey<CreativeModeTab> SYNTHETIC_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Synthetics.rl("synthetics"));
 
-    public static final DeferredHolder<Item, InstallableItem<Augment>> AUGMENT_INSTALLABLE = registerInstallable("synthetic_augment_item", () -> new InstallableItem<>(SyntheticsData.AUGMENTS, SyntheticsDataComponents.AUGMENT, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.AUGMENT, Holder.direct(new Augment(0, 0, 0, 0,null, Optional.empty(), Synthetics.rl("empty_augment"))))));
+    public static final DeferredHolder<Item, InstallableItem<Augment>> AUGMENT_INSTALLABLE = registerInstallable("synthetic_augment_item", () -> new InstallableItem<>(SyntheticsData.AUGMENTS, SyntheticsDataComponents.AUGMENT, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.AUGMENT, Holder.direct(new Augment(0, 0, 0, 0,null, Optional.empty(), Optional.empty(), Synthetics.rl("empty_augment"))))));
     public static final DeferredHolder<Item, InstallableItem<BodyPart>> BODY_PART_INSTALLABLE = registerInstallable("body_part_item", () -> new InstallableItem<>(SyntheticsData.BODY_PARTS, SyntheticsDataComponents.BODY_PART, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.BODY_PART, Holder.direct(new BodyPart(0, null, null, Optional.empty(), Synthetics.rl("empty_body_part"))))));
     public static final DeferredHolder<Item, RechargeableBatteryItem> MEDIUM_BATTERY = registerTab("medium_battery", () -> new RechargeableBatteryItem(new Item.Properties().stacksTo(1).component(SyntheticsDataComponents.BATTERY_OPTIONS, new BatteryComponentOptions(25000, 10000, 2500)).component(SyntheticsDataComponents.ENERGY_COMPONENT, 0)));
     public static final DeferredHolder<Item, BlueprintItem> BLUEPRINT = registerTab("blueprint", () -> new BlueprintItem(new Item.Properties().stacksTo(1)));

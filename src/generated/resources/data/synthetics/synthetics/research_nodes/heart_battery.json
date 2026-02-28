@@ -1,4 +1,5 @@
 {
+  "hidden": false,
   "id": "synthetics:heart_battery",
   "requirements": {
     "experience_cost": 100,

@@ -16,19 +16,19 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
-public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityInstance.Data> {
+public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityInstance> {
 
     public FlamethrowerAbility(ResourceLocation id) {
         super(id);
     }
 
     @Override
-    public boolean activate(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance.Data data) {
+    public boolean activate(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance data) {
         createFlameProjectile(syntheticsPlayer, data);
         return true;
     }
 
-    private void createFlameProjectile(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance.Data data) {
+    private void createFlameProjectile(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance data) {
         Player player = syntheticsPlayer.getEntity();
         Vec3 startPos = player.position();
         Vec3 direction = player.getViewVector(1f);
@@ -43,7 +43,7 @@ public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityI
     }
 
     @Override
-    public boolean onTick(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance.Data data) {
+    public boolean onTick(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance data) {
 
         Player player = syntheticsPlayer.getEntity();
         int tickCount = player.tickCount;
@@ -58,7 +58,7 @@ public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityI
     }
 
     @Override
-    public void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance.Data data) {
+    public void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance data) {
 
     }
 
@@ -69,7 +69,7 @@ public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityI
     }
 
     @Override
-    public void activateClient(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance.Data data) {
+    public void activateClient(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance data) {
 
 
     }

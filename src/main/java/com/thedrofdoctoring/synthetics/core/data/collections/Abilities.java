@@ -9,6 +9,10 @@ public class Abilities {
 
     public static final ResourceKey<Ability> INERTIAL_DAMPENERS_FALL_DAMAGE = create("inertial_dampener_fall_damage");
     public static final ResourceKey<Ability> INERTIAL_DAMPENERS_SAFE_FALL = create("inertial_dampener_safe_fall");
+    public static final ResourceKey<Ability> MECHANICAL_DAMPENERS_FALL_DAMAGE = create("mechanical_dampener_fall_damage");
+    public static final ResourceKey<Ability> MECHANICAL_DAMPENERS_SAFE_FALL = create("mechanical_dampener_safe_fall");
+    public static final ResourceKey<Ability> BASIC_DAMPENERS_FALL_DAMAGE = create("basic_dampener_fall_damage");
+    public static final ResourceKey<Ability> BASIC_DAMPENERS_SAFE_FALL = create("basic_dampener_safe_fall");
     public static final ResourceKey<Ability> LAUNCHBOOT_LAUNCH = create("launchboot_launch");
     public static final ResourceKey<Ability> HEART_BATTERY = create("heart_battery");
     public static final ResourceKey<Ability> TISSUE_SOLAR_POWER = create("tissue_solar");
@@ -30,6 +34,16 @@ public class Abilities {
     public static final ResourceKey<Ability> CYBERNETIC_EYE_VIEW = create("cybernetic_eye_view");
     public static final ResourceKey<Ability> CYBERNETIC_REDSTONE_LINK = create("cybernetic_redstone_link");
     public static final ResourceKey<Ability> CYBERNETIC_CAMERA_LINK = create("cybernetic_camera_link");
+    public static final ResourceKey<Ability> HAND_REPULSOR = create("hand_repulsor");
+    public static final ResourceKey<Ability> REMOTE_LINKED_INTERACTION = create("remote_linked_interaction");
+    public static final ResourceKey<Ability> VIEWLINK_BLINDNESS_IMMUNITY = create("viewlink_blindness_immunity");
+    public static final ResourceKey<Ability> REINFORCED_TENDONS_MINING = create("reinforced_tendons_mining");
+    public static final ResourceKey<Ability> SYNTHETIC_LINING_EXHAUSTION = create("synthetic_lining_exhaustion");
+    public static final ResourceKey<Ability> BLOOD_TANK_HEALTH = create("blood_tank_health");
+    public static final ResourceKey<Ability> NEURAL_CHAMBER_EXPERIENCE = create("neural_chamber_experience");
+    public static final ResourceKey<Ability> SHIMMER_INVISIBILITY = create("shimmer_invisibility");
+    public static final ResourceKey<Ability> HEALING_TISSUE = create("healing_tissue");
+    public static final ResourceKey<Ability> FIRE_RESISTANT_TISSUE = create("fire_resistant_tissue");
 
 
     private static ResourceKey<Ability> create(String name) {

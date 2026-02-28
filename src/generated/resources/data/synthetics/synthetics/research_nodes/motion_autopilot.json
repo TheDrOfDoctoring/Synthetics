@@ -1,7 +1,8 @@
 {
+  "hidden": false,
   "id": "synthetics:motion_autopilot",
   "requirements": {
-    "experience_cost": 30,
+    "experience_cost": 80,
     "required_items": [
       {
         "amount": 32,

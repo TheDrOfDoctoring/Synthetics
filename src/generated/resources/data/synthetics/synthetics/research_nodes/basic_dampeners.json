@@ -1,0 +1,34 @@
+{
+  "parent": "synthetics:mechanical_dampeners",
+  "hidden": false,
+  "id": "synthetics:basic_dampeners",
+  "requirements": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 15,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 24,
+        "item": {
+          "item": "minecraft:redstone"
+        }
+      },
+      {
+        "amount": 4,
+        "item": {
+          "item": "minecraft:diamond"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:basic_inertial_dampeners"
+  },
+  "x": -15,
+  "y": -50
+}

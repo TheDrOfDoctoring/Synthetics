@@ -8,13 +8,13 @@
       "item": "minecraft:chain"
     }
   },
-  "lava_cost": 50,
+  "lava_cost": 200,
   "pattern": [
     " B ",
     "ABA",
     " B "
   ],
-  "recipe_time": 100,
+  "recipe_time": 200,
   "required_research": "synthetics:extended_grip",
   "result": {
     "components": {

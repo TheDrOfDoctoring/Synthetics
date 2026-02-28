@@ -1,0 +1,8 @@
+{
+  "abilities": "synthetics:synthetic_lining_exhaustion",
+  "augment_id": "synthetics:synthetic_lining",
+  "complexity": 2,
+  "max_copies_per_part": 2,
+  "max_copies_total": 2,
+  "valid_parts": "#synthetics:stomach"
+}

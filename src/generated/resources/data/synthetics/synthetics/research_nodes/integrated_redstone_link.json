@@ -1,8 +1,9 @@
 {
   "parent": "synthetics:motion_autopilot",
+  "hidden": false,
   "id": "synthetics:integrated_redstone_link",
   "requirements": {
-    "experience_cost": 30,
+    "experience_cost": 75,
     "required_items": [
       {
         "amount": 6,

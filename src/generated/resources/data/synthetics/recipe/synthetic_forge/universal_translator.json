@@ -17,7 +17,7 @@
     "ABA",
     " A "
   ],
-  "recipe_time": 100,
+  "recipe_time": 250,
   "required_research": "synthetics:universal_translator",
   "result": {
     "components": {

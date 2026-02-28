@@ -1,0 +1,7 @@
+{
+  "values": [
+    "synthetics:basic_inertial_dampeners",
+    "synthetics:inertial_dampeners",
+    "synthetics:mechanical_inertial_dampeners"
+  ]
+}

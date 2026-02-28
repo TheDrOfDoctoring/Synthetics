@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:heart_battery",
+  "hidden": false,
   "id": "synthetics:solar_tissue",
   "requirements": {
     "experience_cost": 75,

@@ -1,0 +1,33 @@
+{
+  "hidden": false,
+  "id": "synthetics:reinforced_tendons",
+  "requirements": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "tag": "c:ingots/iron"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:artificial_capillary"
+        }
+      },
+      {
+        "amount": 2,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:reinforced_tendons"
+  },
+  "x": -90,
+  "y": 0
+}

@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.client.core;
 
+import com.thedrofdoctoring.synthetics.client.screens.LinkedInteractScreen;
 import com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation_chamber.AugmentationChamberScreen;
 import com.thedrofdoctoring.synthetics.client.screens.research.ResearchScreen;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
@@ -52,9 +53,15 @@ public class SyntheticsClientManager {
     public static void setResearchScreen() {
         Minecraft.getInstance().setScreen(new ResearchScreen());
     }
+    public static void setLinkableScreen() {
+        Minecraft.getInstance().setScreen(new LinkedInteractScreen());
+    }
 
     public void updateResearch(HolderLookup.RegistryLookup<ResearchNode> nodes) {
-        this.setResearch(nodes.listElements().map(Holder.Reference::value).toList());
+        this.setResearch(nodes.listElements()
+                .map(Holder.Reference::value)
+                .filter(node -> !node.hidden())
+                .toList());
     }
 
     public void updatePartTypes(HolderLookup.RegistryLookup<BodyPartType> partTypes) {

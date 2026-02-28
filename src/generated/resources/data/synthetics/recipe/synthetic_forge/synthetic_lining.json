@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/gold"
+    },
+    "B": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "item": "synthetics:artificial_tissue"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    " B ",
+    "ACA",
+    " B "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:stomach_augments",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:synthetic_lining"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

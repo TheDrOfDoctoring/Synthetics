@@ -17,7 +17,7 @@
     "ABA",
     " B "
   ],
-  "recipe_time": 100,
+  "recipe_time": 150,
   "required_research": "synthetics:internal_camera_link",
   "result": {
     "components": {

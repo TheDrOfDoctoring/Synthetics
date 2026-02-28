@@ -1,0 +1,36 @@
+{
+  "hidden": false,
+  "id": "synthetics:tissue_augments",
+  "requirements": {
+    "experience_cost": 250,
+    "required_items": [
+      {
+        "amount": 32,
+        "item": {
+          "tag": "c:glass_panes"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      },
+      {
+        "amount": 48,
+        "item": {
+          "item": "minecraft:amethyst_shard"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": [
+      "synthetics:shimmer_layer",
+      "synthetics:repairing_tissue"
+    ]
+  },
+  "x": -150,
+  "y": 0
+}

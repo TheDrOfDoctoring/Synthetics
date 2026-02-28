@@ -7,7 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
-public class SyntheticsItemTags {
+public class ItemTags {
 
     private static @NotNull TagKey<Item> create(@NotNull String name) {
         return TagKey.create(BuiltInRegistries.ITEM.key(), Synthetics.rl(name));

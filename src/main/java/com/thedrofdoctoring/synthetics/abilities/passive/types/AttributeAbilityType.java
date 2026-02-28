@@ -1,7 +1,6 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.types;
 
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AttributeAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
@@ -15,13 +14,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import java.util.List;
 import java.util.Optional;
 
-public class AttributeAbilityType extends PassiveAbilityType {
+public class AttributeAbilityType extends PassiveAbilityType<AttributeAbilityInstance> {
     public AttributeAbilityType(ResourceLocation id) {
         super(id);
     }
 
     @Override
-    public Optional<AbilityPassiveInstance<? extends PassiveAbilityType>> createInstance(SyntheticsPlayer player, AbilityData data, ResourceLocation instanceID, boolean powerDraw) {
+    public Optional<AttributeAbilityInstance> createInstance(SyntheticsPlayer player, AbilityData data, ResourceLocation instanceID, boolean powerDraw) {
         if(data instanceof AttributeAbilityInstance.AttributeAbilityData attributeAbilityData) {
             return Optional.of(new AttributeAbilityInstance(this, player, attributeAbilityData, instanceID, powerDraw));
         }

@@ -1,0 +1,33 @@
+{
+  "hidden": false,
+  "id": "synthetics:blood_tank",
+  "requirements": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "tag": "c:ingots/iron"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:artificial_capillary"
+        }
+      },
+      {
+        "amount": 32,
+        "item": {
+          "tag": "c:ingots/copper"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:blood_tank"
+  },
+  "x": -120,
+  "y": 0
+}

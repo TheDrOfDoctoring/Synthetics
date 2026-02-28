@@ -33,13 +33,14 @@ import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implements ISyntheticForge {
+public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implements ISyntheticForge, IItemHandler {
 
     private FluidTank lavaTank = new ForgeLavaTank(2000, f -> f.is(FluidTags.LAVA));
 
@@ -121,6 +122,7 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
     public Player getActivePlayer() {
         return this.player;
     }
+
     public void setActivePlayer(Player player) {
         this.player = player;
     }
@@ -138,21 +140,80 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
             return !(player.distanceToSqr((double) this.worldPosition.getX() + 0.5D, (double) this.worldPosition.getY() + 0.5D, (double) this.worldPosition.getZ() + 0.5D) > 64.0D);
         }
     }
+
     @Override
     public void setItem(int index, @NotNull ItemStack stack) {
         if (index >= 0 && index < this.items.size()) {
             this.items.set(index, stack);
         }
+
     }
 
     public boolean canPlaceItem(int index, @NotNull ItemStack stack) {
-        return index != 0;
+        return index > 0 && index < this.getSlots();
     }
 
     @NotNull
     @Override
     public ItemStack getItem(int index) {
         return index >= 0 && index < this.items.size() ? this.items.get(index) : ItemStack.EMPTY;
+    }
+
+    @Override
+    public int getSlots() {
+        return this.items.size();
+    }
+
+    @Override
+    public @NotNull ItemStack getStackInSlot(int i) {
+        return getItem(i);
+    }
+
+    @Override
+    public @NotNull ItemStack insertItem(int i, @NotNull ItemStack input, boolean simulate) {
+        if (canPlaceItem(i, input)) {
+            ItemStack stack = getItem(i);
+            if(stack.isEmpty()) {
+                if(simulate) {
+                    return ItemStack.EMPTY;
+                }
+                setItem(i, input);
+            }
+            if(ItemStack.isSameItemSameComponents(stack, input)) {
+                int canTakeAmount = stack.getMaxStackSize() - stack.getCount();
+                if(canTakeAmount <= 0) {
+                    return input;
+                }
+
+                if(!simulate) {
+                    stack.grow(input.getCount() > canTakeAmount ? canTakeAmount : stack.getCount());
+                    setItem(i, stack);
+                }
+                return input.getCount() > canTakeAmount ? input.copyWithCount(input.getCount() - canTakeAmount) : ItemStack.EMPTY;
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+        if(slot < 0 || slot >= this.getSlots()) return ItemStack.EMPTY;
+        ItemStack stack = this.items.get(slot);
+        ItemStack copy = stack.copy();
+        if(!simulate) {
+            stack.shrink(amount);
+        }
+        return copy;
+    }
+
+    @Override
+    public int getSlotLimit(int i) {
+        return 64;
+    }
+
+    @Override
+    public boolean isItemValid(int i, @NotNull ItemStack itemStack) {
+        return true;
     }
 
     @NotNull
@@ -168,14 +229,19 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
         return ContainerHelper.takeItem(this.items, index);
     }
 
-
     public @Nullable IFluidHandler getFluidCap(Direction ignoredSide) {
         return lavaTank;
     }
+
+    public @Nullable IItemHandler getItemCap(Direction ignoredSide) {
+        return this;
+    }
+
     @Override
     public int getRecipeTime() {
         return recipeTime;
     }
+
     public FluidTank lavaTank() {
         return lavaTank;
     }
@@ -185,41 +251,42 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
     public SyntheticForgeBlockEntity getMaster() {
         return this;
     }
+
     public static <T extends BlockEntity> void serverTick(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull T blockEntity) {
-        if(!(blockEntity instanceof SyntheticForgeBlockEntity forge)) return;
+        if (!(blockEntity instanceof SyntheticForgeBlockEntity forge)) return;
         boolean lit = forge.recipeTime > 0;
 
-        if(lit) {
+        if (lit) {
             if (level.getGameTime() % 30 == 0) {
                 level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLASTFURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
-            if(forge.recipeTime >= forge.totalRecipeTime && level.getServer() != null && forge.totalRecipeTime > 0) {
+            if (forge.recipeTime >= forge.totalRecipeTime && level.getServer() != null && forge.totalRecipeTime > 0) {
                 CraftingInput craftinginput = CraftingInput.of(3, 3, forge.getItems().subList(2, 11));
                 Optional<RecipeHolder<SyntheticForgeRecipe>> optional = level.getServer().getRecipeManager().getRecipeFor(SyntheticsRecipes.SYNTHETIC_FORGE_RECIPE.get(), craftinginput, level);
-                if(optional.isPresent()) {
+                if (optional.isPresent()) {
                     RecipeHolder<SyntheticForgeRecipe> recipe = optional.get();
-                    if(recipe.value().getLavaCost() > forge.lavaTank().getFluidAmount()) {
+                    if (recipe.value().getLavaCost() > forge.lavaTank().getFluidAmount()) {
                         forge.clearRecipe();
                         return;
                     }
                     ItemStack blueprintStack = forge.getItem(1);
-                    if(blueprintStack.getItem() instanceof BlueprintItem blueprint && recipe.value().requiredResearch() != null) {
+                    if (blueprintStack.getItem() instanceof BlueprintItem blueprint && recipe.value().requiredResearch() != null) {
                         Optional<ResearchNode> node = blueprint.getResearch(forge.getItem(1));
-                        if(node.isEmpty()) {
+                        if (node.isEmpty()) {
                             blueprintStack.set(SyntheticsDataComponents.BLUEPRINT_RESEARCH, recipe.value().requiredResearch());
                         }
                     }
 
                     ItemStack result = recipe.value().getResult();
                     ItemStack currentResult = forge.getItem(0);
-                    if(currentResult.is(result.getItem()) && currentResult.getCount() < currentResult.getMaxStackSize()) {
+                    if (currentResult.is(result.getItem()) && currentResult.getCount() < currentResult.getMaxStackSize()) {
                         currentResult.setCount(currentResult.getCount() + result.getCount());
                         forge.setItem(0, currentResult);
                     } else {
                         forge.setItem(0, result.copy());
                     }
 
-                    for(int i = 2; i < 11; i++) {
+                    for (int i = 2; i < 11; i++) {
                         forge.getItem(i).shrink(1);
                     }
                     forge.lavaTank.drain(recipe.value().getLavaCost(), IFluidHandler.FluidAction.EXECUTE);
@@ -243,6 +310,7 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
         this.totalRecipeTime = 0;
         this.setChanged();
     }
+
     private void clearRecipeNoUpdate() {
         this.recipeTime = 0;
         this.totalRecipeTime = 0;
@@ -283,35 +351,35 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
     @Override
     public void setChanged() {
         if (this.level != null && !this.level.isClientSide) {
-            if(level.getServer() != null) {
+            if (level.getServer() != null) {
                 CraftingInput craftinginput = CraftingInput.of(3, 3, this.items.subList(2, 11));
                 Optional<RecipeHolder<SyntheticForgeRecipe>> optional = level.getServer().getRecipeManager().getRecipeFor(SyntheticsRecipes.SYNTHETIC_FORGE_RECIPE.get(), craftinginput, level);
-                if(optional.isPresent()) {
+                if (optional.isPresent()) {
 
                     SyntheticForgeRecipe recipe = optional.get().value();
                     ItemStack blueprint = this.items.get(1);
                     ItemStack result = this.items.get(0);
-                    if(!result.equals(ItemStack.EMPTY)) {
-                        if((!recipe.getResult().is(result.getItem())) || result.getCount() + recipe.getResult().getCount() > result.getMaxStackSize()) {
+                    if (!result.equals(ItemStack.EMPTY)) {
+                        if ((!recipe.getResult().is(result.getItem())) || result.getCount() + recipe.getResult().getCount() > result.getMaxStackSize()) {
                             this.clearRecipeNoUpdate();
                             return;
                         }
                     }
 
-                    if(recipe.getLavaCost() > this.lavaTank.getFluidAmount()) {
+                    if (recipe.getLavaCost() > this.lavaTank.getFluidAmount()) {
                         this.clearRecipeNoUpdate();
                         return;
                     }
 
-                    if(this.recipeTime == 0) {
+                    if (this.recipeTime == 0) {
                         Holder<ResearchNode> node = recipe.requiredResearch();
-                        if(node != null) {
+                        if (node != null) {
 
-                            if(blueprint.getItem() instanceof BlueprintItem blueprintItem && blueprintItem.getResearch(blueprint).isPresent()) {
-                                if(!blueprintItem.getResearch(blueprint).get().equals(node.value())) {
+                            if (blueprint.getItem() instanceof BlueprintItem blueprintItem && blueprintItem.getResearch(blueprint).isPresent()) {
+                                if (!blueprintItem.getResearch(blueprint).get().equals(node.value())) {
                                     return;
                                 }
-                            } else if(player == null || !SyntheticsPlayer.get(player).getResearchManager().hasResearched(node.value())) {
+                            } else if (player == null || !SyntheticsPlayer.get(player).getResearchManager().hasResearched(node.value())) {
                                 return;
                             }
                         }
@@ -333,7 +401,6 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
         super.setChanged();
 
     }
-
     public class ForgeLavaTank extends FluidTank {
 
         public ForgeLavaTank(int capacity, Predicate<FluidStack> validator) {
@@ -346,5 +413,4 @@ public class SyntheticForgeBlockEntity extends BaseContainerBlockEntity implemen
             setChanged();
         }
     }
-
 }

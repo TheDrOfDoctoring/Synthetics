@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:artificial_tissue",
+  "hidden": false,
   "id": "synthetics:organic_bones",
   "requirements": {
     "experience_cost": 125,

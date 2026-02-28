@@ -1,0 +1,13 @@
+{
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.safe_fall_distance",
+    "factor": 5.0,
+    "operation": "add_value"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:basic_dampener_safe_fall",
+  "nature": "beneficial"
+}

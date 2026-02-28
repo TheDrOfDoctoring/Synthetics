@@ -24,6 +24,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -154,6 +155,14 @@ public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, 
             this.abilities = HolderSet.direct(abilities.stream().map(getter::getOrThrow).toList());
             return this;
         }
+
+        @SafeVarargs
+        public final Builder abilities(ResourceKey<Ability>... abilities) {
+            HolderGetter<Ability> getter = context.lookup(SyntheticsData.ABILITIES);
+            this.abilities = HolderSet.direct(Arrays.stream(abilities).map(getter::getOrThrow).toList());
+            return this;
+        }
+
         public Builder validSegments(List<ResourceKey<BodySegment>> validSegments) {
             HolderGetter<BodySegment> getter = context.lookup(SyntheticsData.BODY_SEGMENTS);
             this.validSegments = HolderSet.direct(validSegments.stream().map(getter::getOrThrow).toList());

@@ -5,7 +5,7 @@ import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityTyp
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.resources.ResourceLocation;
 
-public abstract class AbilityPassiveInstance<T extends PassiveAbilityType> extends AbilityInstance<T> {
+public abstract class AbilityPassiveInstance<T extends PassiveAbilityType<?>> extends AbilityInstance<T> {
 
     private final AbilityData data;
     private final boolean hasPowerDraw;

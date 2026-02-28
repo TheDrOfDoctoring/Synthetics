@@ -55,6 +55,11 @@ public class SyntheticsPayloads {
                 ServerboundLinkedInputPacket.CODEC,
                 ServerboundLinkedInputPacket::handle
         );
+        registrar.playToServer(
+                ServerboundLinkedInteractPacket.TYPE,
+                ServerboundLinkedInteractPacket.CODEC,
+                ServerboundLinkedInteractPacket::handle
+        );
 
     }
     private static void registerToClientPackets(PayloadRegistrar registrar) {

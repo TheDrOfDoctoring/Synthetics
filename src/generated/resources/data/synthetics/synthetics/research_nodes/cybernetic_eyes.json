@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:organic_eyes",
+  "hidden": false,
   "id": "synthetics:cybernetic_eyes",
   "requirements": {
     "experience_cost": 100,

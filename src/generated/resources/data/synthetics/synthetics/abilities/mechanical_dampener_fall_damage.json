@@ -1,0 +1,13 @@
+{
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.fall_damage_multiplier",
+    "factor": -0.1,
+    "operation": "add_multiplied_base"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:mechanical_dampener_fall_damage",
+  "nature": "beneficial"
+}

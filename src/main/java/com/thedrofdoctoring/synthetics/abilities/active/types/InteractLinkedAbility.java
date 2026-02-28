@@ -1,6 +1,6 @@
 package com.thedrofdoctoring.synthetics.abilities.active.types;
 
-import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.active.StandardActiveAbility;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.blocks.entities.linkables.LinkableBlockEntity;
 import com.thedrofdoctoring.synthetics.blocks.linkables.LinkableBlock;
@@ -29,15 +29,15 @@ import java.util.List;
 
 import static net.minecraft.world.level.BlockGetter.traverseBlocks;
 
-public class InteractLinkedAbility extends ActiveAbilityType<AbilityActiveInstance.Data> {
+public class InteractLinkedAbility extends StandardActiveAbility {
     public InteractLinkedAbility(ResourceLocation id) {
         super(id);
     }
-    // Maybe should be configurable, but fine for now
+    // Consider making this configurable I think
     private static final double ACTIVATION_DISTANCE = 110d;
 
     @Override
-    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data abilityData) {
+    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> abilityData) {
         if(syntheticsPlayer.getEntity() instanceof ServerPlayer serverPlayer) {
             Vec3 lookVector = syntheticsPlayer.getEntity().getViewVector(1.0f);
             Vec3 eyePos = syntheticsPlayer.getEntity().getEyePosition();
@@ -57,6 +57,7 @@ public class InteractLinkedAbility extends ActiveAbilityType<AbilityActiveInstan
                     linkable.onLinkedInteract(serverPlayer);
                     syntheticsPlayer.getEntity().playNotifySound(SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.MASTER,1f, 1.25f);
                     serverPlayer.connection.send(new ClientboundLinkedInteractPacket(linkable.getBlockPos()));
+                    return true;
                 }
             }
         }

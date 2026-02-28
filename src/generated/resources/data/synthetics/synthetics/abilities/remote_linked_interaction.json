@@ -1,0 +1,14 @@
+{
+  "ability_data": {
+    "type": "synthetics:generic_active_ability",
+    "active_data": {
+      "cooldown": 1,
+      "duration": 1
+    }
+  },
+  "ability_type": {
+    "ability_id": "synthetics:view_linked_menu"
+  },
+  "id": "synthetics:remote_linked_interaction",
+  "nature": "beneficial"
+}

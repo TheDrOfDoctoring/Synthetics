@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:organic_hands",
+  "hidden": false,
   "id": "synthetics:cybernetic_hands",
   "requirements": {
     "experience_cost": 100,

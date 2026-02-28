@@ -1,5 +1,7 @@
 {
   "values": [
-    "synthetics:organic_heart"
+    "synthetics:organic_heart",
+    "synthetics:mechanical_heart",
+    "synthetics:cybernetic_heart"
   ]
 }

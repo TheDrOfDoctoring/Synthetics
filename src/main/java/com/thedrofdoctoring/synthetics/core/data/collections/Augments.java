@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 public class Augments {
 
     public static final ResourceKey<Augment> CYBERNETIC_INERTIAL_DAMPENERS = create("inertial_dampeners");
+    public static final ResourceKey<Augment> MECHANICAL_INERTIAL_DAMPENERS = create("mechanical_inertial_dampeners");
+    public static final ResourceKey<Augment> BASIC_INERTIAL_DAMPENERS = create("basic_inertial_dampeners");
     public static final ResourceKey<Augment> LAUNCH_BOOT = create("launch_boot");
     public static final ResourceKey<Augment> HEART_BATTERY = create("heart_battery");
     public static final ResourceKey<Augment> SOLAR_TISSUE = create("solar_tissue");
@@ -26,6 +28,15 @@ public class Augments {
     public static final ResourceKey<Augment> HAND_FLAMETHROWER = create("hand_flamethrower");
     public static final ResourceKey<Augment> INTEGRATED_REDSTONE_LINK = create("integrated_redstone_link");
     public static final ResourceKey<Augment> INTERNAL_CAMERA_LINK = create("internal_camera_link");
+    public static final ResourceKey<Augment> HAND_REPULSOR = create("hand_repulsor");
+    public static final ResourceKey<Augment> AUXILIARY_VIEWLINK = create("auxiliary_viewlink");
+    public static final ResourceKey<Augment> REINFORCED_TENDONS = create("reinforced_tendons");
+    public static final ResourceKey<Augment> SYNTHETIC_LINING = create("synthetic_lining");
+    public static final ResourceKey<Augment> RESERVE_BLOOD_TANK = create("blood_tank");
+    public static final ResourceKey<Augment> NEURAL_CHAMBER = create("neural_chamber");
+    public static final ResourceKey<Augment> SHIMMER_LAYER = create("shimmer_layer");
+    public static final ResourceKey<Augment> REPAIRING_TISSUE = create("repairing_tissue");
+    public static final ResourceKey<Augment> FIRE_RESISTANT_TISSUE = create("fire_resistant_tissue");
 
 
 

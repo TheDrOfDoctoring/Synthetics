@@ -1,0 +1,32 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "item": "synthetics:ancient_alloy_ingot"
+    },
+    "C": {
+      "item": "synthetics:artificial_capillary"
+    },
+    "D": {
+      "tag": "c:ingots/copper"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    "DBD",
+    "ACA",
+    "DBD"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:blood_tank",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:blood_tank"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

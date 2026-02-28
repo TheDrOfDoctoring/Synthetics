@@ -1,4 +1,6 @@
 {
+  "parent": "synthetics:auxiliary_viewlink",
+  "hidden": false,
   "id": "synthetics:internal_camera_link",
   "requirements": {
     "experience_cost": 30,
@@ -28,5 +30,5 @@
     "augments": "synthetics:internal_camera_link"
   },
   "x": -60,
-  "y": 0
+  "y": -30
 }

@@ -1,0 +1,6 @@
+{
+  "type": "synthetics:heart",
+  "id": "synthetics:cybernetic_heart",
+  "max_complexity": 12,
+  "valid_body_segments": "#synthetics:torso"
+}

@@ -1,0 +1,12 @@
+{
+  "ability_data": {
+    "type": "synthetics:effect_amplifier_ability",
+    "effects": "minecraft:blindness",
+    "factor": -99.0
+  },
+  "ability_type": {
+    "ability_id": "synthetics:effect_amplifier"
+  },
+  "id": "synthetics:viewlink_blindness_immunity",
+  "nature": "beneficial"
+}

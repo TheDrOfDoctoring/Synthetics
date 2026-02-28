@@ -2,7 +2,7 @@
   "ability_data": {
     "type": "synthetics:attribute",
     "attribute": "minecraft:generic.fall_damage_multiplier",
-    "factor": -0.2,
+    "factor": -0.4,
     "operation": "add_multiplied_base"
   },
   "ability_type": {

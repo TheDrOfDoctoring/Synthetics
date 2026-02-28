@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.core;
 
+import com.thedrofdoctoring.synthetics.blocks.entities.forge.SyntheticForgeBlockEntity;
 import com.thedrofdoctoring.synthetics.blocks.entities.forge.SyntheticForgeDeferBE;
 import com.thedrofdoctoring.synthetics.core.data.components.BatteryComponentOptions;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
@@ -12,7 +13,11 @@ import net.neoforged.neoforge.energy.ComponentEnergyStorage;
 public class SyntheticsCapabilities {
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SyntheticsBlockEntities.SYNTHETIC_FORGE_DEFERRED.get(), SyntheticForgeDeferBE::getFluidCap);
+        registerItemCapabilities(event);
+        registerBlockCapabilities(event);
+    }
+
+    private static void registerItemCapabilities(RegisterCapabilitiesEvent event) {
         event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, context) -> {
             if(stack.getItem() instanceof RechargeableBatteryItem && stack.has(SyntheticsDataComponents.ENERGY_COMPONENT) && stack.has(SyntheticsDataComponents.BATTERY_OPTIONS)) {
                 BatteryComponentOptions options = stack.get(SyntheticsDataComponents.BATTERY_OPTIONS);
@@ -21,7 +26,13 @@ public class SyntheticsCapabilities {
             }
             return null;
         }, SyntheticsItems.MEDIUM_BATTERY.get());
+    }
 
+    private static void registerBlockCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SyntheticsBlockEntities.SYNTHETIC_FORGE_DEFERRED.get(), SyntheticForgeDeferBE::getFluidCap);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SyntheticsBlockEntities.SYNTHETIC_FORGE.get(), SyntheticForgeBlockEntity::getFluidCap);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SyntheticsBlockEntities.SYNTHETIC_FORGE_DEFERRED.get(), SyntheticForgeDeferBE::getItemCap);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SyntheticsBlockEntities.SYNTHETIC_FORGE.get(), SyntheticForgeBlockEntity::getItemCap);
     }
 
     public static void register(IEventBus bus) {

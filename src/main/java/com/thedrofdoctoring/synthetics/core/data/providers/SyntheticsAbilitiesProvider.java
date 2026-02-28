@@ -2,14 +2,15 @@ package com.thedrofdoctoring.synthetics.core.data.providers;
 
 import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.types.FlamethrowerAbility;
-import com.thedrofdoctoring.synthetics.abilities.passive.types.AttributeAbilityType;
-import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.*;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttributes;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
-import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -23,7 +24,7 @@ public class SyntheticsAbilitiesProvider {
                 Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
-                                -0.2d,
+                                -0.4d,
                                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE,
                                 Attributes.FALL_DAMAGE_MULTIPLIER
                         ),
@@ -35,11 +36,59 @@ public class SyntheticsAbilitiesProvider {
                 Ability.create(
                         SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
                         AttributeAbilityType.create(
-                                4d,
+                                10d,
                                 AttributeModifier.Operation.ADD_VALUE,
                                 Attributes.SAFE_FALL_DISTANCE
                         ),
                         Abilities.INERTIAL_DAMPENERS_SAFE_FALL.location()
+                )
+        );
+        context.register(
+                Abilities.BASIC_DAMPENERS_FALL_DAMAGE,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                -0.2d,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                Attributes.FALL_DAMAGE_MULTIPLIER
+                        ),
+                        Abilities.BASIC_DAMPENERS_FALL_DAMAGE.location()
+                )
+        );
+        context.register(
+                Abilities.BASIC_DAMPENERS_SAFE_FALL,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                5d,
+                                AttributeModifier.Operation.ADD_VALUE,
+                                Attributes.SAFE_FALL_DISTANCE
+                        ),
+                        Abilities.BASIC_DAMPENERS_SAFE_FALL.location()
+                )
+        );
+        context.register(
+                Abilities.MECHANICAL_DAMPENERS_FALL_DAMAGE,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                -0.1d,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                Attributes.FALL_DAMAGE_MULTIPLIER
+                        ),
+                        Abilities.MECHANICAL_DAMPENERS_FALL_DAMAGE.location()
+                )
+        );
+        context.register(
+                Abilities.MECHANICAL_DAMPENERS_SAFE_FALL,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                2.5d,
+                                AttributeModifier.Operation.ADD_VALUE,
+                                Attributes.SAFE_FALL_DISTANCE
+                        ),
+                        Abilities.MECHANICAL_DAMPENERS_SAFE_FALL.location()
                 )
         );
         context.register(
@@ -269,6 +318,120 @@ public class SyntheticsAbilitiesProvider {
                                 ActiveAbilityOptions.options(1)
                         ),
                         Abilities.CYBERNETIC_CAMERA_LINK.location()
+                )
+        );
+        context.register(
+                Abilities.HAND_REPULSOR,
+                Ability.create(
+                        SyntheticAbilities.REPULSOR.get(),
+                        ActiveAbilityType.create(
+                                1.0d,
+                                ActiveAbilityOptions.options(5, 0, 5000)
+                        ),
+                        Abilities.HAND_REPULSOR.location()
+                )
+        );
+        context.register(
+                Abilities.REMOTE_LINKED_INTERACTION,
+                Ability.create(
+                        SyntheticAbilities.VIEW_LINKED_MENU.get(),
+                        ActiveAbilityType.create(
+                                1.0d,
+                                ActiveAbilityOptions.options(1, 1)
+                        ),
+                        Abilities.REMOTE_LINKED_INTERACTION.location()
+                )
+        );
+        context.register(
+                Abilities.VIEWLINK_BLINDNESS_IMMUNITY,
+                Ability.create(
+                        SyntheticAbilities.EFFECT_AMPLIFIER.get(),
+                        EffectAbilityType.create(
+                                EffectAbilityType.IMMUNITY_FACTOR,
+                                MobEffects.BLINDNESS
+                        ),
+                        Abilities.VIEWLINK_BLINDNESS_IMMUNITY.location()
+                )
+        );
+        context.register(
+                Abilities.REINFORCED_TENDONS_MINING,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                0.15d,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                Attributes.BLOCK_BREAK_SPEED
+
+                        ),
+                        Abilities.REINFORCED_TENDONS_MINING.location()
+                )
+        );
+        context.register(
+                Abilities.SYNTHETIC_LINING_EXHAUSTION,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                -0.2d,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                SyntheticsAttributes.EXHAUSTION_MULTIPLIER
+
+                        ),
+                        Abilities.SYNTHETIC_LINING_EXHAUSTION.location()
+                )
+        );
+        context.register(
+                Abilities.BLOOD_TANK_HEALTH,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                4d,
+                                AttributeModifier.Operation.ADD_VALUE,
+                                Attributes.MAX_HEALTH
+                        ),
+                        Abilities.BLOOD_TANK_HEALTH.location()
+                )
+        );
+        context.register(
+                Abilities.NEURAL_CHAMBER_EXPERIENCE,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                0.5d,
+                                AttributeModifier.Operation.ADD_VALUE,
+                                SyntheticsAttributes.EXPERIENCE_GAIN
+                        ),
+                        Abilities.NEURAL_CHAMBER_EXPERIENCE.location()
+                )
+        );
+        context.register(
+                Abilities.SHIMMER_INVISIBILITY,
+                Ability.create(
+                        SyntheticAbilities.INVISIBILITY.get(),
+                        ActiveAbilityType.create(
+                                1.0d,
+                                ActiveAbilityOptions.options(30, 120, 10000, 100)
+                        ),
+                        Abilities.SHIMMER_INVISIBILITY.location()
+                )
+        );
+        context.register(
+                Abilities.HEALING_TISSUE,
+                Ability.create(
+                        SyntheticAbilities.HEALING.get(),
+                        HealingAbilityType.create(
+                                20, 2500, 0.5f
+                        ),
+                        Abilities.HEALING_TISSUE.location()
+                )
+        );
+        context.register(
+                Abilities.FIRE_RESISTANT_TISSUE,
+                Ability.create(
+                        SyntheticAbilities.DAMAGE_MODIFIER.get(),
+                        DamageResistanceAbilityType.create(
+                                context, 0.8d, DamageTypes.IN_FIRE, DamageTypes.ON_FIRE, DamageTypes.LAVA
+                        ),
+                        Abilities.FIRE_RESISTANT_TISSUE.location()
                 )
         );
     }

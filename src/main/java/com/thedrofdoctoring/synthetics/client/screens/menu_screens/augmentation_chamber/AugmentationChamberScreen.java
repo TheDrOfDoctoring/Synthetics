@@ -293,6 +293,9 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
 
 
                 text.add(Component.translatable("text.synthetics.augmentation.added_complexity", augment.complexity()).withStyle(ChatFormatting.RED));
+                if(augment.powerCost() > 0) {
+                    text.add(Component.translatable("text.synthetics.augmentation.power_draw", augment.powerCost()).withStyle(ChatFormatting.RED));
+                }
 
             }
             case BodyPart part -> {

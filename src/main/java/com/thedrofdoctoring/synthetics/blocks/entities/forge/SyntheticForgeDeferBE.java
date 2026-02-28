@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,6 +58,14 @@ public class SyntheticForgeDeferBE extends BaseContainerBlockEntity implements I
             return null;
         }
         return master.getFluidCap(side);
+    }
+
+    public @Nullable IItemHandler getItemCap(Direction side) {
+        SyntheticForgeBlockEntity master = getMaster();
+        if(master == null) {
+            return null;
+        }
+        return master.getItemCap(side);
     }
 
     @NotNull

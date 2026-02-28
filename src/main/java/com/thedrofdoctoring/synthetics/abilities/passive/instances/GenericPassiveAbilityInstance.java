@@ -10,7 +10,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-public class GenericPassiveAbilityInstance<T extends PassiveAbilityType> extends AbilityPassiveInstance<T> {
+public class GenericPassiveAbilityInstance<T extends PassiveAbilityType<?>> extends AbilityPassiveInstance<T> {
 
 
     public GenericPassiveAbilityInstance(T ability, SyntheticsPlayer player, Data data, ResourceLocation instanceID, boolean powerDraw) {

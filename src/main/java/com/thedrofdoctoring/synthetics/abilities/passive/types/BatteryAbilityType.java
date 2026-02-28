@@ -1,6 +1,6 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.types;
 
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
@@ -10,19 +10,19 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public class BatteryAbilityType extends PassiveAbilityType {
+public class BatteryAbilityType extends StandardPassiveAbility {
     public BatteryAbilityType(ResourceLocation id) {
         super(id);
     }
 
     @Override
-    public void onAbilityAdded(AbilityPassiveInstance<?> instance, int instanceCount, SyntheticsPlayer player) {
+    public void onAbilityAdded(GenericPassiveAbilityInstance<?> instance, int instanceCount, SyntheticsPlayer player) {
         int additionalStorage = (int) instance.factor() * PowerManager.BATTERY_STORAGE_BASE;
         player.getPowerManager().setMaxPower(player.getPowerManager().getMaxPower() + additionalStorage);
     }
 
     @Override
-    public void onAbilityRemoved(AbilityPassiveInstance<?> instance, int instanceCount, SyntheticsPlayer player) {
+    public void onAbilityRemoved(GenericPassiveAbilityInstance<?> instance, int instanceCount, SyntheticsPlayer player) {
         int additionalStorage = (int) instance.factor() * PowerManager.BATTERY_STORAGE_BASE;
         player.getPowerManager().setMaxPower(player.getPowerManager().getMaxPower() - additionalStorage);
     }

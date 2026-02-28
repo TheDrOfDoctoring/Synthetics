@@ -1,8 +1,9 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.types;
 
+import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
+import com.thedrofdoctoring.synthetics.abilities.IAbilityInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("unused")
-public class PassiveAbilityType extends AbilityType {
+public abstract class PassiveAbilityType<T extends IAbilityInstance> extends AbilityType {
 
     private final ResourceLocation ID;
 
@@ -27,12 +28,7 @@ public class PassiveAbilityType extends AbilityType {
         return ID;
     }
 
-    public Optional<AbilityPassiveInstance<? extends PassiveAbilityType>> createInstance(SyntheticsPlayer player, AbilityData data, ResourceLocation instanceID, boolean powerDraw) {
-        if(data instanceof GenericPassiveAbilityInstance.Data passive) {
-            return Optional.of(new GenericPassiveAbilityInstance<>(this, player, passive, instanceID, powerDraw));
-        }
-        return Optional.empty();
-    }
+    public abstract Optional<T> createInstance(SyntheticsPlayer player, AbilityData data, ResourceLocation instanceID, boolean powerDraw);
 
     @Override
     public void addDescriptionInfo(Ability ability, List<Component> description) {
@@ -44,9 +40,31 @@ public class PassiveAbilityType extends AbilityType {
         return new GenericPassiveAbilityInstance.Data(factor);
     }
 
-    public void onAbilityAdded(AbilityPassiveInstance<?> instance, int instanceCount, SyntheticsPlayer player) {}
+    public void onAbilityAdded(T instance, int instanceCount, SyntheticsPlayer player) {}
 
-    public void onAbilityRemoved(AbilityPassiveInstance<?> instance, int instanceCount, SyntheticsPlayer player) {}
+    public void onAbilityRemoved(T instance, int instanceCount, SyntheticsPlayer player) {}
+
+    @SuppressWarnings("unchecked")
+    public void onAbilityAddedInst(IAbilityInstance instance, int instanceCount, SyntheticsPlayer player) {
+        try {
+            T t = (T) instance;
+            onAbilityAdded(t, instanceCount, player);
+
+        } catch (ClassCastException e) {
+            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.toString());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void onAbilityRemovedInst(IAbilityInstance instance, int instanceCount, SyntheticsPlayer player) {
+        try {
+            T t = (T) instance;
+            onAbilityRemoved(t, instanceCount, player);
+
+        } catch (ClassCastException e) {
+            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.toString());
+        }
+    }
 
 
 

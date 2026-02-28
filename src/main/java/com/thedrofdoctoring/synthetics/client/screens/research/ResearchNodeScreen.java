@@ -355,7 +355,9 @@ public class ResearchNodeScreen {
             ItemStack stack = ingredient.getItems()[0];
             graphics.renderFakeItem(stack, x, y);
         });
-        this.unlockedPrimary.ifRight(iBodyInstallable -> graphics.blit(iBodyInstallable.texture(), x, y, 0, 0, 16, 16, 16, 16));
+        this.unlockedPrimary.ifRight(iBodyInstallable -> {
+            graphics.blit(iBodyInstallable.texture(), x, y, 0, 0, 16, 16, 16, 16);
+        });
         graphics.pose().popPose();
 
     }

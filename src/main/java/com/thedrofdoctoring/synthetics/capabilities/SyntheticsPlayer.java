@@ -2,16 +2,12 @@ package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.ISyntheticsEntity;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.*;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.core.Holder;
@@ -31,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
+
 @SuppressWarnings("unused")
 public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
@@ -85,9 +83,11 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         }
         int onPart = 1;
         int total = 1;
+        List<Augment> groupedWith = instance.augment().groupedWithList();
+
         for(AppliedAugmentInstance installedInstances : appliedAugments) {
 
-            if(installedInstances.augment().equals(instance.augment())) {
+            if(installedInstances.augment().equals(instance.augment()) || groupedWith.contains(installedInstances.augment())) {
                 total++;
                 if(installedInstances.appliedPart().equals(instance.appliedPart())) {
                     onPart++;
@@ -218,19 +218,21 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         onUpdate(true);
     }
 
-    public int installedInstanceCount(Augment augment) {
-        return (int) this.appliedAugments
-                .stream()
-                .filter(p -> p.augment().equals(augment))
-                .count();
-    }
-    public int installedInstanceCount(Augment augment, BodyPart part) {
-        return (int) this.appliedAugments
+    private Stream<AppliedAugmentInstance> instancesOfAugmentType(Augment augment) {
+        List<Augment> group = augment.groupedWithList();
+        return this.appliedAugments
                 .stream()
                 .filter(
-                        p -> p.augment().equals(augment)
-                                && p.appliedPart().equals(part)
-                )
+                        p -> p.augment().equals(augment) || group.contains(p.augment())
+                );
+    }
+
+    public int installedInstanceCount(Augment augment) {
+        return (int) instancesOfAugmentType(augment).count();
+    }
+    public int installedInstanceCount(Augment augment, BodyPart part) {
+        return (int) instancesOfAugmentType(augment)
+                .filter(p -> p.appliedPart().equals(part))
                 .count();
     }
 
@@ -246,6 +248,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
     @Override
     public void onTick() {
+        if(!this.player.isAlive()) return;
         if(!this.player.level().isClientSide) {
 
             CompoundTag packet = new CompoundTag();

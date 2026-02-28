@@ -1,4 +1,5 @@
 {
+  "hidden": false,
   "id": "synthetics:mechanical_parts",
   "requirements": {
     "experience_cost": 75,

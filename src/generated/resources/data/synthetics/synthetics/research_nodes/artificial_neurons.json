@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:artificial_capillaries",
+  "hidden": false,
   "id": "synthetics:artificial_neurons",
   "requirements": {
     "experience_cost": 75,

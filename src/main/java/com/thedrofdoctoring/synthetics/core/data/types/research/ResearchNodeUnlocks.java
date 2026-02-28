@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core.data.types.research;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
@@ -18,12 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record ResearchNodeUnlocks(Optional<Ingredient> item, Optional<HolderSet<Augment>> augments, Optional<HolderSet<BodyPart>> parts) {
+public record ResearchNodeUnlocks(Optional<Ingredient> item, Optional<HolderSet<Augment>> augments, Optional<HolderSet<BodyPart>> parts, Optional<HolderSet<BodySegment>> segments) {
 
     public static final MapCodec<ResearchNodeUnlocks> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Ingredient.CODEC.optionalFieldOf("item").forGetter(ResearchNodeUnlocks::item),
             Augment.SET_CODEC.optionalFieldOf("augments").forGetter(ResearchNodeUnlocks::augments),
-            BodyPart.SET_CODEC.optionalFieldOf("parts").forGetter(ResearchNodeUnlocks::parts)
+            BodyPart.SET_CODEC.optionalFieldOf("parts").forGetter(ResearchNodeUnlocks::parts),
+            BodySegment.SET_CODEC.optionalFieldOf("segments").forGetter(ResearchNodeUnlocks::segments)
     ).apply(instance, ResearchNodeUnlocks::new));
 
 
@@ -31,8 +33,10 @@ public record ResearchNodeUnlocks(Optional<Ingredient> item, Optional<HolderSet<
         List<IBodyInstallable<?>> list = new ArrayList<>();
         augments.ifPresent(holders -> list.addAll(holders.stream().filter(Holder::isBound).map(Holder::value).toList()));
         parts.ifPresent(holders -> list.addAll(holders.stream().filter(Holder::isBound).map(Holder::value).toList()));
+        segments.ifPresent(holders -> list.addAll(holders.stream().filter(Holder::isBound).map(Holder::value).toList()));
         return list;
     }
+    @SuppressWarnings("OptionalIsPresent")
     public Either<Ingredient, IBodyInstallable<?>> getDisplayed() {
         if(item.isPresent()) {
             return Either.left(item.get());
@@ -40,9 +44,11 @@ public record ResearchNodeUnlocks(Optional<Ingredient> item, Optional<HolderSet<
         if(augments.isPresent()) {
             return Either.right(augments.get().get(0).value());
         }
-        //noinspection OptionalIsPresent
         if(parts.isPresent()) {
             return Either.right(parts.get().get(0).value());
+        }
+        if(segments.isPresent()) {
+            return Either.right(segments.get().get(0).value());
         }
         return null;
     }
@@ -51,6 +57,7 @@ public record ResearchNodeUnlocks(Optional<Ingredient> item, Optional<HolderSet<
             ByteBufCodecs.optional(Ingredient.CONTENTS_STREAM_CODEC), ResearchNodeUnlocks::item,
             ByteBufCodecs.optional(ByteBufCodecs.holderSet(SyntheticsData.AUGMENTS)), ResearchNodeUnlocks::augments,
             ByteBufCodecs.optional(ByteBufCodecs.holderSet(SyntheticsData.BODY_PARTS)), ResearchNodeUnlocks::parts,
+            ByteBufCodecs.optional(ByteBufCodecs.holderSet(SyntheticsData.BODY_SEGMENTS)), ResearchNodeUnlocks::segments,
             ResearchNodeUnlocks::new);
 
 }

@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AbilityEditorSlotController implements IEditorSlotController<AbilityRadialSlot, Ability> {
 
@@ -35,9 +36,12 @@ public class AbilityEditorSlotController implements IEditorSlotController<Abilit
 
     @Override
     public List<Ability> getPossibleSlotEntries(Player player) {
+        // Abilities with same ability type are treated as the same
         return SyntheticsPlayer.get(player).getAbilityManager().addedAbilities()
                 .stream()
-                .filter(p -> p.abilityType() instanceof ActiveAbilityType<?>).toList();
+                .filter(p -> p.abilityType() instanceof ActiveAbilityType<?>)
+                .collect(Collectors.groupingBy(Ability::abilityType))
+                .values().stream().map(List::getFirst).toList();
     }
 
     @Override

@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:launch_boot",
+  "hidden": false,
   "id": "synthetics:feet_wall_climb",
   "requirements": {
     "experience_cost": 40,
@@ -28,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:magnetic_feet_implants"
   },
-  "x": 0,
+  "x": 15,
   "y": -80
 }

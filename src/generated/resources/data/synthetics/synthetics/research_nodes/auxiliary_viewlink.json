@@ -1,0 +1,33 @@
+{
+  "hidden": false,
+  "id": "synthetics:auxiliary_viewlink",
+  "requirements": {
+    "experience_cost": 150,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "tag": "c:glass_panes"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:ink_sac"
+        }
+      },
+      {
+        "amount": 6,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:auxiliary_viewlink"
+  },
+  "x": -60,
+  "y": 0
+}

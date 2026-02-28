@@ -83,6 +83,22 @@ public record Ability(AbilityType abilityType, AbilityData abilityData, AbilityN
         return id.withPath("textures/abilities/" + id.getPath() + ".png");
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+        if(obj instanceof Ability ability) {
+            return ability.id.equals(this.id);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
     public static final StreamCodec<RegistryFriendlyByteBuf, Ability> STREAM_CODEC = StreamCodec.composite(
             AbilityType.STREAM_CODEC, Ability::abilityType,
             AbilityData.DISPATCH_STREAM, Ability::abilityData,

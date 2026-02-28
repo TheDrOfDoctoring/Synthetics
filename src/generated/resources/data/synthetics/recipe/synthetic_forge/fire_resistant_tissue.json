@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/gold"
+    },
+    "B": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "C": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    "BAB",
+    "ACA",
+    "BAB"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:fire_resistant_tissue",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:fire_resistant_tissue"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

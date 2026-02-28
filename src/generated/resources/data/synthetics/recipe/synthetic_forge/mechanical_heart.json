@@ -1,0 +1,32 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "B": {
+      "tag": "c:ingots/gold"
+    },
+    "C": {
+      "tag": "c:gears/iron"
+    },
+    "D": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "BC ",
+    "BAC",
+    "DCC"
+  ],
+  "recipe_time": 150,
+  "required_research": "synthetics:mechanical_heart",
+  "result": {
+    "components": {
+      "synthetics:body_parts": "synthetics:mechanical_heart"
+    },
+    "count": 1,
+    "id": "synthetics:body_part_item"
+  }
+}

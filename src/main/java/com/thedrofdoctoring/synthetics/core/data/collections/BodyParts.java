@@ -33,6 +33,10 @@ public class BodyParts {
     public static final ResourceKey<BodyPart> ORGANIC_ARM_MUSCLE = create("organic_arm_muscle");
     public static final ResourceKey<BodyPart> CYBERNETIC_LEFT_EYE = create("cybernetic_left_eye");
     public static final ResourceKey<BodyPart> CYBERNETIC_RIGHT_EYE = create("cybernetic_right_eye");
+    public static final ResourceKey<BodyPart> CYBERNETIC_BRAIN = create("cybernetic_brain");
+    public static final ResourceKey<BodyPart> MECHANICAL_HEART = create("mechanical_heart");
+    public static final ResourceKey<BodyPart> CYBERNETIC_HEART = create("cybernetic_heart");
+
 
     public static final TagKey<BodyPart> EYES_MAIN = tag("eyes");
     public static final TagKey<BodyPart> TISSUE_MAIN = tag("tissue");
@@ -45,6 +49,7 @@ public class BodyParts {
     public static final TagKey<BodyPart> RIBCAGE_MAIN = tag("ribcage");
     public static final TagKey<BodyPart> BRAINS_MAIN = tag("brains_main");
     public static final TagKey<BodyPart> ARM_MUSCLE_MAIN = tag("arm_muscle");
+    public static final TagKey<BodyPart> STOMACH_MAIN = tag("stomach");
 
     public static final TagKey<BodyPart> NON_ORGANIC_HANDS = tag("non_organic_hands");
 

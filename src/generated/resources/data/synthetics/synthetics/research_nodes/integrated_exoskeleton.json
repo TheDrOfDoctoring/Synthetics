@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:internal_plating",
+  "hidden": false,
   "id": "synthetics:integrated_exoskeleton",
   "requirements": {
     "experience_cost": 75,

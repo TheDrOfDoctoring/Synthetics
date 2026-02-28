@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:heart_battery",
+  "hidden": false,
   "id": "synthetics:stomach_augments",
   "requirements": {
     "experience_cost": 50,
@@ -20,7 +21,10 @@
   },
   "tab": "synthetics:augments",
   "unlocked": {
-    "augments": "synthetics:metabolic_converter"
+    "augments": [
+      "synthetics:metabolic_converter",
+      "synthetics:synthetic_lining"
+    ]
   },
   "x": -180,
   "y": -50

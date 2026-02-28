@@ -17,7 +17,7 @@
     "BCB",
     "A A"
   ],
-  "recipe_time": 100,
+  "recipe_time": 180,
   "required_research": "synthetics:feet_wall_climb",
   "result": {
     "components": {

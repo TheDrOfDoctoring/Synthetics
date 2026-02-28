@@ -1,0 +1,27 @@
+{
+  "hidden": false,
+  "id": "synthetics:mechanical_dampeners",
+  "requirements": {
+    "experience_cost": 35,
+    "required_items": [
+      {
+        "amount": 15,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:coal"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:mechanical_inertial_dampeners"
+  },
+  "x": 0,
+  "y": 0
+}

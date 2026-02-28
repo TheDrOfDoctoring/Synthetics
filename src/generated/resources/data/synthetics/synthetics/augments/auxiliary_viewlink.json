@@ -1,0 +1,7 @@
+{
+  "abilities": "synthetics:viewlink_blindness_immunity",
+  "augment_id": "synthetics:auxiliary_viewlink",
+  "complexity": 3,
+  "power_cost": 2,
+  "valid_parts": "#synthetics:eyes"
+}

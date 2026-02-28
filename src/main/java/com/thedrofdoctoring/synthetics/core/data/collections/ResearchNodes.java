@@ -9,6 +9,9 @@ import net.minecraft.resources.ResourceKey;
 public class ResearchNodes {
 
     public static final ResourceKey<ResearchNode> INERTIAL_DAMPENERS = create("inertial_dampeners");
+    public static final ResourceKey<ResearchNode> MECHANICAL_DAMPENERS = create("mechanical_dampeners");
+    public static final ResourceKey<ResearchNode> BASIC_DAMPENERS = create("basic_dampeners");
+
     public static final ResourceKey<ResearchNode> LAUNCH_BOOTS = create("launch_boot");
     public static final ResourceKey<ResearchNode> HEART_BATTERY = create("heart_battery");
     public static final ResourceKey<ResearchNode> ARTIFICIAL_NEURONS = create("artificial_neurons");
@@ -36,6 +39,17 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> CYBERNETIC_EYES = create("cybernetic_eyes");
     public static final ResourceKey<ResearchNode> INTEGRATED_REDSTONE_LINK = create("integrated_redstone_link");
     public static final ResourceKey<ResearchNode> INTERNAL_CAMERA_LINK = create("internal_camera_link");
+    public static final ResourceKey<ResearchNode> HAND_REPULSOR = create("hand_repulsor");
+    public static final ResourceKey<ResearchNode> ORGANIC_BRAIN = create("organic_brain");
+    public static final ResourceKey<ResearchNode> CYBERNETIC_BRAIN = create("cybernetic_brain");
+    public static final ResourceKey<ResearchNode> AUXILIARY_VIEWLINK = create("auxiliary_viewlink");
+    public static final ResourceKey<ResearchNode> REINFORCED_TENDONS = create("reinforced_tendons");
+    public static final ResourceKey<ResearchNode> BLOOD_TANK = create("blood_tank");
+    public static final ResourceKey<ResearchNode> MECHANICAL_HEART = create("mechanical_heart");
+    public static final ResourceKey<ResearchNode> CYBERNETIC_HEART = create("cybernetic_heart");
+    public static final ResourceKey<ResearchNode> NEURAL_CHAMBER = create("neural_chamber");
+    public static final ResourceKey<ResearchNode> TISSUE_AUGMENTS = create("tissue_augments");
+    public static final ResourceKey<ResearchNode> FIRE_RESISTANT_TISSUE = create("fire_resistant_tissue");
 
 
     public static final ResourceKey<ResearchTab> TAB_AUGMENTS = createTab("augments");

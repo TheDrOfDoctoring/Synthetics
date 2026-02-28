@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:shimmer_invisibility",
+  "augment_id": "synthetics:shimmer_layer",
+  "complexity": 4,
+  "valid_parts": "#synthetics:tissue"
+}

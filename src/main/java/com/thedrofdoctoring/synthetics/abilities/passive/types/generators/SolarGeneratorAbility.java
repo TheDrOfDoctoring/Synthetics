@@ -1,8 +1,8 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.types.generators;
 
 import com.thedrofdoctoring.synthetics.abilities.passive.IAbilityEventListener;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
-import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.StandardPassiveAbility;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.core.BlockPos;
@@ -14,19 +14,21 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class SolarGeneratorAbility extends PassiveAbilityType implements IAbilityEventListener {
+public class SolarGeneratorAbility extends StandardPassiveAbility implements IAbilityEventListener<GenericPassiveAbilityInstance<?>> {
 
     public SolarGeneratorAbility(ResourceLocation id) {
         super(id);
     }
 
     @Override
-    public void onTick(AbilityPassiveInstance<?> instance, int count, SyntheticsPlayer player) {
-        int powerGain = determineAddedPower(player, count, instance.factor());
+    public void onTick(GenericPassiveAbilityInstance<?> instance, int count, SyntheticsPlayer player) {
+        if(player.getEntity().tickCount % 10 == 0) {
+            int powerGain = determineAddedPower(player, count, instance.factor());
 
-        PowerManager power = player.getPowerManager();
-        power.addPower(powerGain);
-        power.markDirty();
+            PowerManager power = player.getPowerManager();
+            power.addPower(powerGain);
+            power.markDirty();
+        }
     }
 
     private int determineAddedPower(SyntheticsPlayer player, int count, double factor) {

@@ -1,0 +1,13 @@
+{
+  "ability_data": {
+    "type": "synthetics:passive_healing_ability",
+    "healing_amount": 0.5,
+    "power_draw_per_heal": 2500,
+    "ticks_per_heal": 20.0
+  },
+  "ability_type": {
+    "ability_id": "synthetics:healing"
+  },
+  "id": "synthetics:healing_tissue",
+  "nature": "beneficial"
+}

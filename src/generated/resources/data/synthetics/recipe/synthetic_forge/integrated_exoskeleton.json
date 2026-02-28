@@ -11,7 +11,7 @@
       "item": "synthetics:basic_circuit"
     }
   },
-  "lava_cost": 50,
+  "lava_cost": 250,
   "pattern": [
     "  C",
     " B ",

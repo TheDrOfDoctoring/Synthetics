@@ -1,0 +1,43 @@
+{
+  "parent": "synthetics:mechanical_heart",
+  "hidden": false,
+  "id": "synthetics:cybernetic_heart",
+  "requirements": {
+    "experience_cost": 250,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      },
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "synthetics:artificial_tissue"
+        }
+      },
+      {
+        "amount": 12,
+        "item": {
+          "item": "synthetics:artificial_capillary"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:body_parts",
+  "unlocked": {
+    "parts": [
+      "synthetics:cybernetic_heart",
+      "synthetics:organic_heart"
+    ]
+  },
+  "x": 150,
+  "y": 30
+}

@@ -1,4 +1,5 @@
 {
+  "hidden": false,
   "id": "synthetics:universal_translator",
   "requirements": {
     "experience_cost": 30,

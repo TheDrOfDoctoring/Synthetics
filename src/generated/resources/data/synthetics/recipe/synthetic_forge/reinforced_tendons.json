@@ -1,0 +1,32 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:artificial_capillary"
+    },
+    "B": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "item": "synthetics:artificial_neuron"
+    },
+    "D": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    " B ",
+    "ADA",
+    " C "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:reinforced_tendons",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:reinforced_tendons"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

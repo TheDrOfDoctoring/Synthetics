@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:organic_feet",
+  "hidden": false,
   "id": "synthetics:cybernetic_feet",
   "requirements": {
     "experience_cost": 100,

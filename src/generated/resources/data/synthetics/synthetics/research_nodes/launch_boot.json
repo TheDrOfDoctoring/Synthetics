@@ -1,5 +1,6 @@
 {
-  "parent": "synthetics:inertial_dampeners",
+  "parent": "synthetics:mechanical_dampeners",
+  "hidden": false,
   "id": "synthetics:launch_boot",
   "requirements": {
     "experience_cost": 100,
@@ -16,6 +17,6 @@
   "unlocked": {
     "augments": "synthetics:launch_boot"
   },
-  "x": 0,
+  "x": 15,
   "y": -50
 }

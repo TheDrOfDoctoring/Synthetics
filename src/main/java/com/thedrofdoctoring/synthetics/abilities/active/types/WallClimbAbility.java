@@ -27,13 +27,13 @@ public class WallClimbAbility extends StandardLastingAbility {
     public static final EntityDimensions UPSIDE_DOWN_DIMENSIONS = new EntityDimensions(Player.STANDING_DIMENSIONS.width(), Player.STANDING_DIMENSIONS.height(), 0.1f, Player.STANDING_DIMENSIONS.attachments(), Player.STANDING_DIMENSIONS.fixed());
 
     @Override
-    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         activate(syntheticsPlayer);
         return true;
     }
 
     @Override
-    public boolean onTick(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public boolean onTick(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         Player player = syntheticsPlayer.getEntity();
         player.resetFallDistance();
         Optional<BlockPos> posOpt = player.getLastClimbablePos();
@@ -59,17 +59,23 @@ public class WallClimbAbility extends StandardLastingAbility {
         if(cache.onRoof && !player.isSuppressingSlidingDownLadder()) {
             Vec3 deltaMovement = player.getDeltaMovement();
             player.setDeltaMovement(deltaMovement.x, 0f, deltaMovement.z);
+            AABB bounding = player.getBoundingBox();
             if(player.tickCount % 5 == 0) {
-                AABB bounding = player.getBoundingBox();
                 AABB boundingTall = bounding.setMaxY(bounding.maxY + 7.5f).setMinY(bounding.minY - 0.5f);
                 if(!player.level().collidesWithSuffocatingBlock(player, boundingTall)) {
                     cancelRoofClimb(player);
                     return false;
                 }
-                AABB boundingShort = bounding.setMaxY(bounding.maxY + 1f);
-                if(!player.level().collidesWithSuffocatingBlock(player, boundingShort)) {
-                    player.setDeltaMovement(deltaMovement.x, 1f, deltaMovement.z);
+
+            }
+            AABB boundingShort = bounding.setMaxY(bounding.maxY + 1f);
+            if(!player.level().collidesWithSuffocatingBlock(player, boundingShort)) {
+                AABB boundingTall = bounding.setMaxY(bounding.maxY + 7.5f).setMinY(bounding.minY - 0.5f);
+                if(!player.level().collidesWithSuffocatingBlock(player, boundingTall)) {
+                    cancelRoofClimb(player);
+                    return false;
                 }
+                player.setDeltaMovement(deltaMovement.x, 1f, deltaMovement.z);
             }
         } else {
             cancelRoofClimb(player);
@@ -102,7 +108,7 @@ public class WallClimbAbility extends StandardLastingAbility {
     }
 
     @Override
-    public void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         activate(syntheticsPlayer);
     }
 
@@ -121,7 +127,7 @@ public class WallClimbAbility extends StandardLastingAbility {
     }
 
     @Override
-    public void activateClient(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public void activateClient(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         activate(syntheticsPlayer);
     }
 

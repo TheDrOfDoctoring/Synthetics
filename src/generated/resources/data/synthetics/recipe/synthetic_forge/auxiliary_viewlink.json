@@ -1,0 +1,32 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "tag": "c:glass_panes"
+    },
+    "D": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " C ",
+    "ABA",
+    " D "
+  ],
+  "recipe_time": 150,
+  "required_research": "synthetics:auxiliary_viewlink",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:auxiliary_viewlink"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:extended_grip",
+  "hidden": false,
   "id": "synthetics:hand_flamethrower",
   "requirements": {
     "experience_cost": 50,

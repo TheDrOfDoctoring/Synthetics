@@ -1,0 +1,12 @@
+{
+  "abilities": [
+    "synthetics:basic_dampener_fall_damage",
+    "synthetics:basic_dampener_safe_fall"
+  ],
+  "augment_id": "synthetics:basic_inertial_dampeners",
+  "complexity": 3,
+  "grouped_with": "#synthetics:dampeners",
+  "max_copies_total": 2,
+  "power_cost": 1,
+  "valid_parts": "#synthetics:feet"
+}

@@ -1,0 +1,16 @@
+{
+  "ability_data": {
+    "type": "synthetics:damage_modifier_ability",
+    "damage_types": [
+      "minecraft:in_fire",
+      "minecraft:on_fire",
+      "minecraft:lava"
+    ],
+    "factor": 0.8
+  },
+  "ability_type": {
+    "ability_id": "synthetics:damage_modifier"
+  },
+  "id": "synthetics:fire_resistant_tissue",
+  "nature": "beneficial"
+}

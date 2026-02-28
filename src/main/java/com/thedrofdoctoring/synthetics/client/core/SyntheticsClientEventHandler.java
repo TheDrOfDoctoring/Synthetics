@@ -62,7 +62,7 @@ public class SyntheticsClientEventHandler {
                 Collection<AbilityPassiveInstance<?>> abilities = player.getAbilityManager().getPassiveAbilities();
                 double viewDistance = event.getFarPlaneDistance();
                 for(AbilityPassiveInstance<?> instance : abilities) {
-                    if(instance.getAbility().equals(SyntheticAbilities.UNDERWATER_VISION.get())) {
+                    if(instance.type().equals(SyntheticAbilities.UNDERWATER_VISION.get())) {
                         viewDistance += instance.factor();
                     }
                 }
@@ -92,6 +92,10 @@ public class SyntheticsClientEventHandler {
     // Renders a player sideways, when on a wall with the magnetic wall climbing augment.
     @SubscribeEvent
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
+        if(SyntheticsPlayerCache.get(event.getEntity()).invisible) {
+            event.setCanceled(true);
+            return;
+        }
         Optional<BlockPos> posOpt = event.getEntity().getLastClimbablePos();
         // This condition is awful:
         //  On the local player, we check if the player is on a wall, and if they're colliding with the wall, or crouched stationary on it.

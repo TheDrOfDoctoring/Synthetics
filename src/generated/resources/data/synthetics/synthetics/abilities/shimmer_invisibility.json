@@ -1,0 +1,16 @@
+{
+  "ability_data": {
+    "type": "synthetics:generic_active_ability",
+    "active_data": {
+      "cooldown": 30,
+      "duration": 120,
+      "power_cost": 10000,
+      "power_drain": 100
+    }
+  },
+  "ability_type": {
+    "ability_id": "synthetics:invisibility"
+  },
+  "id": "synthetics:shimmer_invisibility",
+  "nature": "beneficial"
+}

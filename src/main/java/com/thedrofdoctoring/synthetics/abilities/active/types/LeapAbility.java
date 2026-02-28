@@ -6,6 +6,8 @@ import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLeapPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 
 public class LeapAbility extends StandardLastingAbility {
 
@@ -14,9 +16,10 @@ public class LeapAbility extends StandardLastingAbility {
     }
 
     @Override
-    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         if(syntheticsPlayer.getEntity() instanceof ServerPlayer player && player.onGround()) {
             player.connection.send(new ClientboundLeapPacket(data.factor()));
+            player.level().playSound(null, player.position().x, player.position().y, player.position().z, SoundEvents.BREEZE_SHOOT, SoundSource.PLAYERS, 0.75f, 0.75f);
             return true;
         }
 
@@ -24,13 +27,13 @@ public class LeapAbility extends StandardLastingAbility {
     }
 
     @Override
-    public boolean onTick(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public boolean onTick(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
         syntheticsPlayer.getEntity().resetFallDistance();
         return false;
     }
 
     @Override
-    public void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public void onRestoreActivate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
 
     }
 
@@ -41,7 +44,7 @@ public class LeapAbility extends StandardLastingAbility {
     }
 
     @Override
-    public void activateClient(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance.Data data) {
+    public void activateClient(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> data) {
 
 
     }

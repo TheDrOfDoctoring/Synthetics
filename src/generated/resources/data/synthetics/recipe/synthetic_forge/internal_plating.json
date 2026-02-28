@@ -8,7 +8,7 @@
       "tag": "c:ingots/iron"
     }
   },
-  "lava_cost": 50,
+  "lava_cost": 250,
   "pattern": [
     "BAB",
     "BBB",

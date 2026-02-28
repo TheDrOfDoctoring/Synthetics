@@ -1,0 +1,34 @@
+{
+  "parent": "synthetics:hand_flamethrower",
+  "hidden": false,
+  "id": "synthetics:hand_repulsor",
+  "requirements": {
+    "experience_cost": 60,
+    "required_items": [
+      {
+        "amount": 15,
+        "item": {
+          "item": "minecraft:gunpowder"
+        }
+      },
+      {
+        "amount": 4,
+        "item": {
+          "item": "minecraft:ender_pearl"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:hand_repulsor"
+  },
+  "x": 60,
+  "y": -60
+}

@@ -1,0 +1,32 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:ancient_alloy_ingot"
+    },
+    "B": {
+      "tag": "minecraft:wool"
+    },
+    "C": {
+      "item": "minecraft:redstone"
+    },
+    "D": {
+      "item": "synthetics:basic_circuit"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    " C ",
+    "BDB",
+    "A A"
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:basic_dampeners",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:basic_inertial_dampeners"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

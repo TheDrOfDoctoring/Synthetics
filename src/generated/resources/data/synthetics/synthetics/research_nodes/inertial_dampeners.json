@@ -1,24 +1,26 @@
 {
+  "parent": "synthetics:basic_dampeners",
+  "hidden": false,
   "id": "synthetics:inertial_dampeners",
   "requirements": {
     "experience_cost": 75,
     "required_items": [
       {
-        "amount": 15,
+        "amount": 32,
         "item": {
           "item": "minecraft:iron_ingot"
         }
       },
       {
-        "amount": 64,
+        "amount": 8,
         "item": {
-          "item": "minecraft:coal"
+          "item": "synthetics:basic_circuit"
         }
       },
       {
-        "amount": 4,
+        "amount": 1,
         "item": {
-          "item": "minecraft:diamond"
+          "item": "synthetics:ancient_alloy_ingot"
         }
       }
     ]
@@ -27,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:inertial_dampeners"
   },
-  "x": 0,
-  "y": 0
+  "x": -15,
+  "y": -80
 }

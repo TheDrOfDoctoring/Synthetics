@@ -4,9 +4,12 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
-import com.thedrofdoctoring.synthetics.core.data.collections.tags.SyntheticsItemTags;
+import com.thedrofdoctoring.synthetics.core.data.collections.tags.AugmentTags;
+import com.thedrofdoctoring.synthetics.core.data.collections.tags.ItemTags;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import net.minecraft.core.HolderLookup;
@@ -29,6 +32,7 @@ public class SyntheticsTagProvider {
     public static void register(DataGenerator gen, GatherDataEvent event, PackOutput output, CompletableFuture<HolderLookup.Provider> future, ExistingFileHelper existingFileHelper) {
         SyntheticsBlockTagProvider blockTagProvider = new SyntheticsBlockTagProvider(output, future, existingFileHelper);
         gen.addProvider(event.includeServer(), new SyntheticBodyPartsTagProvider(output, future, existingFileHelper));
+        gen.addProvider(event.includeServer(), new SyntheticsAugmentTagProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new SyntheticBodySegmentsTagProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), blockTagProvider);
         gen.addProvider(event.includeServer(), new SyntheticsItemTagProvider(output, future, blockTagProvider.contentsGetter(), existingFileHelper));
@@ -45,7 +49,19 @@ public class SyntheticsTagProvider {
 
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
-            tag(SyntheticsItemTags.IRON_GEARS).add(SyntheticsItems.IRON_GEAR.get());
+            tag(ItemTags.IRON_GEARS).add(SyntheticsItems.IRON_GEAR.get());
+        }
+    }
+
+    public static class SyntheticsAugmentTagProvider extends TagsProvider<Augment> {
+
+        protected SyntheticsAugmentTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(output, SyntheticsData.AUGMENTS, lookupProvider, Synthetics.MODID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.@NotNull Provider provider) {
+            tag(AugmentTags.DAMPENERS).add(Augments.BASIC_INERTIAL_DAMPENERS, Augments.CYBERNETIC_INERTIAL_DAMPENERS, Augments.MECHANICAL_INERTIAL_DAMPENERS);
         }
     }
 
@@ -75,7 +91,7 @@ public class SyntheticsTagProvider {
         protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(BodyParts.EYES_MAIN).add(BodyParts.ORGANIC_LEFT_EYE, BodyParts.ORGANIC_RIGHT_EYE, BodyParts.CYBERNETIC_LEFT_EYE, BodyParts.CYBERNETIC_RIGHT_EYE);
             tag(BodyParts.FEET_MAIN).add(BodyParts.ORGANIC_LEFT_FOOT, BodyParts.ORGANIC_RIGHT_FOOT, BodyParts.CYBERNETIC_LEFT_FOOT, BodyParts.CYBERNETIC_RIGHT_FOOT);
-            tag(BodyParts.HEART_MAIN).add(BodyParts.ORGANIC_HEART);
+            tag(BodyParts.HEART_MAIN).add(BodyParts.ORGANIC_HEART, BodyParts.MECHANICAL_HEART, BodyParts.CYBERNETIC_HEART);
             tag(BodyParts.TISSUE_MAIN).add(BodyParts.ORGANIC_TISSUE, BodyParts.CYBERNETIC_TISSUE);
             tag(BodyParts.LUNGS_MAIN).add(BodyParts.ORGANIC_LUNGS);
             tag(BodyParts.NON_ORGANIC_HANDS).add(BodyParts.MECHANICAL_LEFT_HAND, BodyParts.MECHANICAL_RIGHT_HAND, BodyParts.CYBERNETIC_LEFT_HAND, BodyParts.CYBERNETIC_RIGHT_HAND);
@@ -83,8 +99,10 @@ public class SyntheticsTagProvider {
             tag(BodyParts.TIBIA_MAIN).add(BodyParts.ORGANIC_TIBIA);
             tag(BodyParts.SKULL_MAIN).add(BodyParts.ORGANIC_SKULL);
             tag(BodyParts.RIBCAGE_MAIN).add(BodyParts.ORGANIC_RIBCAGE);
-            tag(BodyParts.BRAINS_MAIN).add(BodyParts.ORGANIC_BRAIN);
+            tag(BodyParts.BRAINS_MAIN).add(BodyParts.ORGANIC_BRAIN, BodyParts.CYBERNETIC_BRAIN);
             tag(BodyParts.ARM_MUSCLE_MAIN).add(BodyParts.ORGANIC_ARM_MUSCLE);
+            tag(BodyParts.STOMACH_MAIN).add(BodyParts.ORGANIC_STOMACH);
+
 
             tag(BodyParts.ALL_BONES).addTags(BodyParts.SKULL_MAIN, BodyParts.RIBCAGE_MAIN, BodyParts.TIBIA_MAIN);
             tag(BodyParts.ALL_MUSCLES).addTags(BodyParts.ARM_MUSCLE_MAIN);

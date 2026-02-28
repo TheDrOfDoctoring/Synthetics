@@ -18,7 +18,7 @@ public class NetworkingEventHandler {
     @SubscribeEvent
     public static void onTrack(PlayerEvent.StartTracking event) {
         if(event.getTarget() instanceof Player player && event.getEntity() instanceof ServerPlayer serverPlayer) {
-            ClientboundPlayerUpdatePacket packet = ClientboundPlayerUpdatePacket.create(player, SyntheticsPlayer.get(player).serialiseUpdateNBT(player.registryAccess()),false);
+            ClientboundPlayerUpdatePacket packet = ClientboundPlayerUpdatePacket.create(player, SyntheticsPlayer.get(player).serialiseUpdateNBT(player.registryAccess()),false, false);
             serverPlayer.connection.send(packet);
         }
     }

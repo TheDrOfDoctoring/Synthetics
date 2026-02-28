@@ -4,7 +4,7 @@ import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.resources.ResourceLocation;
 
-public abstract class AbilityInstance<T extends AbilityType> {
+public abstract class AbilityInstance<T extends AbilityType> implements IAbilityInstance {
 
     protected final T ability;
     protected final SyntheticsPlayer player;
@@ -18,7 +18,7 @@ public abstract class AbilityInstance<T extends AbilityType> {
         this.data = data;
     }
 
-    public T getAbility() {
+    public T type() {
         return ability;
     }
 

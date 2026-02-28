@@ -1,0 +1,13 @@
+{
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "synthetics:exhaustion_multiplier",
+    "factor": -0.2,
+    "operation": "add_multiplied_base"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:synthetic_lining_exhaustion",
+  "nature": "beneficial"
+}

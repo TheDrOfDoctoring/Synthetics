@@ -1,15 +1,22 @@
 package com.thedrofdoctoring.synthetics.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.thedrofdoctoring.synthetics.abilities.active.types.WallClimbAbility;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.EffectAbilityType;
+import com.thedrofdoctoring.synthetics.capabilities.cache.EffectAmplifierCache;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 
@@ -22,6 +29,22 @@ public abstract class LivingEntityMixin extends Entity {
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @WrapOperation(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z"))
+    private boolean modifyEffectAmplify(LivingEntity instance, MobEffectInstance effInstance, Entity entity, Operation<Boolean> original) {
+
+        if(instance instanceof Player player) {
+            EffectAmplifierCache cache = EffectAbilityType.getEffectCache(player);
+            int amplifyModifier = cache.getAmplificationModifier(effInstance.getEffect());
+            int modifiedAmplification = effInstance.getAmplifier() + amplifyModifier;
+            if(modifiedAmplification >= 0) {
+                return original.call(instance, new MobEffectInstance(effInstance.getEffect(), effInstance.getDuration(), modifiedAmplification, effInstance.isAmbient(), effInstance.isVisible(), effInstance.showIcon(), effInstance.hiddenEffect), entity);
+            }
+            return false;
+        }
+
+        return original.call(instance, effInstance, entity);
     }
 
     @ModifyReturnValue(method = "onClimbable", at = @At("RETURN"))
@@ -78,6 +101,14 @@ public abstract class LivingEntityMixin extends Entity {
             }
         }
         return original;
+    }
+
+    @Inject(method = "updateInvisibilityStatus", at = @At("RETURN"))
+    private void handleInvisibilityStatus(CallbackInfo ci) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if(self instanceof Player player && SyntheticsPlayerCache.get(player).invisible) {
+            this.setInvisible(true);
+        }
     }
 
 

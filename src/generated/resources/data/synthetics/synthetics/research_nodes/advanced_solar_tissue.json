@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:solar_tissue",
+  "hidden": false,
   "id": "synthetics:advanced_solar_tissue",
   "requirements": {
     "experience_cost": 125,

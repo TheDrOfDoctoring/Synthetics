@@ -1,5 +1,6 @@
 {
   "parent": "synthetics:artificial_tissue",
+  "hidden": false,
   "id": "synthetics:artificial_skin",
   "requirements": {
     "experience_cost": 50,

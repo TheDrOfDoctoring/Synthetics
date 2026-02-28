@@ -6,12 +6,8 @@ import com.thedrofdoctoring.synthetics.abilities.AbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.FlamethrowerAbilityInstance;
 import com.thedrofdoctoring.synthetics.abilities.active.types.*;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AttributeAbilityInstance;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
-import com.thedrofdoctoring.synthetics.abilities.passive.types.AttributeAbilityType;
-import com.thedrofdoctoring.synthetics.abilities.passive.types.BatteryAbilityType;
-import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityType;
+import com.thedrofdoctoring.synthetics.abilities.passive.instances.*;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.FoodGeneratorAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.SolarGeneratorAbility;
 import net.minecraft.core.Registry;
@@ -73,20 +69,39 @@ public class SyntheticAbilities {
                 () -> FlamethrowerAbilityInstance.Data.CODEC,
                 () -> FlamethrowerAbilityInstance.Data.STREAM_CODEC
         );
+        registerType("effect_amplifier_ability",
+                () -> EffectAbilityInstance.Data.CODEC,
+                () -> EffectAbilityInstance.Data.STREAM_CODEC
+        );
+        registerType("passive_healing_ability",
+                () -> HealingAbilityInstance.Data.CODEC,
+                () -> HealingAbilityInstance.Data.STREAM_CODEC
+        );
+        registerType("damage_modifier_ability",
+                () -> DamageResistanceAbilityInstance.Data.CODEC,
+                () -> DamageResistanceAbilityInstance.Data.STREAM_CODEC
+        );
 
     }
 
     public static final DeferredHolder<AbilityType, AttributeAbilityType> ATTRIBUTE_ABILITY = ABILITIES.register("attribute_type", AttributeAbilityType::new);
     public static final DeferredHolder<AbilityType, BatteryAbilityType> BATTERY = ABILITIES.register("battery", BatteryAbilityType::new);
     public static final DeferredHolder<AbilityType, SolarGeneratorAbility> SOLAR_GENERATOR = ABILITIES.register("solar_generator", SolarGeneratorAbility::new);
-    public static final DeferredHolder<AbilityType, PassiveAbilityType> UNDERWATER_VISION = ABILITIES.register("underwater_vision", PassiveAbilityType::new);
+    public static final DeferredHolder<AbilityType, StandardPassiveAbility> UNDERWATER_VISION = ABILITIES.register("underwater_vision", StandardPassiveAbility::new);
     public static final DeferredHolder<AbilityType, FoodGeneratorAbility> FOOD_GENERATOR = ABILITIES.register("food_generator", FoodGeneratorAbility::new);
+    public static final DeferredHolder<AbilityType, EffectAbilityType> EFFECT_AMPLIFIER = ABILITIES.register("effect_amplifier", EffectAbilityType::new);
+    public static final DeferredHolder<AbilityType, DamageResistanceAbilityType> DAMAGE_MODIFIER = ABILITIES.register("damage_modifier", DamageResistanceAbilityType::new);
+
 
     public static final DeferredHolder<AbilityType, LeapAbility> LEAP = ABILITIES.register("leap", LeapAbility::new);
     public static final DeferredHolder<AbilityType, WallClimbAbility> WALL_CLIMB = ABILITIES.register("wall_climb", WallClimbAbility::new);
     public static final DeferredHolder<AbilityType, ViewLinkedAbility> TOGGLE_VIEW_LINKED = ABILITIES.register("toggle_view_linked", ViewLinkedAbility::new);
     public static final DeferredHolder<AbilityType, InteractLinkedAbility> INTERACT_LINKED = ABILITIES.register("interact_linked", InteractLinkedAbility::new);
     public static final DeferredHolder<AbilityType, FlamethrowerAbility> FLAMETHROWER = ABILITIES.register("flamethrower", FlamethrowerAbility::new);
+    public static final DeferredHolder<AbilityType, RepulsorAbility> REPULSOR = ABILITIES.register("repulsor", RepulsorAbility::new);
+    public static final DeferredHolder<AbilityType, ViewLinkedMenuAbility> VIEW_LINKED_MENU = ABILITIES.register("view_linked_menu", ViewLinkedMenuAbility::new);
+    public static final DeferredHolder<AbilityType, InvisibilityAbility> INVISIBILITY = ABILITIES.register("invisibility", InvisibilityAbility::new);
+    public static final DeferredHolder<AbilityType, HealingAbilityType> HEALING = ABILITIES.register("healing", HealingAbilityType::new);
 
 
     private static void registerType(String id, Supplier<MapCodec<? extends AbilityData>> codec, Supplier<StreamCodec<? super RegistryFriendlyByteBuf, ? extends AbilityData>> streamCodec) {

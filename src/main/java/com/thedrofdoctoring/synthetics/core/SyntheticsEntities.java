@@ -27,7 +27,9 @@ public class SyntheticsEntities {
             .fireImmune(), false);
     public static final DeferredHolder<EntityType<?>, EntityType<DummyCameraEntity>> DUMMY_CAMERA_ENTITY = ENTITY_TYPES.register("dummy_camera_entity", () -> EntityType.Builder.of(DummyCameraEntity::new, MobCategory.MISC)
             .sized(0.01F, 0.01F)
-            .clientTrackingRange(10)
+            .clientTrackingRange(32)
+            .setTrackingRange(32)
+            .canSpawnFarFromPlayer()
             .updateInterval(1)
             .fireImmune()
             .noSummon()
