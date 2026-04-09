@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:night_vision",
+  "augment_id": "synthetics:night_vision",
+  "complexity": 2,
+  "valid_parts": "#synthetics:eyes"
+}

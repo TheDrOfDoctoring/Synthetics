@@ -3,6 +3,7 @@
   "package": "com.thedrofdoctoring.synthetics.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BlockMixin",
     "EntityMixin",
     "FoodDataMixin",
     "LivingEntityMixin",
@@ -15,5 +16,7 @@
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "client": [
+  ]
 }

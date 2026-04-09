@@ -34,7 +34,7 @@ public class ViewLinkedAbility extends StandardLastingAbility {
 
 
     @Override
-    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer) {
+    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> instance) {
         SyntheticsPlayerCache cache = SyntheticsPlayerCache.get(syntheticsPlayer.getEntity());
         cache.canViewLinked = false;
     }

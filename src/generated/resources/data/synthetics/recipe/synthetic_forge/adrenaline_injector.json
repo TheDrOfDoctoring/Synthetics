@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:basic_circuit"
+    },
+    "B": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "item": "synthetics:ancient_alloy_ingot"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    " AB",
+    " B ",
+    "C  "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:adrenaline_injector",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:adrenaline_injector"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

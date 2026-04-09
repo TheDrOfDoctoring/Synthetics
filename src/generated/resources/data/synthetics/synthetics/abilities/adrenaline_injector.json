@@ -1,0 +1,44 @@
+{
+  "ability_data": {
+    "type": "synthetics:lasting_effect_ability",
+    "active_ability": {
+      "cooldown": 30,
+      "duration": 120
+    },
+    "on_deactivate": [
+      {
+        "amplifier": 1,
+        "duration": 300,
+        "mob_effect": "minecraft:slowness",
+        "should_show": true
+      },
+      {
+        "amplifier": 0,
+        "duration": 400,
+        "mob_effect": "minecraft:weakness",
+        "should_show": true
+      }
+    ],
+    "on_tick": [
+      {
+        "amplifier": 1,
+        "duration": 20,
+        "mob_effect": "minecraft:speed",
+        "should_show": true
+      },
+      {
+        "amplifier": 1,
+        "duration": 20,
+        "mob_effect": "minecraft:strength",
+        "should_show": true
+      }
+    ],
+    "texture_path_override": "synthetics:adrenaline_injector",
+    "title_path_override": "adrenaline_injector"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:lasting_effect"
+  },
+  "id": "synthetics:adrenaline_injector",
+  "nature": "beneficial"
+}

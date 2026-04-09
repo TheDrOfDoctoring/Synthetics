@@ -261,6 +261,48 @@ public class SyntheticsAugmentsProvider {
                         .maxCopies(2, 2)
                         .abilities(Abilities.FIRE_RESISTANT_TISSUE)
         );
+        register(context,
+                Augment.Builder.of(context, Augments.ADRENALINE_INJECTOR, getPart(partLookup, BodyParts.HEART_MAIN))
+                        .complexity(2)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.ADRENALINE_INJECTOR)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.CHEST_HARPOON, getPart(partLookup, BodyParts.RIBCAGE_MAIN))
+                        .complexity(2)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.CHEST_HARPOON)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.PERMEATOR, getPart(partLookup, BodyParts.HANDS_MAIN))
+                        .complexity(5)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.PERMEATOR, Abilities.CLOSE_PERMEATOR)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.LINKED_TELEPORTER, getPart(partLookup, BodyParts.RIBCAGE_MAIN))
+                        .complexity(4)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.LINKED_TELEPORT)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.ORE_DOWSING, getPart(partLookup, BodyParts.BRAINS_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.ORE_DOWSING)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.NIGHT_VISION, getPart(partLookup, BodyParts.EYES_MAIN))
+                        .complexity(2)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.NIGHT_VISION)
+        );
     }
 
     private static void register(BootstrapContext<Augment> context, Augment.Builder builder) {

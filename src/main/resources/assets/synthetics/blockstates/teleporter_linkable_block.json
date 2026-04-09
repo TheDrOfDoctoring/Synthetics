@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "synthetics:block/teleporter_linkable_block"
+    }
+  }
+}

@@ -18,5 +18,6 @@ public class SyntheticsPlayerCache {
 
     public boolean invisible;
 
-    public final EffectAmplifierCache effectCache = new EffectAmplifierCache();
+    public final EffectAmplifierCache effectCache    = new EffectAmplifierCache();
+    public final BlockHighlightCache  highlightCache = new BlockHighlightCache();
 }

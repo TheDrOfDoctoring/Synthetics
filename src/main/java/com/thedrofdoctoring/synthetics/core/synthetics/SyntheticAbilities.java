@@ -2,9 +2,9 @@ package com.thedrofdoctoring.synthetics.core.synthetics;
 
 import com.mojang.serialization.MapCodec;
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.abilities.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
-import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
-import com.thedrofdoctoring.synthetics.abilities.active.instances.FlamethrowerAbilityInstance;
+import com.thedrofdoctoring.synthetics.abilities.active.instances.*;
 import com.thedrofdoctoring.synthetics.abilities.active.types.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.*;
@@ -81,6 +81,22 @@ public class SyntheticAbilities {
                 () -> DamageResistanceAbilityInstance.Data.CODEC,
                 () -> DamageResistanceAbilityInstance.Data.STREAM_CODEC
         );
+        registerType("lasting_effect_ability",
+                () -> LastingEffectAbilityInstance.Data.CODEC,
+                () -> LastingEffectAbilityInstance.Data.STREAM_CODEC
+        );
+        registerType("harpoon_ability",
+                () -> HarpoonAbilityInstance.Data.CODEC,
+                () -> HarpoonAbilityInstance.Data.STREAM_CODEC
+        );
+        registerType("permeator_ability",
+                () -> BlockPermeatorAbilityInstance.Data.CODEC,
+                () -> BlockPermeatorAbilityInstance.Data.STREAM_CODEC
+        );
+        registerType("block_highlight_ability",
+                () -> BlockHighlightAbilityInstance.Data.CODEC,
+                () -> BlockHighlightAbilityInstance.Data.STREAM_CODEC
+        );
 
     }
 
@@ -91,6 +107,7 @@ public class SyntheticAbilities {
     public static final DeferredHolder<AbilityType, FoodGeneratorAbility> FOOD_GENERATOR = ABILITIES.register("food_generator", FoodGeneratorAbility::new);
     public static final DeferredHolder<AbilityType, EffectAbilityType> EFFECT_AMPLIFIER = ABILITIES.register("effect_amplifier", EffectAbilityType::new);
     public static final DeferredHolder<AbilityType, DamageResistanceAbilityType> DAMAGE_MODIFIER = ABILITIES.register("damage_modifier", DamageResistanceAbilityType::new);
+    public static final DeferredHolder<AbilityType, HealingAbilityType> HEALING = ABILITIES.register("healing", HealingAbilityType::new);
 
 
     public static final DeferredHolder<AbilityType, LeapAbility> LEAP = ABILITIES.register("leap", LeapAbility::new);
@@ -101,10 +118,15 @@ public class SyntheticAbilities {
     public static final DeferredHolder<AbilityType, RepulsorAbility> REPULSOR = ABILITIES.register("repulsor", RepulsorAbility::new);
     public static final DeferredHolder<AbilityType, ViewLinkedMenuAbility> VIEW_LINKED_MENU = ABILITIES.register("view_linked_menu", ViewLinkedMenuAbility::new);
     public static final DeferredHolder<AbilityType, InvisibilityAbility> INVISIBILITY = ABILITIES.register("invisibility", InvisibilityAbility::new);
-    public static final DeferredHolder<AbilityType, HealingAbilityType> HEALING = ABILITIES.register("healing", HealingAbilityType::new);
+    public static final DeferredHolder<AbilityType, LastingEffectAbility> LASTING_EFFECT = ABILITIES.register("lasting_effect", LastingEffectAbility::new);
+    public static final DeferredHolder<AbilityType, HarpoonAbility> HARPOON = ABILITIES.register("harpoon", HarpoonAbility::new);
+    public static final DeferredHolder<AbilityType, BlockPermeatorAbility> PERMEATOR = ABILITIES.register("permeator", BlockPermeatorAbility::new);
+    public static final DeferredHolder<AbilityType, ClosePermeatedAbility> CLOSE_PERMEATED = ABILITIES.register("close_permeated", ClosePermeatedAbility::new);
+    public static final DeferredHolder<AbilityType, InteractLinkedAbility> TELEPORT_LINKED = ABILITIES.register("teleport_linked", InteractLinkedAbility::new);
+    public static final DeferredHolder<AbilityType, BlockHighlightAbility> BLOCK_HIGHLIGHT = ABILITIES.register("block_highlight", BlockHighlightAbility::new);
 
 
-    private static void registerType(String id, Supplier<MapCodec<? extends AbilityData>> codec, Supplier<StreamCodec<? super RegistryFriendlyByteBuf, ? extends AbilityData>> streamCodec) {
+    private static <T extends AbilityData> void registerType(String id, Supplier<MapCodec<T>> codec, Supplier<StreamCodec<? super RegistryFriendlyByteBuf, T>> streamCodec) {
         ABILITY_DATA.register(id, codec);
         ABILITY_STREAM_DATA.register(id, streamCodec);
     }

@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:ender_pearl"
+    },
+    "B": {
+      "item": "synthetics:pure_ancient_alloy_ingot"
+    },
+    "C": {
+      "item": "synthetics:basic_circuit"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    "CBC",
+    "AAA",
+    "CBC"
+  ],
+  "recipe_time": 400,
+  "required_research": "synthetics:linked_teleport",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:linked_teleport"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

@@ -1,18 +1,23 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
 import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
-import com.thedrofdoctoring.synthetics.abilities.active.types.FlamethrowerAbility;
+import com.thedrofdoctoring.synthetics.abilities.active.StandardActiveAbility;
+import com.thedrofdoctoring.synthetics.abilities.active.types.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.*;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttributes;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
+import com.thedrofdoctoring.synthetics.core.data.collections.tags.SyntheticsBlockTags;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+
+import java.util.List;
 
 public class SyntheticsAbilitiesProvider {
 
@@ -432,6 +437,89 @@ public class SyntheticsAbilitiesProvider {
                                 context, 0.8d, DamageTypes.IN_FIRE, DamageTypes.ON_FIRE, DamageTypes.LAVA
                         ),
                         Abilities.FIRE_RESISTANT_TISSUE.location()
+                )
+        );
+        context.register(
+                Abilities.ADRENALINE_INJECTOR,
+                Ability.create(
+                        SyntheticAbilities.LASTING_EFFECT.get(),
+                        LastingEffectAbility.create(
+                                ActiveAbilityOptions.options(30, 120, 0, 0),
+                                List.of(LastingEffectAbility.detailsFrom(MobEffects.MOVEMENT_SPEED, 20, 1), LastingEffectAbility.detailsFrom(MobEffects.DAMAGE_BOOST, 20, 1)),
+                                List.of(LastingEffectAbility.detailsFrom(MobEffects.MOVEMENT_SLOWDOWN, 15 * 20, 1), LastingEffectAbility.detailsFrom(MobEffects.WEAKNESS, 20 * 20, 0)),
+                                Abilities.ADRENALINE_INJECTOR.location().getPath(),
+                                Abilities.ADRENALINE_INJECTOR.location()
+                                ),
+                        Abilities.ADRENALINE_INJECTOR.location()
+                )
+        );
+        context.register(
+                Abilities.CHEST_HARPOON,
+                Ability.create(
+                        SyntheticAbilities.HARPOON.get(),
+                        HarpoonAbility.create(
+                                1.0d,
+                                ActiveAbilityOptions.options(60, 25),
+                                0.1f, 1f
+                        ),
+                        Abilities.CHEST_HARPOON.location()
+                )
+        );
+        context.register(
+                Abilities.PERMEATOR,
+                Ability.create(
+                        SyntheticAbilities.PERMEATOR.get(),
+                        BlockPermeatorAbility.create(
+                                10d,
+                                ActiveAbilityOptions.options(60, 25, 10000),
+                                1f, context.lookup(Registries.BLOCK).getOrThrow(SyntheticsBlockTags.PERMEATOR_BLACKLIST)
+                        ),
+                        Abilities.PERMEATOR.location()
+                )
+        );
+        context.register(
+                Abilities.CLOSE_PERMEATOR,
+                Ability.create(
+                        SyntheticAbilities.CLOSE_PERMEATED.get(),
+                        StandardActiveAbility.create(1.0d, ActiveAbilityOptions.options(1)),
+                        Abilities.CLOSE_PERMEATOR.location()
+                )
+        );
+        context.register(
+                Abilities.LINKED_TELEPORT,
+                Ability.create(
+                        SyntheticAbilities.TELEPORT_LINKED.get(),
+                        ActiveAbilityType.create(
+                                1.0d,
+                                ActiveAbilityOptions.options(1, 0, 0, 7500)
+                        ),
+                        Abilities.LINKED_TELEPORT.location()
+                )
+        );
+        context.register(
+                Abilities.ORE_DOWSING,
+                Ability.create(
+                        SyntheticAbilities.BLOCK_HIGHLIGHT.get(),
+                        BlockHighlightAbility.create(
+                                15.0d,
+                                context.lookup(Registries.BLOCK).getOrThrow(SyntheticsBlockTags.ORE_DOWSING),
+                                ActiveAbilityOptions.options(30, 600, 0, 25),
+                                Abilities.ORE_DOWSING.location().getPath()
+                        ),
+                        Abilities.ORE_DOWSING.location()
+                )
+        );
+        context.register(
+                Abilities.NIGHT_VISION,
+                Ability.create(
+                        SyntheticAbilities.LASTING_EFFECT.get(),
+                        LastingEffectAbility.create(
+                                ActiveAbilityOptions.options(10, 99999999, 0, 2),
+                                List.of(LastingEffectAbility.detailsFrom(MobEffects.NIGHT_VISION, 800, 1, false)),
+                                Abilities.NIGHT_VISION.location().getPath(),
+                                Abilities.NIGHT_VISION.location()
+                        ),
+                        Abilities.NIGHT_VISION.location()
                 )
         );
     }

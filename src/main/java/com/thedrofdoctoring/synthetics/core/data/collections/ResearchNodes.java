@@ -50,6 +50,12 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> NEURAL_CHAMBER = create("neural_chamber");
     public static final ResourceKey<ResearchNode> TISSUE_AUGMENTS = create("tissue_augments");
     public static final ResourceKey<ResearchNode> FIRE_RESISTANT_TISSUE = create("fire_resistant_tissue");
+    public static final ResourceKey<ResearchNode> ADRENALINE_INJECTOR = create("adrenaline_injector");
+    public static final ResourceKey<ResearchNode> CHEST_HARPOON = create("chest_harpoon");
+    public static final ResourceKey<ResearchNode> PERMEATOR = create("permeator");
+    public static final ResourceKey<ResearchNode> LINKED_TELEPORTER = create("linked_teleport");
+    public static final ResourceKey<ResearchNode> ORE_DOWSING = create("ore_dowsing");
+    public static final ResourceKey<ResearchNode> NIGHT_VISION = create("night_vision");
 
 
     public static final ResourceKey<ResearchTab> TAB_AUGMENTS = createTab("augments");

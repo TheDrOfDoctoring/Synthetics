@@ -2,7 +2,6 @@ package com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.menu
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
-import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.AbilityManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
@@ -88,20 +87,20 @@ public class AbilityRadialMenu extends GenericRadialMenu<AbilityRadialSlot> {
                 return;
             }
 
-            AbilityActiveInstance<?> instance = abilityManager.getActiveAbilityInstanceById(selected.abilityType().getAbilityID());
+            AbilityActiveInstance<?> instance = abilityManager.getActiveAbilityInstanceById(selected.id());
             if(instance == null) {
                 super.drawPieArc(slot, buffer, x, y, z, radiusIn, radiusOut, startAngle, endAngle, colour);
                 return;
             }
 
-            if(selected.abilityType() instanceof ActiveAbilityType<?> active && abilityManager.isAbilityActive(active)) {
+            if(abilityManager.isAbilityActive(selected)) {
                 float actionPercentage = abilityManager.getPercentageForAbilityTime(instance);
                 int colourBase = slot.isHovered() ? 200 : 160;
                 int colourA = 60 | (colourBase << 8) | (colourBase << 16) | (100 << 24);
                 super.drawPieArc(slot, buffer, x, y, z, radiusIn, radiusOut, startAngle, endAngle, colourA);
                 super.drawPieArc(slot, buffer, x, y, z, radiusIn, radiusIn + ((radiusOut - radiusIn) * actionPercentage), startAngle, endAngle, colourA);
                 return;
-            } else if(selected.abilityType() instanceof ActiveAbilityType<?> active && abilityManager.isAbilityOnCooldown(active)) {
+            } else if(abilityManager.isAbilityOnCooldown(selected)) {
                 float actionPercentage = -abilityManager.getPercentageForAbilityTime(instance);
                 int colourBase = slot.isHovered() ? 200 : 160;
                 int colourA = (60) | (60 << 8) | (colourBase << 16) | (100 << 24);

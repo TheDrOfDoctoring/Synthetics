@@ -12,6 +12,9 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -37,7 +40,17 @@ public class SyntheticsAugmentCommand {
                                         )
                                 )
                         )
+                )
+                .then(Commands.literal("give")
+                        .then(Commands.argument("part", new AugmentArgument(context))
+                                .executes(con -> giveAugment(con, AugmentArgument.getAugment(con, "part"),  Lists.newArrayList(con.getSource().getPlayerOrException())))
+                                .then(Commands.argument("player", EntityArgument.entities())
+                                        .executes(con -> giveAugment(con, AugmentArgument.getAugment(con, "part"),  EntityArgument.getPlayers(con, "player"))
+                                        )
+                                )
+                        )
                 );
+
 
     }
     @SuppressWarnings("SameReturnValue")
@@ -61,6 +74,16 @@ public class SyntheticsAugmentCommand {
                 context.getSource().sendSuccess(() -> Component.translatable("command.synthetics.modify_success"), true);
             }
 
+        }
+        return 0;
+    }
+
+    private static int giveAugment(@NotNull CommandContext<CommandSourceStack> context, Augment augment, @NotNull Collection<ServerPlayer> players) {
+        ItemStack stack = augment.createDefaultItemStack(context.getSource().registryAccess());
+        for(ServerPlayer player : players) {
+            if(player.getInventory().add(stack)) {
+                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((player.getRandom().nextFloat() - player.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+            }
         }
         return 0;
     }

@@ -745,6 +745,107 @@ public class SyntheticsResearchProvider {
                         .position(-150, -30)
                         .tab(ResearchNodes.TAB_AUGMENTS)
         );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.ADRENALINE_INJECTOR, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.ADRENALINE_INJECTOR))
+                        .experience(100)
+                        .parent(ResearchNodes.BLOOD_TANK)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.BLAZE_POWDER), 24),
+                                        Pair.of(Ingredient.of(Items.SUGAR), 24),
+                                        Pair.of(Ingredient.of(Items.GOLD_INGOT), 24)
+                                ))
+                        .position(-120, -30)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.CHEST_HARPOON, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.CHEST_HARPOON))
+                        .experience(100)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.CHAIN), 24),
+                                        Pair.of(Ingredient.of(Items.GUNPOWDER), 16),
+                                        Pair.of(Ingredient.of(Items.DIAMOND), 6)
+                                ))
+                        .position(180, -30)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.PERMEATOR, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.PERMEATOR))
+                        .experience(500)
+                        .parent(ResearchNodes.HAND_REPULSOR)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 24),
+                                        Pair.of(Ingredient.of(Items.NETHER_STAR), 1),
+                                        Pair.of(Ingredient.of(Items.ENDER_PEARL), 16)
+                                ))
+                        .position(above(ResearchNodes.HAND_REPULSOR))
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.LINKED_TELEPORTER, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.LINKED_TELEPORTER))
+                        .experience(150)
+                        .parent(ResearchNodes.CHEST_HARPOON)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.ENDER_PEARL), 16),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 16),
+                                        Pair.of(Ingredient.of(Items.BLAZE_ROD), 6)
+                                ))
+                        .position(180, -60)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.ORE_DOWSING, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.ORE_DOWSING))
+                        .experience(150)
+                        .parent(ResearchNodes.INTEGRATED_REDSTONE_LINK)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.LODESTONE), 1),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 12),
+                                        Pair.of(Ingredient.of(Items.SCULK), 16)
+                                ))
+                        .position(above(ResearchNodes.INTEGRATED_REDSTONE_LINK))
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.NIGHT_VISION, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.NIGHT_VISION))
+                        .experience(150)
+                        .parent(ResearchNodes.INTERNAL_CAMERA_LINK)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.GLOW_INK_SAC), 12),
+                                        Pair.of(Ingredient.of(Tags.Items.GLASS_PANES), 32),
+                                        Pair.of(Ingredient.of(Items.EMERALD), 8)
+                                ))
+                        .position(above(ResearchNodes.INTERNAL_CAMERA_LINK))
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
     }
 
     public static void createTabs(BootstrapContext<ResearchTab> context) {

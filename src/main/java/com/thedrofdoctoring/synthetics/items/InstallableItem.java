@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.items;
 
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.client.core.items.SyntheticsClientItems;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;

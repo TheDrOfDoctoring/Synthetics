@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:storage_blocks/copper"
+    },
+    "B": {
+      "item": "synthetics:pure_ancient_alloy_ingot"
+    },
+    "C": {
+      "item": "synthetics:basic_circuit"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    "CBC",
+    "AAA",
+    "CBC"
+  ],
+  "recipe_time": 400,
+  "required_research": "synthetics:ore_dowsing",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:ore_dowsing"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

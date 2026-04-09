@@ -1,8 +1,8 @@
 package com.thedrofdoctoring.synthetics.capabilities.interfaces;
 
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 
 import java.util.Collection;
 import java.util.List;

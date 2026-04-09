@@ -1,6 +1,6 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.types;
 
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
+import com.thedrofdoctoring.synthetics.abilities.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.EffectAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.EffectAmplifierCache;

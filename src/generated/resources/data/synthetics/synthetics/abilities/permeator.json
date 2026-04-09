@@ -1,0 +1,18 @@
+{
+  "ability_data": {
+    "type": "synthetics:permeator_ability",
+    "active_ability": {
+      "cooldown": 60,
+      "duration": 25,
+      "power_cost": 10000
+    },
+    "blacklisted_blocks": "#synthetics:standard_permeator_blacklist",
+    "length": 10.0,
+    "radius": 1.0
+  },
+  "ability_type": {
+    "ability_id": "synthetics:permeator"
+  },
+  "id": "synthetics:permeator",
+  "nature": "beneficial"
+}

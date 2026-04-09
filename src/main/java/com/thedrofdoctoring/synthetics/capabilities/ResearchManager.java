@@ -1,11 +1,11 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.mojang.datafixers.util.Pair;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.advancements.SyntheticsAdvancementTriggers;
 import com.thedrofdoctoring.synthetics.advancements.criterion.GenericSyntheticsCriterion;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.IResearchManager;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.core.HolderGetter;

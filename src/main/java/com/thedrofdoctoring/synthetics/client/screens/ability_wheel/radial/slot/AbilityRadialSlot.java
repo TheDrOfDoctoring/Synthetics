@@ -38,7 +38,7 @@ public class AbilityRadialSlot extends RadialMenuSlot {
             Holder<Ability> toRemove = this.slotData.abilities().get(selectedIndex);
             HolderSet<Ability> set = HolderSet.direct(this.slotData.abilities()
                     .stream()
-                    .sorted(Comparator.comparing(t -> t == toRemove))
+                    .sorted(Comparator.comparing(t -> t != toRemove))
                     .skip(1)
                     .toList());
             //noinspection unchecked
@@ -89,7 +89,7 @@ public class AbilityRadialSlot extends RadialMenuSlot {
     @Override
     public boolean onClick() {
         if(selectedIndex > -1 && Minecraft.getInstance().getConnection() != null && Minecraft.getInstance().player != null) {
-            Minecraft.getInstance().getConnection().send(new ServerboundActivateAbilityPacket(slotData.abilities().get(selectedIndex).value().abilityType()));
+            Minecraft.getInstance().getConnection().send(new ServerboundActivateAbilityPacket(slotData.abilities().get(selectedIndex)));
             owner.close();
         }
 

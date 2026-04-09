@@ -39,7 +39,7 @@ public class LeapAbility extends StandardLastingAbility {
 
 
     @Override
-    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer) {
+    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> instance) {
 
     }
 

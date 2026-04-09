@@ -105,7 +105,6 @@ public class FlameProjectileEntity extends AbstractHurtingProjectile {
             creeper.ignite();
         }
         entity.hurt(entity.damageSources().onFire(), contactDamage);
-        int remainingFire = entity.getRemainingFireTicks();
         entity.igniteForTicks(fireTicks);
     }
 

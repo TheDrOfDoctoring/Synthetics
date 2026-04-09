@@ -11,7 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @MethodsReturnNonnullByDefault

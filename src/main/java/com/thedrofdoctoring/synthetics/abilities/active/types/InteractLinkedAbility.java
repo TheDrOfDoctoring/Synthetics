@@ -8,9 +8,9 @@ import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.entities.DummyCameraEntity;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLinkedInteractPacket;
+import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,16 +18,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ClipBlockStateContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
-
-import static net.minecraft.world.level.BlockGetter.traverseBlocks;
 
 public class InteractLinkedAbility extends StandardActiveAbility {
     public InteractLinkedAbility(ResourceLocation id) {
@@ -49,7 +45,7 @@ public class InteractLinkedAbility extends StandardActiveAbility {
                     eyePos = eyePos.add(lookVector.scale(1.5f));
                 }
             }
-            BlockHitResult hit = isBlockInLine(serverPlayer.level(), new ClipBlockStateContext(eyePos, lookVector.scale(ACTIVATION_DISTANCE).add(eyePos), state -> state.getBlock() instanceof LinkableBlock));
+            BlockHitResult hit = Helper.isBlockInLine(serverPlayer.level(), new ClipBlockStateContext(eyePos, lookVector.scale(ACTIVATION_DISTANCE).add(eyePos), state -> state.getBlock() instanceof LinkableBlock));
             if(hit.getType() == HitResult.Type.BLOCK) {
                 BlockPos pos = hit.getBlockPos();
                 BlockEntity be = serverPlayer.level().getBlockEntity(pos);
@@ -66,16 +62,7 @@ public class InteractLinkedAbility extends StandardActiveAbility {
         return false;
     }
 
-    private static BlockHitResult isBlockInLine(Level level, ClipBlockStateContext context) {
-        return traverseBlocks(context.getFrom(), context.getTo(), context, (matchContext, pos) -> {
-            BlockState blockstate = level.getBlockState(pos);
-            Vec3 vec3 = matchContext.getFrom().subtract(matchContext.getTo());
-            return matchContext.isTargetBlock().test(blockstate) ? new BlockHitResult(matchContext.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), pos, false) : null;
-        }, (failContext) -> {
-            Vec3 vec3 = failContext.getFrom().subtract(failContext.getTo());
-            return BlockHitResult.miss(failContext.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(failContext.getTo()));
-        });
-    }
+
 
     @Override
     public boolean canBeUsed(SyntheticsPlayer syntheticsPlayer) {
@@ -86,6 +73,10 @@ public class InteractLinkedAbility extends StandardActiveAbility {
     public void addDescriptionInfo(Ability ability, List<Component> description) {
         if(ability.abilityData() instanceof AbilityActiveInstance.Data data) {
             description.add(Component.translatable("abilities.synthetics.description.cooldown", data.options().cooldown()).withStyle(ChatFormatting.BLUE));
+            if(data.options().powerDrain() > 0) {
+                // this is a bit of a hack, used for the power cost of a specific interaction, like the teleporter.
+                description.add(Component.translatable("abilities.synthetics.description.power_cost", data.options().powerDrain()).withStyle(ChatFormatting.BLUE));
+            }
         }
     }
 }

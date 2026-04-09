@@ -16,7 +16,7 @@ public interface IAbilityEventListener<T extends IAbilityInstance> {
             T t = (T) instance;
             onTick(t, instanceCount, player);
         } catch (ClassCastException e) {
-            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.toString());
+            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.getInstanceID().toString());
         }
     }
 
@@ -28,7 +28,7 @@ public interface IAbilityEventListener<T extends IAbilityInstance> {
             T t = (T) instance;
             onDamage(event, t, instanceCount, player);
         } catch (ClassCastException e) {
-            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.toString());
+            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.getInstanceID().toString());
         }
     }
 }

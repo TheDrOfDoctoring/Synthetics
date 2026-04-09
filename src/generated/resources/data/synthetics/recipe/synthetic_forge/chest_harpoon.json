@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:gems/diamond"
+    },
+    "B": {
+      "item": "minecraft:gunpowder"
+    },
+    "C": {
+      "item": "minecraft:chain"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    " AB",
+    " B ",
+    "C  "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:chest_harpoon",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:chest_harpoon"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

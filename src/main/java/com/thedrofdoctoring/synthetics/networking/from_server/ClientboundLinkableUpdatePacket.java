@@ -42,8 +42,6 @@ public record ClientboundLinkableUpdatePacket(List<LinkableBlockLocation> linkin
     }
 
     public static void handle(ClientboundLinkableUpdatePacket packet, final IPayloadContext context) {
-        context.enqueueWork(() -> {
-            BlockLinkingPlayer.get(context.player()).setLinkableData(packet.linkingLocations());
-        });
+        context.enqueueWork(() -> BlockLinkingPlayer.get(context.player()).setLinkableData(packet.linkingLocations()));
     }
 }

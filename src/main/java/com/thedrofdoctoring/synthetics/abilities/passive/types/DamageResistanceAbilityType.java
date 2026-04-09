@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.types;
 
+import com.thedrofdoctoring.synthetics.abilities.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.passive.IAbilityEventListener;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.DamageResistanceAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
@@ -32,7 +32,8 @@ public class DamageResistanceAbilityType extends PassiveAbilityType<DamageResist
         if (ability.abilityData() instanceof DamageResistanceAbilityInstance.Data data) {
             data.damageTypes().stream().forEach(
                     type -> {
-                        if(type.getKey() != null) description.add(Component.translatable("abilities.synthetics.damage.desc", type.getKey().location().toString()).withStyle(ability.abilityNature().defaultColour()));
+                        if(type.getKey() != null) description.add(Component.translatable("abilities.synthetics.description.damage_type"
+                                , type.getKey().location().toString()).withStyle(ability.abilityNature().defaultColour()));
                     });
         }
     }

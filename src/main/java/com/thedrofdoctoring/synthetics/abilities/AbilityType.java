@@ -2,7 +2,6 @@ package com.thedrofdoctoring.synthetics.abilities;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -23,6 +22,9 @@ public abstract class AbilityType {
     public abstract ResourceLocation getAbilityID();
 
     public Component title(AbilityData data) {
+        if(data.titlePathOverride().isPresent()) {
+            return Component.translatable("abilities." + getAbilityID().getNamespace() + "." + data.titlePathOverride().get());
+        }
         return Component.translatable("abilities." + getAbilityID().getNamespace() + "." + getAbilityID().getPath());
     }
 

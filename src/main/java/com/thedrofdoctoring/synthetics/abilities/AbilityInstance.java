@@ -1,6 +1,5 @@
 package com.thedrofdoctoring.synthetics.abilities;
 
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import net.minecraft.resources.ResourceLocation;
 

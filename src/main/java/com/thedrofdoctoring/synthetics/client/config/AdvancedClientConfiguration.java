@@ -15,6 +15,7 @@ import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.WheelManager
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundActivateAbilityPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -122,9 +123,9 @@ public class AdvancedClientConfiguration {
     public void toggleAction(int index) {
         AbilityKeyManager manager = currentKeyManager();
         if(manager != null && Minecraft.getInstance().getConnection() != null) {
-            Ability toToggle = manager.getBoundAbility(index);
+            Holder<Ability> toToggle = manager.getBoundAbilityHolder(index);
             if(toToggle != null) {
-                Minecraft.getInstance().getConnection().send(new ServerboundActivateAbilityPacket(toToggle.abilityType()));
+                Minecraft.getInstance().getConnection().send(new ServerboundActivateAbilityPacket(toToggle));
             }
         }
     }

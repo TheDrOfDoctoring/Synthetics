@@ -40,3 +40,11 @@ By default, the Synthetic Forge will not start a recipe without a player with th
 However, this limitation can be bypassed with the usage of a Blueprint. To create a Blueprint, place an empty blueprint in the slot above the Synthetic Forge's output slot.
 Then, begin the recipe normally, once completed it will replace the Blueprint with one with the required research to complete recipe.
 Any blueprint with the required research to complete a recipe placed in that slot will allow a recipe to be completed without a player present.
+
+# Credits / Special Thanks
+
+[Vampirism](https://github.com/Teamlapen/Vampirism), for which the ability system is partially based on.
+
+[Tool Belt](https://github.com/gigaherz/ToolBelt), for which the ability wheel is based on
+
+

@@ -1,10 +1,11 @@
 package com.thedrofdoctoring.synthetics.abilities.active;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.abilities.AbilityData;
+import com.thedrofdoctoring.synthetics.abilities.AbilityInstance;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
 import com.thedrofdoctoring.synthetics.abilities.IAbilityInstance;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
@@ -32,15 +33,41 @@ public abstract class ActiveAbilityType<T extends IAbilityInstance> extends Abil
     public abstract boolean activate(SyntheticsPlayer syntheticsPlayer, T abilityData);
 
     @SuppressWarnings("unchecked")
-    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> instance) {
+    public boolean activate(SyntheticsPlayer syntheticsPlayer, AbilityInstance<?> instance) {
         try {
             T t = (T) instance;
             return activate(syntheticsPlayer, t);
 
         } catch (ClassCastException e) {
-            Synthetics.LOGGER.error("Given ability data {} is wrong for type", instance.toString());
+            Synthetics.LOGGER.error("Given ability data {} is wrong for type", instance.getInstanceID().toString());
         }
         return false;
+    }
+
+    public void onAbilityAdded(T instance, SyntheticsPlayer player) {}
+
+    public void onAbilityRemoved(T instance, SyntheticsPlayer player) {}
+
+    @SuppressWarnings("unchecked")
+    public void onAbilityAddedInst(IAbilityInstance instance, SyntheticsPlayer player) {
+        try {
+            T t = (T) instance;
+            onAbilityAdded(t, player);
+
+        } catch (ClassCastException e) {
+            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.getInstanceID().toString());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void onAbilityRemovedInst(IAbilityInstance instance,SyntheticsPlayer player) {
+        try {
+            T t = (T) instance;
+            onAbilityRemoved(t,player);
+
+        } catch (ClassCastException e) {
+            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.getInstanceID().toString());
+        }
     }
 
     public abstract boolean canBeUsed(SyntheticsPlayer syntheticsPlayer);
@@ -53,7 +80,14 @@ public abstract class ActiveAbilityType<T extends IAbilityInstance> extends Abil
     }
 
     public static AbilityActiveInstance.Data create(double factor, ActiveAbilityOptions options) {
-        return new AbilityActiveInstance.Data(factor, options);
+        return new AbilityActiveInstance.Data(factor, options, Optional.empty(), Optional.empty());
+    }
+
+    public static AbilityActiveInstance.Data create(double factor, ActiveAbilityOptions options, String titlePathOverride) {
+        return new AbilityActiveInstance.Data(factor, options, Optional.of(titlePathOverride), Optional.empty());
+    }
+    public static AbilityActiveInstance.Data create(double factor, ActiveAbilityOptions options, String titlePathOverride, ResourceLocation texturePathOverride) {
+        return new AbilityActiveInstance.Data(factor, options, Optional.of(titlePathOverride), Optional.of(texturePathOverride));
     }
 
     @Override

@@ -1,0 +1,18 @@
+{
+  "ability_data": {
+    "type": "synthetics:block_highlight_ability",
+    "active_ability": {
+      "cooldown": 30,
+      "duration": 600,
+      "power_drain": 25
+    },
+    "radius": 15.0,
+    "title_path_override": "ore_dowsing",
+    "whitelisted_blocks": "#synthetics:ore_dowsing"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:block_highlight"
+  },
+  "id": "synthetics:ore_dowsing",
+  "nature": "beneficial"
+}

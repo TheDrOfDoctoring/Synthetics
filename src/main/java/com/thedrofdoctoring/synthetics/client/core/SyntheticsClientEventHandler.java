@@ -1,9 +1,11 @@
 package com.thedrofdoctoring.synthetics.client.core;
 
 import com.mojang.blaze3d.shaders.FogShape;
+import com.thedrofdoctoring.synthetics.abilities.active.types.BlockHighlightAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
+import com.thedrofdoctoring.synthetics.client.renderers.world.HighlightedBlocksRenderer;
 import com.thedrofdoctoring.synthetics.client.renderers.world.LinkableBlocksRenderer;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundClimbPacket;
@@ -21,6 +23,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import org.joml.Quaternionf;
 
 import java.util.Collection;
@@ -32,6 +35,7 @@ public class SyntheticsClientEventHandler {
 
     private final Minecraft mc;
     private SyntheticsPlayer syntheticsPlayer;
+
 
     private SyntheticsClientEventHandler() {
         this.mc = Minecraft.getInstance();
@@ -78,6 +82,7 @@ public class SyntheticsClientEventHandler {
     public void onRenderLevel(RenderLevelStageEvent event) {
         if(event.getStage() == RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES) {
             LinkableBlocksRenderer.render(event.getPoseStack(), event.getCamera());
+            HighlightedBlocksRenderer.render(event.getPoseStack(), event.getCamera());
         }
     }
 
@@ -86,6 +91,17 @@ public class SyntheticsClientEventHandler {
         if(event.getName() == VanillaGuiLayers.EXPERIENCE_BAR && SyntheticsPlayerCache.get(syntheticsPlayer.getEntity()).isNotViewingSelf) {
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public void onTick(PlayerTickEvent.Post event) {
+        if(event.getEntity().isLocalPlayer()) {
+            BlockHighlightAbility.tick(event.getEntity());
+        }
+    }
+
+    public static void onBlockBreak(BlockPos pos) {
+        BlockHighlightAbility.blockDestroyed(pos, Minecraft.getInstance().player);
     }
 
 

@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:gems/emerald"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "tag": "c:glass_panes"
+    }
+  },
+  "lava_cost": 100,
+  "pattern": [
+    " B ",
+    "ACA",
+    " B "
+  ],
+  "recipe_time": 200,
+  "required_research": "synthetics:night_vision",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:night_vision"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

@@ -3,7 +3,9 @@ package com.thedrofdoctoring.synthetics.client.core;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.DummyCameraEntityRenderer;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.FlameProjectileEntityRenderer;
+import com.thedrofdoctoring.synthetics.client.renderers.entities.HarpoonProjectileEntityRenderer;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.OrganDisplayMobRenderer;
+import com.thedrofdoctoring.synthetics.client.renderers.entities.models.HarpoonProjectileEntityModel;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.InstallableRenderLayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -30,17 +32,18 @@ public class SyntheticsEntitiesClient {
 
     public static void registerLayers(EntityRenderersEvent.@NotNull RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ORGAN_HEAD, SkullModel::createHumanoidHeadLayer);
-
         event.registerLayerDefinition(ORGAN_INNER_LAYER, () -> LayerDefinition.create(HumanoidArmorModel.createBodyLayer(INNER_ARMOR_DEFORMATION), 64, 32));
         event.registerLayerDefinition(ORGAN_OUTER_LAYER, () -> LayerDefinition.create(HumanoidArmorModel.createBodyLayer(OUTER_ARMOR_DEFORMATION), 64, 32));
-
         event.registerLayerDefinition(ORGAN_MOB, () -> (LayerDefinition.create(HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F), 64, 64)));
+
+        event.registerLayerDefinition(HarpoonProjectileEntityModel.LAYER_LOCATION, HarpoonProjectileEntityModel::createBodyLayer);
 
     }
     public static void registerRenderers(EntityRenderersEvent.@NotNull RegisterRenderers event) {
         event.registerEntityRenderer(SyntheticsEntities.ORGAN_DISPLAY_MOB.get(), OrganDisplayMobRenderer::new);
         event.registerEntityRenderer(SyntheticsEntities.FLAME_PROJECTILE.get(), FlameProjectileEntityRenderer::new);
         event.registerEntityRenderer(SyntheticsEntities.DUMMY_CAMERA_ENTITY.get(), DummyCameraEntityRenderer::new);
+        event.registerEntityRenderer(SyntheticsEntities.HARPOON_PROJECTILE.get(), HarpoonProjectileEntityRenderer::new);
 
     }
 

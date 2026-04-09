@@ -1,12 +1,10 @@
 package com.thedrofdoctoring.synthetics.core;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.blocks.AugmentationChamber;
-import com.thedrofdoctoring.synthetics.blocks.OrganSkull;
-import com.thedrofdoctoring.synthetics.blocks.SyntheticForge;
-import com.thedrofdoctoring.synthetics.blocks.SyntheticResearchTable;
+import com.thedrofdoctoring.synthetics.blocks.*;
 import com.thedrofdoctoring.synthetics.blocks.linkables.CameraLinkableBlock;
 import com.thedrofdoctoring.synthetics.blocks.linkables.RedstoneLinkableBlock;
+import com.thedrofdoctoring.synthetics.blocks.linkables.TeleporterLinkableBlock;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsSkulls;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -62,6 +60,21 @@ public class SyntheticsBlocks {
             .sound(SoundType.METAL)
             .noOcclusion()
     ));
+    public static final DeferredBlock<TeleporterLinkableBlock> TELEPORTER_LINKABLE_BLOCK = registerWithItem("teleporter_linkable_block", () -> new TeleporterLinkableBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_BLACK)
+            .requiresCorrectToolForDrops()
+            .strength(5.0F, 6.0F)
+            .sound(SoundType.METAL)
+            .noOcclusion()
+    ));
+    public static final DeferredBlock<PermeableBlock> PERMEABLE_BLOCK = register("permeable_block", () -> new PermeableBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_PURPLE)
+            .strength(-1.0F, 3600000.0F)
+            .noCollission()
+            .noLootTable()
+            .noTerrainParticles()
+            .lightLevel((__) -> 10)
+    ));
     public static final DeferredBlock<OrganSkull> ORGAN_SKULL = registerWithItem("organ_skull", () -> new OrganSkull(SyntheticsSkulls.SkullTypes.ORGAN_HEAD, BlockBehaviour.Properties.ofFullCopy(Blocks.ZOMBIE_HEAD).sound(SoundType.SCULK)));
 
     private static <T extends Block> DeferredBlock<T> registerWithItem(String name, Supplier<T> supplier, Item.@NotNull Properties properties) {
@@ -73,6 +86,11 @@ public class SyntheticsBlocks {
     private static <T extends Block> DeferredBlock<T> registerWithItem(String name, Supplier<T> supplier) {
         return registerWithItem(name, supplier, new Item.Properties());
     }
+
+    public static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> supplier) {
+        return BLOCKS.register(name, supplier);
+    }
+
     public static void register(IEventBus bus) {
         BLOCKS.register(bus);
     }

@@ -1,0 +1,34 @@
+{
+  "parent": "synthetics:hand_repulsor",
+  "hidden": false,
+  "id": "synthetics:permeator",
+  "requirements": {
+    "experience_cost": 500,
+    "required_items": [
+      {
+        "amount": 24,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      },
+      {
+        "amount": 1,
+        "item": {
+          "item": "minecraft:nether_star"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:ender_pearl"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:permeator"
+  },
+  "x": 60,
+  "y": -90
+}

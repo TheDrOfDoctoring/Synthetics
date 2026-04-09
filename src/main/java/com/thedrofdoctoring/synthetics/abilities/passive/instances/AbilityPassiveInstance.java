@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.instances;
 
+import com.thedrofdoctoring.synthetics.abilities.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.AbilityInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.PassiveAbilityType;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;

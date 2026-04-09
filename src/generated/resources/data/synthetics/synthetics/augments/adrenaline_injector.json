@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:adrenaline_injector",
+  "augment_id": "synthetics:adrenaline_injector",
+  "complexity": 2,
+  "valid_parts": "#synthetics:heart"
+}

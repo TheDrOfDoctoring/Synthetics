@@ -1,7 +1,7 @@
 package com.thedrofdoctoring.synthetics.capabilities.interfaces;
 
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 

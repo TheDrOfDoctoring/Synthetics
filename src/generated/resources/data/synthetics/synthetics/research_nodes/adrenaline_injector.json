@@ -1,0 +1,34 @@
+{
+  "parent": "synthetics:blood_tank",
+  "hidden": false,
+  "id": "synthetics:adrenaline_injector",
+  "requirements": {
+    "experience_cost": 100,
+    "required_items": [
+      {
+        "amount": 24,
+        "item": {
+          "item": "minecraft:blaze_powder"
+        }
+      },
+      {
+        "amount": 24,
+        "item": {
+          "item": "minecraft:sugar"
+        }
+      },
+      {
+        "amount": 24,
+        "item": {
+          "item": "minecraft:gold_ingot"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:adrenaline_injector"
+  },
+  "x": -120,
+  "y": -30
+}

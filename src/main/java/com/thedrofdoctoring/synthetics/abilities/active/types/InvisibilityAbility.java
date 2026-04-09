@@ -27,7 +27,7 @@ public class InvisibilityAbility extends StandardLastingAbility {
     }
 
     @Override
-    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer) {
+    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> instance) {
         syntheticsPlayer.getEntity().setInvisible(false);
         SyntheticsPlayerCache.get(syntheticsPlayer.getEntity()).invisible = false;
     }

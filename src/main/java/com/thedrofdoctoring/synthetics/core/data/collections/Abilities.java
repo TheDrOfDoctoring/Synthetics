@@ -44,6 +44,13 @@ public class Abilities {
     public static final ResourceKey<Ability> SHIMMER_INVISIBILITY = create("shimmer_invisibility");
     public static final ResourceKey<Ability> HEALING_TISSUE = create("healing_tissue");
     public static final ResourceKey<Ability> FIRE_RESISTANT_TISSUE = create("fire_resistant_tissue");
+    public static final ResourceKey<Ability> ADRENALINE_INJECTOR = create("adrenaline_injector");
+    public static final ResourceKey<Ability> CHEST_HARPOON = create("chest_harpoon");
+    public static final ResourceKey<Ability> PERMEATOR = create("permeator");
+    public static final ResourceKey<Ability> CLOSE_PERMEATOR = create("close_permeated");
+    public static final ResourceKey<Ability> LINKED_TELEPORT = create("linked_teleport");
+    public static final ResourceKey<Ability> ORE_DOWSING = create("ore_dowsing");
+    public static final ResourceKey<Ability> NIGHT_VISION = create("night_vision");
 
 
     private static ResourceKey<Ability> create(String name) {

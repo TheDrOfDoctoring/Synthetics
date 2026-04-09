@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.entities.DummyCameraEntity;
 import com.thedrofdoctoring.synthetics.entities.FlameProjectileEntity;
+import com.thedrofdoctoring.synthetics.entities.HarpoonProjectileEntity;
 import com.thedrofdoctoring.synthetics.entities.OrganDisplayMob;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
@@ -24,6 +25,9 @@ public class SyntheticsEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<OrganDisplayMob>> ORGAN_DISPLAY_MOB = prepareEntityType("organ_display", () -> EntityType.Builder.of(OrganDisplayMob::new, MobCategory.MONSTER).sized(0.6F, 1.95F), true);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameProjectileEntity>> FLAME_PROJECTILE = prepareEntityType("flame_projectile", () -> EntityType.Builder.<FlameProjectileEntity>of(FlameProjectileEntity::new, MobCategory.MISC)
             .sized(0.3F, 0.3F)
+            .fireImmune(), false);
+    public static final DeferredHolder<EntityType<?>, EntityType<HarpoonProjectileEntity>> HARPOON_PROJECTILE = prepareEntityType("harpoon_projectile", () -> EntityType.Builder.<HarpoonProjectileEntity>of(HarpoonProjectileEntity::new, MobCategory.MISC)
+            .sized(0.5F, 0.5F)
             .fireImmune(), false);
     public static final DeferredHolder<EntityType<?>, EntityType<DummyCameraEntity>> DUMMY_CAMERA_ENTITY = ENTITY_TYPES.register("dummy_camera_entity", () -> EntityType.Builder.of(DummyCameraEntity::new, MobCategory.MISC)
             .sized(0.01F, 0.01F)

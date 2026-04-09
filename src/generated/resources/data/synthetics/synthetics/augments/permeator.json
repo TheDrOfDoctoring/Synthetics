@@ -1,0 +1,9 @@
+{
+  "abilities": [
+    "synthetics:permeator",
+    "synthetics:close_permeated"
+  ],
+  "augment_id": "synthetics:permeator",
+  "complexity": 5,
+  "valid_parts": "#synthetics:hands"
+}

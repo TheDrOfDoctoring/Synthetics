@@ -1,0 +1,17 @@
+{
+  "ability_data": {
+    "type": "synthetics:harpoon_ability",
+    "active_ability": {
+      "cooldown": 60,
+      "duration": 25
+    },
+    "damage": 1.0,
+    "force": 0.1,
+    "speed": 1.0
+  },
+  "ability_type": {
+    "ability_id": "synthetics:harpoon"
+  },
+  "id": "synthetics:chest_harpoon",
+  "nature": "beneficial"
+}

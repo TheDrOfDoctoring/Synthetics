@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:ender_eye"
+    },
+    "B": {
+      "item": "synthetics:pure_ancient_alloy_ingot"
+    },
+    "C": {
+      "item": "synthetics:basic_circuit"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    "CBC",
+    "CAC",
+    "CBC"
+  ],
+  "recipe_time": 400,
+  "required_research": "synthetics:permeator",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:permeator"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

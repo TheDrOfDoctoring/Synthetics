@@ -9,6 +9,7 @@ import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
 import com.thedrofdoctoring.synthetics.core.data.collections.tags.AugmentTags;
 import com.thedrofdoctoring.synthetics.core.data.collections.tags.ItemTags;
+import com.thedrofdoctoring.synthetics.core.data.collections.tags.SyntheticsBlockTags;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
@@ -19,6 +20,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -76,8 +78,10 @@ public class SyntheticsTagProvider {
         protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(BlockTags.MINEABLE_WITH_AXE).add(SyntheticsBlocks.RESEARCH_TABLE.get());
             tag(BlockTags.NEEDS_STONE_TOOL).add(SyntheticsBlocks.RESEARCH_TABLE.get());
-            tag(BlockTags.MINEABLE_WITH_PICKAXE).add(SyntheticsBlocks.AUGMENTATION_CHAMBER.get(), SyntheticsBlocks.SYNTHETIC_FORGE.get(), SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get(), SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get());
-            tag(BlockTags.NEEDS_IRON_TOOL).add(SyntheticsBlocks.AUGMENTATION_CHAMBER.get(), SyntheticsBlocks.SYNTHETIC_FORGE.get(), SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get(), SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get());
+            tag(BlockTags.MINEABLE_WITH_PICKAXE).add(SyntheticsBlocks.TELEPORTER_LINKABLE_BLOCK.get(), SyntheticsBlocks.AUGMENTATION_CHAMBER.get(), SyntheticsBlocks.SYNTHETIC_FORGE.get(), SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get(), SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get());
+            tag(BlockTags.NEEDS_IRON_TOOL).add(SyntheticsBlocks.TELEPORTER_LINKABLE_BLOCK.get(), SyntheticsBlocks.AUGMENTATION_CHAMBER.get(), SyntheticsBlocks.SYNTHETIC_FORGE.get(), SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get(), SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get());
+            tag(SyntheticsBlockTags.PERMEATOR_BLACKLIST).addTag(BlockTags.WITHER_IMMUNE).addTag(BlockTags.AIR).addTag(BlockTags.REPLACEABLE).add(SyntheticsBlocks.PERMEABLE_BLOCK.value());
+            tag(SyntheticsBlockTags.ORE_DOWSING).addTag(BlockTags.IRON_ORES).addTag(BlockTags.GOLD_ORES).addTag(BlockTags.DIAMOND_ORES).addTag(BlockTags.REDSTONE_ORES).add(Blocks.ANCIENT_DEBRIS);
         }
     }
 

@@ -1,5 +1,6 @@
 {
   "values": [
+    "synthetics:teleporter_linkable_block",
     "synthetics:augmentation_chamber",
     "synthetics:synthetic_forge",
     "synthetics:redstone_linkable_block",

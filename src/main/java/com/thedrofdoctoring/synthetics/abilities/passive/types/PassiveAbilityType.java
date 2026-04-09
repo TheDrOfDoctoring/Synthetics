@@ -1,9 +1,9 @@
 package com.thedrofdoctoring.synthetics.abilities.passive.types;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.abilities.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
 import com.thedrofdoctoring.synthetics.abilities.IAbilityInstance;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
@@ -51,7 +51,7 @@ public abstract class PassiveAbilityType<T extends IAbilityInstance> extends Abi
             onAbilityAdded(t, instanceCount, player);
 
         } catch (ClassCastException e) {
-            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.toString());
+            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.getInstanceID().toString());
         }
     }
 
@@ -62,7 +62,7 @@ public abstract class PassiveAbilityType<T extends IAbilityInstance> extends Abi
             onAbilityRemoved(t, instanceCount, player);
 
         } catch (ClassCastException e) {
-            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.toString());
+            Synthetics.LOGGER.error("Given ability instance {} is wrong for type", instance.getInstanceID().toString());
         }
     }
 

@@ -1,5 +1,7 @@
-// 1.21.1	2026-01-27T09:40:54.7278247	Tags for minecraft:block mod id synthetics
+// 1.21.1	2026-04-07T19:23:06.012836	Tags for minecraft:block mod id synthetics
 fcdc555768962d79708b86d42f75301df4453a32 data/minecraft/tags/block/mineable/axe.json
-425102db19b913590e8da2f296ac294725851940 data/minecraft/tags/block/mineable/pickaxe.json
-425102db19b913590e8da2f296ac294725851940 data/minecraft/tags/block/needs_iron_tool.json
+a7367355ccc2845f2e8808463be503e94150d8df data/minecraft/tags/block/mineable/pickaxe.json
+a7367355ccc2845f2e8808463be503e94150d8df data/minecraft/tags/block/needs_iron_tool.json
 fcdc555768962d79708b86d42f75301df4453a32 data/minecraft/tags/block/needs_stone_tool.json
+feb3ec6fe4fe3f6088090867d5e882a7710cfadb data/synthetics/tags/block/ore_dowsing.json
+65f75d0f824a30a95b07841883952004250bc839 data/synthetics/tags/block/standard_permeator_blacklist.json

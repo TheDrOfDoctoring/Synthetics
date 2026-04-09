@@ -57,6 +57,7 @@ public class SyntheticsLootTableProvider {
             this.dropSelf(SyntheticsBlocks.ORGAN_SKULL.get());
             this.dropSelf(SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get());
             this.dropSelf(SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get());
+            this.dropSelf(SyntheticsBlocks.TELEPORTER_LINKABLE_BLOCK.get());
         }
 
         @NotNull

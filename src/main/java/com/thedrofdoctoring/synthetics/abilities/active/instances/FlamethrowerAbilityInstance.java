@@ -11,6 +11,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Optional;
+
 public class FlamethrowerAbilityInstance extends AbilityActiveInstance<FlamethrowerAbility> {
 
     private final Data flameData;
@@ -29,7 +31,7 @@ public class FlamethrowerAbilityInstance extends AbilityActiveInstance<Flamethro
         private final int flameLifeTime;
 
         public Data(double factor, ActiveAbilityOptions options, int flameTime) {
-            super(factor, options);
+            super(factor, options, Optional.empty(), Optional.empty());
             this.flameLifeTime = flameTime;
         }
 
@@ -52,7 +54,6 @@ public class FlamethrowerAbilityInstance extends AbilityActiveInstance<Flamethro
         @Override
         public MapCodec<? extends AbilityActiveInstance.Data> codec() {
             return CODEC;
-
         }
 
         @Override

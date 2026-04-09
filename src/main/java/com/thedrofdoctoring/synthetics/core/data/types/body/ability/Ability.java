@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.abilities.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.AbilityWheel;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.ISlotEntry;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.menu.GenericRadialMenu;
@@ -80,6 +80,9 @@ public record Ability(AbilityType abilityType, AbilityData abilityData, AbilityN
 
     public ResourceLocation textureLocation() {
         ResourceLocation id = abilityType.getAbilityID();
+        if(abilityData.texturePathOverride().isPresent()) {
+            return id.withPath("textures/abilities/" + abilityData.texturePathOverride().get().getPath() + ".png");
+        }
         return id.withPath("textures/abilities/" + id.getPath() + ".png");
     }
 

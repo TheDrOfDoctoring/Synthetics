@@ -1,0 +1,26 @@
+{
+  "ability_data": {
+    "type": "synthetics:lasting_effect_ability",
+    "active_ability": {
+      "cooldown": 10,
+      "duration": 99999999,
+      "power_drain": 2
+    },
+    "on_deactivate": [],
+    "on_tick": [
+      {
+        "amplifier": 1,
+        "duration": 800,
+        "mob_effect": "minecraft:night_vision",
+        "should_show": false
+      }
+    ],
+    "texture_path_override": "synthetics:night_vision",
+    "title_path_override": "night_vision"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:lasting_effect"
+  },
+  "id": "synthetics:night_vision",
+  "nature": "beneficial"
+}

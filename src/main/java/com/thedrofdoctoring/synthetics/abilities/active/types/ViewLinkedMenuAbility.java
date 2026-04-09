@@ -22,7 +22,7 @@ public class ViewLinkedMenuAbility extends StandardLastingAbility {
     }
 
     @Override
-    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer) {
+    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> instance) {
 
     }
 

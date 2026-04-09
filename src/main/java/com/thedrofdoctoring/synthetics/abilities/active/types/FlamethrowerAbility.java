@@ -1,19 +1,23 @@
 package com.thedrofdoctoring.synthetics.abilities.active.types;
 
+import com.thedrofdoctoring.synthetics.abilities.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.LastingAbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.FlamethrowerAbilityInstance;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityData;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
 import com.thedrofdoctoring.synthetics.entities.FlameProjectileEntity;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
 import java.util.Optional;
 
 public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityInstance> {
@@ -64,14 +68,12 @@ public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityI
 
 
     @Override
-    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer) {
+    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance instance) {
 
     }
 
     @Override
     public void activateClient(SyntheticsPlayer syntheticsPlayer, FlamethrowerAbilityInstance data) {
-
-
     }
 
     @Override
@@ -88,5 +90,13 @@ public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityI
 
     public static FlamethrowerAbilityInstance.Data create(double damage, ActiveAbilityOptions options, int flameLifeSpan) {
         return new FlamethrowerAbilityInstance.Data(damage, options, flameLifeSpan);
+    }
+
+    @Override
+    public void addDescriptionInfo(Ability ability, List<Component> description) {
+        if(ability.abilityData() instanceof FlamethrowerAbilityInstance.Data data) {
+            description.add(Component.translatable("abilities.synthetics.description.contact_damage", data.factor()).withStyle(ChatFormatting.BLUE));
+            description.add(Component.translatable("abilities.synthetics.description.flame_travel_distance_time", data.flameLifeTime()).withStyle(ChatFormatting.BLUE));
+        }
     }
 }

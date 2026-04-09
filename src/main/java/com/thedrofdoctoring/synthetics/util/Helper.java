@@ -15,8 +15,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipBlockStateContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -26,6 +29,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+
+import static net.minecraft.world.level.BlockGetter.traverseBlocks;
 
 @SuppressWarnings("unused")
 public class Helper {
@@ -60,6 +65,16 @@ public class Helper {
         return retrieveDataObject(location, registryKey, lookup, shouldThrow);
     }
 
+    public static BlockHitResult isBlockInLine(Level level, ClipBlockStateContext context) {
+        return traverseBlocks(context.getFrom(), context.getTo(), context, (matchContext, pos) -> {
+            BlockState blockstate = level.getBlockState(pos);
+            Vec3 vec3 = matchContext.getFrom().subtract(matchContext.getTo());
+            return matchContext.isTargetBlock().test(blockstate) ? new BlockHitResult(matchContext.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), pos, false) : null;
+        }, (failContext) -> {
+            Vec3 vec3 = failContext.getFrom().subtract(failContext.getTo());
+            return BlockHitResult.miss(failContext.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(failContext.getTo()));
+        });
+    }
 
     /**
      * from net.minecraft.client.gui.advancements.AdvancementEntryGui#findOptimalLines(ITextComponent, int)

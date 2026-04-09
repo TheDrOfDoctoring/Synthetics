@@ -37,6 +37,12 @@ public class Augments {
     public static final ResourceKey<Augment> SHIMMER_LAYER = create("shimmer_layer");
     public static final ResourceKey<Augment> REPAIRING_TISSUE = create("repairing_tissue");
     public static final ResourceKey<Augment> FIRE_RESISTANT_TISSUE = create("fire_resistant_tissue");
+    public static final ResourceKey<Augment> ADRENALINE_INJECTOR = create("adrenaline_injector");
+    public static final ResourceKey<Augment> CHEST_HARPOON = create("chest_harpoon");
+    public static final ResourceKey<Augment> PERMEATOR = create("permeator");
+    public static final ResourceKey<Augment> LINKED_TELEPORTER = create("linked_teleport");
+    public static final ResourceKey<Augment> ORE_DOWSING = create("ore_dowsing");
+    public static final ResourceKey<Augment> NIGHT_VISION = create("night_vision");
 
 
 

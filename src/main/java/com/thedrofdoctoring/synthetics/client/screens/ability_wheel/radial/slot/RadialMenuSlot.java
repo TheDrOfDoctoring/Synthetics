@@ -11,7 +11,6 @@ public abstract class RadialMenuSlot {
     private boolean hovered;
 
     protected final GenericRadialMenu<?> owner;
-    protected Component centralText;
     protected int selectedIndex;
 
 

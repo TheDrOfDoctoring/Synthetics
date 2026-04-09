@@ -114,7 +114,7 @@ public class WallClimbAbility extends StandardLastingAbility {
 
 
     @Override
-    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer) {
+    public void onAbilityDeactivated(SyntheticsPlayer syntheticsPlayer, AbilityActiveInstance<?> instance) {
         SyntheticsPlayerCache cache = SyntheticsPlayerCache.get(syntheticsPlayer.getEntity());
         cache.hasWallClimb = false;
         cache.onWall = false;

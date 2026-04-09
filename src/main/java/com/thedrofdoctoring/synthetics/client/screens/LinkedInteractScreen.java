@@ -143,8 +143,8 @@ public class LinkedInteractScreen extends Screen {
 
     public void renderLinkables(@NotNull GuiGraphics graphics, int x, int y, int mouseX, int mouseY) {
         List<LinkableButton> buttons = viewedLinkables;
-        for(int i = 0; i < buttons.size(); i++) {
-            buttons.get(i).render(graphics, x, y, mouseX, mouseY);
+        for (LinkableButton button : buttons) {
+            button.render(graphics, x, y, mouseX, mouseY);
         }
     }
 
