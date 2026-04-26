@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.thedrofdoctoring.synthetics.blocks.entities.linkables.CameraLinkableBlockEntity;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
+import com.thedrofdoctoring.synthetics.entities.linkable.DroneEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.RelativeMovement;
@@ -17,6 +18,8 @@ import java.util.Set;
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
 
+
+
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setCamera(Lnet/minecraft/world/entity/Entity;)V"))
     public void updateCamera(CallbackInfo ci) {
 
@@ -27,6 +30,10 @@ public class ServerPlayerMixin {
                 CameraLinkableBlockEntity.sendViewPacket(player, false);
             }
             cache.isNotViewingSelf = false;
+            if(player.getCamera() instanceof DroneEntity drone) {
+                drone.unlinkWithPlayer(player);
+            }
+
         }
     }
     @WrapOperation(

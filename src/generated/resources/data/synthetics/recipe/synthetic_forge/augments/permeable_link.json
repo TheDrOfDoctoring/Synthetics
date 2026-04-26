@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:gems/amethyst"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "lava_cost": 300,
+  "pattern": [
+    " B ",
+    "ACA",
+    " B "
+  ],
+  "recipe_time": 200,
+  "required_research": "synthetics:permeable_link",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:permeable_link"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

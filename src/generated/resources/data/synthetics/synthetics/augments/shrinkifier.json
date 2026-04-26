@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:shrinkifier",
+  "augment_id": "synthetics:shrinkifier",
+  "complexity": 3,
+  "valid_parts": "#synthetics:ribcage"
+}

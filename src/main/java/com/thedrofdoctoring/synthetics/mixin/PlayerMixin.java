@@ -1,7 +1,9 @@
 package com.thedrofdoctoring.synthetics.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.FoodGeneratorAbility;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
@@ -10,6 +12,7 @@ import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttributes;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +20,7 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -58,5 +62,16 @@ public abstract class PlayerMixin extends LivingEntity implements ISyntheticsPla
     private void addExhaustionScale(FoodData instance, float exhaustion, Operation<Void> original) {
         float exhaustionScale = (float) this.getAttributeValue(SyntheticsAttributes.EXHAUSTION_MULTIPLIER);
         original.call(instance, (exhaustion * exhaustionScale));
+    }
+
+    @ModifyExpressionValue(method = "attack", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;hurtMarked:Z", opcode = Opcodes.GETFIELD))
+    private boolean isLockedInPlace(boolean original, @Local(argsOnly = true) Entity target) {
+        if(original && target instanceof Player player) {
+            if(SyntheticsPlayerCache.get(player).lockedInPlace) {
+                player.hurtMarked = false;
+                return false;
+            }
+        }
+        return original;
     }
 }

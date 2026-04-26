@@ -3,12 +3,15 @@ package com.thedrofdoctoring.synthetics.networking.from_client;
 import com.mojang.datafixers.util.Function8;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
-import com.thedrofdoctoring.synthetics.entities.DummyCameraEntity;
+import com.thedrofdoctoring.synthetics.entities.linkable.DroneEntity;
+import com.thedrofdoctoring.synthetics.entities.linkable.DummyCameraEntity;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,16 +39,47 @@ public record ServerboundLinkedInputPacket(float sideways, float forward, float 
 
     public static void handle(ServerboundLinkedInputPacket linkedPacket, final IPayloadContext context) {
         context.enqueueWork(() -> {
-            if(context.player() instanceof ServerPlayer serverPlayer) {
-                if(SyntheticsPlayerCache.get(serverPlayer).isNotViewingSelf && serverPlayer.getCamera() instanceof DummyCameraEntity camera) {
+            if(context.player() instanceof ServerPlayer serverPlayer && SyntheticsPlayerCache.get(serverPlayer).isNotViewingSelf) {
+                Entity camera = serverPlayer.getCamera();
+                if(camera instanceof DummyCameraEntity) {
                     camera.lerpHeadTo(linkedPacket.yRotHead, (int) linkedPacket.xRot);
                     camera.absRotateTo(linkedPacket.yRot(), linkedPacket.xRot());
+                }
+                if(camera instanceof DroneEntity drone) {
+                    handleDroneInput(drone, linkedPacket);
+                    serverPlayer.serverLevel().getChunkSource().chunkMap.updateChunkTracking(serverPlayer);
                 }
             }
 
         });
 
     }
+
+    private static void handleDroneInput(DroneEntity drone, ServerboundLinkedInputPacket inputPacket) {
+        drone.absRotateTo(inputPacket.yRot(), inputPacket.xRot());
+        drone.setYHeadRot(inputPacket.yRotHead());
+        float verticalMotion = 0;
+        float sideways = inputPacket.sideways;
+        float forward = inputPacket.forward;
+        if(drone.isFlying()) {
+            if(inputPacket.sprint()) {
+                verticalMotion = -1.0f;
+            }
+            if(inputPacket.jumping()) {
+                verticalMotion = 1.0f;
+            }
+        } else {
+            if(inputPacket.jumping()) {
+                drone.jumpFromGround();
+                drone.setFlying(true);
+            }
+            sideways *= 0.5f;
+            forward *= 0.5f;
+        }
+        drone.travel(new Vec3(sideways, verticalMotion, forward));
+    }
+
+
 
     private static <B, C, T1, T2, T3, T4, T5, T6, T7, T8> StreamCodec<B, C> composite(
             final StreamCodec<? super B, T1> pCodec1,

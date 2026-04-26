@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/copper"
+    },
+    "B": {
+      "item": "synthetics:iron_gear"
+    },
+    "C": {
+      "item": "minecraft:feather"
+    }
+  },
+  "lava_cost": 100,
+  "pattern": [
+    " C ",
+    "BAB",
+    " A "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:mechanical_brush",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:mechanical_brush"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

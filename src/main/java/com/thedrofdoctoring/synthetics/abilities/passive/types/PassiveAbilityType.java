@@ -4,7 +4,6 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.abilities.AbilityData;
 import com.thedrofdoctoring.synthetics.abilities.AbilityType;
 import com.thedrofdoctoring.synthetics.abilities.IAbilityInstance;
-import com.thedrofdoctoring.synthetics.abilities.passive.instances.GenericPassiveAbilityInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.ChatFormatting;
@@ -36,9 +35,7 @@ public abstract class PassiveAbilityType<T extends IAbilityInstance> extends Abi
         description.add(Component.translatable("abilities.synthetics.description.ability_factor", ability.abilityData().factor()).withStyle(colour));
     }
 
-    public static GenericPassiveAbilityInstance.Data create(double factor) {
-        return new GenericPassiveAbilityInstance.Data(factor);
-    }
+
 
     public void onAbilityAdded(T instance, int instanceCount, SyntheticsPlayer player) {}
 

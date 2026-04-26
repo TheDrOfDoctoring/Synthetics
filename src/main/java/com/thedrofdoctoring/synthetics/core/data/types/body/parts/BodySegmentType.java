@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+
+//TODO: Default should be a holder instead of a resource key
 public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceLocation id, BodyPosition bodyPosition) implements IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodySegmentType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

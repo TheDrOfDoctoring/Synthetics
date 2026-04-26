@@ -1,0 +1,13 @@
+{
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.knockback_resistance",
+    "factor": 0.25,
+    "operation": "add_value"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:armoured_rib_knockback",
+  "nature": "beneficial"
+}

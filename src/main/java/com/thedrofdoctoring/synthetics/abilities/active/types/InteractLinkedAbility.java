@@ -6,7 +6,7 @@ import com.thedrofdoctoring.synthetics.blocks.entities.linkables.LinkableBlockEn
 import com.thedrofdoctoring.synthetics.blocks.linkables.LinkableBlock;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
-import com.thedrofdoctoring.synthetics.entities.DummyCameraEntity;
+import com.thedrofdoctoring.synthetics.entities.linkable.DummyCameraEntity;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLinkedInteractPacket;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.ChatFormatting;
@@ -49,7 +49,7 @@ public class InteractLinkedAbility extends StandardActiveAbility {
             if(hit.getType() == HitResult.Type.BLOCK) {
                 BlockPos pos = hit.getBlockPos();
                 BlockEntity be = serverPlayer.level().getBlockEntity(pos);
-                if(be instanceof LinkableBlockEntity linkable) {
+                if(be instanceof LinkableBlockEntity linkable && linkable.isLinked(serverPlayer)) {
                     linkable.onLinkedInteract(serverPlayer);
                     syntheticsPlayer.getEntity().playNotifySound(SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.MASTER,1f, 1.25f);
                     serverPlayer.connection.send(new ClientboundLinkedInteractPacket(linkable.getBlockPos()));

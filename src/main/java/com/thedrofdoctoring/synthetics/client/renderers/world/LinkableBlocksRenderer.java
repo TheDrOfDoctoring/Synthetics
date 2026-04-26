@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
 import com.thedrofdoctoring.synthetics.capabilities.linkable.BlockLinkingPlayer;
+import com.thedrofdoctoring.synthetics.capabilities.linkable.LinkableBlockLocation;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsRenderTypes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -29,7 +30,7 @@ public class LinkableBlocksRenderer {
         Minecraft minecraft = Minecraft.getInstance();
         if(minecraft.level == null || minecraft.player == null) return;
         if(!SyntheticsPlayerCache.get(minecraft.player).canViewLinked) return;
-        
+
         poseStack.pushPose();
 
         MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
@@ -39,16 +40,16 @@ public class LinkableBlocksRenderer {
         poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
         Vec3 pos = minecraft.player.position();
         Vec3i currentPos = new Vec3i((int) pos.x, (int) pos.y, (int) pos.z);
-        List<BlockPos> positions = BlockLinkingPlayer.get(minecraft.player).getLinkedPositionsInDimension(minecraft.player.level().dimension())
+        List<LinkableBlockLocation> positions = BlockLinkingPlayer.get(minecraft.player).getLinkedPositionsInDimension(minecraft.player.level().dimension())
                 .stream()
-                .filter(p -> p.closerThan(currentPos, 100d))
+                .filter(p -> p.pos().pos().closerThan(currentPos, 100d))
                 .toList();
-        for(BlockPos blockPos : positions) {
-            renderLinkedBlock(poseStack, buffer, blockPos);
+        for(LinkableBlockLocation location : positions) {
+            renderLinkedBlock(poseStack, buffer, location.pos().pos());
         }
         bufferSource.endBatch(SyntheticsRenderTypes.LINKABLE_BLOCKS);
-        for(BlockPos blockPos : positions) {
-            BlockEntity be = minecraft.level.getBlockEntity(blockPos);
+        for(LinkableBlockLocation location : positions) {
+            BlockEntity be = minecraft.level.getBlockEntity(location.pos().pos());
             if(be != null) {
                 renderLinkedName(poseStack, camera.rotation(), bufferSource, be);
             }

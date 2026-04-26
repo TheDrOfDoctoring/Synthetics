@@ -1,0 +1,37 @@
+{
+  "parent": "synthetics:organic_bones",
+  "hidden": false,
+  "id": "synthetics:ribcages",
+  "requirements": {
+    "experience_cost": 250,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      },
+      {
+        "amount": 32,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 48,
+        "item": {
+          "tag": "c:bones"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:body_parts",
+  "unlocked": {
+    "parts": [
+      "synthetics:armoured_ribcage",
+      "synthetics:synthetic_ribcage"
+    ]
+  },
+  "x": 105,
+  "y": 90
+}

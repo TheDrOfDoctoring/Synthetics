@@ -43,6 +43,18 @@ public class Augments {
     public static final ResourceKey<Augment> LINKED_TELEPORTER = create("linked_teleport");
     public static final ResourceKey<Augment> ORE_DOWSING = create("ore_dowsing");
     public static final ResourceKey<Augment> NIGHT_VISION = create("night_vision");
+    public static final ResourceKey<Augment> TELEPORT = create("teleport");
+    public static final ResourceKey<Augment> DRONE_LINK = create("drone_link");
+    public static final ResourceKey<Augment> PERMEABLE_LINK = create("permeable_link");
+    public static final ResourceKey<Augment> SHRINKIFIER = create("shrinkifier");
+    public static final ResourceKey<Augment> SHOCK_ABSORBER = create("shock_absorber");
+    public static final ResourceKey<Augment> CAMOUFLAGE_INVISIBILITY = create("camouflage_invisibility");
+    public static final ResourceKey<Augment> POSITION_LOCK = create("position_lock");
+    public static final ResourceKey<Augment> ENTITY_DETECTOR = create("entity_detector");
+    public static final ResourceKey<Augment> ROCKET_BOOTS = create("rocket_boots");
+    public static final ResourceKey<Augment> MECHANICAL_BRUSH = create("mechanical_brush");
+    public static final ResourceKey<Augment> WATERWALKING_BOOT = create("waterwalking_boot");
+    public static final ResourceKey<Augment> ITEM_MAGNET = create("item_magnet");
 
 
 

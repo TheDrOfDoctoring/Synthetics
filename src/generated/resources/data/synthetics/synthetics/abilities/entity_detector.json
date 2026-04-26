@@ -1,0 +1,18 @@
+{
+  "ability_data": {
+    "type": "synthetics:entity_highlight_ability",
+    "active_ability": {
+      "cooldown": 30,
+      "duration": 120,
+      "power_drain": 15
+    },
+    "blacklisted_entities": "#synthetics:common_entity_highlighter_blacklist",
+    "radius": 25.0,
+    "title_path_override": "entity_detector"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:entity_highlight"
+  },
+  "id": "synthetics:entity_detector",
+  "nature": "beneficial"
+}

@@ -60,6 +60,16 @@ public class SyntheticsPayloads {
                 ServerboundLinkedInteractPacket.CODEC,
                 ServerboundLinkedInteractPacket::handle
         );
+        registrar.playToServer(
+                ServerboundLinkedUsePacket.TYPE,
+                ServerboundLinkedUsePacket.CODEC,
+                ServerboundLinkedUsePacket::handle
+        );
+        registrar.playToServer(
+                ServerboundResetCameraPacket.TYPE,
+                ServerboundResetCameraPacket.CODEC,
+                ServerboundResetCameraPacket::handle
+        );
 
     }
     private static void registerToClientPackets(PayloadRegistrar registrar) {

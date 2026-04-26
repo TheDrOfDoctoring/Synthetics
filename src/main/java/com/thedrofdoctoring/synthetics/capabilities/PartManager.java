@@ -230,6 +230,21 @@ public class PartManager implements ISaveData, IPartManager {
 
     }
 
+    public static boolean isDefault(IBodyInstallable<?> installable) {
+        switch (installable) {
+            case BodyPart part -> {
+                return part.type().value().defaultPart().location().equals(part.id());
+            }
+            case BodySegment segment -> {
+                return segment.type().value().defaultSegment().location().equals(segment.id());
+            }
+            default -> {
+                return false;
+            }
+
+        }
+    }
+
 
     public static void putPartReplacement(String oldPartName, ResourceLocation newLocation) {
         partFixerUpper.put(oldPartName, newLocation);

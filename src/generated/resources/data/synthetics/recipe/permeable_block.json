@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:tinted_glass"
+    },
+    "B": {
+      "tag": "c:gems/amethyst"
+    },
+    "C": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "pattern": [
+    " B ",
+    "CAC",
+    " B "
+  ],
+  "result": {
+    "count": 8,
+    "id": "synthetics:permeable_linkable_block"
+  }
+}

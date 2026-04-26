@@ -8,17 +8,21 @@ import com.thedrofdoctoring.synthetics.core.data.collections.Augments;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
 import com.thedrofdoctoring.synthetics.core.data.collections.tags.AugmentTags;
-import com.thedrofdoctoring.synthetics.core.data.collections.tags.ItemTags;
 import com.thedrofdoctoring.synthetics.core.data.collections.tags.SyntheticsBlockTags;
+import com.thedrofdoctoring.synthetics.core.data.collections.tags.SyntheticsEntityTags;
+import com.thedrofdoctoring.synthetics.core.data.collections.tags.SyntheticsItemTags;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -36,6 +40,7 @@ public class SyntheticsTagProvider {
         gen.addProvider(event.includeServer(), new SyntheticBodyPartsTagProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new SyntheticsAugmentTagProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new SyntheticBodySegmentsTagProvider(output, future, existingFileHelper));
+        gen.addProvider(event.includeServer(), new SyntheticsEntityTypeTagProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), blockTagProvider);
         gen.addProvider(event.includeServer(), new SyntheticsItemTagProvider(output, future, blockTagProvider.contentsGetter(), existingFileHelper));
 
@@ -51,7 +56,8 @@ public class SyntheticsTagProvider {
 
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
-            tag(ItemTags.IRON_GEARS).add(SyntheticsItems.IRON_GEAR.get());
+            tag(SyntheticsItemTags.IRON_GEARS).add(SyntheticsItems.IRON_GEAR.get());
+            tag(SyntheticsItemTags.VALID_DRONE).add(Items.FLINT_AND_STEEL, Items.FIREWORK_ROCKET);
         }
     }
 
@@ -80,7 +86,7 @@ public class SyntheticsTagProvider {
             tag(BlockTags.NEEDS_STONE_TOOL).add(SyntheticsBlocks.RESEARCH_TABLE.get());
             tag(BlockTags.MINEABLE_WITH_PICKAXE).add(SyntheticsBlocks.TELEPORTER_LINKABLE_BLOCK.get(), SyntheticsBlocks.AUGMENTATION_CHAMBER.get(), SyntheticsBlocks.SYNTHETIC_FORGE.get(), SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get(), SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get());
             tag(BlockTags.NEEDS_IRON_TOOL).add(SyntheticsBlocks.TELEPORTER_LINKABLE_BLOCK.get(), SyntheticsBlocks.AUGMENTATION_CHAMBER.get(), SyntheticsBlocks.SYNTHETIC_FORGE.get(), SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get(), SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get());
-            tag(SyntheticsBlockTags.PERMEATOR_BLACKLIST).addTag(BlockTags.WITHER_IMMUNE).addTag(BlockTags.AIR).addTag(BlockTags.REPLACEABLE).add(SyntheticsBlocks.PERMEABLE_BLOCK.value());
+            tag(SyntheticsBlockTags.PERMEATOR_BLACKLIST).addTag(BlockTags.WITHER_IMMUNE).addTag(BlockTags.AIR).addTag(BlockTags.REPLACEABLE).add(SyntheticsBlocks.PERMEABLE_BLOCK.value(), SyntheticsBlocks.PERMEABLE_LINKABLE_BLOCK.get());
             tag(SyntheticsBlockTags.ORE_DOWSING).addTag(BlockTags.IRON_ORES).addTag(BlockTags.GOLD_ORES).addTag(BlockTags.DIAMOND_ORES).addTag(BlockTags.REDSTONE_ORES).add(Blocks.ANCIENT_DEBRIS);
         }
     }
@@ -102,7 +108,7 @@ public class SyntheticsTagProvider {
             tag(BodyParts.HANDS_MAIN).add(BodyParts.ORGANIC_LEFT_HAND, BodyParts.ORGANIC_RIGHT_HAND, BodyParts.MECHANICAL_RIGHT_HAND, BodyParts.MECHANICAL_LEFT_HAND, BodyParts.CYBERNETIC_LEFT_HAND, BodyParts.CYBERNETIC_RIGHT_HAND);
             tag(BodyParts.TIBIA_MAIN).add(BodyParts.ORGANIC_TIBIA);
             tag(BodyParts.SKULL_MAIN).add(BodyParts.ORGANIC_SKULL);
-            tag(BodyParts.RIBCAGE_MAIN).add(BodyParts.ORGANIC_RIBCAGE);
+            tag(BodyParts.RIBCAGE_MAIN).add(BodyParts.ORGANIC_RIBCAGE, BodyParts.ARMOURED_RIBCAGE, BodyParts.SYNTHETIC_RIBCAGE);
             tag(BodyParts.BRAINS_MAIN).add(BodyParts.ORGANIC_BRAIN, BodyParts.CYBERNETIC_BRAIN);
             tag(BodyParts.ARM_MUSCLE_MAIN).add(BodyParts.ORGANIC_ARM_MUSCLE);
             tag(BodyParts.STOMACH_MAIN).add(BodyParts.ORGANIC_STOMACH);
@@ -126,6 +132,16 @@ public class SyntheticsTagProvider {
             tag(BodySegments.LOWER_BODY_MAIN).add(BodySegments.ORGANIC_LOWER_BODY);
             tag(BodySegments.HEAD_MAIN).add(BodySegments.ORGANIC_HEAD);
 
+        }
+    }
+
+    public static class SyntheticsEntityTypeTagProvider extends EntityTypeTagsProvider {
+        public SyntheticsEntityTypeTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
+            super(output, lookupProvider, Synthetics.MODID, existingFileHelper);
+        }
+
+        public void addTags(HolderLookup.@NotNull Provider lookupProvider) {
+            tag(SyntheticsEntityTags.COMMON_ENTITY_HIGHLIGHT_BLACKLIST).add(EntityType.ENDER_DRAGON);
         }
     }
 

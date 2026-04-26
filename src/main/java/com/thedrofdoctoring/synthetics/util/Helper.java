@@ -12,14 +12,19 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipBlockStateContext;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -74,6 +79,57 @@ public class Helper {
             Vec3 vec3 = failContext.getFrom().subtract(failContext.getTo());
             return BlockHitResult.miss(failContext.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(failContext.getTo()));
         });
+    }
+
+    // Taken from https://github.com/TeamLapen/Vampirism/blob/version/1.21/latest/src/lib/java/de/teamlapen/lib/lib/util/UtilLib.java#L91
+    public static @NotNull HitResult getPlayerLookingSpot(@NotNull Player player, double restriction) {
+        float scale = 1.0F;
+        float pitch = player.xRotO + (player.getXRot() - player.xRotO) * scale;
+        float yaw = player.yRotO + (player.getYRot() - player.yRotO) * scale;
+        double x = player.xo + (player.getX() - player.xo) * scale;
+        double y = player.yo + (player.getY() - player.yo) * scale + 1.62D;
+        double z = player.zo + (player.getZ() - player.zo) * scale;
+        Vec3 vector1 = new Vec3(x, y, z);
+        float cosYaw = Mth.cos(-yaw * 0.017453292F - (float) Math.PI);
+        float sinYaw = Mth.sin(-yaw * 0.017453292F - (float) Math.PI);
+        float cosPitch = -Mth.cos(-pitch * 0.017453292F);
+        float sinPitch = Mth.sin(-pitch * 0.017453292F);
+        float pitchAdjustedSinYaw = sinYaw * cosPitch;
+        float pitchAdjustedCosYaw = cosYaw * cosPitch;
+        double distance = 500D;
+        if (restriction == 0 && player instanceof ServerPlayer) {
+            distance = player.getAttributeValue(Attributes.BLOCK_INTERACTION_RANGE) - 0.5f;
+        } else if (restriction > 0) {
+            distance = restriction;
+        }
+
+        Vec3 vector2 = vector1.add(pitchAdjustedSinYaw * distance, sinPitch * distance, pitchAdjustedCosYaw * distance);
+        return player.level().clip(new ClipContext(vector1, vector2, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+    }
+
+    public static @NotNull HitResult getEntityLookingSpot(@NotNull LivingEntity entity, double restriction) {
+        float scale = 1.0F;
+        float pitch = entity.xRotO + (entity.getXRot() - entity.xRotO) * scale;
+        float yaw = entity.yRotO + (entity.getYRot() - entity.yRotO) * scale;
+        double x = entity.xo + (entity.getX() - entity.xo) * scale;
+        double y = entity.yo + (entity.getY() - entity.yo) * scale + 1.62D;
+        double z = entity.zo + (entity.getZ() - entity.zo) * scale;
+        Vec3 vector1 = new Vec3(x, y, z);
+        float cosYaw = Mth.cos(-yaw * 0.017453292F - (float) Math.PI);
+        float sinYaw = Mth.sin(-yaw * 0.017453292F - (float) Math.PI);
+        float cosPitch = -Mth.cos(-pitch * 0.017453292F);
+        float sinPitch = Mth.sin(-pitch * 0.017453292F);
+        float pitchAdjustedSinYaw = sinYaw * cosPitch;
+        float pitchAdjustedCosYaw = cosYaw * cosPitch;
+        double distance = 500D;
+        if (restriction == 0 && entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE) != null) {
+            distance = entity.getAttributeValue(Attributes.BLOCK_INTERACTION_RANGE) - 0.5f;
+        } else if (restriction > 0) {
+            distance = restriction;
+        }
+
+        Vec3 vector2 = vector1.add(pitchAdjustedSinYaw * distance, sinPitch * distance, pitchAdjustedCosYaw * distance);
+        return entity.level().clip(new ClipContext(vector1, vector2, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
     }
 
     /**

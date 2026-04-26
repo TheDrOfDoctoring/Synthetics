@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "minecraft:ice"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "lava_cost": 100,
+  "pattern": [
+    " C ",
+    "BCB",
+    " A "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:waterwalking_boot",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:waterwalking_boot"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

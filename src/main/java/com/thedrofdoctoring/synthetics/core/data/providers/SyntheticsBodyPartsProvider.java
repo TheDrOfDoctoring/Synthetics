@@ -198,6 +198,19 @@ public class SyntheticsBodyPartsProvider {
                         .validSegments(BodySegments.TORSO_MAIN)
                         .maxComplexity(12)
         );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.ARMOURED_RIBCAGE)
+                        .partType(BodyPartTypes.RIBCAGE)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .abilities(Abilities.ARMOURED_RIB_KNOCKBACK, Abilities.ARMOURED_RIB_ARMOUR_TOUGHNESS)
+                        .maxComplexity(6)
+        );
+        register(context,
+                BodyPart.Builder.of(context, BodyParts.SYNTHETIC_RIBCAGE)
+                        .partType(BodyPartTypes.RIBCAGE)
+                        .validSegments(BodySegments.TORSO_MAIN)
+                        .maxComplexity(12)
+        );
     }
 
     private static void register(BootstrapContext<BodyPart> context, BodyPart.Builder builder) {

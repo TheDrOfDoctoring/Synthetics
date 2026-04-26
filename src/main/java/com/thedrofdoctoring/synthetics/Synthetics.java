@@ -39,6 +39,7 @@ public class Synthetics {
         SyntheticsDatamaps.register(modEventBus);
         SyntheticsAttachments.register(modEventBus);
         SyntheticsRecipes.register(modEventBus);
+        SyntheticsSounds.register(modEventBus);
         SyntheticsBlockEntities.register(modEventBus);
         SyntheticsCommands.register(modEventBus);
         SyntheticsPayloads.register(modEventBus);

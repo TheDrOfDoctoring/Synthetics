@@ -3,7 +3,7 @@
     "type": "synthetics:generic_active_ability",
     "active_data": {
       "cooldown": 1,
-      "power_drain": 7500
+      "power_drain": 25000
     }
   },
   "ability_type": {

@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:shock_absorber",
+  "augment_id": "synthetics:shock_absorber",
+  "complexity": 2,
+  "valid_parts": "#synthetics:ribcage"
+}

@@ -1,5 +1,7 @@
 {
   "values": [
-    "synthetics:organic_ribcage"
+    "synthetics:organic_ribcage",
+    "synthetics:armoured_ribcage",
+    "synthetics:synthetic_ribcage"
   ]
 }

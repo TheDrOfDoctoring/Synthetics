@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "has_disguise=false": {
+      "model": "synthetics:block/permeable_linked_block_base"
+    },
+    "has_disguise=true": {
+      "model": "synthetics:block/permeable_linked_block"
+    }
+  }
+}

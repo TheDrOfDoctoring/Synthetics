@@ -9,6 +9,7 @@ import com.thedrofdoctoring.synthetics.abilities.active.types.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.FoodGeneratorAbility;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.ShockAbsorberAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.SolarGeneratorAbility;
 import net.minecraft.core.Registry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -97,6 +98,18 @@ public class SyntheticAbilities {
                 () -> BlockHighlightAbilityInstance.Data.CODEC,
                 () -> BlockHighlightAbilityInstance.Data.STREAM_CODEC
         );
+        registerType("lasting_attribute_ability",
+                () -> LastingAttributeAbilityInstance.Data.CODEC,
+                () -> LastingAttributeAbilityInstance.Data.STREAM_CODEC
+        );
+        registerType("passive_invisibility_ability",
+                () -> PassiveInvisibilityInstance.Data.CODEC,
+                () -> PassiveInvisibilityInstance.Data.STREAM_CODEC
+        );
+        registerType("entity_highlight_ability",
+                () -> EntityHighlightAbilityInstance.Data.CODEC,
+                () -> EntityHighlightAbilityInstance.Data.STREAM_CODEC
+        );
 
     }
 
@@ -108,6 +121,11 @@ public class SyntheticAbilities {
     public static final DeferredHolder<AbilityType, EffectAbilityType> EFFECT_AMPLIFIER = ABILITIES.register("effect_amplifier", EffectAbilityType::new);
     public static final DeferredHolder<AbilityType, DamageResistanceAbilityType> DAMAGE_MODIFIER = ABILITIES.register("damage_modifier", DamageResistanceAbilityType::new);
     public static final DeferredHolder<AbilityType, HealingAbilityType> HEALING = ABILITIES.register("healing", HealingAbilityType::new);
+    public static final DeferredHolder<AbilityType, StandardPassiveAbility> DRONE_LINK = ABILITIES.register("drone_link", StandardPassiveAbility::new);
+    public static final DeferredHolder<AbilityType, StandardPassiveAbility> PERMEABLE_LINK = ABILITIES.register("permeable_link", StandardPassiveAbility::new);
+    public static final DeferredHolder<AbilityType, ShockAbsorberAbility> SHOCK_ABSORBER = ABILITIES.register("shock_absorber", ShockAbsorberAbility::new);
+    public static final DeferredHolder<AbilityType, PassiveInvisibilityType> PASSIVE_INVISIBILITY = ABILITIES.register("passive_invisibility", PassiveInvisibilityType::new);
+    public static final DeferredHolder<AbilityType, StandardPassiveAbility> FLIGHT_COUNT = ABILITIES.register("flight_count", StandardPassiveAbility::new);
 
 
     public static final DeferredHolder<AbilityType, LeapAbility> LEAP = ABILITIES.register("leap", LeapAbility::new);
@@ -124,6 +142,16 @@ public class SyntheticAbilities {
     public static final DeferredHolder<AbilityType, ClosePermeatedAbility> CLOSE_PERMEATED = ABILITIES.register("close_permeated", ClosePermeatedAbility::new);
     public static final DeferredHolder<AbilityType, InteractLinkedAbility> TELEPORT_LINKED = ABILITIES.register("teleport_linked", InteractLinkedAbility::new);
     public static final DeferredHolder<AbilityType, BlockHighlightAbility> BLOCK_HIGHLIGHT = ABILITIES.register("block_highlight", BlockHighlightAbility::new);
+    public static final DeferredHolder<AbilityType, TeleportAbility> TELEPORT = ABILITIES.register("teleport", TeleportAbility::new);
+    public static final DeferredHolder<AbilityType, LastingAttributeAbility> LASTING_ATTRIBUTE = ABILITIES.register("lasting_attribute", LastingAttributeAbility::new);
+    public static final DeferredHolder<AbilityType, PositionLockAbility> POSITION_LOCK = ABILITIES.register("position_lock", PositionLockAbility::new);
+    public static final DeferredHolder<AbilityType, EntityHighlightAbility> ENTITY_HIGHLIGHT = ABILITIES.register("entity_highlight", EntityHighlightAbility::new);
+    public static final DeferredHolder<AbilityType, RocketFlightAbility> ROCKET_FLIGHT = ABILITIES.register("rocket_flight", RocketFlightAbility::new);
+    public static final DeferredHolder<AbilityType, RocketFlightAugAbility> ROCKET_AUG_FLIGHT = ABILITIES.register("rocket_aug_flight", RocketFlightAugAbility::new);
+    public static final DeferredHolder<AbilityType, BrushAbility> BRUSH_ABILITY = ABILITIES.register("brush", BrushAbility::new);
+    public static final DeferredHolder<AbilityType, WaterwalkingAbility> WATER_WALKING = ABILITIES.register("water_walking", WaterwalkingAbility::new);
+    public static final DeferredHolder<AbilityType, ItemMagnetAbility> ITEM_MAGNET = ABILITIES.register("item_magnet", ItemMagnetAbility::new);
+
 
 
     private static <T extends AbilityData> void registerType(String id, Supplier<MapCodec<T>> codec, Supplier<StreamCodec<? super RegistryFriendlyByteBuf, T>> streamCodec) {

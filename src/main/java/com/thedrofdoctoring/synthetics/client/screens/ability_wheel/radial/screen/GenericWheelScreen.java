@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.scre
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientEventHandler;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.menu.GenericRadialMenu;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.editor.WheelEditorScreen;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.slot.RadialMenuSlot;
@@ -129,8 +130,10 @@ public class GenericWheelScreen<T extends RadialMenuSlot> extends Screen {
         @SubscribeEvent
         public static void updateInputEvent(MovementInputUpdateEvent event) {
             if (Minecraft.getInstance().screen instanceof GenericWheelScreen<?> screen) {
+                if(SyntheticsClientEventHandler.handlePlayerInput(Minecraft.getInstance(), event)) {
+                    screen.processInputEvent(event);
+                }
 
-                screen.processInputEvent(event);
             }
         }
 

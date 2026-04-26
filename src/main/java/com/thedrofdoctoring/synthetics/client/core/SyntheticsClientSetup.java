@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.client.core.assets.InstallableModelLoader;
 import com.thedrofdoctoring.synthetics.client.core.assets.SyntheticsAssets;
+import com.thedrofdoctoring.synthetics.client.core.blocks.SyntheticsBEClient;
 import com.thedrofdoctoring.synthetics.client.overlay.EnergyOverlay;
 import com.thedrofdoctoring.synthetics.client.particles.SyntheticsClientParticles;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -26,6 +27,7 @@ public class SyntheticsClientSetup {
         modbus.addListener(SyntheticsEntitiesClient::registerRenderers);
         modbus.addListener(SyntheticsEntitiesClient::addRenderLayers);
         modbus.addListener(SyntheticsBEClient::registerBlockEntityRenderers);
+        modbus.addListener(SyntheticsBEClient::registerBlockModelLoaders);
         modbus.addListener(SyntheticsSkulls::registerSkullModels);
         modbus.addListener(SyntheticsClientParticles::registerParticles);
         modbus.addListener(SyntheticsAssets::dataGen);
@@ -39,6 +41,7 @@ public class SyntheticsClientSetup {
 
     public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(InstallableModelLoader.INSTANCE);
+        event.registerReloadListener(SyntheticsClientEventHandler.INSTANCE);
     }
 
     public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {

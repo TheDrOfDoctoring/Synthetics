@@ -1,0 +1,28 @@
+{
+  "parent": "synthetics:drone_link",
+  "hidden": false,
+  "id": "synthetics:entity_detector",
+  "requirements": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 20,
+        "item": {
+          "item": "minecraft:amethyst_shard"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:echo_shard"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:entity_detector"
+  },
+  "x": 105,
+  "y": -30
+}

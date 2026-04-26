@@ -1,0 +1,28 @@
+{
+  "parent": "synthetics:integrated_redstone_link",
+  "hidden": false,
+  "id": "synthetics:drone_link",
+  "requirements": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 20,
+        "item": {
+          "item": "minecraft:amethyst_shard"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:drone_link"
+  },
+  "x": 105,
+  "y": 0
+}

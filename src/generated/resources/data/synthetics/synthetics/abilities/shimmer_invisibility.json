@@ -5,7 +5,7 @@
       "cooldown": 30,
       "duration": 120,
       "power_cost": 10000,
-      "power_drain": 100
+      "power_drain": 50
     }
   },
   "ability_type": {

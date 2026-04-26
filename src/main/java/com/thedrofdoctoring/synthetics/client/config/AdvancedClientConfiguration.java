@@ -70,6 +70,10 @@ public class AdvancedClientConfiguration {
 
         } catch (Exception e) {
             this.levelData.put(currentLevelUUID, ClientConfigurationData.createEmpty());
+            if(e instanceof FileNotFoundException) {
+                return;
+            }
+
             Synthetics.LOGGER.warn("Failed to read client configuration data file", e);
         }
     }
@@ -89,13 +93,6 @@ public class AdvancedClientConfiguration {
         return currentLevelUUID;
     }
 
-
-    public void setWheelForLevel(Level level, List<AbilityWheel> wheels) {
-        ClientConfigurationData data = getLevelData(currentLevelUUID);
-        if(data != null) {
-            data.wheelManager.setWheelsForLevel(wheels);
-        }
-    }
 
     public @Nullable WheelManager currentLevelWheelManager() {
         ClientConfigurationData data = getLevelData(currentLevelUUID);

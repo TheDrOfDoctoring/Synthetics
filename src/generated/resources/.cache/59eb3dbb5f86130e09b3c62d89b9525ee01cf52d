@@ -1,10 +1,13 @@
-// 1.21.1	2026-04-07T13:54:03.6102404	Loot Tables
+// 1.21.1	2026-04-18T11:23:37.1293439	Loot Tables
 2ffb97483e50bf5f214c6e5a3da76010db04ef24 data/synthetics/loot_table/blocks/augmentation_chamber.json
 0c1f2d31998247e7c8db59e930c5858ba27074b6 data/synthetics/loot_table/blocks/camera_linkable_block.json
 2d7e4322cb37e986a5209bfece9309216c7596e9 data/synthetics/loot_table/blocks/organ_skull.json
+d8388996b993bff62b77fd6783a6e4a03f5c4c8f data/synthetics/loot_table/blocks/permeable_linkable_block.json
 52b3abe772ea2fcf1f17c23c46e1bada4a22d936 data/synthetics/loot_table/blocks/redstone_linkable_block.json
 c0c5acede2ddf089bc64bb82c1949025b266f7dd data/synthetics/loot_table/blocks/research_table.json
 0c62124e7ac8c87b43ee430f11a25a6c64084885 data/synthetics/loot_table/blocks/synthetic_forge.json
 f5178860b543b19ebfd46ad6153853ab71f03bc4 data/synthetics/loot_table/blocks/teleporter_linkable_block.json
 9c7f93fb475e9a7da266c7714f76e3bd69b039d5 data/synthetics/loot_table/chests/modified_trial_chamber.json
 77f1ff929b34b4cf48df93cc16d7a22d79068318 data/synthetics/loot_table/chests/modified_trial_chamber_ominous.json
+b02f29a7743ce9bfccdb3bf3122784bbacfae6d6 data/synthetics/loot_table/entities/drone.json
+debcdcaed801569839dec728bb6d6518f82078ef data/synthetics/loot_table/entities/organ_display.json

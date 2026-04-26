@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:gems/amethyst"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "tag": "c:ender_pearls"
+    }
+  },
+  "lava_cost": 300,
+  "pattern": [
+    " B ",
+    "ACA",
+    " B "
+  ],
+  "recipe_time": 200,
+  "required_research": "synthetics:teleport",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:teleport"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

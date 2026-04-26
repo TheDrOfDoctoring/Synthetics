@@ -57,7 +57,7 @@ public class BlockPermeatorAbility extends ActiveAbilityType<BlockPermeatorAbili
             Stream<BlockPos> positions = BlockPos.betweenClosedStream(aabb);
             HolderSet<Block> blacklist = abilityData.blacklistedBlocks();
             PermeableBlocksData.PermeableBlockData positionData = new PermeableBlocksData.PermeableBlockData(positions
-                    .map(BlockPos::new)
+                    .map(BlockPos::immutable)
                     .filter(p -> PermeableBlockEntity.isValidPosition(level, p, blacklist))
                     .toList(), abilityData.getDuration() * 20);
             PermeableBlocksData data = PermeableBlocksData.getData(level.getServer(), level.dimension());

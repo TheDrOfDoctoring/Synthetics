@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:mechanical_brush",
+  "augment_id": "synthetics:mechanical_brush",
+  "complexity": 2,
+  "valid_parts": "#synthetics:hands"
+}

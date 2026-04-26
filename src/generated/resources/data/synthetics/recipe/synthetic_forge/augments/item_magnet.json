@@ -1,0 +1,32 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "item": "synthetics:ancient_alloy_ingot"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "D": {
+      "tag": "c:ingots/gold"
+    }
+  },
+  "lava_cost": 100,
+  "pattern": [
+    " D ",
+    "BCB",
+    " A "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:item_magnet",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:item_magnet"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

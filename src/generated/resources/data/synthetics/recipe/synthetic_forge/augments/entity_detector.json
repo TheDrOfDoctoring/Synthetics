@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:storage_blocks/copper"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "lava_cost": 100,
+  "pattern": [
+    " B ",
+    "CAC",
+    " B "
+  ],
+  "recipe_time": 300,
+  "required_research": "synthetics:entity_detector",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:entity_detector"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

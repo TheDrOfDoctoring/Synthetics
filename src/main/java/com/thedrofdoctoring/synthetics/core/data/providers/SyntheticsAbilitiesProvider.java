@@ -1,12 +1,13 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
-import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.StandardActiveAbility;
+import com.thedrofdoctoring.synthetics.abilities.active.StandardLastingAbility;
 import com.thedrofdoctoring.synthetics.abilities.active.types.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.*;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttributes;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
 import com.thedrofdoctoring.synthetics.core.data.collections.tags.SyntheticsBlockTags;
+import com.thedrofdoctoring.synthetics.core.data.collections.tags.SyntheticsEntityTags;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
@@ -100,7 +101,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.LAUNCHBOOT_LAUNCH,
                 Ability.create(
                         SyntheticAbilities.LEAP.get(),
-                        ActiveAbilityType.create(
+                        StandardLastingAbility.create(
                                 2.5d,
                                 ActiveAbilityOptions.options(15, 5, 100)
                         ),
@@ -111,7 +112,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.HEART_BATTERY,
                 Ability.create(
                         SyntheticAbilities.BATTERY.get(),
-                        PassiveAbilityType.create(1000d),
+                        StandardPassiveAbility.create(1000d),
                         Abilities.HEART_BATTERY.location()
                 )
         );
@@ -119,7 +120,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.TISSUE_SOLAR_POWER,
                 Ability.create(
                         SyntheticAbilities.SOLAR_GENERATOR.get(),
-                        PassiveAbilityType.create(10d),
+                        StandardPassiveAbility.create(10d),
                         Abilities.TISSUE_SOLAR_POWER.location()
                 )
         );
@@ -127,7 +128,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.ADVANCED_TISSUE_SOLAR_POWER,
                 Ability.create(
                         SyntheticAbilities.SOLAR_GENERATOR.get(),
-                        PassiveAbilityType.create(30d),
+                        StandardPassiveAbility.create(30d),
                         Abilities.ADVANCED_TISSUE_SOLAR_POWER.location()
                 )
         );
@@ -135,7 +136,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.VISION_CLARIFIER_VIEW,
                 Ability.create(
                         SyntheticAbilities.UNDERWATER_VISION.get(),
-                        PassiveAbilityType.create(15d),
+                        StandardPassiveAbility.create(15d),
                         Abilities.VISION_CLARIFIER_VIEW.location()
                 )
         );
@@ -155,7 +156,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.METABOLIC_CONVERTER,
                 Ability.create(
                         SyntheticAbilities.FOOD_GENERATOR.get(),
-                        PassiveAbilityType.create(250d),
+                        StandardPassiveAbility.create(250d),
                         Abilities.METABOLIC_CONVERTER.location()
                 )
         );
@@ -163,8 +164,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.BASIC_WALL_CLIMB,
                 Ability.create(
                         SyntheticAbilities.WALL_CLIMB.get(),
-                        ActiveAbilityType.create(
-                                1.0d,
+                        StandardLastingAbility.create(
                                 ActiveAbilityOptions.options(30, 30, 30, 5)
                         ),
                         Abilities.BASIC_WALL_CLIMB.location()
@@ -272,7 +272,7 @@ public class SyntheticsAbilitiesProvider {
                         SyntheticAbilities.FLAMETHROWER.get(),
                         FlamethrowerAbility.create(
                                 4d,
-                                ActiveAbilityOptions.options(45, 10, 30, 200),
+                                ActiveAbilityOptions.options(45, 10, 30, 150),
                                 7
                         ),
                         Abilities.HAND_FLAMETHROWER.location()
@@ -296,8 +296,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.CYBERNETIC_EYE_VIEW,
                 Ability.create(
                         SyntheticAbilities.TOGGLE_VIEW_LINKED.get(),
-                        ActiveAbilityType.create(
-                                1.0d,
+                        StandardLastingAbility.create(
                                 ActiveAbilityOptions.options(0, 999999, 0, 0)
                         ),
                         Abilities.CYBERNETIC_EYE_VIEW.location()
@@ -307,8 +306,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.CYBERNETIC_REDSTONE_LINK,
                 Ability.create(
                         SyntheticAbilities.INTERACT_LINKED.get(),
-                        ActiveAbilityType.create(
-                                1.0d,
+                        StandardActiveAbility.create(
                                 ActiveAbilityOptions.options(1)
                         ),
                         Abilities.CYBERNETIC_REDSTONE_LINK.location()
@@ -318,8 +316,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.CYBERNETIC_CAMERA_LINK,
                 Ability.create(
                         SyntheticAbilities.INTERACT_LINKED.get(),
-                        ActiveAbilityType.create(
-                                1.0d,
+                        StandardActiveAbility.create(
                                 ActiveAbilityOptions.options(1)
                         ),
                         Abilities.CYBERNETIC_CAMERA_LINK.location()
@@ -329,8 +326,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.HAND_REPULSOR,
                 Ability.create(
                         SyntheticAbilities.REPULSOR.get(),
-                        ActiveAbilityType.create(
-                                1.0d,
+                        StandardActiveAbility.create(
                                 ActiveAbilityOptions.options(5, 0, 5000)
                         ),
                         Abilities.HAND_REPULSOR.location()
@@ -340,8 +336,7 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.REMOTE_LINKED_INTERACTION,
                 Ability.create(
                         SyntheticAbilities.VIEW_LINKED_MENU.get(),
-                        ActiveAbilityType.create(
-                                1.0d,
+                        StandardActiveAbility.create(
                                 ActiveAbilityOptions.options(1, 1)
                         ),
                         Abilities.REMOTE_LINKED_INTERACTION.location()
@@ -412,9 +407,8 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.SHIMMER_INVISIBILITY,
                 Ability.create(
                         SyntheticAbilities.INVISIBILITY.get(),
-                        ActiveAbilityType.create(
-                                1.0d,
-                                ActiveAbilityOptions.options(30, 120, 10000, 100)
+                        StandardLastingAbility.create(
+                                ActiveAbilityOptions.options(30, 120, 10000, 50)
                         ),
                         Abilities.SHIMMER_INVISIBILITY.location()
                 )
@@ -459,8 +453,8 @@ public class SyntheticsAbilitiesProvider {
                         SyntheticAbilities.HARPOON.get(),
                         HarpoonAbility.create(
                                 1.0d,
-                                ActiveAbilityOptions.options(60, 25),
-                                0.1f, 1f
+                                ActiveAbilityOptions.options(60, 5),
+                                0.175f, 1f
                         ),
                         Abilities.CHEST_HARPOON.location()
                 )
@@ -489,9 +483,8 @@ public class SyntheticsAbilitiesProvider {
                 Abilities.LINKED_TELEPORT,
                 Ability.create(
                         SyntheticAbilities.TELEPORT_LINKED.get(),
-                        ActiveAbilityType.create(
-                                1.0d,
-                                ActiveAbilityOptions.options(1, 0, 0, 7500)
+                        StandardActiveAbility.create(
+                                ActiveAbilityOptions.options(1, 0, 0, 25000)
                         ),
                         Abilities.LINKED_TELEPORT.location()
                 )
@@ -520,6 +513,162 @@ public class SyntheticsAbilitiesProvider {
                                 Abilities.NIGHT_VISION.location()
                         ),
                         Abilities.NIGHT_VISION.location()
+                )
+        );
+        context.register(
+                Abilities.TELEPORT,
+                Ability.create(
+                        SyntheticAbilities.TELEPORT.get(),
+                        StandardActiveAbility.create(
+                                75d,
+                                ActiveAbilityOptions.options(60, 0, 12500)
+                        ),
+                        Abilities.TELEPORT.location()
+                )
+        );
+        context.register(
+                Abilities.DRONE_LINK,
+                Ability.create(
+                        SyntheticAbilities.DRONE_LINK.get(),
+                        StandardPassiveAbility.create(),
+                        Abilities.DRONE_LINK.location()
+                )
+        );
+        context.register(
+                Abilities.PERMEABLE_LINK,
+                Ability.create(
+                        SyntheticAbilities.PERMEABLE_LINK.get(),
+                        StandardPassiveAbility.create(),
+                        Abilities.PERMEABLE_LINK.location()
+                )
+        );
+        context.register(
+                Abilities.SHRINKIFIER,
+                Ability.create(
+                        SyntheticAbilities.LASTING_ATTRIBUTE.get(),
+                        LastingAttributeAbility.create(
+                                ActiveAbilityOptions.options(15, 600, 1250),
+                                Abilities.SHRINKIFIER.location().getPath(),
+                                Abilities.SHRINKIFIER.location(),
+                                LastingAttributeAbility.modifier(Attributes.SCALE, new AttributeModifier(Abilities.SHRINKIFIER.location(), -0.80f, AttributeModifier.Operation.ADD_VALUE))
+                        ),
+                        Abilities.SHRINKIFIER.location()
+                )
+        );
+        context.register(
+                Abilities.ARMOURED_RIB_ARMOUR_TOUGHNESS,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                2.5d,
+                                AttributeModifier.Operation.ADD_VALUE,
+                                Attributes.ARMOR_TOUGHNESS
+                        ),
+                        Abilities.ARMOURED_RIB_ARMOUR_TOUGHNESS.location()
+                )
+        );
+        context.register(
+                Abilities.ARMOURED_RIB_KNOCKBACK,
+                Ability.create(
+                        SyntheticAbilities.ATTRIBUTE_ABILITY.get(),
+                        AttributeAbilityType.create(
+                                0.25d,
+                                AttributeModifier.Operation.ADD_VALUE,
+                                Attributes.KNOCKBACK_RESISTANCE
+                        ),
+                        Abilities.ARMOURED_RIB_KNOCKBACK.location()
+                )
+        );
+        context.register(
+                Abilities.SHOCK_ABSORBER,
+                Ability.create(
+                        SyntheticAbilities.SHOCK_ABSORBER.get(),
+                        StandardPassiveAbility.create(),
+                        Abilities.SHOCK_ABSORBER.location()
+                )
+        );
+        context.register(
+                Abilities.CAMOUFLAGE_INVISIBILITY,
+                Ability.create(
+                        SyntheticAbilities.PASSIVE_INVISIBILITY.get(),
+                        PassiveInvisibilityType.create(
+                                PassiveInvisibilityType.InvisibilityType.CROUCHING
+                        ),
+                        Abilities.CAMOUFLAGE_INVISIBILITY.location()
+                )
+        );
+        context.register(
+                Abilities.POSITION_LOCK,
+                Ability.create(
+                        SyntheticAbilities.POSITION_LOCK.get(),
+                        StandardActiveAbility.create(
+                                ActiveAbilityOptions.options(30, 300, 0, 10)
+                        ),
+                        Abilities.POSITION_LOCK.location()
+                )
+        );
+        context.register(
+                Abilities.ENTITY_DETECTOR,
+                Ability.create(
+                        SyntheticAbilities.ENTITY_HIGHLIGHT.get(),
+                        EntityHighlightAbility.create(
+                                25.0d,
+                                context.lookup(Registries.ENTITY_TYPE).getOrThrow(SyntheticsEntityTags.COMMON_ENTITY_HIGHLIGHT_BLACKLIST),
+                                ActiveAbilityOptions.options(30, 120, 0, 15),
+                                Abilities.ENTITY_DETECTOR.location().getPath()
+                        ),
+                        Abilities.ENTITY_DETECTOR.location()
+                )
+        );
+        context.register(
+                Abilities.ROCKET_BOOTS,
+                Ability.create(
+                        SyntheticAbilities.ROCKET_AUG_FLIGHT.get(),
+                        StandardLastingAbility.create(
+                                ActiveAbilityOptions.options(30, 60, 0, 25)
+                        ),
+                        Abilities.ROCKET_BOOTS.location()
+                )
+        );
+        context.register(
+                Abilities.ROCKET_BOOTS_COUNT,
+                Ability.create(
+                        SyntheticAbilities.FLIGHT_COUNT.get(),
+                        StandardPassiveAbility.create(),
+                        Ability.AbilityNature.HIDDEN,
+                        Abilities.ROCKET_BOOTS_COUNT.location()
+                )
+        );
+        context.register(
+                Abilities.MECHANICAL_BRUSH,
+                Ability.create(
+                        SyntheticAbilities.BRUSH_ABILITY.get(),
+                        StandardLastingAbility.create(
+                                4,
+                                ActiveAbilityOptions.options(30, 15, 0, 3)
+                        ),
+                        Abilities.MECHANICAL_BRUSH.location()
+                )
+        );
+        context.register(
+                Abilities.WATERWALKING_BOOT,
+                Ability.create(
+                        SyntheticAbilities.WATER_WALKING.get(),
+                        StandardLastingAbility.create(
+                                ActiveAbilityOptions.options(30, 120, 0, 1)
+                        ),
+                        Abilities.WATERWALKING_BOOT.location()
+                )
+        );
+        context.register(
+                Abilities.ITEM_MAGNET,
+                Ability.create(
+                        SyntheticAbilities.ITEM_MAGNET.get(),
+                        StandardLastingAbility.create(
+                                7.5d,
+                                ActiveAbilityOptions.options(30,99999999, 0, 2)
+                        ),
+                        Abilities.ITEM_MAGNET.location()
                 )
         );
     }

@@ -1,0 +1,27 @@
+{
+  "ability_data": {
+    "type": "synthetics:lasting_attribute_ability",
+    "active_ability": {
+      "cooldown": 15,
+      "duration": 600,
+      "power_cost": 1250
+    },
+    "modifiers": [
+      {
+        "attribute": "minecraft:generic.scale",
+        "modifier": {
+          "amount": -0.800000011920929,
+          "id": "synthetics:shrinkifier",
+          "operation": "add_value"
+        }
+      }
+    ],
+    "texture_path_override": "synthetics:shrinkifier",
+    "title_path_override": "shrinkifier"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:lasting_attribute"
+  },
+  "id": "synthetics:shrinkifier",
+  "nature": "beneficial"
+}

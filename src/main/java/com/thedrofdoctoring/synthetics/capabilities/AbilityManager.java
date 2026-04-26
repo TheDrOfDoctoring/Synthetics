@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 // Some of the active ability system handled here is partially based on Vampirism's ActionHandler, licensed under GNU LGPL. https://github.com/TeamLapen/Vampirism/blob/1.21/src/main/java/de/teamlapen/vampirism/entity/player/actions/ActionHandler.java
+// The "Attribute" passive abilities are given special privileges here, evict them sometime
 @SuppressWarnings("unused")
 public class AbilityManager implements ISyncable {
 
@@ -62,6 +63,7 @@ public class AbilityManager implements ISyncable {
     private boolean dirty;
     private boolean insufficientPower;
 
+    // Power warning tracking
     private int timeSinceWarning;
     private static final int WARNING_TIME = 120;
 
@@ -131,6 +133,16 @@ public class AbilityManager implements ISyncable {
 
     public @Nullable AbilityActiveInstance<?> getActiveAbilityInstanceById(ResourceLocation id) {
         return this.activeAbilities.get(id);
+    }
+
+    public Collection<AbilityActiveInstance<?>> getToggledAbilities() {
+        List<AbilityActiveInstance<?>> abilities = new ArrayList<>(this.duration.size());
+        for(ResourceLocation id : duration.keySet()) {
+            if(this.activeAbilities.containsKey(id)) {
+                abilities.add(this.activeAbilities.get(id));
+            }
+        }
+        return abilities;
     }
 
     public Stream<AbilityActiveInstance<?>> activeInstances() {
@@ -329,6 +341,12 @@ public class AbilityManager implements ISyncable {
     public void deactivateAbility(Ability ability, LastingAbilityType<?> type) {
         ResourceLocation id = ability.id();
         deactivateAbility(id, type);
+    }
+
+    public void deactivateAll() {
+        for(ResourceLocation active : this.duration.keySet()) {
+            this.deactivateAbility(active, (LastingAbilityType<?>) this.activeAbilities.get(active).type());
+        }
     }
 
     public void onUpdate() {

@@ -3,8 +3,8 @@ package com.thedrofdoctoring.synthetics.client.screens;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.blocks.entities.linkables.LinkableBlockEntity;
 import com.thedrofdoctoring.synthetics.capabilities.linkable.BlockLinkingPlayer;
+import com.thedrofdoctoring.synthetics.capabilities.linkable.LinkableBlockLocation;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundLinkedInteractPacket;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -16,9 +16,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -36,10 +34,7 @@ public class LinkedInteractScreen extends Screen {
     private static final int HEIGHT = 256;
     private static final int BLOCKS_PER_PAGE = 6;
 
-
-
     private static final ResourceLocation WINDOW = Synthetics.rl("textures/gui/remote_interaction/background.png");
-
 
     private int guiLeft;
     private int guiTop;
@@ -56,10 +51,7 @@ public class LinkedInteractScreen extends Screen {
         player = Objects.requireNonNull(Minecraft.getInstance().player);
         List<LinkableButton> allLinked = BlockLinkingPlayer.get(player).getLinkedPositionsInDimension(player.level().dimension())
                 .stream()
-                .flatMap(pos -> Optional.ofNullable(player.level().getBlockEntity(pos)).stream())
-                .filter(LinkableBlockEntity.class::isInstance)
-                .map(LinkableBlockEntity.class::cast)
-                .map(LinkableButton::from)
+                .flatMap(data -> LinkableButton.from(data).stream())
                 .toList();
         this.linkedForPage = IntStream.range(0, allLinked.size())
                 .boxed()
@@ -156,15 +148,15 @@ public class LinkedInteractScreen extends Screen {
 
     private static class LinkableButton {
 
-        private final LinkableBlockEntity linkable;
+        private final BlockPos pos;
         private final Component title;
         private final ItemStack asItem;
         private final Button button;
 
         private int yOffset;
 
-        public LinkableButton(LinkableBlockEntity linkable, Component title, ItemStack asItem) {
-            this.linkable = linkable;
+        public LinkableButton(BlockPos pos, Component title, ItemStack asItem) {
+            this.pos = pos;
             this.title = title;
             this.asItem = asItem;
             this.button = Button.builder(Component.translatable("text.synthetics.linkable.interact"), (b) -> this.onInteract())
@@ -189,7 +181,7 @@ public class LinkedInteractScreen extends Screen {
             stack.translate(x + 4, y + yOffset, 250);
             guiGraphics.blit(WIDGET, 0, 0, 0, 0, WIDGET_WIDTH, WIDGET_HEIGHT);
             Font font = Minecraft.getInstance().font;
-            BlockPos blockPos = this.linkable.getBlockPos();
+            BlockPos blockPos = this.pos;
             Component pos = Component.literal(String.format("x:%d, y:%d, z:%d", blockPos.getX(), blockPos.getY(), blockPos.getZ())).withStyle(ChatFormatting.BLACK);
             float titleWidth = (float) -font.width(title) / 2;
             float posWidth = (float) -font.width(pos) / 2;
@@ -217,16 +209,13 @@ public class LinkedInteractScreen extends Screen {
 
         private void onInteract() {
             if(Minecraft.getInstance().getConnection() != null) {
-                Minecraft.getInstance().getConnection().send(new ServerboundLinkedInteractPacket(linkable.getBlockPos()));
+                Minecraft.getInstance().getConnection().send(new ServerboundLinkedInteractPacket(this.pos));
             }
         }
 
-        public static LinkableButton from(LinkableBlockEntity linkable) {
-            Component customTitle = linkable.components().get(DataComponents.CUSTOM_NAME);
-            MutableComponent title =  customTitle != null ?
-                    MutableComponent.create(customTitle.getContents()) :
-                    linkable.getBlockState().getBlock().getName();
-            return new LinkableButton(linkable, title.withStyle(ChatFormatting.UNDERLINE), new ItemStack(linkable.getBlockState().getBlock()));
+        public static Optional<LinkableButton> from(LinkableBlockLocation location) {
+
+            return location.context().map(context -> new LinkableButton(location.pos().pos(), context.name(), context.block().value().asItem().getDefaultInstance()));
         }
 
     }

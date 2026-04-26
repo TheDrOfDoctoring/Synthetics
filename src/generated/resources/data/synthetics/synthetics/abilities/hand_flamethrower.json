@@ -5,7 +5,7 @@
       "cooldown": 45,
       "duration": 10,
       "power_cost": 30,
-      "power_drain": 200
+      "power_drain": 150
     },
     "damage": 4.0,
     "flame_time": 7

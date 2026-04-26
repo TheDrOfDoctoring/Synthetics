@@ -1,10 +1,8 @@
 package com.thedrofdoctoring.synthetics.client.core;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.client.renderers.entities.DummyCameraEntityRenderer;
-import com.thedrofdoctoring.synthetics.client.renderers.entities.FlameProjectileEntityRenderer;
-import com.thedrofdoctoring.synthetics.client.renderers.entities.HarpoonProjectileEntityRenderer;
-import com.thedrofdoctoring.synthetics.client.renderers.entities.OrganDisplayMobRenderer;
+import com.thedrofdoctoring.synthetics.client.renderers.entities.*;
+import com.thedrofdoctoring.synthetics.client.renderers.entities.models.DroneEntityModel;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.models.HarpoonProjectileEntityModel;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.InstallableRenderLayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
@@ -37,14 +35,14 @@ public class SyntheticsEntitiesClient {
         event.registerLayerDefinition(ORGAN_MOB, () -> (LayerDefinition.create(HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F), 64, 64)));
 
         event.registerLayerDefinition(HarpoonProjectileEntityModel.LAYER_LOCATION, HarpoonProjectileEntityModel::createBodyLayer);
-
+        event.registerLayerDefinition(DroneEntityModel.LAYER_LOCATION, DroneEntityModel::createBodyLayer);
     }
     public static void registerRenderers(EntityRenderersEvent.@NotNull RegisterRenderers event) {
         event.registerEntityRenderer(SyntheticsEntities.ORGAN_DISPLAY_MOB.get(), OrganDisplayMobRenderer::new);
         event.registerEntityRenderer(SyntheticsEntities.FLAME_PROJECTILE.get(), FlameProjectileEntityRenderer::new);
         event.registerEntityRenderer(SyntheticsEntities.DUMMY_CAMERA_ENTITY.get(), DummyCameraEntityRenderer::new);
         event.registerEntityRenderer(SyntheticsEntities.HARPOON_PROJECTILE.get(), HarpoonProjectileEntityRenderer::new);
-
+        event.registerEntityRenderer(SyntheticsEntities.DRONE_ENTITY.get(), DroneEntityRenderer::new);
     }
 
     public static void addRenderLayers(EntityRenderersEvent.AddLayers event) {

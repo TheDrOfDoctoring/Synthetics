@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.networking.from_client;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.advancements.SyntheticsAdvancementTriggers;
 import com.thedrofdoctoring.synthetics.advancements.criterion.GenericSyntheticsCriterion;
+import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.*;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
@@ -62,6 +63,7 @@ public record ServerboundInstallableMenuPacket(Optional<BodyPart> part) implemen
                         menu.getInputContainer().setItem(0, ItemStack.EMPTY);
                         int i = 0;
                         for(IBodyInstallable<?> replacedInstallable : replaced) {
+                            if (PartManager.isDefault(replacedInstallable)) continue;
                             ItemStack replace = replacedInstallable.createDefaultItemStack(context.player().registryAccess());
                             if(i >= menu.getResultsContainer().getContainerSize()) {
                                 player.drop(replace, true, false);
@@ -82,6 +84,8 @@ public record ServerboundInstallableMenuPacket(Optional<BodyPart> part) implemen
 
         });
     }
+
+
 
     private static void triggerAdvancements(ServerPlayer player, IBodyInstallable<?> installable) {
         switch (installable) {

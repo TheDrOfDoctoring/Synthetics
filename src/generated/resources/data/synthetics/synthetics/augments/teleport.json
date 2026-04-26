@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:teleport",
+  "augment_id": "synthetics:teleport",
+  "complexity": 5,
+  "valid_parts": "#synthetics:hands"
+}

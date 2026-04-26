@@ -302,9 +302,26 @@ public class SyntheticsResearchProvider {
         );
         register(context,
                 ResearchNode.Builder.of(
+                                ResearchNodes.RIBCAGES, context
+                        )
+                        .unlocksParts(
+                                List.of(BodyParts.ARMOURED_RIBCAGE, BodyParts.SYNTHETIC_RIBCAGE))
+                        .experience(250)
+                        .parent(ResearchNodes.ORGANIC_BONES)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 16),
+                                        Pair.of(Ingredient.of(Items.IRON_INGOT), 32),
+                                        Pair.of(Ingredient.of(Tags.Items.BONES), 48)
+                                ))
+                        .position(105, 90)
+                        .tab(ResearchNodes.TAB_BODY_PARTS)
+        );
+
+        register(context,
+                ResearchNode.Builder.of(
                                 ResearchNodes.CYBERNETIC_HEART, context
                         )
-                        .parent(ResearchNodes.MECHANICAL_HEART)
                         .unlocksParts(
                                 List.of(BodyParts.CYBERNETIC_HEART, BodyParts.ORGANIC_HEART))
                         .experience(250)
@@ -809,7 +826,7 @@ public class SyntheticsResearchProvider {
                                         Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 16),
                                         Pair.of(Ingredient.of(Items.BLAZE_ROD), 6)
                                 ))
-                        .position(180, -60)
+                        .position(165, -60)
                         .tab(ResearchNodes.TAB_AUGMENTS)
         );
         register(context,
@@ -844,6 +861,208 @@ public class SyntheticsResearchProvider {
                                         Pair.of(Ingredient.of(Items.EMERALD), 8)
                                 ))
                         .position(above(ResearchNodes.INTERNAL_CAMERA_LINK))
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.TELEPORT, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.TELEPORT))
+                        .experience(150)
+                        .parent(ResearchNodes.CHEST_HARPOON)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.ENDER_PEARL), 8),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 20),
+                                        Pair.of(Ingredient.of(Tags.Items.GEMS_AMETHYST), 20)
+                                ))
+                        .position(205, -45)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.DRONE_LINK, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.DRONE_LINK))
+                        .experience(75)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.AMETHYST_SHARD), 20),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 8)
+                                ))
+                        .position(offset(ResearchNodes.INTEGRATED_REDSTONE_LINK, -15, 30))
+                        .parent(ResearchNodes.INTEGRATED_REDSTONE_LINK)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.PERMEABLE_LINK, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.PERMEABLE_LINK))
+                        .experience(75)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.AMETHYST_SHARD), 16),
+                                        Pair.of(Ingredient.of(Items.ENDER_EYE), 8),
+                                        Pair.of(Ingredient.of(Items.ECHO_SHARD), 4)
+                                ))
+                        .position(offset(ResearchNodes.INTEGRATED_REDSTONE_LINK, 15, 30))
+                        .parent(ResearchNodes.INTEGRATED_REDSTONE_LINK)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.SHRINKIFIER, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.SHRINKIFIER))
+                        .experience(150)
+                        .parent(ResearchNodes.LINKED_TELEPORTER)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.ENDER_PEARL), 8),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 16),
+                                        Pair.of(Ingredient.of(Items.CHORUS_FRUIT), 16)
+                                ))
+                        .position(165, -90)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.SHOCK_ABSORBER, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.SHOCK_ABSORBER))
+                        .experience(275)
+                        .parent(ResearchNodes.HEART_BATTERY)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(ItemTags.WOOL), 24),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 6),
+                                        Pair.of(Ingredient.of(Items.IRON_INGOT), 16)
+                                ))
+                        .position(above(ResearchNodes.HEART_BATTERY))
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.CAMOUFLAGE_INVISIBILITY, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.CAMOUFLAGE_INVISIBILITY))
+                        .experience(100)
+                        .parent(ResearchNodes.FIRE_RESISTANT_TISSUE)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.FERMENTED_SPIDER_EYE), 12),
+                                        Pair.of(Ingredient.of(SyntheticsItems.ARTIFICIAL_TISSUE.get()), 10),
+                                        Pair.of(Ingredient.of(Items.ARMADILLO_SCUTE), 8)
+                                ))
+                        .position(-150, -60)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.POSITION_LOCK, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.POSITION_LOCK))
+                        .experience(275)
+                        .parent(ResearchNodes.SHOCK_ABSORBER)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 8),
+                                        Pair.of(Ingredient.of(Tags.Items.STORAGE_BLOCKS_IRON), 6),
+                                        Pair.of(Ingredient.of(Tags.Items.STORAGE_BLOCKS_COPPER), 6)
+                                ))
+                        .position(above(ResearchNodes.SHOCK_ABSORBER))
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.ENTITY_DETECTOR, context
+                        )
+                        .unlocksAugments(
+                                List.of(Augments.ENTITY_DETECTOR))
+                        .experience(75)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.AMETHYST_SHARD), 20),
+                                        Pair.of(Ingredient.of(Items.ECHO_SHARD), 8)
+                                ))
+                        .position(above(ResearchNodes.DRONE_LINK))
+                        .parent(ResearchNodes.DRONE_LINK)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.ROCKET_BOOTS, context
+                        )
+                        .parent(ResearchNodes.LAUNCH_BOOTS)
+                        .unlocksAugments(
+                                List.of(Augments.ROCKET_BOOTS))
+                        .experience(100)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 24),
+                                        Pair.of(Ingredient.of(Items.OBSIDIAN), 16),
+                                        Pair.of(Ingredient.of(Items.TNT), 24)
+                                ))
+                        .position(15, -80)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.MECHANICAL_BRUSH, context
+                        )
+                        .parent(ResearchNodes.EXTENDED_GRIP)
+                        .unlocksAugments(
+                                List.of(Augments.MECHANICAL_BRUSH))
+                        .experience(100)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 6),
+                                        Pair.of(Ingredient.of(SyntheticsItems.IRON_GEAR.get()), 8),
+                                        Pair.of(Ingredient.of(Items.FEATHER), 8)
+                                ))
+                        .position(30, 30)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.WATERWALKING_BOOT, context
+                        )
+                        .parent(ResearchNodes.FEET_WALL_CLIMB)
+                        .unlocksAugments(
+                                List.of(Augments.WATERWALKING_BOOT))
+                        .experience(200)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.ICE), 16),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 4),
+                                        Pair.of(Ingredient.of(Items.GLOW_INK_SAC), 8)
+                                ))
+                        .position(30, 30)
+                        .tab(ResearchNodes.TAB_AUGMENTS)
+        );
+        register(context,
+                ResearchNode.Builder.of(
+                                ResearchNodes.ITEM_MAGNET, context
+                        )
+                        .parent(ResearchNodes.HAND_REPULSOR)
+                        .unlocksAugments(
+                                List.of(Augments.ITEM_MAGNET))
+                        .experience(200)
+                        .requiredItems(
+                                List.of(
+                                        Pair.of(Ingredient.of(Items.IRON_INGOT), 32),
+                                        Pair.of(Ingredient.of(SyntheticsItems.BASIC_CIRCUIT.get()), 10),
+                                        Pair.of(Ingredient.of(Items.GOLD_INGOT), 32)
+                                ))
+                        .position(30, 30)
                         .tab(ResearchNodes.TAB_AUGMENTS)
         );
     }

@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "minecraft:wool"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "tag": "c:storage_blocks/iron"
+    }
+  },
+  "lava_cost": 300,
+  "pattern": [
+    "ABA",
+    "ACA",
+    "ABA"
+  ],
+  "recipe_time": 200,
+  "required_research": "synthetics:shock_absorber",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:shock_absorber"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

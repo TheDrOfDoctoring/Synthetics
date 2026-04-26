@@ -1,0 +1,34 @@
+{
+  "parent": "synthetics:feet_wall_climb",
+  "hidden": false,
+  "id": "synthetics:waterwalking_boot",
+  "requirements": {
+    "experience_cost": 200,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:ice"
+        }
+      },
+      {
+        "amount": 4,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:glow_ink_sac"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:waterwalking_boot"
+  },
+  "x": 30,
+  "y": 30
+}

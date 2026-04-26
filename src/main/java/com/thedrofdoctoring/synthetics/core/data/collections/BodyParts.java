@@ -36,6 +36,8 @@ public class BodyParts {
     public static final ResourceKey<BodyPart> CYBERNETIC_BRAIN = create("cybernetic_brain");
     public static final ResourceKey<BodyPart> MECHANICAL_HEART = create("mechanical_heart");
     public static final ResourceKey<BodyPart> CYBERNETIC_HEART = create("cybernetic_heart");
+    public static final ResourceKey<BodyPart> ARMOURED_RIBCAGE = create("armoured_ribcage");
+    public static final ResourceKey<BodyPart> SYNTHETIC_RIBCAGE = create("synthetic_ribcage");
 
 
     public static final TagKey<BodyPart> EYES_MAIN = tag("eyes");

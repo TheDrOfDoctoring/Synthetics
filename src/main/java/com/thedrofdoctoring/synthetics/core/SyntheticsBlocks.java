@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.core;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.blocks.*;
 import com.thedrofdoctoring.synthetics.blocks.linkables.CameraLinkableBlock;
+import com.thedrofdoctoring.synthetics.blocks.linkables.PermeableLinkableBlock;
 import com.thedrofdoctoring.synthetics.blocks.linkables.RedstoneLinkableBlock;
 import com.thedrofdoctoring.synthetics.blocks.linkables.TeleporterLinkableBlock;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsSkulls;
@@ -33,6 +34,7 @@ public class SyntheticsBlocks {
     ));
     public static final DeferredBlock<SyntheticForge> SYNTHETIC_FORGE = registerWithItem("synthetic_forge", () -> new SyntheticForge(BlockBehaviour.Properties.of()
             .mapColor(MapColor.METAL)
+            .requiresCorrectToolForDrops()
             .strength(0.75f)
             .destroyTime(1.5f)
             .sound(SoundType.METAL)
@@ -40,6 +42,7 @@ public class SyntheticsBlocks {
     ));
     public static final DeferredBlock<AugmentationChamber> AUGMENTATION_CHAMBER = registerWithItem("augmentation_chamber", () -> new AugmentationChamber(BlockBehaviour.Properties.of()
             .mapColor(MapColor.METAL)
+            .requiresCorrectToolForDrops()
             .strength(2f)
             .destroyTime(1.5f)
             .sound(SoundType.METAL)
@@ -65,6 +68,14 @@ public class SyntheticsBlocks {
             .requiresCorrectToolForDrops()
             .strength(5.0F, 6.0F)
             .sound(SoundType.METAL)
+            .noOcclusion()
+    ));
+    public static final DeferredBlock<PermeableLinkableBlock> PERMEABLE_LINKABLE_BLOCK = registerWithItem("permeable_linkable_block", () -> new PermeableLinkableBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_BLACK)
+            .strength(0.5f, 0.5f)
+            .isSuffocating((st,lvl,pos) -> false)
+            .isViewBlocking((st, lvl, pos) -> !st.getValue(PermeableLinkableBlock.HAS_DISGUISE))
+            .sound(SoundType.GLASS)
             .noOcclusion()
     ));
     public static final DeferredBlock<PermeableBlock> PERMEABLE_BLOCK = register("permeable_block", () -> new PermeableBlock(BlockBehaviour.Properties.of()

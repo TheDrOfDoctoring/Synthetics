@@ -33,7 +33,7 @@ public record ServerboundLinkedInteractPacket(BlockPos pos) implements CustomPac
             }
 
             BlockEntity be = context.player().level().getBlockEntity(packet.pos);
-            if(be instanceof LinkableBlockEntity linkable) {
+            if(be instanceof LinkableBlockEntity linkable && linkable.isLinked(context.player())) {
                 linkable.onLinkedInteract(context.player());
             }
         });

@@ -303,6 +303,90 @@ public class SyntheticsAugmentsProvider {
                         .maxCopies(1, 1)
                         .abilities(Abilities.NIGHT_VISION)
         );
+        register(context,
+                Augment.Builder.of(context, Augments.TELEPORT, getPart(partLookup, BodyParts.HANDS_MAIN))
+                        .complexity(5)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.TELEPORT)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.DRONE_LINK, getPart(partLookup, BodyParts.BRAINS_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.DRONE_LINK)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.PERMEABLE_LINK, getPart(partLookup, BodyParts.BRAINS_MAIN))
+                        .complexity(1)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.PERMEABLE_LINK)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.SHRINKIFIER, getPart(partLookup, BodyParts.RIBCAGE_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.SHRINKIFIER)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.SHOCK_ABSORBER, getPart(partLookup, BodyParts.RIBCAGE_MAIN))
+                        .complexity(2)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.SHOCK_ABSORBER)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.CAMOUFLAGE_INVISIBILITY, getPart(partLookup, BodyParts.TISSUE_MAIN))
+                        .complexity(4)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.CAMOUFLAGE_INVISIBILITY)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.POSITION_LOCK, getPart(partLookup, BodyParts.RIBCAGE_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.POSITION_LOCK)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.ENTITY_DETECTOR, getPart(partLookup, BodyParts.EYES_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.ENTITY_DETECTOR)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.ROCKET_BOOTS, getPart(partLookup, BodyParts.FEET_MAIN))
+                        .complexity(3)
+                        .powerCost(0)
+                        .maxCopies(2, 1)
+                        .abilities(Abilities.ROCKET_BOOTS, Abilities.ROCKET_BOOTS_COUNT)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.MECHANICAL_BRUSH, getPart(partLookup, BodyParts.HANDS_MAIN))
+                        .complexity(2)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.MECHANICAL_BRUSH)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.WATERWALKING_BOOT, getPart(partLookup, BodyParts.FEET_MAIN))
+                        .complexity(2)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.WATERWALKING_BOOT)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.ITEM_MAGNET, getPart(partLookup, BodyParts.HANDS_MAIN))
+                        .complexity(2)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.ITEM_MAGNET)
+        );
     }
 
     private static void register(BootstrapContext<Augment> context, Augment.Builder builder) {

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    },
+    "C": {
+      "tag": "c:glass_panes"
+    }
+  },
+  "pattern": [
+    "BCB",
+    "BAB",
+    "B B"
+  ],
+  "result": {
+    "count": 1,
+    "id": "synthetics:drone"
+  }
+}

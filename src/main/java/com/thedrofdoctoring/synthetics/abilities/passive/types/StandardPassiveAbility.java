@@ -20,4 +20,11 @@ public class StandardPassiveAbility extends PassiveAbilityType<GenericPassiveAbi
         }
         return Optional.empty();
     }
+
+    public static GenericPassiveAbilityInstance.Data create(double factor) {
+        return new GenericPassiveAbilityInstance.Data(factor);
+    }
+    public static GenericPassiveAbilityInstance.Data create() {
+        return new GenericPassiveAbilityInstance.Data(1.0d);
+    }
 }

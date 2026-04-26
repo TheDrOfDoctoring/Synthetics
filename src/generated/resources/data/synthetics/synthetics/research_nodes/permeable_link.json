@@ -1,0 +1,34 @@
+{
+  "parent": "synthetics:integrated_redstone_link",
+  "hidden": false,
+  "id": "synthetics:permeable_link",
+  "requirements": {
+    "experience_cost": 75,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:amethyst_shard"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:ender_eye"
+        }
+      },
+      {
+        "amount": 4,
+        "item": {
+          "item": "minecraft:echo_shard"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:permeable_link"
+  },
+  "x": 135,
+  "y": 0
+}

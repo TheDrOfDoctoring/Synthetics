@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:entity_detector",
+  "augment_id": "synthetics:entity_detector",
+  "complexity": 3,
+  "valid_parts": "#synthetics:eyes"
+}

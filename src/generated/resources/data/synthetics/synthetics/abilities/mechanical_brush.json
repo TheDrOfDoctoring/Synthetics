@@ -1,0 +1,16 @@
+{
+  "ability_data": {
+    "type": "synthetics:generic_active_ability",
+    "active_data": {
+      "cooldown": 30,
+      "duration": 15,
+      "power_drain": 3
+    },
+    "factor": 4.0
+  },
+  "ability_type": {
+    "ability_id": "synthetics:brush"
+  },
+  "id": "synthetics:mechanical_brush",
+  "nature": "beneficial"
+}

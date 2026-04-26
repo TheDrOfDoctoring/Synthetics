@@ -72,23 +72,7 @@ public abstract class ActiveAbilityType<T extends IAbilityInstance> extends Abil
 
     public abstract boolean canBeUsed(SyntheticsPlayer syntheticsPlayer);
 
-    public Optional<AbilityActiveInstance<? extends ActiveAbilityType<?>>> createInstance(SyntheticsPlayer player, AbilityData data, ResourceLocation instanceID) {
-        if(data instanceof AbilityActiveInstance.Data activeData) {
-            return Optional.of(new AbilityActiveInstance<>(this, activeData, player, instanceID));
-        }
-        return Optional.empty();
-    }
-
-    public static AbilityActiveInstance.Data create(double factor, ActiveAbilityOptions options) {
-        return new AbilityActiveInstance.Data(factor, options, Optional.empty(), Optional.empty());
-    }
-
-    public static AbilityActiveInstance.Data create(double factor, ActiveAbilityOptions options, String titlePathOverride) {
-        return new AbilityActiveInstance.Data(factor, options, Optional.of(titlePathOverride), Optional.empty());
-    }
-    public static AbilityActiveInstance.Data create(double factor, ActiveAbilityOptions options, String titlePathOverride, ResourceLocation texturePathOverride) {
-        return new AbilityActiveInstance.Data(factor, options, Optional.of(titlePathOverride), Optional.of(texturePathOverride));
-    }
+    public abstract Optional<AbilityActiveInstance<? extends ActiveAbilityType<?>>> createInstance(SyntheticsPlayer player, AbilityData data, ResourceLocation instanceID);
 
     @Override
     public void addDescriptionInfo(Ability ability, List<Component> description) {

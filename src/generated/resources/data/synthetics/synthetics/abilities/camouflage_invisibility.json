@@ -1,0 +1,11 @@
+{
+  "ability_data": {
+    "type": "synthetics:passive_invisibility_ability",
+    "invis_type": "crouching"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:passive_invisibility"
+  },
+  "id": "synthetics:camouflage_invisibility",
+  "nature": "beneficial"
+}

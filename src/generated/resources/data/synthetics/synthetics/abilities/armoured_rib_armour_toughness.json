@@ -1,0 +1,13 @@
+{
+  "ability_data": {
+    "type": "synthetics:attribute",
+    "attribute": "minecraft:generic.armor_toughness",
+    "factor": 2.5,
+    "operation": "add_value"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:attribute_type"
+  },
+  "id": "synthetics:armoured_rib_armour_toughness",
+  "nature": "beneficial"
+}

@@ -39,7 +39,6 @@ public abstract class LinkableBlock extends BaseEntityBlock {
             be.onRemoveLinkable(serverLevel);
         }
         super.playerDestroy(level, player, pos, state, blockEntity, tool);
-
     }
 
     @Override
@@ -54,7 +53,7 @@ public abstract class LinkableBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
-        if(level instanceof ServerLevel serverLevel && level.getBlockEntity(pos) instanceof LinkableBlockEntity be) {
+        if(level instanceof ServerLevel && level.getBlockEntity(pos) instanceof LinkableBlockEntity be) {
             if (be.isLinked(player)) {
                 be.onLinkedInteract(player, null, InteractionHand.MAIN_HAND);
             } else {
@@ -73,9 +72,9 @@ public abstract class LinkableBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
-        if(level instanceof ServerLevel serverLevel && level.getBlockEntity(pos) instanceof LinkableBlockEntity be && be.isLinked(player)) {
+        if(level instanceof ServerLevel && level.getBlockEntity(pos) instanceof LinkableBlockEntity be && be.isLinked(player)) {
             if(!player.getItemInHand(hand).isEmpty()) {
-                be.onLinkedInteract(player, stack, hand);
+                return be.onLinkedUseItem(player, stack, hand, hitResult);
             }
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);

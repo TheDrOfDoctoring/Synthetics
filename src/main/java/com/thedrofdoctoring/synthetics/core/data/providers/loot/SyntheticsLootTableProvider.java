@@ -6,14 +6,17 @@ import com.thedrofdoctoring.synthetics.blocks.SyntheticForge;
 import com.thedrofdoctoring.synthetics.blocks.SyntheticResearchTable;
 import com.thedrofdoctoring.synthetics.blocks.TableBlock;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
+import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -21,6 +24,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +33,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 public class SyntheticsLootTableProvider {
 
@@ -37,7 +42,9 @@ public class SyntheticsLootTableProvider {
     public static void register(DataGenerator gen, GatherDataEvent event, CompletableFuture<HolderLookup.Provider> future, PackOutput output) {
         gen.addProvider(event.includeServer(), new LootTableProvider(output, LOOT_TABLES, List.of(
                 new LootTableProvider.SubProviderEntry(SyntheticsBlockLootTables::new, LootContextParamSets.BLOCK),
-                new LootTableProvider.SubProviderEntry(SyntheticsChestLootTables::new, LootContextParamSets.CHEST)
+                new LootTableProvider.SubProviderEntry(SyntheticsChestLootTables::new, LootContextParamSets.CHEST),
+                new LootTableProvider.SubProviderEntry(SyntheticsEntityLootTables::new, LootContextParamSets.ENTITY)
+
         ), future
         ));
     }
@@ -58,6 +65,7 @@ public class SyntheticsLootTableProvider {
             this.dropSelf(SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get());
             this.dropSelf(SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get());
             this.dropSelf(SyntheticsBlocks.TELEPORTER_LINKABLE_BLOCK.get());
+            this.dropSelf(SyntheticsBlocks.PERMEABLE_LINKABLE_BLOCK.get());
         }
 
         @NotNull
@@ -69,6 +77,31 @@ public class SyntheticsLootTableProvider {
                     .toList();
         }
 
+    }
+    private static class SyntheticsEntityLootTables extends EntityLootSubProvider {
+
+        protected SyntheticsEntityLootTables(HolderLookup.Provider registries) {
+            super(FeatureFlags.REGISTRY.allFlags(), registries);
+        }
+
+        @Override
+        public void generate() {
+            this.add(SyntheticsEntities.DRONE_ENTITY.get(),
+                    LootTable.lootTable()
+                            .withPool(LootPool.lootPool()
+                                    .setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(SyntheticsItems.DRONE_ITEM.get()))
+                            )
+            );
+            this.add(SyntheticsEntities.ORGAN_DISPLAY_MOB.get(), LootTable.lootTable());
+
+        }
+
+
+        @Override
+        protected @NotNull Stream<EntityType<?>> getKnownEntityTypes() {
+            return SyntheticsEntities.getAllEntities().stream();
+        }
     }
 
     private record SyntheticsChestLootTables(HolderLookup.Provider registries) implements LootTableSubProvider {

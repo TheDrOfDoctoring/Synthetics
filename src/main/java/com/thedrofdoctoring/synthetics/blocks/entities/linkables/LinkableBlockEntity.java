@@ -5,8 +5,11 @@ import com.thedrofdoctoring.synthetics.world.data.LinkableBlocksData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.MinecraftServer;
@@ -15,24 +18,32 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class LinkableBlockEntity extends BlockEntity {
 
+    private static final String UUID_TAG = "linkable_uuid";
+    private static final String LAST_LOCATION_TAG = "last_known_position";
+
     private UUID uuid;
+    private BlockPos lastKnownPosition;
 
     public LinkableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
         this.uuid = UUID.randomUUID();
+        this.lastKnownPosition = pos;
     }
 
 
@@ -56,10 +67,15 @@ public abstract class LinkableBlockEntity extends BlockEntity {
     public boolean isLinked(Player player) {
         if(player instanceof ServerPlayer serverPlayer) {
             return LinkableBlocksData.getData(serverPlayer.server).isPlayerLinkedToLinkable(serverPlayer, this.uuid);
-        } else if(player instanceof AbstractClientPlayer) {
-            return BlockLinkingPlayer.get(player).isLinkedToPos(this.getBlockPos(), player.level());
+        } else if(player instanceof AbstractClientPlayer && this.level != null) {
+            return BlockLinkingPlayer.get(player).isLinkedToPos(GlobalPos.of(this.level.dimension(), this.getBlockPos()));
         }
         return false;
+    }
+
+    public ItemInteractionResult onLinkedUseItem(Player player, @NotNull ItemStack stack, @NotNull InteractionHand hand, BlockHitResult hitResult) {
+        onLinkedInteract(player, stack, hand);
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     public int getMaxLinkedPlayers() {
@@ -79,7 +95,7 @@ public abstract class LinkableBlockEntity extends BlockEntity {
             if(data.isAlreadyLinked(this.uuid) && canLinkWithPlayer(player)) {
                 linkPlayer(player, data);
             } else {
-                data.addNewLinked(this.uuid, this.level.dimension(), this.getBlockPos());
+                data.addNewLinked(this.uuid, this.level, this.getBlockPos());
                 if(canLinkWithPlayer(player)) {
                     linkPlayer(player, data);
                 }
@@ -115,7 +131,9 @@ public abstract class LinkableBlockEntity extends BlockEntity {
         affectedPlayers.forEach(this::removeLinkedForPlayer);
     }
 
-    public void removeLinkedForPlayer(ServerPlayer player) {}
+    public void removeLinkedForPlayer(ServerPlayer player) {
+        unlinkPlayer(player);
+    }
 
     @NotNull
     @Override
@@ -132,14 +150,28 @@ public abstract class LinkableBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
-        if(tag.hasUUID("linkable_uuid")) {
-            this.uuid = tag.getUUID("linkable_uuid");
+        if(tag.hasUUID(UUID_TAG)) {
+            this.uuid = tag.getUUID(UUID_TAG);
+        }
+        if(tag.contains(LAST_LOCATION_TAG)) {
+            Optional<BlockPos> posOpt =  NbtUtils.readBlockPos(tag, LAST_LOCATION_TAG);
+            posOpt.ifPresent(lastKnown -> handleMoved(this.getBlockPos(), lastKnown));
         }
     }
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.putUUID("linkable_uuid", this.uuid);
+        tag.putUUID(UUID_TAG, this.uuid);
+        Tag lastKnownPosiiton = NbtUtils.writeBlockPos(this.lastKnownPosition);
+        tag.put(LAST_LOCATION_TAG, lastKnownPosiiton);
+    }
+    // if the block is moved eg via quark pistons, hopefully we can catch that and move the linkable.
+    private void handleMoved(BlockPos newPos, BlockPos lastKnownPosition) {
+        if(!lastKnownPosition.equals(newPos) && level instanceof ServerLevel serverLevel) {
+            this.lastKnownPosition = newPos;
+            LinkableBlocksData data = LinkableBlocksData.getData(serverLevel.getServer());
+            data.updateLinkedPosition(serverLevel, this.uuid, newPos);
+        }
     }
 }

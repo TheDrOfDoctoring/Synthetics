@@ -23,6 +23,10 @@ import net.minecraft.world.phys.AABB;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * This could do with some optimisations, for a small radius it's alright
+ */
 public class BlockHighlightAbility extends LastingAbilityType<BlockHighlightAbilityInstance> {
     public BlockHighlightAbility(ResourceLocation id) {
         super(id);

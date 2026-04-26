@@ -113,7 +113,9 @@ public record Ability(AbilityType abilityType, AbilityData abilityData, AbilityN
 
         BENEFICIAL(0, "beneficial", ChatFormatting.BLUE),
         NEUTRAL(1, "neutral", ChatFormatting.GRAY),
-        DETRIMENTAL(2, "detrimental", ChatFormatting.RED);
+        DETRIMENTAL(2, "detrimental", ChatFormatting.RED),
+        HIDDEN(3, "hidden", ChatFormatting.GRAY);
+
 
         private final String representation;
         private final int id;

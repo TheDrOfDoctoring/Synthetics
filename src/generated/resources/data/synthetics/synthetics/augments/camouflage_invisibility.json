@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:camouflage_invisibility",
+  "augment_id": "synthetics:camouflage_invisibility",
+  "complexity": 4,
+  "valid_parts": "#synthetics:tissue"
+}

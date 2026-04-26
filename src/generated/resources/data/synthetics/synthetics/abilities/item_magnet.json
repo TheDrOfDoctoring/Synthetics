@@ -1,0 +1,16 @@
+{
+  "ability_data": {
+    "type": "synthetics:generic_active_ability",
+    "active_data": {
+      "cooldown": 30,
+      "duration": 99999999,
+      "power_drain": 2
+    },
+    "factor": 7.5
+  },
+  "ability_type": {
+    "ability_id": "synthetics:item_magnet"
+  },
+  "id": "synthetics:item_magnet",
+  "nature": "beneficial"
+}

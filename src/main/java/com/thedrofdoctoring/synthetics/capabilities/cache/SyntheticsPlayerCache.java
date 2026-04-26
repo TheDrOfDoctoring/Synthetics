@@ -10,14 +10,20 @@ public class SyntheticsPlayerCache {
 
     public boolean canViewLinked;
     public boolean isNotViewingSelf;
+    public int     placeTime;
 
     public int     onRoofTimer;
     public boolean onWall;
     public boolean onRoof;
     public boolean hasWallClimb;
+    public boolean lockedInPlace;
+    public boolean isRocketFlight;
+    public boolean isWaterWalking;
+
 
     public boolean invisible;
 
     public final EffectAmplifierCache effectCache    = new EffectAmplifierCache();
     public final BlockHighlightCache  highlightCache = new BlockHighlightCache();
+    public final EntityHighlightCache entityHighlightcache = new EntityHighlightCache();
 }

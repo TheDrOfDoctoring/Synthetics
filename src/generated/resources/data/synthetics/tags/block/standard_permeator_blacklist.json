@@ -3,6 +3,7 @@
     "#minecraft:wither_immune",
     "#minecraft:air",
     "#minecraft:replaceable",
-    "synthetics:permeable_block"
+    "synthetics:permeable_block",
+    "synthetics:permeable_linkable_block"
   ]
 }

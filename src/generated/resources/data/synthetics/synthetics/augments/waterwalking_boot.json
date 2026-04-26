@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:waterwalking_boot",
+  "augment_id": "synthetics:waterwalking_boot",
+  "complexity": 2,
+  "valid_parts": "#synthetics:feet"
+}

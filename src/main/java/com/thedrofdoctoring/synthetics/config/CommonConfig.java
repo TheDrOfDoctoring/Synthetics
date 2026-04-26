@@ -11,6 +11,8 @@ public class CommonConfig {
     public static final ModConfigSpec.ConfigValue<List<? extends String>> modifiedArchaeologicalLootTables;
     public static final ModConfigSpec.IntValue fossilisedScrapWeight;
     public static final ModConfigSpec.BooleanValue permeableBlockBE;
+    public static final ModConfigSpec.BooleanValue dropInstalledOnDeath;
+
 
     static {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -21,6 +23,7 @@ public class CommonConfig {
         modifiedArchaeologicalLootTables = BUILDER.comment("As we have special limitations when editing the archaeology loot tables, this is required over a tag or similar. A list of strings, matching the path of archaeological loot tables").defineList("modifiedArchaeologyTables", List.of("minecraft:archaeology/trail_ruins_common", "minecraft:archaeology/trail_ruins_rare", "minecraft:archaeology/desert_pyramid"), () -> "minecraft:archaeology/desert_pyramid", string -> string instanceof String);
         fossilisedScrapWeight = BUILDER.comment("Weight of fossilised scrap in modified loot tables").defineInRange("fossilisedScrapWeight", 10, 0, 1000);
         permeableBlockBE = BUILDER.comment("Whether the Block Permeator ability works on block entities").define("permeableBlockBE", false);
+        dropInstalledOnDeath = BUILDER.comment("Whether installed augments, parts, etc should be dropped on death").define("dropInstalledOnDeath", false);
 
         COMMON_CONFIG = BUILDER.build();
     }

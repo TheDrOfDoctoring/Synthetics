@@ -5,7 +5,7 @@ import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlockEntities;
 import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
-import com.thedrofdoctoring.synthetics.entities.DummyCameraEntity;
+import com.thedrofdoctoring.synthetics.entities.linkable.DummyCameraEntity;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundViewLinkPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -42,6 +42,10 @@ public class CameraLinkableBlockEntity extends LinkableBlockEntity {
         super.onRemoveLinkable(level);
         DummyCameraEntity camera = findDummyCameraEntity();
         if(camera != null) {
+            Player player = camera.getLinkedTo();
+            if(player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.setCamera(serverPlayer);
+            }
             camera.remove(Entity.RemovalReason.DISCARDED);
         }
     }
@@ -53,9 +57,11 @@ public class CameraLinkableBlockEntity extends LinkableBlockEntity {
     }
 
     private void endPlayerCameraView(ServerPlayer player) {
-        if(player.getCamera() == findDummyCameraEntity()) {
+        DummyCameraEntity camera = findDummyCameraEntity();
+        if(player.getCamera() == camera) {
             SyntheticsPlayerCache.get(player).isNotViewingSelf = false;
             player.setCamera(player);
+            camera.setLinkedTo(null);
             sendViewPacket(player, false);
         }
     }
@@ -65,16 +71,17 @@ public class CameraLinkableBlockEntity extends LinkableBlockEntity {
         if(camera != null) {
             SyntheticsPlayerCache.get(player).isNotViewingSelf = true;
             player.setCamera(camera);
+            camera.setLinkedTo(player);
             sendViewPacket(player, true);
         } else if(this.level instanceof ServerLevel serverLevel){
             Vec3 pos = this.worldPosition.getCenter();
             DummyCameraEntity dummyCamera = SyntheticsEntities.DUMMY_CAMERA_ENTITY.get().spawn(serverLevel, this.worldPosition, MobSpawnType.MOB_SUMMONED);
             if(dummyCamera != null) {
                 dummyCamera.setPos(pos);
+                dummyCamera.setLinkedTo(player);
                 serverLevel.addFreshEntity(dummyCamera);
                 startPlayerCameraView(player);
             }
-
         }
     }
 

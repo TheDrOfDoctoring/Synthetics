@@ -33,7 +33,6 @@ public class ServerboundRequestLinkableUpdatePacket implements CustomPacketPaylo
 
     public static void handle(ServerboundRequestLinkableUpdatePacket __, final IPayloadContext context) {
         context.enqueueWork(() -> {
-
             ClientboundLinkableUpdatePacket update = ClientboundLinkableUpdatePacket.create((ServerPlayer) context.player());
             BlockLinkingPlayer.get(context.player()).setLinkableData(update.linkingLocations());
             context.reply(update);

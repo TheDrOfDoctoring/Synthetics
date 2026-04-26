@@ -51,6 +51,22 @@ public class Abilities {
     public static final ResourceKey<Ability> LINKED_TELEPORT = create("linked_teleport");
     public static final ResourceKey<Ability> ORE_DOWSING = create("ore_dowsing");
     public static final ResourceKey<Ability> NIGHT_VISION = create("night_vision");
+    public static final ResourceKey<Ability> TELEPORT = create("teleport");
+    public static final ResourceKey<Ability> DRONE_LINK = create("drone_link");
+    public static final ResourceKey<Ability> PERMEABLE_LINK = create("permeable_link");
+    public static final ResourceKey<Ability> SHRINKIFIER = create("shrinkifier");
+    public static final ResourceKey<Ability> ARMOURED_RIB_KNOCKBACK = create("armoured_rib_knockback");
+    public static final ResourceKey<Ability> ARMOURED_RIB_ARMOUR_TOUGHNESS = create("armoured_rib_armour_toughness");
+    public static final ResourceKey<Ability> SHOCK_ABSORBER = create("shock_absorber");
+    public static final ResourceKey<Ability> CAMOUFLAGE_INVISIBILITY = create("camouflage_invisibility");
+    public static final ResourceKey<Ability> POSITION_LOCK = create("position_lock");
+    public static final ResourceKey<Ability> ENTITY_DETECTOR = create("entity_detector");
+    public static final ResourceKey<Ability> ROCKET_BOOTS = create("rocket_boots");
+    public static final ResourceKey<Ability> ROCKET_BOOTS_COUNT = create("rocket_boots_count");
+    public static final ResourceKey<Ability> MECHANICAL_BRUSH = create("mechanical_brush");
+    public static final ResourceKey<Ability> WATERWALKING_BOOT = create("waterwalking_boot");
+    public static final ResourceKey<Ability> ITEM_MAGNET = create("item_magnet");
+
 
 
     private static ResourceKey<Ability> create(String name) {

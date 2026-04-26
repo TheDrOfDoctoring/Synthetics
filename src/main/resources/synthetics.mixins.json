@@ -3,10 +3,13 @@
   "package": "com.thedrofdoctoring.synthetics.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BlockBehaviourMixin",
     "BlockMixin",
+    "ChunkMapMixin",
     "EntityMixin",
     "FoodDataMixin",
     "LivingEntityMixin",
+    "PlayerListMixin",
     "PlayerMixin",
     "ServerPlayerMixin",
     "VillagerMixin"
@@ -18,5 +21,8 @@
     "requireAnnotations": true
   },
   "client": [
+    "client.ClientPacketListenerMixin",
+    "client.GameRendererMixin",
+    "client.ScreenEffectRendererMixin"
   ]
 }

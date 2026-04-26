@@ -1,5 +1,4 @@
 {
-  "parent": "synthetics:mechanical_heart",
   "hidden": false,
   "id": "synthetics:cybernetic_heart",
   "requirements": {

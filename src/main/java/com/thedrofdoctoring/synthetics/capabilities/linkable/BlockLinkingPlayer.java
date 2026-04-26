@@ -2,7 +2,7 @@ package com.thedrofdoctoring.synthetics.capabilities.linkable;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
-import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 
 public class BlockLinkingPlayer {
@@ -23,13 +24,13 @@ public class BlockLinkingPlayer {
     public static final ResourceLocation MANAGER_KEY = Synthetics.rl(KEY);
 
     private List<LinkableBlockLocation> linkableData = Collections.emptyList();
-    private Map<ResourceKey<Level>, List<BlockPos>> dimensionToLinksMap = Collections.emptyMap();
+    private Map<ResourceKey<Level>, List<LinkableBlockLocation>> dimensionToLinksMap = Collections.emptyMap();
 
     public List<LinkableBlockLocation> linkableData() {
         return linkableData;
     }
 
-    public List<BlockPos> getLinkedPositionsInDimension(ResourceKey<Level> level) {
+    public List<LinkableBlockLocation> getLinkedPositionsInDimension(ResourceKey<Level> level) {
         return dimensionToLinksMap.getOrDefault(level, Collections.emptyList());
     }
 
@@ -38,16 +39,14 @@ public class BlockLinkingPlayer {
         this.dimensionToLinksMap = linkableData
                 .stream()
                 .collect(
-                        groupingBy(LinkableBlockLocation::dimension,
-                                mapping(LinkableBlockLocation::position, toList())
-                        )
+                        groupingBy(pos -> pos.pos().dimension(), toList())
                 );
     }
 
-    public boolean isLinkedToPos(BlockPos pos, Level level) {
+    public boolean isLinkedToPos(GlobalPos position) {
         return dimensionToLinksMap
-                .getOrDefault(level.dimension(), Collections.emptyList())
-                .contains(pos);
+                .getOrDefault(position.dimension(), Collections.emptyList())
+                .stream().anyMatch(location -> location.pos().equals(position));
     }
 
     public static BlockLinkingPlayer get(Player player) {

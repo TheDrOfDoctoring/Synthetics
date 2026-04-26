@@ -35,6 +35,7 @@ import java.util.function.IntFunction;
  *
  * I don't really want to keep these here since it's client only information, but right now I'm not sure of a better place, and I want to keep them configurable
  */
+//TODO: Default should be a holder instead of a resource key
 public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id, BodyPosition bodyPosition) implements IInstallableModelSupplier, IInstallableModelPositioner {
 
     public static final MapCodec<BodyPartType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

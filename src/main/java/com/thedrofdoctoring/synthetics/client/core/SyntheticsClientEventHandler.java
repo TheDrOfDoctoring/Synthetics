@@ -5,17 +5,22 @@ import com.thedrofdoctoring.synthetics.abilities.active.types.BlockHighlightAbil
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
+import com.thedrofdoctoring.synthetics.client.renderers.world.EntityHighlightingRenderer;
 import com.thedrofdoctoring.synthetics.client.renderers.world.HighlightedBlocksRenderer;
 import com.thedrofdoctoring.synthetics.client.renderers.world.LinkableBlocksRenderer;
+import com.thedrofdoctoring.synthetics.core.SyntheticsSounds;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundClimbPacket;
 import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundLinkedInputPacket;
+import com.thedrofdoctoring.synthetics.networking.from_client.ServerboundLinkedUsePacket;
 import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.Vec3;
@@ -23,7 +28,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
 import java.util.Collection;
@@ -31,18 +36,23 @@ import java.util.Optional;
 
 import static com.thedrofdoctoring.synthetics.util.Helper.getRotDirection;
 
-public class SyntheticsClientEventHandler {
+public class SyntheticsClientEventHandler implements ResourceManagerReloadListener {
+
+    public static final SyntheticsClientEventHandler INSTANCE = new SyntheticsClientEventHandler();
 
     private final Minecraft mc;
+    private final EntityHighlightingRenderer highlightRenderer;
     private SyntheticsPlayer syntheticsPlayer;
 
+    private static Input lastInput;
 
     private SyntheticsClientEventHandler() {
         this.mc = Minecraft.getInstance();
+        this.highlightRenderer = new EntityHighlightingRenderer(mc);
     }
 
     public static void register() {
-        NeoForge.EVENT_BUS.register(new SyntheticsClientEventHandler());
+        NeoForge.EVENT_BUS.register(INSTANCE);
     }
 
     private SyntheticsPlayer getSyntheticsPlayer() {
@@ -78,12 +88,25 @@ public class SyntheticsClientEventHandler {
         }
     }
 
+
+
     @SubscribeEvent
     public void onRenderLevel(RenderLevelStageEvent event) {
+        this.highlightRenderer.onRenderLevelEvent(event);
         if(event.getStage() == RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES) {
             LinkableBlocksRenderer.render(event.getPoseStack(), event.getCamera());
             HighlightedBlocksRenderer.render(event.getPoseStack(), event.getCamera());
         }
+    }
+
+    @SubscribeEvent
+    public void onRenderLiving(RenderLivingEvent.Pre<?, ?> event) {
+        this.highlightRenderer.onRenderLiving(event);
+    }
+
+    @SubscribeEvent
+    public void onComputeCamera(ViewportEvent.ComputeCameraAngles event) {
+        this.highlightRenderer.onComputeCamera(event);
     }
 
     @SubscribeEvent
@@ -94,10 +117,11 @@ public class SyntheticsClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onTick(PlayerTickEvent.Post event) {
-        if(event.getEntity().isLocalPlayer()) {
-            BlockHighlightAbility.tick(event.getEntity());
-        }
+    public void onTick(ClientTickEvent.Pre event) {
+        if(mc.level == null || mc.player == null) return;
+        BlockHighlightAbility.tick(mc.player);
+        this.highlightRenderer.onClientTick(event);
+
     }
 
     public static void onBlockBreak(BlockPos pos) {
@@ -148,28 +172,46 @@ public class SyntheticsClientEventHandler {
         if(mc.player == null) return;
 
         if(SyntheticsPlayerCache.get(mc.player).isNotViewingSelf) {
+            mc.player.connection.send(new ServerboundLinkedUsePacket(event.isAttack()));
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void onPlayerInput(MovementInputUpdateEvent event) {
+        handlePlayerInput(mc, event);
+    }
+
+    public static boolean handlePlayerInput(Minecraft mc, MovementInputUpdateEvent event) {
         Input input = event.getInput();
 
-        if(mc.player == null) return;
+        if(mc.player == null) return false;
+        lastInput = input;
+        SyntheticsPlayerCache cache = SyntheticsPlayerCache.get(mc.player);
 
-        if(SyntheticsPlayerCache.get(mc.player).isNotViewingSelf) {
-            float sidewaysMotion = (
-                    event.getInput().left ? 1f :
-                            event.getInput().right ? -1f : 0 );
-            float forwardMotion = (
-                    event.getInput().up ? 1f :
-                            event.getInput().down ? -1f : 0 );
-            ServerboundLinkedInputPacket packet = new ServerboundLinkedInputPacket(sidewaysMotion, forwardMotion, mc.player.getXRot(), mc.player.getYRot(), mc.player.getYHeadRot(), input.jumping, input.shiftKeyDown, mc.options.keySprint.isDown());
-            mc.player.connection.send(packet);
+        if(cache.lockedInPlace && !cache.isNotViewingSelf) {
             stopInput(input);
+            return false;
         }
 
+        if(cache.isNotViewingSelf) {
+            ServerboundLinkedInputPacket packet = getServerboundLinkedInputPacket(event, input, mc.player, mc);
+            mc.player.connection.send(packet);
+            stopInput(input);
+            return false;
+        }
+
+        return true;
+    }
+
+    private static @NotNull ServerboundLinkedInputPacket getServerboundLinkedInputPacket(MovementInputUpdateEvent event, Input input, @NotNull Player player, Minecraft mc) {
+        float sidewaysMotion = (
+                event.getInput().left ? 1f :
+                        event.getInput().right ? -1f : 0 );
+        float forwardMotion = (
+                event.getInput().up ? 1f :
+                        event.getInput().down ? -1f : 0 );
+        return new ServerboundLinkedInputPacket(sidewaysMotion, forwardMotion, player.getXRot(), player.getYRot(), player.getYHeadRot(), input.jumping, input.shiftKeyDown, mc.options.keySprint.isDown());
     }
 
     @SubscribeEvent
@@ -180,7 +222,7 @@ public class SyntheticsClientEventHandler {
         }
     }
 
-    public void stopInput(Input input) {
+    private static void stopInput(Input input) {
         input.up = false;
         input.down = false;
         input.right = false;
@@ -189,5 +231,27 @@ public class SyntheticsClientEventHandler {
         input.forwardImpulse = 0f;
         input.leftImpulse = 0f;
     }
+
+    @Override
+    public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
+        this.highlightRenderer.onResourceManagerReload(resourceManager);
+    }
+
+    public static void handleRocketFlight(Player player, double factor) {
+        if(player.onGround() || !player.isLocalPlayer()) return;
+        if(lastInput.jumping) {
+            double magnitude = 0.25 * (player.isCrouching() ? factor / 2 : factor);
+            if(player.isInLiquid()) {
+                magnitude *= 0.25f;
+            }
+            Vec3 delta = player.getDeltaMovement();
+            player.setDeltaMovement(delta.x(), magnitude, delta.z());
+            if(player.tickCount % 9 == 0) {
+                player.playSound(SyntheticsSounds.ROCKET_FLIGHT.get(), 0.25f, 2.0f);
+            }
+        }
+    }
+
+
 
 }

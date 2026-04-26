@@ -7,19 +7,24 @@ import com.mojang.serialization.codecs.UnboundedMapCodec;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.linkable.BlockLinkingPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.linkable.LinkableBlockLocation;
+import com.thedrofdoctoring.synthetics.capabilities.linkable.LinkableContext;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundLinkableUpdatePacket;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,21 +37,25 @@ public class LinkableBlocksData extends SavedData {
     private static final UnboundedMapCodec<UUID, LinkableData> MAP_CODEC = Codec.unboundedMap(UUIDUtil.STRING_CODEC, LinkableData.CODEC.codec());
 
     private final Map<UUID, LinkableData> allLinked;
+    private final HolderLookup.Provider registryAccess;
 
-    public LinkableBlocksData(Map<UUID, LinkableData> map) {
+    public LinkableBlocksData(HolderLookup.Provider registryAccess, Map<UUID, LinkableData> map) {
         this.allLinked = new HashMap<>(map);
+        this.registryAccess = registryAccess;
     }
 
-    public static LinkableBlocksData create() {
-        return new LinkableBlocksData(new HashMap<>());
+
+
+    public static LinkableBlocksData create(HolderLookup.Provider access) {
+        return new LinkableBlocksData(access, new HashMap<>());
     }
 
     public static LinkableBlocksData load(CompoundTag tag, HolderLookup.Provider lookupProvider) {
         return MAP_CODEC
-                .decode(NbtOps.INSTANCE, getOrEmpty(tag))
+                .decode(lookupProvider.createSerializationContext(NbtOps.INSTANCE), getOrEmpty(tag))
                 .result()
-                .map(mapTagPair -> new LinkableBlocksData(mapTagPair.getFirst()))
-                .orElseGet(LinkableBlocksData::create);
+                .map(mapTagPair -> new LinkableBlocksData(lookupProvider, mapTagPair.getFirst()))
+                .orElseGet(() -> create(lookupProvider));
     }
 
     private static Tag getOrEmpty(CompoundTag tag) {
@@ -67,19 +76,19 @@ public class LinkableBlocksData extends SavedData {
         return this.allLinked.values()
                 .stream()
                 .filter(isPlayerLinked(player))
-                .map(data -> new LinkableBlockLocation(data.location, data.dimension))
+                .map(data -> new LinkableBlockLocation(data.position, data.context))
                 .toList();
      }
 
     public static LinkableBlocksData getData(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(new Factory<>(LinkableBlocksData::create, LinkableBlocksData::load), ID);
+        return server.overworld().getDataStorage().computeIfAbsent(new Factory<>((() -> create(server.registryAccess())), LinkableBlocksData::load), ID);
     }
 
 
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
         MAP_CODEC
-                .encodeStart(NbtOps.INSTANCE, allLinked)
+                .encodeStart(registryAccess.createSerializationContext(NbtOps.INSTANCE), allLinked)
                 .ifSuccess(result -> compoundTag.put(ID, result))
                 .ifError( (err) -> Synthetics.LOGGER.warn("Failed to serialise linkable data, {}", err));
         return compoundTag;
@@ -114,6 +123,25 @@ public class LinkableBlocksData extends SavedData {
             });
         }
         return affectedPlayers;
+    }
+
+    public void updateLinkedPosition(ServerLevel level, UUID linked, BlockPos newPos) {
+        List<ServerPlayer> affectedPlayers = new LinkedList<>();
+        if(this.allLinked.containsKey(linked)) {
+            LinkableData data = this.allLinked.remove(linked);
+            level.players().forEach(player -> {
+                if(data.linkedPlayers.contains(player.getUUID())) {
+                    affectedPlayers.add(player);
+                }
+            });
+        }
+        this.addNewLinked(linked, level, newPos);
+        if(this.allLinked.containsKey(linked)) {
+            LinkableData data = this.allLinked.get(linked);
+            data.addPlayers(affectedPlayers);
+        }
+        affectedPlayers.forEach(this::syncToClient);
+
 
     }
 
@@ -135,7 +163,7 @@ public class LinkableBlocksData extends SavedData {
     public List<LinkableData> linkedToPlayerInDimension(Player player) {
         return this.allLinked.values()
                 .stream()
-                .filter(linkableData -> player.level().dimension().equals(linkableData.dimension))
+                .filter(linkableData -> player.level().dimension().equals(linkableData.position.dimension()))
                 .filter(isPlayerLinked(player))
                 .toList();
     }
@@ -149,28 +177,41 @@ public class LinkableBlocksData extends SavedData {
         return false;
     }
 
-    public void addNewLinked(UUID key, ResourceKey<Level> dimensionID, BlockPos location) {
+    public void addNewLinked(UUID key, Level level, BlockPos location) {
         // just in case, if there's any linkables in the exact same location, we clear them when a new one is added at that place.
+        GlobalPos globalPosition = GlobalPos.of(level.dimension(), location);
         var toRemove = this.allLinked.entrySet()
                 .stream()
-                .filter(data -> data.getValue().dimension.equals(dimensionID) && data.getValue().location().equals(location))
+                .filter(data -> data.getValue().position.equals(globalPosition))
                 .map(Map.Entry::getKey).toList();
         for(UUID removedUUID : toRemove) {
             this.allLinked.remove(removedUUID);
         }
-        this.allLinked.computeIfAbsent(key, id -> new LinkableData(dimensionID, location, new HashSet<>()));
+
+        BlockEntity be = level.getBlockEntity(location);
+        if(be != null) {
+            Component customTitle = be.components().get(DataComponents.CUSTOM_NAME);
+            Component title =  customTitle != null ?
+                    MutableComponent.create(customTitle.getContents()) :
+                    be.getBlockState().getBlock().getName();
+            LinkableContext context = new LinkableContext(title, be.getBlockState().getBlockHolder());
+            this.allLinked.computeIfAbsent(key, id -> new LinkableData(globalPosition, Optional.of(context), new HashSet<>()));
+        } else {
+            this.allLinked.computeIfAbsent(key, id -> new LinkableData(globalPosition, Optional.empty(), new HashSet<>()));
+        }
     }
+
 
     @Override
     public boolean isDirty() {
         return true;
     }
 
-    public record LinkableData(ResourceKey<Level> dimension, BlockPos location, Set<UUID> linkedPlayers) {
+    public record LinkableData(GlobalPos position, Optional<LinkableContext> context, Set<UUID> linkedPlayers) {
 
         public static final MapCodec<LinkableData> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Level.RESOURCE_KEY_CODEC.fieldOf("dimension").forGetter(LinkableData::dimension),
-                BlockPos.CODEC.fieldOf("position").forGetter(LinkableData::location),
+                GlobalPos.CODEC.fieldOf("position").forGetter(LinkableData::position),
+                LinkableContext.CODEC.codec().optionalFieldOf("context").forGetter(LinkableData::context),
                 UUIDUtil.CODEC_SET.fieldOf("players").forGetter(LinkableData::linkedPlayers)
         ).apply(instance, LinkableData::new));
 
@@ -181,6 +222,12 @@ public class LinkableBlocksData extends SavedData {
 
         public LinkableData addPlayer(Player player) {
             this.linkedPlayers.add(player.getUUID());
+            return this;
+        }
+        public LinkableData addPlayers(List<? extends Player> players) {
+            for(Player player : players) {
+                this.linkedPlayers.add(player.getUUID());
+            }
             return this;
         }
 

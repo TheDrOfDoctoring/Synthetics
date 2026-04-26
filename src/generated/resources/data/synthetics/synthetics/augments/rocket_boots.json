@@ -1,0 +1,10 @@
+{
+  "abilities": [
+    "synthetics:rocket_boots",
+    "synthetics:rocket_boots_count"
+  ],
+  "augment_id": "synthetics:rocket_boots",
+  "complexity": 3,
+  "max_copies_total": 2,
+  "valid_parts": "#synthetics:feet"
+}

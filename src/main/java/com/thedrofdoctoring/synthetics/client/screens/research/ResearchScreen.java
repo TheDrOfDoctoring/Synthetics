@@ -72,6 +72,7 @@ public class ResearchScreen extends Screen {
         Map<ResearchTab, List<ResearchNode>> nodes = SyntheticsClient.getInstance().getManager().rootNodes;
         int i = 0;
         for(Map.Entry<ResearchTab, List<ResearchNode>> entry : nodes.entrySet()) {
+
             this.researchTabs.add(new ResearchTabScreen(this, entry.getKey().displayIcon(), i, entry.getValue()));
             i++;
         }

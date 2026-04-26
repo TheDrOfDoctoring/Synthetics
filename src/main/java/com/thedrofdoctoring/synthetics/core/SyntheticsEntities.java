@@ -1,10 +1,11 @@
 package com.thedrofdoctoring.synthetics.core;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
-import com.thedrofdoctoring.synthetics.entities.DummyCameraEntity;
 import com.thedrofdoctoring.synthetics.entities.FlameProjectileEntity;
 import com.thedrofdoctoring.synthetics.entities.HarpoonProjectileEntity;
 import com.thedrofdoctoring.synthetics.entities.OrganDisplayMob;
+import com.thedrofdoctoring.synthetics.entities.linkable.DroneEntity;
+import com.thedrofdoctoring.synthetics.entities.linkable.DummyCameraEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -16,7 +17,9 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class SyntheticsEntities {
 
@@ -39,6 +42,8 @@ public class SyntheticsEntities {
             .noSummon()
             .build(Synthetics.MODID + ":" + "dummy_camera_entity")
     );
+    public static final DeferredHolder<EntityType<?>, EntityType<DroneEntity>> DRONE_ENTITY = prepareEntityType("drone", () -> EntityType.Builder.of(DroneEntity::new, MobCategory.CREATURE)
+            .sized(0.6F, 0.35f), true);
 
 
     public static void register(IEventBus bus) {
@@ -48,6 +53,7 @@ public class SyntheticsEntities {
 
     public static void onRegisterEntityTypeAttributes(@NotNull EntityAttributeCreationEvent event) {
         event.put(ORGAN_DISPLAY_MOB.get(), Zombie.createAttributes().build());
+        event.put(DRONE_ENTITY.get(),      DroneEntity.createAttributes().build());
     }
     private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> prepareEntityType(String id, @NotNull Supplier<EntityType.Builder<T>> builder, boolean spawnable) {
         return ENTITY_TYPES.register(id, () -> {
@@ -57,6 +63,10 @@ public class SyntheticsEntities {
             }
             return type.build(Synthetics.MODID + ":" + id);
         });
+    }
+
+    public static @NotNull Set<EntityType<?>> getAllEntities() {
+        return ENTITY_TYPES.getEntries().stream().map(DeferredHolder::get).collect(Collectors.toSet());
     }
 
 }

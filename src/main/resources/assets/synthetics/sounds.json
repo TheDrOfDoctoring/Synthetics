@@ -1,0 +1,65 @@
+{
+  "entity.drone_buzz": {
+    "sounds": [
+      {
+        "attenuation_distance": 6,
+        "name": "minecraft:mob/bee/loop1",
+        "volume": 0.6
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "minecraft:mob/bee/loop2",
+        "volume": 0.6
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "minecraft:mob/bee/loop3",
+        "volume": 0.65
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "minecraft:mob/bee/loop4",
+        "volume": 0.65
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "minecraft:mob/bee/loop5",
+        "volume": 0.7
+      },
+      {
+        "attenuation_distance": 6,
+        "name": "minecraft:mob/bee/loop5",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.synthetics.entity.drone_buzz"
+  },
+  "entity.player_squelch": {
+    "sounds": [
+      {
+        "name": "minecraft:block/honeyblock/break1"
+      },
+      {
+        "name": "minecraft:block/honeyblock/break2"
+      },
+      {
+        "name": "minecraft:block/honeyblock/break3"
+      },
+      {
+        "name": "minecraft:block/honeyblock/break4"
+      },
+      {
+        "name": "minecraft:block/honeyblock/break5"
+      }
+    ],
+    "subtitle": "subtitles.synthetics.entity.player_squelches"
+  },
+  "entity.rocket_flight": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/ghast/fireball4"
+      }
+    ],
+    "subtitle": "subtitles.synthetics.entity.rocket_flight"
+  }
+}

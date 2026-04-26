@@ -1,16 +1,32 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
+import com.thedrofdoctoring.synthetics.abilities.active.types.PositionLockAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.IAbilityEventListener;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiveInstance;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.ShockAbsorberAbility;
+import com.thedrofdoctoring.synthetics.config.CommonConfig;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttributes;
+import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateDataCachePacket;
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingKnockBackEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
+import net.neoforged.neoforge.event.level.ExplosionKnockbackEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 @EventBusSubscriber
@@ -50,6 +66,91 @@ public class SyntheticsEventHandler {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onLivingKnockbackEvent(LivingKnockBackEvent event) {
+        if(event.getEntity() instanceof Player player) {
+            if(PositionLockAbility.shouldCancelKnockback(player, event)) {
+                return;
+            }
+        }
+        if(event.getEntity() instanceof ServerPlayer player) {
+            SyntheticsPlayer syntheticsPlayer = SyntheticsPlayer.get(player);
+            for(IntObjectPair<AbilityPassiveInstance<?>> instance : syntheticsPlayer.getAbilityManager().getPassiveAbilitiesPairs()) {
+                if(instance.second().type() instanceof ShockAbsorberAbility listener) {
+                    listener.onKnockback(instance.second(), instance.firstInt(), syntheticsPlayer, event);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onExplosionKnockback(ExplosionKnockbackEvent event) {
+        if(event.getAffectedEntity() instanceof Player player) {
+            if(PositionLockAbility.shouldCancelExplosionKnockback(player, event)) {
+                return;
+            }
+        }
+        if(event.getAffectedEntity() instanceof ServerPlayer player) {
+            SyntheticsPlayer syntheticsPlayer = SyntheticsPlayer.get(player);
+            for(IntObjectPair<AbilityPassiveInstance<?>> instance : syntheticsPlayer.getAbilityManager().getPassiveAbilitiesPairs()) {
+                if(instance.second().type() instanceof ShockAbsorberAbility listener) {
+                    listener.onExplosionKnockback(instance.second(), instance.firstInt(), syntheticsPlayer, event);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDrops(LivingDropsEvent event) {
+        if(event.getEntity() instanceof Player player) {
+            if(CommonConfig.dropInstalledOnDeath.get()) {
+                dropInstalledParts(event, player);
+            }
+            deactivateAbilities(player);
+        }
+
+    }
+
+    private static void deactivateAbilities(Player player) {
+        AbilityManager manager = SyntheticsPlayer.get(player).getAbilityManager();
+        manager.deactivateAll();
+    }
+
+
+    private static void dropInstalledParts(LivingDropsEvent event, Player player) {
+        SyntheticsPlayer syntheticsPlayer = SyntheticsPlayer.get(player);
+        Level level = player.level();
+        Vec3 pos = player.position();
+        for(AppliedAugmentInstance inst : syntheticsPlayer.getInstalledAugments()) {
+            syntheticsPlayer.removeNoUpdate(inst);
+            ItemStack stack = inst.augment().createDefaultItemStack(player.registryAccess());
+            event.getDrops().add(new ItemEntity(level, pos.x, pos.y, pos.z, stack));
+        }
+        var partLookup = player.registryAccess().lookup(SyntheticsData.BODY_PARTS);
+        for(BodyPart part : syntheticsPlayer.getPartManager().getInstalledParts()) {
+            BodyPart defaultPart = partLookup
+                    .flatMap(lookup -> lookup.get(part.type().value().defaultPart())
+                            .map(Holder.Reference::value))
+                    .orElse(null);
+            if(part.equals(defaultPart)) continue;
+            syntheticsPlayer.getPartManager().replacePart(defaultPart, false);
+            ItemStack stack = part.createDefaultItemStack(player.registryAccess());
+            event.getDrops().add(new ItemEntity(level, pos.x, pos.y, pos.z, stack));
+        }
+        var segmentLookup = player.registryAccess().lookup(SyntheticsData.BODY_SEGMENTS);
+        for(BodySegment segment : syntheticsPlayer.getPartManager().getInstalledSegments()) {
+            BodySegment defaultSegment = segmentLookup
+                    .flatMap(lookup -> lookup.get(segment.type().value().defaultSegment())
+                            .map(Holder.Reference::value))
+                    .orElse(null);
+            if(segment.equals(defaultSegment)) continue;
+            syntheticsPlayer.getPartManager().replaceSegment(defaultSegment, false);
+            ItemStack stack = segment.createDefaultItemStack(player.registryAccess());
+            event.getDrops().add(new ItemEntity(level, pos.x, pos.y, pos.z, stack));
+        }
+        syntheticsPlayer.onUpdate(true);
     }
 
 }

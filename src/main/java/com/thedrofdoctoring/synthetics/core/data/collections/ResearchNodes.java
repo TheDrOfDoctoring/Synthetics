@@ -56,6 +56,19 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> LINKED_TELEPORTER = create("linked_teleport");
     public static final ResourceKey<ResearchNode> ORE_DOWSING = create("ore_dowsing");
     public static final ResourceKey<ResearchNode> NIGHT_VISION = create("night_vision");
+    public static final ResourceKey<ResearchNode> TELEPORT = create("teleport");
+    public static final ResourceKey<ResearchNode> DRONE_LINK = create("drone_link");
+    public static final ResourceKey<ResearchNode> PERMEABLE_LINK = create("permeable_link");
+    public static final ResourceKey<ResearchNode> SHRINKIFIER = create("shrinkifier");
+    public static final ResourceKey<ResearchNode> RIBCAGES = create("ribcages");
+    public static final ResourceKey<ResearchNode> SHOCK_ABSORBER = create("shock_absorber");
+    public static final ResourceKey<ResearchNode> CAMOUFLAGE_INVISIBILITY = create("camouflage_invisibility");
+    public static final ResourceKey<ResearchNode> POSITION_LOCK = create("position_lock");
+    public static final ResourceKey<ResearchNode> ENTITY_DETECTOR = create("entity_detector");
+    public static final ResourceKey<ResearchNode> ROCKET_BOOTS = create("rocket_boots");
+    public static final ResourceKey<ResearchNode> MECHANICAL_BRUSH = create("mechanical_brush");
+    public static final ResourceKey<ResearchNode> WATERWALKING_BOOT = create("waterwalking_boot");
+    public static final ResourceKey<ResearchNode> ITEM_MAGNET = create("item_magnet");
 
 
     public static final ResourceKey<ResearchTab> TAB_AUGMENTS = createTab("augments");

@@ -3,10 +3,10 @@
     "type": "synthetics:harpoon_ability",
     "active_ability": {
       "cooldown": 60,
-      "duration": 25
+      "duration": 5
     },
     "damage": 1.0,
-    "force": 0.1,
+    "force": 0.175,
     "speed": 1.0
   },
   "ability_type": {

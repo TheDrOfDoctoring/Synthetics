@@ -218,6 +218,12 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         onUpdate(true);
     }
 
+    public void removeNoUpdate(AppliedAugmentInstance inst) {
+        appliedAugments.remove(inst);
+        complexityManager.removePart(inst);
+        abilityManager.removeAbilities(inst.augment());
+    }
+
     private Stream<AppliedAugmentInstance> instancesOfAugmentType(Augment augment) {
         List<Augment> group = augment.groupedWithList();
         return this.appliedAugments

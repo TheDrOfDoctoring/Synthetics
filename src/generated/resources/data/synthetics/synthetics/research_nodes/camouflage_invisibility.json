@@ -1,0 +1,34 @@
+{
+  "parent": "synthetics:fire_resistant_tissue",
+  "hidden": false,
+  "id": "synthetics:camouflage_invisibility",
+  "requirements": {
+    "experience_cost": 100,
+    "required_items": [
+      {
+        "amount": 12,
+        "item": {
+          "item": "minecraft:fermented_spider_eye"
+        }
+      },
+      {
+        "amount": 10,
+        "item": {
+          "item": "synthetics:artificial_tissue"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "minecraft:armadillo_scute"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:camouflage_invisibility"
+  },
+  "x": -150,
+  "y": -60
+}

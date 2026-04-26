@@ -3,7 +3,9 @@ package com.thedrofdoctoring.synthetics.client.screens.menu_screens.augmentation
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.ComplexityManager;
+import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.core.SyntheticsSounds;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.*;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
@@ -18,7 +20,6 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -232,7 +233,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             text.add(Component.translatable("text.synthetics.augmentation.already_installed").withStyle(ChatFormatting.AQUA));
         }
         if (displayAbilities && installable.abilities().isPresent()) {
-            HolderSet<Ability> abilities = installable.abilities().get();
+            List<Holder<Ability>> abilities = installable.abilities().get().stream().filter(p -> p.value().abilityNature() != Ability.AbilityNature.HIDDEN).toList();
             int maxSize = abilities.size();
             if (selectedAbility >= maxSize) {
                 selectedAbility = 0;
@@ -360,28 +361,44 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         return (mouseX >= buttonX && mouseX < buttonX + INSTALL_WIDTH && mouseY > buttonY && mouseY < buttonY + INSTALL_HEIGHT);
     }
     private void installButton(double mouseX, double mouseY) {
-        if(isMouseOverButton(mouseX, guiLeft + 9, mouseY, guiTop + 33)) {
+        if (isMouseOverButton(mouseX, guiLeft + 9, mouseY, guiTop + 33)) {
             ItemStack itemStack = this.menu.getInputContainer().getItem(0);
-            if(itemStack.getItem() instanceof InstallableItem<?> item) {
+            if (itemStack.getItem() instanceof InstallableItem<?> item) {
                 IBodyInstallable<?> installable = item.getInstallableComponent(itemStack);
                 ClientPacketListener connection = Minecraft.getInstance().getConnection();
 
-                if(installable instanceof Augment augment) {
-                    if(selectedBodyPart != null) {
+                if (installable instanceof Augment augment) {
+                    if (selectedBodyPart != null) {
                         installable = new AppliedAugmentInstance(augment, selectedBodyPart);
                     }
                 }
-
-                if( !(installable instanceof Augment) && SyntheticsPlayer.get(player).canAddInstallable(installable) && connection != null) {
+                SyntheticsPlayer syntheticsPlayer = SyntheticsPlayer.get(player);
+                if (!(installable instanceof Augment) && syntheticsPlayer.canAddInstallable(installable) && connection != null) {
+                    if (shouldPlayAlternativeSound(syntheticsPlayer, installable)) {
+                        playSoundEffect(SyntheticsSounds.SQUELCH.get(), 0.25f, 1f);
+                    } else {
+                        playSoundEffect(SoundEvents.BEACON_ACTIVATE, 1f, 2f);
+                        playSoundEffect(SoundEvents.SCULK_BLOCK_CHARGE, 1f, 1f);
+                    }
                     connection.send(new ServerboundInstallableMenuPacket(Optional.ofNullable(this.selectedBodyPart)));
-                    playSoundEffect(SoundEvents.BEACON_ACTIVATE, 1f, 2f);
-                    playSoundEffect(SoundEvents.SCULK_BLOCK_CHARGE, 1f, 1f);
 
                 } else {
                     playSoundEffect(SoundEvents.NOTE_BLOCK_BASS.value(), 0.5f, 1f);
                 }
             }
         }
+    }
+
+    private boolean shouldPlayAlternativeSound(SyntheticsPlayer syntheticsPlayer, IBodyInstallable<?> installable) {
+        return switch(installable) {
+            case BodyPart part ->
+                    PartManager.isDefault(syntheticsPlayer.getPartManager().getPartForType(part.type().value()))
+                            || PartManager.isDefault(installable);
+            case BodySegment segment ->
+                    PartManager.isDefault(syntheticsPlayer.getPartManager().getSegmentForType(segment.type().value()))
+                            || PartManager.isDefault(installable);
+            default -> false;
+        };
     }
 
 

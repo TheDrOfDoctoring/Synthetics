@@ -28,9 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@SuppressWarnings("unused")
 public record ResearchNode(Optional<Holder<ResearchNode>> parent, ResearchNodeUnlocks unlocked, ResearchRequirements requirements, int x, int y, Holder<ResearchTab> tab, boolean hidden, ResourceLocation id) {
-
 
     public static final MapCodec<ResearchNode> CODEC = MapCodec.recursive("ResearchNode", (a) -> RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResearchNode.HOLDER_CODEC.optionalFieldOf("parent").forGetter(ResearchNode::parent),

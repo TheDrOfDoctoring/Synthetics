@@ -7,6 +7,7 @@ import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataCompon
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.items.BlueprintItem;
+import com.thedrofdoctoring.synthetics.items.DroneItem;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import com.thedrofdoctoring.synthetics.items.RechargeableBatteryItem;
 import net.minecraft.ChatFormatting;
@@ -43,6 +44,7 @@ public class SyntheticsItems {
     public static final DeferredHolder<Item, Item> ARTIFICIAL_TISSUE = registerTab("artificial_tissue", () -> new Item(new Item.Properties().stacksTo(64)));
     public static final DeferredHolder<Item, Item> BASIC_CIRCUIT = registerTab("basic_circuit", () -> new Item(new Item.Properties().stacksTo(64)));
     public static final DeferredHolder<Item, Item> IRON_GEAR = registerTab("iron_gear", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final DeferredHolder<Item, Item> DRONE_ITEM = registerTab("drone", () -> new DroneItem(new Item.Properties().stacksTo(64)));
 
 
     public static final DeferredHolder<Item, Item> ANCIENT_SCRAP = registerTab("ancient_scrap", () -> new Item(

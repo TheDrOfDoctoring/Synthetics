@@ -8,6 +8,7 @@ import com.thedrofdoctoring.synthetics.blocks.entities.chamber.AugmentationChamb
 import com.thedrofdoctoring.synthetics.blocks.entities.forge.SyntheticForgeBlockEntity;
 import com.thedrofdoctoring.synthetics.blocks.entities.forge.SyntheticForgeDeferBE;
 import com.thedrofdoctoring.synthetics.blocks.entities.linkables.CameraLinkableBlockEntity;
+import com.thedrofdoctoring.synthetics.blocks.entities.linkables.PermeableLinkableBlockEntity;
 import com.thedrofdoctoring.synthetics.blocks.entities.linkables.RedstoneLinkableBlockEntity;
 import com.thedrofdoctoring.synthetics.blocks.entities.linkables.TeleporterLinkableBlockEntity;
 import net.minecraft.core.registries.Registries;
@@ -35,6 +36,7 @@ public class SyntheticsBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CameraLinkableBlockEntity>> CAMERA_LINKABLE = BLOCK_ENTITY_TYPES.register("camera_linkable", () -> create(CameraLinkableBlockEntity::new, SyntheticsBlocks.CAMERA_LINKABLE_BLOCK.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PermeableBlockEntity>> PERMEABLE = BLOCK_ENTITY_TYPES.register("permeable", () -> create(PermeableBlockEntity::new, SyntheticsBlocks.PERMEABLE_BLOCK.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TeleporterLinkableBlockEntity>> TELEPORTER_LINKABLE = BLOCK_ENTITY_TYPES.register("teleporter_linkable", () -> create(TeleporterLinkableBlockEntity::new, SyntheticsBlocks.TELEPORTER_LINKABLE_BLOCK.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PermeableLinkableBlockEntity>> PERMEABLE_LINKABLE = BLOCK_ENTITY_TYPES.register("permeable_linkable", () -> create(PermeableLinkableBlockEntity::new, SyntheticsBlocks.PERMEABLE_LINKABLE_BLOCK.get()));
 
 
     @SuppressWarnings("ConstantConditions")
