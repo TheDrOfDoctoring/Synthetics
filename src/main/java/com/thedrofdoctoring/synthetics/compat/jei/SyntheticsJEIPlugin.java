@@ -17,9 +17,11 @@ import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -53,6 +55,9 @@ public class SyntheticsJEIPlugin implements IModPlugin {
             RecipeManager recipeManager = world.getRecipeManager();
             registration.addRecipes(FORGE_CATEGORY, recipeManager.getAllRecipesFor(SyntheticsRecipes.SYNTHETIC_FORGE_RECIPE.get()).stream().map(RecipeHolder::value).toList());
         }
+        registration.addIngredientInfo(SyntheticsItems.ANCIENT_SCRAP.get(), Component.translatable("info.synthetics.ancient_scrap").withStyle(ChatFormatting.BLACK));
+        registration.addIngredientInfo(SyntheticsItems.FOSSILISED_SCRAP.get(), Component.translatable("info.synthetics.fossil_scrap").withStyle(ChatFormatting.BLACK));
+
     }
 
     @Override

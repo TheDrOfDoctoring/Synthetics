@@ -169,7 +169,9 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         guiGraphics.pose().popPose();
 
         this.selectedLayer.renderHover(guiGraphics, mouseX - guiLeft, mouseY - guiTop);
-        super.renderTooltip(guiGraphics, mouseX, mouseY);
+        if(this.hoveredSlot != null && this.hoveredSlot.index != 0) {
+            super.renderTooltip(guiGraphics, mouseX, mouseY);
+        }
     }
 
     protected void renderHover(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {

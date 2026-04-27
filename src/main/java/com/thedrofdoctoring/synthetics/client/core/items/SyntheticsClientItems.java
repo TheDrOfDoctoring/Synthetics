@@ -4,6 +4,7 @@ import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
@@ -36,31 +37,11 @@ public class SyntheticsClientItems {
         if(flag.hasShiftDown()) {
             InstallableItem<?> item = (InstallableItem<?>) stack.getItem();
             IBodyInstallable<?> installable = item.getInstallableComponent(stack);
-            if(installable instanceof Augment augment) {
-                tooltips.add(Component.translatable("text.synthetics.augmentation.max_total", augment.maxTotal()).withStyle(ChatFormatting.BLUE));
-                tooltips.add(Component.translatable("text.synthetics.augmentation.max_per_part", augment.maxPerPart()).withStyle(ChatFormatting.BLUE));
-                tooltips.add(Component.translatable("tooltips.synthetics.augment_complexity", augment.complexity()).withStyle(ChatFormatting.RED));
-                HashMap<Holder<BodyPartType>, BodyPart> validTypes = new HashMap<>(augment.validParts().size());
-                for(Holder<BodyPart> validPart : augment.validParts()) {
-                    if(!validTypes.containsKey(validPart.value().type())) {
-                        validTypes.put(validPart.value().type(), validPart.value());
-                    }
-                }
-                StringBuilder str = new StringBuilder();
-                for(BodyPart part : validTypes.values()) {
-                    if(str.isEmpty()) {
-                        str.append(part.title().getString());
-                    } else {
-                        str.append(", ");
-                        str.append(part.title().getString());
-                    }
-
-                }
-
-                tooltips.add(Component.translatable("tooltips.synthetics.body_part", str.toString()).withStyle(ChatFormatting.BLUE));
-            }
-            if(installable instanceof BodyPart part) {
-                tooltips.add(Component.translatable("tooltips.synthetics.max_complexity", part.maxComplexity()).withStyle(ChatFormatting.BLUE));
+            switch(installable) {
+                case Augment     augment -> addAugmentTooltip(tooltips, augment);
+                case BodyPart    part    -> addPartTooltip(tooltips, part);
+                case BodySegment segment -> addSegmentTooltip(tooltips, segment);
+                default -> {}
             }
             if(installable.abilities().isPresent()) {
                 for(Holder<Ability> ability : installable.abilities().get()) {
@@ -73,6 +54,35 @@ public class SyntheticsClientItems {
         } else {
             tooltips.add(Component.translatable("text.synthetics.info_shift").withStyle(ChatFormatting.GRAY));
         }
+    }
+
+    private static void addAugmentTooltip(List<Component> tooltips, Augment augment) {
+        tooltips.add(Component.translatable("text.synthetics.augmentation.max_total", augment.maxTotal()).withStyle(ChatFormatting.BLUE));
+        tooltips.add(Component.translatable("text.synthetics.augmentation.max_per_part", augment.maxPerPart()).withStyle(ChatFormatting.BLUE));
+        HashMap<Holder<BodyPartType>, BodyPart> validTypes = new HashMap<>(augment.validParts().size());
+        for(Holder<BodyPart> validPart : augment.validParts()) {
+            if(!validTypes.containsKey(validPart.value().type())) {
+                validTypes.put(validPart.value().type(), validPart.value());
+            }
+        }
+        StringBuilder str = new StringBuilder();
+        for(BodyPart part : validTypes.values()) {
+            if(str.isEmpty()) {
+                str.append(part.title().getString());
+            } else {
+                str.append(", ");
+                str.append(part.title().getString());
+            }
+
+        }
+        tooltips.add(Component.translatable("tooltips.synthetics.body_part", str.toString()).withStyle(ChatFormatting.BLUE));
+        tooltips.add(Component.translatable("tooltips.synthetics.augment_complexity", augment.complexity()).withStyle(ChatFormatting.RED));
+    }
+    private static void addPartTooltip(List<Component> tooltip, BodyPart part) {
+        tooltip.add(Component.translatable("tooltips.synthetics.max_complexity", part.maxComplexity()).withStyle(ChatFormatting.BLUE));
+    }
+    private static void addSegmentTooltip(List<Component> tooltip, BodySegment segment) {
+        tooltip.add(Component.translatable("tooltips.synthetics.max_complexity", segment.maxComplexity()).withStyle(ChatFormatting.BLUE));
     }
 
 }
