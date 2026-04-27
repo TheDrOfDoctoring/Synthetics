@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:item_magnet",
   "augment_id": "synthetics:item_magnet",
-  "complexity": 2,
+  "complexity": 15,
   "valid_parts": "#synthetics:hands"
 }

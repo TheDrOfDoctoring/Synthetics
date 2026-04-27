@@ -5,6 +5,6 @@
     "synthetics:armoured_rib_armour_toughness"
   ],
   "id": "synthetics:armoured_ribcage",
-  "max_complexity": 6,
+  "max_complexity": 50,
   "valid_body_segments": "#synthetics:torso"
 }

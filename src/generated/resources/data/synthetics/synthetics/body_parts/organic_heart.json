@@ -1,6 +1,6 @@
 {
   "type": "synthetics:heart",
   "id": "synthetics:organic_heart",
-  "max_complexity": 3,
+  "max_complexity": 40,
   "valid_body_segments": "#synthetics:torso"
 }

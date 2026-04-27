@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:chest_harpoon",
   "augment_id": "synthetics:chest_harpoon",
-  "complexity": 2,
+  "complexity": 20,
   "valid_parts": "#synthetics:ribcage"
 }

@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:position_lock",
   "augment_id": "synthetics:position_lock",
-  "complexity": 3,
+  "complexity": 15,
   "valid_parts": "#synthetics:ribcage"
 }

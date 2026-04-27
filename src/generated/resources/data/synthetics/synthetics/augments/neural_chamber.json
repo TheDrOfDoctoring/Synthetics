@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:neural_chamber_experience",
   "augment_id": "synthetics:neural_chamber",
-  "complexity": 3,
+  "complexity": 20,
   "valid_parts": "#synthetics:brains_main"
 }

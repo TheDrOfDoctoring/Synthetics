@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:ore_dowsing",
   "augment_id": "synthetics:ore_dowsing",
-  "complexity": 3,
+  "complexity": 30,
   "valid_parts": "#synthetics:brains_main"
 }

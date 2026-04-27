@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:permeable_link",
   "augment_id": "synthetics:permeable_link",
-  "complexity": 1,
+  "complexity": 15,
   "valid_parts": "#synthetics:brains_main"
 }

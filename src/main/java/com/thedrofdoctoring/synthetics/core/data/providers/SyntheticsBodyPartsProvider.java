@@ -20,14 +20,14 @@ public class SyntheticsBodyPartsProvider {
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_BRAIN)
                         .partType(BodyPartTypes.BRAIN)
                         .validSegments(BodySegments.HEAD_MAIN)
-                        .maxComplexity(6)
+                        .maxComplexity(50)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_LUNGS)
                         .partType(BodyPartTypes.LUNGS)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(5)
+                        .maxComplexity(40)
         );
 
 
@@ -35,7 +35,7 @@ public class SyntheticsBodyPartsProvider {
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_HEART)
                         .partType(BodyPartTypes.HEART)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(3)
+                        .maxComplexity(40)
         );
 
 
@@ -43,42 +43,42 @@ public class SyntheticsBodyPartsProvider {
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_TISSUE)
                         .partType(BodyPartTypes.TISSUE)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(6)
+                        .maxComplexity(50)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_TISSUE)
                         .partType(BodyPartTypes.TISSUE)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(12)
+                        .maxComplexity(120)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_STOMACH)
                         .partType(BodyPartTypes.STOMACH)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(6)
+                        .maxComplexity(40)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_RIBCAGE)
                         .partType(BodyPartTypes.RIBCAGE)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(4)
+                        .maxComplexity(30)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_SKULL)
                         .partType(BodyPartTypes.SKULL)
                         .validSegments(BodySegments.HEAD_MAIN)
-                        .maxComplexity(4)
+                        .maxComplexity(30)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_TIBIA)
                         .partType(BodyPartTypes.TIBIA)
                         .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(4)
+                        .maxComplexity(30)
         );
 
         register(context,
@@ -86,130 +86,130 @@ public class SyntheticsBodyPartsProvider {
                         .partType(BodyPartTypes.LEFT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .abilities(List.of(Abilities.CYBERNETIC_HAND_DAMAGE))
-                        .maxComplexity(6)
+                        .maxComplexity(90)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_RIGHT_HAND)
                         .partType(BodyPartTypes.RIGHT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .abilities(List.of(Abilities.CYBERNETIC_HAND_DAMAGE))
-                        .maxComplexity(6)
+                        .maxComplexity(90)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_LEFT_HAND)
                         .partType(BodyPartTypes.LEFT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
-                        .maxComplexity(2)
+                        .maxComplexity(40)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_RIGHT_HAND)
                         .partType(BodyPartTypes.RIGHT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
-                        .maxComplexity(2)
+                        .maxComplexity(40)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.MECHANICAL_LEFT_HAND)
                         .partType(BodyPartTypes.LEFT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .abilities(List.of(Abilities.MECHANICAL_HAND_ATTACK_SPEED))
-                        .maxComplexity(4)
+                        .maxComplexity(70)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.MECHANICAL_RIGHT_HAND)
                         .partType(BodyPartTypes.RIGHT_HAND)
                         .validSegments(BodySegments.ARMS_MAIN)
                         .abilities(List.of(Abilities.MECHANICAL_HAND_ATTACK_SPEED))
-                        .maxComplexity(4)
+                        .maxComplexity(70)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_LEFT_EYE)
                         .partType(BodyPartTypes.LEFT_EYE)
                         .validSegments(BodySegments.HEAD_MAIN)
-                        .maxComplexity(3)
+                        .maxComplexity(40)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_RIGHT_EYE)
                         .partType(BodyPartTypes.RIGHT_EYE)
                         .validSegments(BodySegments.HEAD_MAIN)
-                        .maxComplexity(3)
+                        .maxComplexity(40)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_LEFT_FOOT)
                         .partType(BodyPartTypes.LEFT_FOOT)
                         .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(3)
+                        .maxComplexity(40)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_RIGHT_FOOT)
                         .partType(BodyPartTypes.RIGHT_FOOT)
                         .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(3)
+                        .maxComplexity(40)
         );
 
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_LEFT_FOOT)
                         .partType(BodyPartTypes.LEFT_FOOT)
                         .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(8)
+                        .maxComplexity(80)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_RIGHT_FOOT)
                         .partType(BodyPartTypes.RIGHT_FOOT)
                         .validSegments(BodySegments.LOWER_BODY_MAIN)
-                        .maxComplexity(8)
+                        .maxComplexity(80)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ORGANIC_ARM_MUSCLE)
                         .partType(BodyPartTypes.ARM_MUSCLE)
                         .validSegments(BodySegments.ARMS_MAIN)
-                        .maxComplexity(4)
+                        .maxComplexity(40)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_LEFT_EYE)
                         .partType(BodyPartTypes.LEFT_EYE)
                         .validSegments(BodySegments.HEAD_MAIN)
                         .abilities(List.of(Abilities.CYBERNETIC_EYE_VIEW))
-                        .maxComplexity(5)
+                        .maxComplexity(80)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_RIGHT_EYE)
                         .partType(BodyPartTypes.RIGHT_EYE)
                         .validSegments(BodySegments.HEAD_MAIN)
                         .abilities(List.of(Abilities.CYBERNETIC_EYE_VIEW))
-                        .maxComplexity(5)
+                        .maxComplexity(80)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_BRAIN)
                         .partType(BodyPartTypes.BRAIN)
                         .validSegments(BodySegments.HEAD_MAIN)
                         .abilities(List.of(Abilities.REMOTE_LINKED_INTERACTION))
-                        .maxComplexity(12)
+                        .maxComplexity(150)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.MECHANICAL_HEART)
                         .partType(BodyPartTypes.HEART)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(6)
+                        .maxComplexity(70)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.CYBERNETIC_HEART)
                         .partType(BodyPartTypes.HEART)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(12)
+                        .maxComplexity(120)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.ARMOURED_RIBCAGE)
                         .partType(BodyPartTypes.RIBCAGE)
                         .validSegments(BodySegments.TORSO_MAIN)
                         .abilities(Abilities.ARMOURED_RIB_KNOCKBACK, Abilities.ARMOURED_RIB_ARMOUR_TOUGHNESS)
-                        .maxComplexity(6)
+                        .maxComplexity(50)
         );
         register(context,
                 BodyPart.Builder.of(context, BodyParts.SYNTHETIC_RIBCAGE)
                         .partType(BodyPartTypes.RIBCAGE)
                         .validSegments(BodySegments.TORSO_MAIN)
-                        .maxComplexity(12)
+                        .maxComplexity(100)
         );
     }
 

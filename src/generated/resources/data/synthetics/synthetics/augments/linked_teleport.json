@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:linked_teleport",
   "augment_id": "synthetics:linked_teleport",
-  "complexity": 4,
+  "complexity": 30,
   "valid_parts": "#synthetics:ribcage"
 }

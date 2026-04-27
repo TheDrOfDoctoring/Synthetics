@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:drone_link",
   "augment_id": "synthetics:drone_link",
-  "complexity": 3,
+  "complexity": 30,
   "valid_parts": "#synthetics:brains_main"
 }

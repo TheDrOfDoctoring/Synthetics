@@ -4,6 +4,6 @@
     "synthetics:close_permeated"
   ],
   "augment_id": "synthetics:permeator",
-  "complexity": 5,
-  "valid_parts": "#synthetics:hands"
+  "complexity": 45,
+  "valid_parts": "#synthetics:non_organic_hands"
 }

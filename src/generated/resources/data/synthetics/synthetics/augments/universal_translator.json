@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:universal_translator_trade_prices",
   "augment_id": "synthetics:universal_translator",
-  "complexity": 3,
+  "complexity": 30,
   "valid_parts": "#synthetics:skull"
 }

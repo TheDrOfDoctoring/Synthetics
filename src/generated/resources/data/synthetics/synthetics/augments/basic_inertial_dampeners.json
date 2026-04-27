@@ -4,7 +4,7 @@
     "synthetics:basic_dampener_safe_fall"
   ],
   "augment_id": "synthetics:basic_inertial_dampeners",
-  "complexity": 3,
+  "complexity": 12,
   "grouped_with": "#synthetics:dampeners",
   "max_copies_total": 2,
   "power_cost": 1,

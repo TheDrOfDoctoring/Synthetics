@@ -4,7 +4,7 @@
     "synthetics:mechanical_dampener_safe_fall"
   ],
   "augment_id": "synthetics:mechanical_inertial_dampeners",
-  "complexity": 3,
+  "complexity": 10,
   "grouped_with": "#synthetics:dampeners",
   "max_copies_total": 2,
   "valid_parts": "#synthetics:feet"

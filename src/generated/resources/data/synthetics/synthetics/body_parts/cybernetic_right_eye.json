@@ -2,6 +2,6 @@
   "type": "synthetics:right_eye",
   "abilities": "synthetics:cybernetic_eye_view",
   "id": "synthetics:cybernetic_right_eye",
-  "max_complexity": 5,
+  "max_complexity": 80,
   "valid_body_segments": "#synthetics:head"
 }

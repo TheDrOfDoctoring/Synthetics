@@ -1,6 +1,6 @@
 {
   "abilities": "synthetics:hand_repulsor",
   "augment_id": "synthetics:hand_repulsor",
-  "complexity": 3,
+  "complexity": 25,
   "valid_parts": "#synthetics:non_organic_hands"
 }

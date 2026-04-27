@@ -1,6 +1,6 @@
 {
   "type": "synthetics:brain",
   "id": "synthetics:organic_brain",
-  "max_complexity": 6,
+  "max_complexity": 50,
   "valid_body_segments": "#synthetics:head"
 }
