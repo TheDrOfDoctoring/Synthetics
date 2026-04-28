@@ -19,6 +19,7 @@ import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 @SuppressWarnings("unused")
@@ -52,7 +53,7 @@ public class BodyPartDisplayScreen {
         this.part = part;
         this.minecraft = minecraft;
         this.size = Math.max(56 + minecraft.font.width(part.title()), 120);
-        List<AppliedAugmentInstance> instances = player.getInstalledAugments();
+        Collection<AppliedAugmentInstance> instances = player.parts().installedAugments();
         this.selectTick = 0;
         this.installedAugments = new ArrayList<>();
         for(AppliedAugmentInstance instance : instances) {

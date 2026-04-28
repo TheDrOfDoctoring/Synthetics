@@ -46,10 +46,10 @@ public record ServerboundInstallableMenuPacket(Optional<BodyPart> part) implemen
                     IBodyInstallable<?> installable = item.getInstallableComponent(stack);
                     List<IBodyInstallable<?>> replaced = List.of();
                     boolean confirmed = false;
-                    if(installable instanceof Augment augment && packet.part.isPresent() && synthetics.getPartManager().isPartInstalled(packet.part.get())) {
+                    if(installable instanceof Augment augment && packet.part.isPresent() && synthetics.parts().isBodyPartInstalled(packet.part.get())) {
                         AppliedAugmentInstance instance = new AppliedAugmentInstance(augment, packet.part.get());
-                        if(synthetics.canAddAugment(instance)) {
-                            synthetics.addAugment(instance, true);
+                        if(synthetics.canAddInstallable(instance)) {
+                            synthetics.addOrReplaceInstallable(instance);
                             confirmed = true;
                         }
 

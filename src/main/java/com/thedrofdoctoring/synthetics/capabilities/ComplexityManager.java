@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 @SuppressWarnings("unused")
 public class ComplexityManager implements ISyncable {
@@ -51,7 +51,7 @@ public class ComplexityManager implements ISyncable {
         int currentPartComplexity = totalBodyPartComplexity.getInt(part.type().value().id());
         totalBodyPartComplexity.put(part.type().value().id(), Math.max(0, currentPartComplexity + complexity));
 
-        ResourceLocation segmentID = this.player.getPartManager().getSegmentForPart(part).type().value().id();
+        ResourceLocation segmentID = this.player.parts().getSegmentForPart(part).type().value().id();
         int currentSegmentComplexity = totalBodyPartComplexity.getInt(segmentID);
         totalBodySegmentComplexity.put(segmentID, Math.max(0, currentSegmentComplexity + complexity));
     }
@@ -63,7 +63,7 @@ public class ComplexityManager implements ISyncable {
         }
         boolean failedPartCheck = false;
         int currentPartComplexity = totalBodyPartComplexity.getInt(newInstance.appliedPart().type().value().id());
-        BodySegment segment = this.player.getPartManager().getSegmentForPart(newInstance.appliedPart());
+        BodySegment segment = this.player.parts().getSegmentForPart(newInstance.appliedPart());
         int currentSegmentComplexity = totalBodySegmentComplexity.getInt(segment.type().value().id());
         if(currentPartComplexity + addedComplexity > newInstance.appliedPart().maxComplexity()) {
             failedPartCheck = true;
@@ -87,7 +87,7 @@ public class ComplexityManager implements ISyncable {
         }
         boolean failedPartCheck = false;
         int newPartComplexity = totalBodyPartComplexity.getInt(newInstance.appliedPart().type().value().id()) + addedComplexity;
-        BodySegment segment = this.player.getPartManager().getSegmentForPart(newInstance.appliedPart());
+        BodySegment segment = this.player.parts().getSegmentForPart(newInstance.appliedPart());
         int newSegmentComplexity = totalBodySegmentComplexity.getInt(segment.type().value().id()) + addedComplexity;
         return new ComplexityPairs(newInstance.appliedPart(), segment, newPartComplexity, newSegmentComplexity);
     }
@@ -134,7 +134,7 @@ public class ComplexityManager implements ISyncable {
         this.totalBodySegmentComplexity.clear();
         this.totalBodyPartComplexity.clear();
         this.totalComplexity = 0;
-        List<AppliedAugmentInstance> augments = this.player.getInstalledAugments();
+        Collection<AppliedAugmentInstance> augments = this.player.parts().installedAugments();
         for(AppliedAugmentInstance instance : augments) {
             addPart(instance);
         }
@@ -149,11 +149,11 @@ public class ComplexityManager implements ISyncable {
     public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = new CompoundTag();
         tag.putInt("total_complexity", totalComplexity);
-        List<AppliedAugmentInstance> augments = this.player.getInstalledAugments();
+        Collection<AppliedAugmentInstance> augments = this.player.parts().installedAugments();
         CompoundTag segments = new CompoundTag();
         for(AppliedAugmentInstance instance : augments) {
             BodyPart part = instance.appliedPart();
-            BodySegment segment = this.player.getPartManager().getSegmentForPart(part);
+            BodySegment segment = this.player.parts().getSegmentForPart(part);
             segments.putInt(segment.type().value().id().toString(), totalBodySegmentComplexity.getOrDefault(segment.type().value().id(), 0));
         }
         tag.put("segment_complexity", segments);

@@ -62,17 +62,20 @@ public class SyntheticsAugmentCommand {
                     context.getSource().sendFailure(Component.translatable("command.synthetics.already_installed", augment.augmentID().toString(), player.getDisplayName()));
                     return 0;
                 }
-                synthetics.addAugment(new AppliedAugmentInstance(augment, synthetics.getPartManager().getDefaultPartForAugment(augment)), true);
-                context.getSource().sendSuccess(() -> Component.translatable("command.synthetics.modify_success"), true);
+                synthetics.addOrReplaceInstallable(new AppliedAugmentInstance(augment, synthetics.parts().getDefaultPartForAugment(augment)));
 
             } else {
                 if(!synthetics.isInstalled(augment)) {
                     context.getSource().sendFailure(Component.translatable("command.synthetics.not_installed", augment.id().toString(), player.getDisplayName()));
                     return 0;
                 }
-                synthetics.removeAugment(new AppliedAugmentInstance(augment, synthetics.getPartManager().getDefaultPartForAugment(augment)));
-                context.getSource().sendSuccess(() -> Component.translatable("command.synthetics.modify_success"), true);
+                if(!synthetics.removeInstallable(new AppliedAugmentInstance(augment, synthetics.parts().getDefaultPartForAugment(augment)))) {
+                    context.getSource().sendFailure(Component.translatable("command.synthetics.remove_failure", player.getDisplayName()));
+                    return 0;
+                }
             }
+            synthetics.markDirtyAll();
+            context.getSource().sendSuccess(() -> Component.translatable("command.synthetics.modify_success"), true);
 
         }
         return 0;

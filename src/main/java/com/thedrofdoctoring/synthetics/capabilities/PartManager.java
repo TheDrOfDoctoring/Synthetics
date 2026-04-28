@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
+import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.IPartManager;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
@@ -29,6 +30,7 @@ public class PartManager implements ISaveData, IPartManager {
 
     private final Object2ObjectMap<BodyPartType, BodyPart> installedParts;
     private final Object2ObjectMap<BodySegmentType, BodySegment> installedSegments;
+    private final List<AppliedAugmentInstance> appliedAugments;
 
     private final SyntheticsPlayer player;
 
@@ -36,24 +38,36 @@ public class PartManager implements ISaveData, IPartManager {
     public PartManager(SyntheticsPlayer player) {
         this.installedParts = new Object2ObjectOpenHashMap<>();
         this.installedSegments = new Object2ObjectOpenHashMap<>();
+        this.appliedAugments = new ArrayList<>();
 
         this.player = player;
         setDefaultParts();
         setDefaultSegments();
     }
 
-    public Collection<BodyPart> getInstalledParts() {
+    public Collection<BodyPart> installedBodyParts() {
         return installedParts.values();
     }
-    public Collection<BodySegment> getInstalledSegments() {
+    public Collection<BodySegment> installedSegments() {
         return installedSegments.values();
     }
-    public boolean isPartInstalled(BodyPart part) {
+    public Collection<AppliedAugmentInstance> installedAugments() {
+        return List.copyOf(appliedAugments);
+    }
+
+    public boolean isBodyPartInstalled(BodyPart part) {
         return installedParts.getOrDefault(part.type().value(), null).equals(part);
 
     }
     public boolean isSegmentInstalled(BodySegment segment) {
         return installedSegments.getOrDefault(segment.type().value(), null).equals(segment);
+    }
+
+    @Override
+    public boolean isAugmentInstalled(AppliedAugmentInstance instance) {
+        return this.appliedAugments
+                .stream()
+                .anyMatch(augmentInstance -> augmentInstance.augment().equals(instance.augment()));
     }
 
     public boolean augmentSupportsBodyPart(Augment augment, BodyPart part) {
@@ -62,18 +76,34 @@ public class PartManager implements ISaveData, IPartManager {
                 .anyMatch(p -> p.value().equals(part));
     }
 
-    public List<IBodyInstallable<?>> replacePart(BodyPart newPart, boolean updatePlayer) {
+    private void replaceAugmentInstance(AppliedAugmentInstance old, AppliedAugmentInstance newInstance) {
+        this.removeAugment(old);
+        this.player.getComplexityManager().removePart(old);
+        AbilityManager abilityManager = this.player.getAbilityManager();
+        if(old.augment() != newInstance.augment()) {
+            abilityManager.removeAbilities(old.augment());
+            abilityManager.removeAbilities(old.appliedPart());
+            abilityManager.addAbilities(newInstance.augment());
+            abilityManager.addAbilities(newInstance.appliedPart());
+        }
+        this.addAugment(newInstance);
+
+        int totalPowerCost = Math.max(0, this.player.getPowerManager().getTotalPowerCost() - old.augment().powerCost() + newInstance.augment().powerCost());
+        this.player.getPowerManager().setTotalPowerCost(totalPowerCost);
+    }
+
+    public List<IBodyInstallable<?>> replaceBodyPart(BodyPart newPart, boolean updatePlayer) {
         List<IBodyInstallable<?>> removedInstallables = new ArrayList<>();
         BodyPart old = installedParts.put(newPart.type().value(), newPart);
 
         if(old != null) {
             this.player.getAbilityManager().removeAbilities(old);
-            List<AppliedAugmentInstance> instancesOfPart = this.player.getInstalledAugments().stream().filter(p -> p.appliedPart().type().equals(old.type())).toList();
+            List<AppliedAugmentInstance> instancesOfPart = this.installedAugments().stream().filter(p -> p.appliedPart().type().equals(old.type())).toList();
             for(AppliedAugmentInstance instance : instancesOfPart) {
                 if(augmentSupportsBodyPart(instance.augment(), newPart)) {
-                    this.player.replaceAugmentInstance(instance, new AppliedAugmentInstance(instance.augment(), newPart));
+                    this.replaceAugmentInstance(instance, new AppliedAugmentInstance(instance.augment(), newPart));
                 } else {
-                    this.player.removeAugment(instance);
+                    this.player.removeInstallable(instance);
                     removedInstallables.add(instance.augment());
                 }
             }
@@ -85,8 +115,8 @@ public class PartManager implements ISaveData, IPartManager {
         removedInstallables.add(old);
         return removedInstallables;
     }
-    public List<IBodyInstallable<?>> replacePart(BodyPart newPart) {
-        return replacePart(newPart, true);
+    public List<IBodyInstallable<?>> replaceBodyPart(BodyPart newPart) {
+        return replaceBodyPart(newPart, true);
     }
     public List<IBodyInstallable<?>> replaceSegment(BodySegment newSegment) {
         return replaceSegment(newSegment, true);
@@ -95,8 +125,32 @@ public class PartManager implements ISaveData, IPartManager {
     public List<IBodyInstallable<?>> replaceSegment(BodySegment newSegment, boolean updatePlayer) {
 
         BodySegment segment = installedSegments.put(newSegment.type().value(), newSegment);
+        if(updatePlayer) {
+            this.player.markDirtyAll();
+        }
         return segment == null ? Collections.emptyList() : List.of(segment);
 
+    }
+
+    @Override
+    public void removeAugment(AppliedAugmentInstance augment) {
+        this.appliedAugments.remove(augment);
+    }
+
+
+    @Override
+    public void addAugment(@NotNull AppliedAugmentInstance instance) {
+        this.appliedAugments.add(instance);
+        this.player.getComplexityManager().addPart(instance);
+        this.player.getAbilityManager().addAbilities(instance.augment());
+        this.player.getPowerManager().setTotalPowerCost(this.player.getPowerManager().getTotalPowerCost() + instance.augment().powerCost());
+    }
+
+    public void addAugment(@NotNull AppliedAugmentInstance augment, boolean sync) {
+        addAugment(augment);
+        if(sync) {
+            this.player.markDirtyAll();
+        }
     }
 
     private void setDefaultParts() {
@@ -169,6 +223,56 @@ public class PartManager implements ISaveData, IPartManager {
         return getDefaultPart(type);
     }
 
+    boolean canAddAugment(AppliedAugmentInstance instance, SyntheticsPlayer syntheticsPlayer) {
+
+        if(syntheticsPlayer.getComplexityManager().testComplexity(instance, null) != ComplexityManager.ComplexityResult.SUCCESS) {
+            return false;
+        }
+        if(!augmentSupportsBodyPart(instance.augment(), instance.appliedPart())) {
+            return false;
+        }
+        int onPart = 1;
+        int total = 1;
+        List<Augment> groupedWith = instance.augment().groupedWithList();
+
+        for(AppliedAugmentInstance installedInstances : installedAugments()) {
+
+            if(installedInstances.augment().equals(instance.augment()) || groupedWith.contains(installedInstances.augment())) {
+                total++;
+                if(installedInstances.appliedPart().equals(instance.appliedPart())) {
+                    onPart++;
+                }
+
+            }
+            if(total > instance.augment().maxTotal() || onPart > instance.augment().maxPerPart()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean isDefault(IBodyInstallable<?> installable) {
+        switch (installable) {
+            case BodyPart part -> {
+                return part.type().value().defaultPart().location().equals(part.id());
+            }
+            case BodySegment segment -> {
+                return segment.type().value().defaultSegment().location().equals(segment.id());
+            }
+            default -> {
+                return false;
+            }
+
+        }
+    }
+
+    // ---------------------------------
+    //          Serialisation
+    // ---------------------------------
+
+
+
     @Override
     public CompoundTag serialiseNBT(HolderLookup.@NotNull Provider provider) {
 
@@ -176,6 +280,7 @@ public class PartManager implements ISaveData, IPartManager {
 
         CompoundTag partsTag = new CompoundTag();
         CompoundTag segmentsTag = new CompoundTag();
+        base.put("augments", serialiseAugments(provider));
 
         ObjectCollection<BodyPart> parts = installedParts.values();
         ObjectCollection<BodySegment> segments = installedSegments.values();
@@ -212,7 +317,7 @@ public class PartManager implements ISaveData, IPartManager {
 
                     BodyPart part = Helper.retrieveDataObject(id, SyntheticsData.BODY_PARTS, partLookup);
                     if(part != null) {
-                        replacePart(part, false);
+                        replaceBodyPart(part, false);
                     }
                 }
             }
@@ -226,22 +331,45 @@ public class PartManager implements ISaveData, IPartManager {
                     }
                 }
             }
+            deserialiseAugments(provider, tag);
         }
 
     }
 
-    public static boolean isDefault(IBodyInstallable<?> installable) {
-        switch (installable) {
-            case BodyPart part -> {
-                return part.type().value().defaultPart().location().equals(part.id());
-            }
-            case BodySegment segment -> {
-                return segment.type().value().defaultSegment().location().equals(segment.id());
-            }
-            default -> {
-                return false;
-            }
+    private CompoundTag serialiseAugments(HolderLookup.@NotNull Provider provider) {
+        CompoundTag tag = new CompoundTag();
+        int size = appliedAugments.size();
+        if(size == 0) return tag;
 
+        for(int i = 0; i < appliedAugments.size(); i++) {
+            tag.putString(String.valueOf(i), appliedAugments.get(i).createSerialisationID());
+        }
+        return tag;
+    }
+
+    private void deserialiseAugments(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
+        HolderGetter<Augment> lookup = provider.lookupOrThrow(SyntheticsData.AUGMENTS);
+        HolderGetter<BodyPart> partLookup = provider.lookupOrThrow(SyntheticsData.BODY_PARTS);
+
+        this.appliedAugments.clear();
+
+        if(nbt.contains("augments") && nbt.get("augments") instanceof CompoundTag tag && !tag.isEmpty()) {
+            int size = tag.size();
+            for(int i = 0; i < size; i++) {
+                String instanceIDString = tag.getString(String.valueOf(i));
+
+                Pair<ResourceLocation, ResourceLocation> augmentInstance = AppliedAugmentInstance.augmentPartSplitIdentifiers(instanceIDString);
+
+                Augment augment = Helper.retrieveDataObject(augmentInstance.getFirst(), SyntheticsData.AUGMENTS, lookup);
+                BodyPart part = Helper.retrieveDataObject(augmentInstance.getSecond(), SyntheticsData.BODY_PARTS, partLookup);
+                if(augment != null) {
+                    if(part == null || !isBodyPartInstalled(part)) {
+                        this.addAugment(new AppliedAugmentInstance(augment, this.getDefaultPartForAugment(augment)));
+                        continue;
+                    }
+                    this.addAugment(new AppliedAugmentInstance(augment, part));
+                }
+            }
         }
     }
 
@@ -262,4 +390,6 @@ public class PartManager implements ISaveData, IPartManager {
     public String nbtKey() {
         return KEY;
     }
+
+
 }

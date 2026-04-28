@@ -191,7 +191,6 @@ public class ResearchManager implements IResearchManager {
 
     @Override
     public boolean hasResearched(ResearchNode node) {
-
         return this.unlockedResearch.contains(node);
     }
 
@@ -245,6 +244,11 @@ public class ResearchManager implements IResearchManager {
         }
         return nodes;
     }
+
+    // ---------------------------------
+    //          Serialisation
+    // ---------------------------------
+
 
     @Override
     public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {

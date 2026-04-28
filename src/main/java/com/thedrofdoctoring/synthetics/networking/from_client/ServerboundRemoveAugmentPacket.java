@@ -47,7 +47,7 @@ public record ServerboundRemoveAugmentPacket(Holder<Augment> augment, Holder<Bod
             BodyPart part = augmentPacket.part().value();
             AppliedAugmentInstance instance = new AppliedAugmentInstance(augment, part);
             if(context.player().containerMenu instanceof AugmentationChamberMenu menu && player.isInstalled(instance)) {
-                player.removeAugment(instance);
+                player.removeInstallable(instance);
                 ItemStack stack = augment.createDefaultItemStack(context.player().registryAccess());
                 stack = menu.getResultsContainer().addItem(stack);
                 if(stack != ItemStack.EMPTY) {

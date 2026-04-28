@@ -1,6 +1,8 @@
 package com.thedrofdoctoring.synthetics.core.data.types.body.installables;
 
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IBodyPosition;
@@ -22,6 +24,11 @@ import java.util.Optional;
 
 public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) implements IBodyInstallable<Augment>, IInstallableModelSupplier, IInstallableModelPositioner {
 
+
+    public static final MapCodec<AppliedAugmentInstance> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Augment.CODEC.fieldOf("augment").forGetter(AppliedAugmentInstance::augment),
+            BodyPart.CODEC.fieldOf("part").forGetter(AppliedAugmentInstance::appliedPart)
+    ).apply(instance, AppliedAugmentInstance::new));
 
     public String createSerialisationID() {
         return augment.augmentID().toString() + ';' + appliedPart.id().toString();

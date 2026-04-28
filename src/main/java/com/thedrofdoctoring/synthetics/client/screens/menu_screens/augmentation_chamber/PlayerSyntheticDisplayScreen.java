@@ -54,7 +54,7 @@ public class PlayerSyntheticDisplayScreen {
         SyntheticsPlayer player = SyntheticsPlayer.get(Objects.requireNonNull(mc.player));
         for(BodyPartType type : SyntheticsClient.getInstance().getManager().partTypes) {
             if(type.bodyLayer() != layer) continue;
-            BodyPart part = player.getPartManager().getPartForType(type);
+            BodyPart part = player.parts().getPartForType(type);
             if(part != null) {
                 Double scaleBoxed = part.type().getData(SyntheticsDatamaps.PART_TYPE_DISPLAY_SCALE);
                 double scale = scaleBoxed != null ? scaleBoxed : 1d;

@@ -20,6 +20,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -36,10 +37,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class AugmentationChamberScreen extends AbstractContainerScreen<AugmentationChamberMenu> {
@@ -49,30 +47,29 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     private static final ResourceLocation RIGHT_CLICK_SPRITE = Synthetics.rl("icons/right_click");
     private static final ResourceLocation BODY_PART_NODE = Synthetics.rl("augmentation/node");
 
+    private static final int INSTALL_WIDTH = 70;
+    private static final int INSTALL_HEIGHT = 14;
 
     public static final int WIDTH = 176;
     public static final int HEIGHT = 194;
 
-    private static final int INSTALL_WIDTH = 70;
-    private static final int INSTALL_HEIGHT = 14;
-
-
     private Vec3 mousePos;
     private Vec3 rightClickPos;
-    public boolean rightClicked;
     private boolean clicked;
     private int selectedAbility;
     private boolean tryUpdateSelected;
-
     private boolean displayAbilities;
     private final @NotNull Player player;
     private final @NotNull SyntheticsPlayer synthetics;
     private final PlayerSyntheticDisplayScreen[] displayLayers = new PlayerSyntheticDisplayScreen[BodyPartType.Layer.values().length];
     private PlayerSyntheticDisplayScreen selectedLayer;
+    private BodyPart selectedBodyPart;
     private int selectedLayerIndex;
+
+    public boolean rightClicked;
     public int guiLeft;
     public int guiTop;
-    private BodyPart selectedBodyPart;
+
 
 
     public AugmentationChamberScreen(AugmentationChamberMenu menu, Inventory playerInventory, Component title) {
@@ -133,7 +130,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                         }
                     }
                     if(onlyOneType) {
-                        this.selectedBodyPart = synthetics.getPartManager().getPartForType(firstType.value());
+                        this.selectedBodyPart = synthetics.parts().getPartForType(firstType.value());
                     }
 
                 }
@@ -235,93 +232,96 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             text.add(Component.translatable("text.synthetics.augmentation.already_installed").withStyle(ChatFormatting.AQUA));
         }
         if (displayAbilities && installable.abilities().isPresent()) {
-            List<Holder<Ability>> abilities = installable.abilities().get().stream().filter(p -> p.value().abilityNature() != Ability.AbilityNature.HIDDEN).toList();
-            int maxSize = abilities.size();
-            if (selectedAbility >= maxSize) {
-                selectedAbility = 0;
-            }
-            if (selectedAbility < maxSize) {
-                if (selectedAbility > 0) {
-                    text.add(getAbilityTitle(abilities.get(selectedAbility - 1), false));
-                }
-                text.add(getAbilityTitle(abilities.get(selectedAbility), true));
-                if (selectedAbility < maxSize - 1) {
-                    text.add(getAbilityTitle(abilities.get(selectedAbility + 1), false));
-                }
-                text.add(Component.empty());
-                Ability ability = abilities.get(selectedAbility).value();
-
-                ArrayList<Component> abilityDescription = new ArrayList<>();
-                ability.abilityType().addDescriptionInfo(ability, abilityDescription);
-                text.addAll(abilityDescription);
-            }
-
+            addAbilityText(installable.abilities().get(), selectedAbility, text);
             return text;
         }
         text.add(Component.translatable("text.synthetics.augmentation.complexity").withStyle(ChatFormatting.WHITE).withStyle(ChatFormatting.UNDERLINE));
         text.add(Component.empty());
         switch (installable) {
-
-            case AppliedAugmentInstance instance -> {
-
-
-                BodyPart part = instance.appliedPart();
-                BodySegment segment = synthetics.getPartManager().getSegmentForPart(part);
-                ComplexityManager.ComplexityPairs newComplexity = synthetics.getComplexityManager().getNewComplexity(new AppliedAugmentInstance(instance.augment(), part), null);
-
-                int maxPartComplexity = part.maxComplexity();
-                int maxSegmentComplexity = segment.maxComplexity();
-
-                int installedInstanceCount = synthetics.installedInstanceCount(instance.augment());
-                int installedInstanceCountPart = synthetics.installedInstanceCount(instance.augment(), instance.appliedPart());
-
-
-                text.add(Component.translatable("text.synthetics.augmentation.max_total_fraction", installedInstanceCount, instance.augment().maxTotal()).withStyle(getColourForMax(installedInstanceCountPart, instance.augment().maxTotal())));
-                text.add(Component.translatable("text.synthetics.augmentation.max_per_part_fraction", installedInstanceCountPart, instance.augment().maxPerPart()).withStyle(getColourForMax(installedInstanceCountPart, instance.augment().maxPerPart())));
-
-                text.add(Component.translatable("text.synthetics.augmentation.added_complexity", instance.augment().complexity()).withStyle(ChatFormatting.RED));
-                text.add(Component.translatable("text.synthetics.augmentation.new_part_complexity", newComplexity.partComplexity(), maxPartComplexity).withStyle(getColourForMax(newComplexity.partComplexity(), maxPartComplexity)));
-                text.add(Component.translatable("text.synthetics.augmentation.new_segment_complexity", newComplexity.segmentComplexity(), maxSegmentComplexity).withStyle(getColourForMax(newComplexity.segmentComplexity(), maxSegmentComplexity)));
-
-            }
-
-            case Augment augment -> {
-
-                text.add(Component.translatable("text.synthetics.augmentation.no_selected_part").withStyle(ChatFormatting.RED));
-                text.add(Component.translatable("text.synthetics.augmentation.select_part").withStyle(ChatFormatting.RED));
-                text.add(Component.empty());
-
-                text.add(Component.translatable("text.synthetics.augmentation.max_total", augment.maxTotal()).withStyle(ChatFormatting.BLUE));
-                text.add(Component.translatable("text.synthetics.augmentation.max_per_part", augment.maxPerPart()).withStyle(ChatFormatting.BLUE));
-
-
-                text.add(Component.translatable("text.synthetics.augmentation.added_complexity", augment.complexity()).withStyle(ChatFormatting.RED));
-                if(augment.powerCost() > 0) {
-                    text.add(Component.translatable("text.synthetics.augmentation.power_draw", augment.powerCost()).withStyle(ChatFormatting.RED));
-                }
-
-            }
-            case BodyPart part -> {
-                BodySegment segment = synthetics.getPartManager().getSegmentForPart(part);
-                BodyPart currentPart = synthetics.getPartManager().getPartForType(part.type().value());
-                int oldPartComplexity = synthetics.getComplexityManager().getTotalPartComplexity(part);
-                int oldSegmentComplexity = synthetics.getComplexityManager().getTotalSegmentComplexity(segment);
-
-                text.add(Component.translatable("text.synthetics.augmentation.old_part_complexity", oldPartComplexity, currentPart.maxComplexity()).withStyle(getColourForMax(oldPartComplexity, currentPart.maxComplexity())));
-                text.add(Component.translatable("text.synthetics.augmentation.new_part_complexity", oldPartComplexity, part.maxComplexity()).withStyle(getColourForMax(oldPartComplexity, part.maxComplexity())));
-                text.add(Component.translatable("text.synthetics.augmentation.segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, segment.maxComplexity())));
-            }
-            case BodySegment segment -> {
-                BodySegment currentSegment = synthetics.getPartManager().getSegmentForType(segment.type().value());
-                int oldSegmentComplexity = synthetics.getComplexityManager().getTotalSegmentComplexity(currentSegment);
-                text.add(Component.translatable("text.synthetics.augmentation.segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, currentSegment.maxComplexity())));
-                text.add(Component.translatable("text.synthetics.augmentation.new_segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, segment.maxComplexity())));
-
-            }
+            case AppliedAugmentInstance instance -> addTextForAugmentInst(synthetics, instance, text);
+            case Augment augment     -> addTextForAugment(augment, text);
+            case BodyPart part       -> addTextForPart(synthetics, part, text);
+            case BodySegment segment -> addTextForSegment(synthetics, segment, text);
             default -> {
+                return Collections.emptyList();
             }
         }
         return text;
+    }
+
+    private static void addAbilityText(HolderSet<Ability> abilities, int selectedAbility, List<FormattedText> text) {
+        int maxSize = abilities.size();
+        if (selectedAbility >= maxSize) {
+            selectedAbility = 0;
+        }
+        if (selectedAbility < maxSize) {
+            if (selectedAbility > 0) {
+                text.add(getAbilityTitle(abilities.get(selectedAbility - 1), false));
+            }
+            text.add(getAbilityTitle(abilities.get(selectedAbility), true));
+            if (selectedAbility < maxSize - 1) {
+                text.add(getAbilityTitle(abilities.get(selectedAbility + 1), false));
+            }
+            text.add(Component.empty());
+            Ability ability = abilities.get(selectedAbility).value();
+
+            ArrayList<Component> abilityDescription = new ArrayList<>();
+            ability.abilityType().addDescriptionInfo(ability, abilityDescription);
+            text.addAll(abilityDescription);
+        }
+    }
+
+    private static void addTextForSegment(SyntheticsPlayer synthetics, BodySegment segment, List<FormattedText> text) {
+        BodySegment currentSegment = synthetics.parts().getSegmentForType(segment.type().value());
+        int oldSegmentComplexity = synthetics.getComplexityManager().getTotalSegmentComplexity(currentSegment);
+        text.add(Component.translatable("text.synthetics.augmentation.segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, currentSegment.maxComplexity())));
+        text.add(Component.translatable("text.synthetics.augmentation.new_segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, segment.maxComplexity())));
+    }
+
+    private static void addTextForPart(SyntheticsPlayer synthetics, BodyPart part, List<FormattedText> text) {
+        BodySegment segment = synthetics.parts().getSegmentForPart(part);
+        BodyPart currentPart = synthetics.parts().getPartForType(part.type().value());
+        int oldPartComplexity = synthetics.getComplexityManager().getTotalPartComplexity(part);
+        int oldSegmentComplexity = synthetics.getComplexityManager().getTotalSegmentComplexity(segment);
+
+        text.add(Component.translatable("text.synthetics.augmentation.old_part_complexity", oldPartComplexity, currentPart.maxComplexity()).withStyle(getColourForMax(oldPartComplexity, currentPart.maxComplexity())));
+        text.add(Component.translatable("text.synthetics.augmentation.new_part_complexity", oldPartComplexity, part.maxComplexity()).withStyle(getColourForMax(oldPartComplexity, part.maxComplexity())));
+        text.add(Component.translatable("text.synthetics.augmentation.segment_complexity", oldSegmentComplexity, segment.maxComplexity()).withStyle(getColourForMax(oldSegmentComplexity, segment.maxComplexity())));
+    }
+
+    private static void addTextForAugment(Augment augment, List<FormattedText> text) {
+        text.add(Component.translatable("text.synthetics.augmentation.no_selected_part").withStyle(ChatFormatting.RED));
+        text.add(Component.translatable("text.synthetics.augmentation.select_part").withStyle(ChatFormatting.RED));
+        text.add(Component.empty());
+
+        text.add(Component.translatable("text.synthetics.augmentation.max_total", augment.maxTotal()).withStyle(ChatFormatting.BLUE));
+        text.add(Component.translatable("text.synthetics.augmentation.max_per_part", augment.maxPerPart()).withStyle(ChatFormatting.BLUE));
+
+
+        text.add(Component.translatable("text.synthetics.augmentation.added_complexity", augment.complexity()).withStyle(ChatFormatting.RED));
+        if(augment.powerCost() > 0) {
+            text.add(Component.translatable("text.synthetics.augmentation.power_draw", augment.powerCost()).withStyle(ChatFormatting.RED));
+        }
+    }
+
+    private static void addTextForAugmentInst(SyntheticsPlayer synthetics, AppliedAugmentInstance instance, List<FormattedText> text) {
+        BodyPart part = instance.appliedPart();
+        BodySegment segment = synthetics.parts().getSegmentForPart(part);
+        ComplexityManager.ComplexityPairs newComplexity = synthetics.getComplexityManager().getNewComplexity(new AppliedAugmentInstance(instance.augment(), part), null);
+
+        int maxPartComplexity = part.maxComplexity();
+        int maxSegmentComplexity = segment.maxComplexity();
+
+        int installedInstanceCount = synthetics.installedInstanceCount(instance.augment());
+        int installedInstanceCountPart = synthetics.installedInstanceCount(instance.augment(), instance.appliedPart());
+
+
+        text.add(Component.translatable("text.synthetics.augmentation.max_total_fraction", installedInstanceCount, instance.augment().maxTotal()).withStyle(getColourForMax(installedInstanceCountPart, instance.augment().maxTotal())));
+        text.add(Component.translatable("text.synthetics.augmentation.max_per_part_fraction", installedInstanceCountPart, instance.augment().maxPerPart()).withStyle(getColourForMax(installedInstanceCountPart, instance.augment().maxPerPart())));
+
+        text.add(Component.translatable("text.synthetics.augmentation.added_complexity", instance.augment().complexity()).withStyle(ChatFormatting.RED));
+        text.add(Component.translatable("text.synthetics.augmentation.new_part_complexity", newComplexity.partComplexity(), maxPartComplexity).withStyle(getColourForMax(newComplexity.partComplexity(), maxPartComplexity)));
+        text.add(Component.translatable("text.synthetics.augmentation.new_segment_complexity", newComplexity.segmentComplexity(), maxSegmentComplexity).withStyle(getColourForMax(newComplexity.segmentComplexity(), maxSegmentComplexity)));
     }
 
     private static ChatFormatting getColourForMax(int value, int maxValue) {
@@ -394,10 +394,10 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     private boolean shouldPlayAlternativeSound(SyntheticsPlayer syntheticsPlayer, IBodyInstallable<?> installable) {
         return switch(installable) {
             case BodyPart part ->
-                    PartManager.isDefault(syntheticsPlayer.getPartManager().getPartForType(part.type().value()))
+                    PartManager.isDefault(syntheticsPlayer.parts().getPartForType(part.type().value()))
                             || PartManager.isDefault(installable);
             case BodySegment segment ->
-                    PartManager.isDefault(syntheticsPlayer.getPartManager().getSegmentForType(segment.type().value()))
+                    PartManager.isDefault(syntheticsPlayer.parts().getSegmentForType(segment.type().value()))
                             || PartManager.isDefault(installable);
             default -> false;
         };
@@ -489,7 +489,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             i++;
         }
         if(this.selectedBodyPart != null) {
-            this.selectedBodyPart = this.synthetics.getPartManager().getPartForType(this.selectedBodyPart.type().value());
+            this.selectedBodyPart = this.synthetics.parts().getPartForType(this.selectedBodyPart.type().value());
         }
         this.selectedLayer = this.displayLayers[selectedLayerIndex];
     }

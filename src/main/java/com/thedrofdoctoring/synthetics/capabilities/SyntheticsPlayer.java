@@ -1,17 +1,13 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
-import com.mojang.datafixers.util.Pair;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.ISyntheticsEntity;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISyncable;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
-import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.*;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
-import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +19,6 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -36,7 +31,6 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
     public static final ResourceLocation MANAGER_KEY = Synthetics.rl(KEY);
 
-    private final List<AppliedAugmentInstance> appliedAugments;
 
     private final AbilityManager abilityManager;
     private final ComplexityManager complexityManager;
@@ -56,80 +50,24 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.partManager = new PartManager(this);
         this.researchManager = new ResearchManager(this);
         this.powerManager = new PowerManager();
-        this.appliedAugments = new ArrayList<>();
 
     }
     public static SyntheticsPlayer get(Player player) {
         return player.getData(SyntheticsAttachments.SYNTHETICS_MANAGER);
     }
 
-
+    /**
+     * Be careful not to mark anything data in the process of deserialising
+     */
     public void markDirty() {
         this.dirty = true;
     }
+    /**
+     * Be careful not to mark anything data in the process of deserialising
+     */
     public void markDirtyAll() {
         this.dirty = true;
         this.dirtyAll = true;
-    }
-
-    @Override
-    public boolean canAddAugment(AppliedAugmentInstance instance) {
-
-        if(this.complexityManager.testComplexity(instance, null) != ComplexityManager.ComplexityResult.SUCCESS) {
-            return false;
-        }
-        if(!this.partManager.augmentSupportsBodyPart(instance.augment(), instance.appliedPart())) {
-            return false;
-        }
-        int onPart = 1;
-        int total = 1;
-        List<Augment> groupedWith = instance.augment().groupedWithList();
-
-        for(AppliedAugmentInstance installedInstances : appliedAugments) {
-
-            if(installedInstances.augment().equals(instance.augment()) || groupedWith.contains(installedInstances.augment())) {
-                total++;
-                if(installedInstances.appliedPart().equals(instance.appliedPart())) {
-                    onPart++;
-                }
-
-            }
-            if(total > instance.augment().maxTotal() || onPart > instance.augment().maxPerPart()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-
-    @Override
-    public void addAugment(@NotNull AppliedAugmentInstance augment, boolean sync) {
-        addAugment(augment);
-        this.markDirtyAll();
-    }
-
-    public void replaceAugmentInstance(AppliedAugmentInstance old, AppliedAugmentInstance newInstance) {
-        this.appliedAugments.remove(old);
-        this.complexityManager.removePart(old);
-        if(old.augment() != newInstance.augment()) {
-            abilityManager.removeAbilities(old.augment());
-            abilityManager.removeAbilities(old.appliedPart());
-            abilityManager.addAbilities(newInstance.augment());
-            abilityManager.addAbilities(newInstance.appliedPart());
-        }
-        this.appliedAugments.add(newInstance);
-
-        int totalPowerCost = Math.max(0, this.powerManager.getTotalPowerCost() - old.augment().powerCost() + newInstance.augment().powerCost());
-        this.powerManager.setTotalPowerCost(totalPowerCost);
-    }
-
-    private void addAugment(@NotNull AppliedAugmentInstance instance) {
-        appliedAugments.add(instance);
-        this.complexityManager.addPart(instance);
-        this.abilityManager.addAbilities(instance.augment());
-        this.powerManager.setTotalPowerCost(this.powerManager.getTotalPowerCost() + instance.augment().powerCost());
     }
 
     @Override
@@ -137,10 +75,10 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
         switch (installable) {
             case AppliedAugmentInstance instance -> {
-                return this.canAddAugment(instance);
+                return this.parts().canAddAugment(instance, this);
             }
             case Augment augment -> {
-                return this.canAddAugment(new AppliedAugmentInstance(augment, this.partManager.getDefaultPartForAugment(augment)));
+                return this.parts().canAddAugment(new AppliedAugmentInstance(augment, this.partManager.getDefaultPartForAugment(augment)), this);
             }
             case BodyPart part -> {
                 return this.complexityManager.getTotalPartComplexity(part) <= part.maxComplexity();
@@ -150,8 +88,8 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
                     return false;
                 }
                 Holder<BodySegment> segmentHolder = Holder.direct(segment);
-                return this.partManager
-                            .getInstalledParts()
+                return this.parts()
+                            .installedBodyParts()
                             .stream()
                             .allMatch(part -> part.validSegments().contains(segmentHolder));
             }
@@ -163,15 +101,13 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public boolean isInstalled(IBodyInstallable<?> installable) {
         switch (installable) {
             case AppliedAugmentInstance instance -> {
-                return this.appliedAugments
-                        .stream()
-                        .anyMatch(augmentInstance -> augmentInstance.augment().equals(instance.augment()));
+                return this.partManager.isAugmentInstalled(instance);
             }
             case Augment augment -> {
-                return this.appliedAugments.stream().anyMatch(augmentInstance -> augmentInstance.augment().equals(augment));
+                return this.partManager.installedAugments().stream().anyMatch(augmentInstance -> augmentInstance.augment().equals(augment));
             }
             case BodyPart part -> {
-                return this.partManager.isPartInstalled(part);
+                return this.partManager.isBodyPartInstalled(part);
             }
             case BodySegment segment -> {
                 return this.partManager.isSegmentInstalled(segment);
@@ -182,19 +118,19 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         }
     }
 
-
+    @Override
     public List<IBodyInstallable<?>> addOrReplaceInstallable(@NotNull IBodyInstallable<?> installable) {
 
         switch (installable) {
 
-            case AppliedAugmentInstance instance -> addAugment(instance, true);
+            case AppliedAugmentInstance instance -> this.parts().addAugment(instance, true);
 
             case Augment augment -> {
                 AppliedAugmentInstance instance = new AppliedAugmentInstance(augment, this.partManager.getDefaultPartForAugment(augment));
-                addAugment(instance, true);
+                this.parts().addAugment(instance, true);
             }
             case BodyPart part -> {
-                return this.partManager.replacePart(part, true);
+                return this.partManager.replaceBodyPart(part, true);
             }
             case BodySegment segment -> {
                 return this.partManager.replaceSegment(segment, true);
@@ -208,25 +144,37 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
     }
 
-
-    @Override
-    public void removeAugment(AppliedAugmentInstance instance) {
-        appliedAugments.remove(instance);
+    private boolean removeAugment(AppliedAugmentInstance instance) {
+        this.parts().removeAugment(instance);
         abilityManager.removeAbilities(instance.augment());
         complexityManager.removePart(instance);
         powerManager.setTotalPowerCost(Math.max(0, powerManager.getTotalPowerCost() - instance.augment().powerCost()));
         onUpdate(true);
+        return true;
+    }
+
+    /**
+     * @param installable Installable to remove, currently only supports augments & augment instances
+     * @return Returns true if installable was successfully removed
+     */
+    @Override
+    public boolean removeInstallable(IBodyInstallable<?> installable) {
+        return switch(installable) {
+            case AppliedAugmentInstance instance -> removeAugment(instance);
+            case Augment augment -> removeAugment(new AppliedAugmentInstance(augment, this.parts().getDefaultPartForAugment(augment)));
+            default -> false;
+        };
     }
 
     public void removeNoUpdate(AppliedAugmentInstance inst) {
-        appliedAugments.remove(inst);
+        this.parts().removeAugment(inst);
         complexityManager.removePart(inst);
         abilityManager.removeAbilities(inst.augment());
     }
 
     private Stream<AppliedAugmentInstance> instancesOfAugmentType(Augment augment) {
         List<Augment> group = augment.groupedWithList();
-        return this.appliedAugments
+        return this.parts().installedAugments()
                 .stream()
                 .filter(
                         p -> p.augment().equals(augment) || group.contains(p.augment())
@@ -245,10 +193,6 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     @Override
     public Player getEntity() {
         return player;
-    }
-
-    public List<AppliedAugmentInstance> getInstalledAugments() {
-        return List.copyOf(appliedAugments);
     }
 
 
@@ -274,13 +218,16 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
             }
 
             if(dirty) {
+                boolean synced;
                 if(!dirtyAll) {
-                    this.sync(packet, false, false);
+                    synced = this.sync(packet, false, false);
                 } else {
-                    this.sync(true);
+                    synced = this.sync(true);
                 }
-                dirty = false;
-                dirtyAll = false;
+                if(synced) {
+                    dirty = false;
+                    dirtyAll = false;
+                }
             }
         } else {
             powerManager.onTick();
@@ -302,12 +249,6 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     }
 
 
-
-    @Override
-    public String nbtKey() {
-        return KEY;
-    }
-
     public AbilityManager getAbilityManager() {
         return abilityManager;
     }
@@ -316,7 +257,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         return complexityManager;
     }
 
-    public PartManager getPartManager() {
+    public PartManager parts() {
         return partManager;
     }
     public ResearchManager getResearchManager() {
@@ -326,6 +267,9 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         return this.powerManager;
     }
 
+    // ---------------------------------
+    //          Serialisation
+    // ---------------------------------
 
     @Override
     public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {
@@ -346,11 +290,11 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.researchManager.deserialiseUpdateNBT(provider, nbt);
         this.powerManager.deserialiseUpdateNBT(provider, nbt);
     }
+
     @Override
     public CompoundTag serialiseNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = new CompoundTag();
         tag.put(powerManager.nbtKey(), powerManager.serialiseNBT(provider));
-        tag.put("augments", serialiseAugments(provider));
 
         tag.put(partManager.nbtKey(), partManager.serialiseNBT(provider));
         tag.put(abilityManager.nbtKey(), abilityManager.serialiseNBT(provider));
@@ -361,42 +305,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     }
 
 
-    private CompoundTag serialiseAugments(HolderLookup.@NotNull Provider provider) {
-        CompoundTag tag = new CompoundTag();
-        int size = appliedAugments.size();
-        if(size == 0) return tag;
 
-        for(int i = 0; i < appliedAugments.size(); i++) {
-            tag.putString(String.valueOf(i), appliedAugments.get(i).createSerialisationID());
-        }
-        return tag;
-    }
-
-    private void deserialiseAugments(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
-        HolderGetter<Augment> lookup = provider.lookupOrThrow(SyntheticsData.AUGMENTS);
-        HolderGetter<BodyPart> partLookup = provider.lookupOrThrow(SyntheticsData.BODY_PARTS);
-
-        this.appliedAugments.clear();
-
-        if(nbt.contains("augments") && nbt.get("augments") instanceof CompoundTag tag && !tag.isEmpty()) {
-            int size = tag.size();
-            for(int i = 0; i < size; i++) {
-                String instanceIDString = tag.getString(String.valueOf(i));
-
-                Pair<ResourceLocation, ResourceLocation> augmentInstance = AppliedAugmentInstance.augmentPartSplitIdentifiers(instanceIDString);
-
-                Augment augment = Helper.retrieveDataObject(augmentInstance.getFirst(), SyntheticsData.AUGMENTS, lookup);
-                BodyPart part = Helper.retrieveDataObject(augmentInstance.getSecond(), SyntheticsData.BODY_PARTS, partLookup);
-                if(augment != null) {
-                    if(part == null || !partManager.isPartInstalled(part)) {
-                        addAugment(new AppliedAugmentInstance(augment, this.partManager.getDefaultPartForAugment(augment)));
-                        continue;
-                    }
-                    addAugment(new AppliedAugmentInstance(augment, part));
-                }
-            }
-        }
-    }
 
     @Override
     public void deserialiseNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
@@ -404,7 +313,6 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
         powerManager.deserialiseNBT(provider, nbt);
         partManager.deserialiseNBT(provider, nbt);
-        this.deserialiseAugments(provider, nbt);
 
         abilityManager.deserialiseNBT(provider, nbt);
         complexityManager.deserialiseNBT(provider, nbt);
@@ -414,7 +322,10 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
         this.onUpdate(false);
     }
 
-
+    @Override
+    public String nbtKey() {
+        return KEY;
+    }
 
     public static class Serializer implements IAttachmentSerializer<CompoundTag, SyntheticsPlayer> {
 
@@ -446,7 +357,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     }
 
     @Override
-    public void sync(boolean syncToAll) {
+    public boolean sync(boolean syncToAll) {
         if(player instanceof ServerPlayer serverPlayer) {
             CompoundTag data = this.serialiseNBT(player.level().registryAccess());
             ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, data, true, true);
@@ -458,10 +369,12 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
                     serverchunkcache.broadcast(player, other);
                 }
             }
+            return true;
         }
+        return false;
     }
 
-    public void sync(CompoundTag data, boolean syncToAll, boolean fullUpdate) {
+    public boolean sync(CompoundTag data, boolean syncToAll, boolean fullUpdate) {
         if(player instanceof ServerPlayer serverPlayer) {
             ClientboundPlayerUpdatePacket self = ClientboundPlayerUpdatePacket.create(this.player, data, true, fullUpdate);
             serverPlayer.connection.send(self);
@@ -472,6 +385,8 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
                     serverchunkcache.broadcast(player, other);
                 }
             }
+            return true;
         }
+        return false;
     }
 }

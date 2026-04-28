@@ -329,7 +329,7 @@
   "research.synthetics.neural_chamber.desc": "Learn how to create a Neural Chamber, providing increased experience gain",
   "abilities.synthetics.invisibility": "Invisibility",
   "abilities.synthetics.healing": "Passive Healing",
-  "abilities.synthetics.damage_modifier": "Damage Modifier",
+  "abilities.synthetics.damage_modifier": "Damage Multiplier",
   "installables.synthetics.augments.shimmer_layer": "Shimmer Layer",
   "installables.synthetics.augments.repairing_tissue": "Self-Repairing Tissue",
   "research.synthetics.tissue_augments": "Tissue Augments",
@@ -450,6 +450,7 @@
   "abilities.synthetics.item_magnet": "Item Magnet",
   "installables.synthetics.augments.item_magnet": "Implanted Electromagnet",
   "research.synthetics.item_magnet": "Implanted Electromagnet",
-  "research.synthetics.item_magnet.desc": "Learn how to create an implanted electromagnet, which can be used to attract items"
+  "research.synthetics.item_magnet.desc": "Learn how to create an implanted electromagnet, which can be used to attract items",
+  "command.synthetics.remove_failure": "Failed to remove augment for player %s."
 }
 

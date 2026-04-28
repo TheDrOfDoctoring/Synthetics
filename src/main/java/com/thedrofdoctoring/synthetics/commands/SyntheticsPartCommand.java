@@ -46,11 +46,11 @@ public class SyntheticsPartCommand {
     private static int modifyPart(@NotNull CommandContext<CommandSourceStack> context, BodyPart part, @NotNull Collection<ServerPlayer> players) {
         for(ServerPlayer player : players) {
             SyntheticsPlayer synthetics = SyntheticsPlayer.get(player);
-            if(synthetics.getPartManager().isPartInstalled(part)) {
+            if(synthetics.parts().isBodyPartInstalled(part)) {
                 context.getSource().sendFailure(Component.translatable("command.synthetics.already_installed", part.id().toString(), player.getDisplayName()));
                 return 0;
             }
-            synthetics.getPartManager().replacePart(part, true);
+            synthetics.parts().replaceBodyPart(part, true);
             context.getSource().sendSuccess(() -> Component.translatable("command.synthetics.modify_success"), true);
 
 

@@ -76,6 +76,10 @@ public class PowerManager implements IPowerManager {
         return storedPower > amount;
     }
 
+    // ---------------------------------
+    //          Serialisation
+    // ---------------------------------
+
     @Override
     public CompoundTag serialiseUpdateNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = new CompoundTag();

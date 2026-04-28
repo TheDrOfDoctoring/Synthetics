@@ -26,7 +26,6 @@ import org.joml.Vector3fc;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @ParametersAreNonnullByDefault
@@ -48,25 +47,26 @@ public class InstallableRenderLayer<E extends LivingEntity, M extends HumanoidMo
     @Override
     public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, E entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
         SyntheticsPlayer data = entity.getData(SyntheticsAttachments.SYNTHETICS_MANAGER);
-        PartManager partManager = data.getPartManager();
-        Collection<BodyPart> parts = partManager.getInstalledParts();
+        PartManager partManager = data.parts();
+
 
         RenderType renderType = RenderType.cutout();
         VertexConsumer buf = bufferSource.getBuffer(renderType);
+        Collection<BodyPart> parts = partManager.installedBodyParts();
         parts.forEach(p ->
                 p.getInstallableModel()
                         .ifPresent(
                                 model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, p.getModelPosition(), renderType)
                         )
         );
-        Collection<BodySegment> segments = partManager.getInstalledSegments();
+        Collection<BodySegment> segments = partManager.installedSegments();
         segments.forEach(s ->
                 s.getInstallableModel()
                         .ifPresent(
                                 model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, s.getModelPosition(), renderType)
                         )
         );
-        List<AppliedAugmentInstance> augments = data.getInstalledAugments();
+        Collection<AppliedAugmentInstance> augments = partManager.installedAugments();
         augments.forEach(a ->
                 a.getInstallableModel()
                         .ifPresent(

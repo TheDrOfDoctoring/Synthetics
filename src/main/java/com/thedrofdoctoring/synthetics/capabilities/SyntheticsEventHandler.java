@@ -123,30 +123,30 @@ public class SyntheticsEventHandler {
         SyntheticsPlayer syntheticsPlayer = SyntheticsPlayer.get(player);
         Level level = player.level();
         Vec3 pos = player.position();
-        for(AppliedAugmentInstance inst : syntheticsPlayer.getInstalledAugments()) {
+        for(AppliedAugmentInstance inst : syntheticsPlayer.parts().installedAugments()) {
             syntheticsPlayer.removeNoUpdate(inst);
             ItemStack stack = inst.augment().createDefaultItemStack(player.registryAccess());
             event.getDrops().add(new ItemEntity(level, pos.x, pos.y, pos.z, stack));
         }
         var partLookup = player.registryAccess().lookup(SyntheticsData.BODY_PARTS);
-        for(BodyPart part : syntheticsPlayer.getPartManager().getInstalledParts()) {
+        for(BodyPart part : syntheticsPlayer.parts().installedBodyParts()) {
             BodyPart defaultPart = partLookup
                     .flatMap(lookup -> lookup.get(part.type().value().defaultPart())
                             .map(Holder.Reference::value))
                     .orElse(null);
             if(part.equals(defaultPart)) continue;
-            syntheticsPlayer.getPartManager().replacePart(defaultPart, false);
+            syntheticsPlayer.parts().replaceBodyPart(defaultPart, false);
             ItemStack stack = part.createDefaultItemStack(player.registryAccess());
             event.getDrops().add(new ItemEntity(level, pos.x, pos.y, pos.z, stack));
         }
         var segmentLookup = player.registryAccess().lookup(SyntheticsData.BODY_SEGMENTS);
-        for(BodySegment segment : syntheticsPlayer.getPartManager().getInstalledSegments()) {
+        for(BodySegment segment : syntheticsPlayer.parts().installedSegments()) {
             BodySegment defaultSegment = segmentLookup
                     .flatMap(lookup -> lookup.get(segment.type().value().defaultSegment())
                             .map(Holder.Reference::value))
                     .orElse(null);
             if(segment.equals(defaultSegment)) continue;
-            syntheticsPlayer.getPartManager().replaceSegment(defaultSegment, false);
+            syntheticsPlayer.parts().replaceSegment(defaultSegment, false);
             ItemStack stack = segment.createDefaultItemStack(player.registryAccess());
             event.getDrops().add(new ItemEntity(level, pos.x, pos.y, pos.z, stack));
         }
