@@ -5,6 +5,7 @@ import com.thedrofdoctoring.synthetics.client.renderers.entities.*;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.models.DroneEntityModel;
 import com.thedrofdoctoring.synthetics.client.renderers.entities.models.HarpoonProjectileEntityModel;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.InstallableRenderLayer;
+import com.thedrofdoctoring.synthetics.client.renderers.installables.InstallableSkinRenderLayer;
 import com.thedrofdoctoring.synthetics.core.SyntheticsEntities;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -49,6 +50,7 @@ public class SyntheticsEntitiesClient {
         for (PlayerSkin.Model skinModel : event.getSkins()) {
             if (event.getSkin(skinModel) instanceof PlayerRenderer playerRenderer) {
                 playerRenderer.addLayer(new InstallableRenderLayer<>(playerRenderer));
+                playerRenderer.addLayer(new InstallableSkinRenderLayer<>(playerRenderer));
             }
         }
     }

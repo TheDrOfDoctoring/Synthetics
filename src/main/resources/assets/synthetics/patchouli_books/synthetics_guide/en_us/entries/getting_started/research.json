@@ -1,0 +1,15 @@
+{
+  "name": "Research",
+  "icon": "synthetics:research_table",
+  "category": "synthetics:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The research table is the first thing you'll need to craft most augments. Using it will open the research screen, this screen has multiple tabs. Each tab has a collection of research nodes. "
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Each research node will give you a short description of what it unlocks when you hover over it. By right-clicking whilst hovering over a node, you'll instead see the requirements needed to unlock it. This is typically a collection of items, and an experience point cost. If you have the items in your inventory, and the required experience, you can left click the research to unlock it."
+    }
+  ]
+}

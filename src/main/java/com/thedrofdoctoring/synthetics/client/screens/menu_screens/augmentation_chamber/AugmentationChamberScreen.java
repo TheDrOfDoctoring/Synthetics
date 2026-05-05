@@ -5,6 +5,7 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.ComplexityManager;
 import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.config.ClientConfig;
 import com.thedrofdoctoring.synthetics.core.SyntheticsSounds;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.*;
@@ -47,8 +48,13 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     private static final ResourceLocation RIGHT_CLICK_SPRITE = Synthetics.rl("icons/right_click");
     private static final ResourceLocation BODY_PART_NODE = Synthetics.rl("augmentation/node");
 
+    private static final ResourceLocation COMPLEXITY_GEAR_GRADIENT = Synthetics.rl("augmentation/gear_gradient");
+    private static final ResourceLocation COMPLEXITY_GEAR_OUTLINE = Synthetics.rl("augmentation/gear_outline");
+
     private static final int INSTALL_WIDTH = 70;
     private static final int INSTALL_HEIGHT = 14;
+    private static final int GEAR_WIDTH = 16;
+    private static final int GEAR_HEIGHT = 16;
 
     public static final int WIDTH = 176;
     public static final int HEIGHT = 194;
@@ -64,6 +70,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     private final PlayerSyntheticDisplayScreen[] displayLayers = new PlayerSyntheticDisplayScreen[BodyPartType.Layer.values().length];
     private PlayerSyntheticDisplayScreen selectedLayer;
     private BodyPart selectedBodyPart;
+    private float complexityPercentage;
     private int selectedLayerIndex;
 
     public boolean rightClicked;
@@ -130,7 +137,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
                         }
                     }
                     if(onlyOneType) {
-                        this.selectedBodyPart = synthetics.parts().getPartForType(firstType.value());
+                        this.setSelectedBodyPart(synthetics.parts().getPartForType(firstType.value()));
                     }
 
                 }
@@ -144,14 +151,22 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(BACKGROUND, this.guiLeft, this.guiTop, 0, 0, this.imageWidth, this.imageHeight);
         float scaleFactor = 0.7f;
-        int x = (int) ((this.guiLeft + 60) / scaleFactor);
+        int x = (int) ((this.guiLeft + 50) / scaleFactor);
         int y = (int) ((this.guiTop + 12) / scaleFactor);
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scaleFactor, scaleFactor, 1);
         guiGraphics.blitSprite(BODY_PART_NODE,  x, y, 26, 26);
         if(this.selectedBodyPart != null) {
+            if(ClientConfig.showComplexityGear.get()) {
+                int gearX = x + 30;
+                int gearY = y + 5;
+                int filledIn = Math.min(GEAR_HEIGHT, (int) (GEAR_HEIGHT * this.complexityPercentage) + 1);
+                guiGraphics.blitSprite(COMPLEXITY_GEAR_OUTLINE, gearX, gearY, GEAR_WIDTH, GEAR_HEIGHT);
+                guiGraphics.blitSprite(COMPLEXITY_GEAR_GRADIENT, GEAR_WIDTH, GEAR_HEIGHT, 0, GEAR_HEIGHT-filledIn, gearX, gearY + GEAR_HEIGHT - filledIn, GEAR_WIDTH, filledIn);
+            }
             guiGraphics.blit(selectedBodyPart.texture(), x + 5, y + 5, 0, 0, 16, 16, 16, 16);
         }
+
         guiGraphics.pose().popPose();
 
     }
@@ -177,6 +192,21 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         int y = guiTop + 33;
         if(isMouseOverButton(mouseX, x, mouseY, y)) {
             guiGraphics.fillGradient(RenderType.guiOverlay(), x, y, x + INSTALL_WIDTH, y + INSTALL_HEIGHT, 0x66ffffff, 0x77ffffff, 0);
+        }
+        int gearX = guiLeft + 71;
+        int gearY = guiTop + 15;
+        if(this.selectedBodyPart != null && isMouseOverGear(mouseX, gearX, mouseY, gearY)) {
+            int partMaxComplexity = selectedBodyPart.maxComplexity();
+            int complexityOnPart  = synthetics.getComplexityManager().getTotalPartComplexity(selectedBodyPart);
+            if(complexityOnPart > 0) {
+                guiGraphics.pose().pushPose();
+                float scale = 0.7f;
+                guiGraphics.pose().scale(scale, scale, 1);
+                guiGraphics.pose().translate(0, 0, 450);
+                guiGraphics.drawString(minecraft.font, Component.translatable("text.synthetics.augmentation.part_complexity", complexityOnPart, partMaxComplexity).withStyle(ChatFormatting.YELLOW), (int) (mouseX / scale) - 40, (int) (mouseY/ scale) - 6, -1, true);
+                guiGraphics.pose().popPose();
+
+            }
         }
         x = guiLeft + 3;
         y = guiTop + 15;
@@ -211,6 +241,8 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
 
         }
     }
+
+
     public static Component getAbilityTitle(Holder<Ability> ability, boolean isHovered) {
         MutableComponent title = Component.empty();
         if(isHovered) {
@@ -249,7 +281,10 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
         return text;
     }
 
-    private static void addAbilityText(HolderSet<Ability> abilities, int selectedAbility, List<FormattedText> text) {
+    private static void addAbilityText(HolderSet<Ability> abilitiesSet, int selectedAbility, List<FormattedText> text) {
+        List<Holder<Ability>> abilities = abilitiesSet.stream()
+                .filter(p -> p.value().abilityNature() != Ability.AbilityNature.HIDDEN)
+                .toList();
         int maxSize = abilities.size();
         if (selectedAbility >= maxSize) {
             selectedAbility = 0;
@@ -362,6 +397,11 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
     private boolean isMouseOverButton(double mouseX, int buttonX, double mouseY, int buttonY) {
         return (mouseX >= buttonX && mouseX < buttonX + INSTALL_WIDTH && mouseY > buttonY && mouseY < buttonY + INSTALL_HEIGHT);
     }
+
+    private boolean isMouseOverGear(double mouseX, int buttonX, double mouseY, int buttonY) {
+        return (mouseX >= buttonX && mouseX < buttonX + (GEAR_WIDTH * 0.7) && mouseY > buttonY && mouseY < buttonY + (GEAR_HEIGHT * 0.7));
+    }
+
     private void installButton(double mouseX, double mouseY) {
         if (isMouseOverButton(mouseX, guiLeft + 9, mouseY, guiTop + 33)) {
             ItemStack itemStack = this.menu.getInputContainer().getItem(0);
@@ -446,6 +486,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
 
     public void setSelectedBodyPart(BodyPart selectedBodyPart) {
         this.selectedBodyPart = selectedBodyPart;
+        this.complexityPercentage = (float) this.synthetics.getComplexityManager().getTotalPartComplexity(selectedBodyPart) / selectedBodyPart.maxComplexity();
     }
 
     @Override
@@ -489,7 +530,7 @@ public class AugmentationChamberScreen extends AbstractContainerScreen<Augmentat
             i++;
         }
         if(this.selectedBodyPart != null) {
-            this.selectedBodyPart = this.synthetics.parts().getPartForType(this.selectedBodyPart.type().value());
+            this.setSelectedBodyPart(this.synthetics.parts().getPartForType(this.selectedBodyPart.type().value()));
         }
         this.selectedLayer = this.displayLayers[selectedLayerIndex];
     }

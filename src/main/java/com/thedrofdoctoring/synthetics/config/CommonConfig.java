@@ -17,7 +17,7 @@ public class CommonConfig {
     static {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-        BUILDER.comment("This config is primarily unused, as the mod relies on datapacks for its configuration");
+        BUILDER.comment("Augments, Body Parts and more are entirely defined and created via datapacks, so the config is mostly unused-");
         BUILDER.comment("Please check the wiki for information on how to configure this mod. https://github.com/TheDrOfDoctoring/Synthetics/wiki");
 
         modifiedArchaeologicalLootTables = BUILDER.comment("As we have special limitations when editing the archaeology loot tables, this is required over a tag or similar. A list of strings, matching the path of archaeological loot tables").defineList("modifiedArchaeologyTables", List.of("minecraft:archaeology/trail_ruins_common", "minecraft:archaeology/trail_ruins_rare", "minecraft:archaeology/desert_pyramid"), () -> "minecraft:archaeology/desert_pyramid", string -> string instanceof String);

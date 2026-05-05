@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-27T12:10:04.222179	Registries
+// 1.21.1	2026-05-02T14:16:41.4166266	Registries
 bae3c4856f24df5f5332a156a84dc69bf315b7c6 data/synthetics/synthetics/abilities/adrenaline_injector.json
 a024b7cb3711a555369c255e5bb4030887e6fe99 data/synthetics/synthetics/abilities/advanced_tissue_solar.json
 7fb0ec2c8ae47ab6ba8ea83aa5658719c0f4e536 data/synthetics/synthetics/abilities/armoured_rib_armour_toughness.json
@@ -71,7 +71,7 @@ f07a68747aa457290a97911f491f1806b1f40928 data/synthetics/synthetics/augments/dro
 865d4a7a25ed7072b44bda42142a0e7c9e087951 data/synthetics/synthetics/augments/fire_resistant_tissue.json
 a218ed609cf2c44d5eadf84a1807a2f137abd60a data/synthetics/synthetics/augments/hand_flamethrower.json
 bf65e69489b974629935683f0d197b37211d4d27 data/synthetics/synthetics/augments/hand_repulsor.json
-4c8e5a174741d50de285254eb878f2816bfee940 data/synthetics/synthetics/augments/heart_battery.json
+3415973766572526531e6f003ae8f9710c06a5e0 data/synthetics/synthetics/augments/heart_battery.json
 b90a7fcbe86e928cde96019a215e24817686da48 data/synthetics/synthetics/augments/inertial_dampeners.json
 c57986f818401cce3e0e10822fefbb7d63c3219a data/synthetics/synthetics/augments/integrated_exoskeleton.json
 e859ce44b4293c434af0de6177f59af91837d3a7 data/synthetics/synthetics/augments/integrated_redstone_link.json

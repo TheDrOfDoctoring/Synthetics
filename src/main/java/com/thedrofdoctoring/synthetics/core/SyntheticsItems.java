@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.core;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.compat.patchouli.PatchouliBook;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.components.BatteryComponentOptions;
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +48,6 @@ public class SyntheticsItems {
     public static final DeferredHolder<Item, Item> IRON_GEAR = registerTab("iron_gear", () -> new Item(new Item.Properties().stacksTo(64)));
     public static final DeferredHolder<Item, Item> DRONE_ITEM = registerTab("drone", () -> new DroneItem(new Item.Properties().stacksTo(64)));
 
-
     public static final DeferredHolder<Item, Item> ANCIENT_SCRAP = registerTab("ancient_scrap", () -> new Item(
             new Item.Properties().stacksTo(64)) {
                 @Override
@@ -67,7 +68,6 @@ public class SyntheticsItems {
     );
     public static final DeferredHolder<Item, Item> ANCIENT_ALLOY = registerTab("ancient_alloy_ingot", () -> new Item(new Item.Properties().stacksTo(64)));
     public static final DeferredHolder<Item, Item> PURE_ANCIENT_ALLOY = registerTab("pure_ancient_alloy_ingot", () -> new Item(new Item.Properties().stacksTo(64)));
-
 
     public static final DeferredHolder<Item, Item> CREATIVE_TAB_ICON_ITEM = register("creative_tab_icon", () -> new Item(new Item.Properties().stacksTo(1)));
 
@@ -96,6 +96,9 @@ public class SyntheticsItems {
             .title(Component.translatable("itemGroup." + Synthetics.MODID))
             .icon(() -> new ItemStack(SyntheticsItems.CREATIVE_TAB_ICON_ITEM))
             .displayItems((itemDisplayParameters, output) -> {
+                if(ModList.get().isLoaded(Synthetics.PATCHOULI_MODID)) {
+                    output.accept(PatchouliBook.make());
+                }
                 creativeTabItems.forEach(item -> {
                     if(item.get() instanceof RechargeableBatteryItem battery) {
                         ItemStack emptyBattery = new ItemStack(battery);

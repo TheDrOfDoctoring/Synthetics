@@ -1,0 +1,25 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "item": "synthetics:fossilised_scrap"
+    },
+    "C": {
+      "item": "synthetics:ancient_scrap"
+    }
+  },
+  "lava_cost": 100,
+  "pattern": [
+    "ABC",
+    "CC ",
+    "   "
+  ],
+  "recipe_time": 50,
+  "result": {
+    "count": 1,
+    "id": "synthetics:pure_ancient_alloy_ingot"
+  }
+}

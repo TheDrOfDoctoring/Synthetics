@@ -1,0 +1,33 @@
+{
+  "name": "Energy",
+  "icon": "synthetics:medium_battery",
+  "category": "synthetics:mechanics",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Energy is a resource used to power cybernetic abilities and augments. If you have some way of storing energy, your energy bar will be shown on the bottom of your screen, and can be hidden with $(k:keys.synthetics.hide_energy)."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "energy_storage",
+      "title": "Energy Storage",
+      "text": "Energy is stored in the player, not on items the player holds. Typically, it is increased by installing augments such as the Heart Battery.$(br2)If you run out of energy, augments that have a power draw will disable any abilities they provide."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "energy_generation",
+      "title": "Energy Generation",
+      "text": "Energy is typically generated from augments, such as the shock absorber, solar skin or metabolic generator."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "anchor": "battery",
+      "item": {
+        "item": "synthetics:medium_battery"
+      },
+      "link_recipe": "true",
+      "title": "Battery",
+      "text": "The battery is a way to use energy from other mods, you can charge it in machines from other mods and right-click with it to drain energy from it. $(br2)However, it is not possible to transfer internal energy to the battery, only transfer energy from the battery to you."
+    }
+  ]
+}

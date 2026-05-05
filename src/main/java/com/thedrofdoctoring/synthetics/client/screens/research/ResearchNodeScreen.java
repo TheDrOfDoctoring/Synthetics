@@ -13,6 +13,7 @@ import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
@@ -25,9 +26,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 
 public class ResearchNodeScreen {
@@ -40,6 +40,12 @@ public class ResearchNodeScreen {
 
     private static final ResourceLocation RIGHT_CLICK_SPRITE = Synthetics.rl("icons/right_click");
 
+    private static final int WIDTH = 26;
+    private static final int HEIGHT = 26;
+    private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
+    private static final int CYCLE_TIME = 200;
+
+    public static final int SIZE = 28;
 
     private final ResearchNode node;
     private final ResearchManager manager;
@@ -59,14 +65,12 @@ public class ResearchNodeScreen {
     private final Either<Ingredient, IBodyInstallable<?>> unlockedPrimary;
 
     private final ItemStack experience = new ItemStack(Items.EXPERIENCE_BOTTLE);
-    private final List<Pair<ItemStack, Integer>> requirements = new ArrayList<>();
-
-    private static final int WIDTH = 26;
-    private static final int HEIGHT = 26;
-    private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
+    private final List<Pair<LinkedList<ItemStack>, Integer>> requirements = new ArrayList<>();
 
     private final int size;
-
+    private int requirementsY;
+    private int requirementsWidth;
+    private int timer;
 
 
     public ResearchNodeScreen(ResearchNodeScreen parent, ResearchNode node, ResearchTabScreen screen, int x, int y, ResearchManager manager) {
@@ -91,10 +95,9 @@ public class ResearchNodeScreen {
         if(this.node.requirements().requiredItems().isPresent()) {
             List<Pair<Ingredient, Integer>> itemRequirements = this.node.requirements().requiredItems().get();
             for(Pair<Ingredient, Integer> pair : itemRequirements) {
-                ItemStack stack = pair.getFirst().getItems()[0];
                 int count = pair.getSecond();
-                this.requirements.add(new Pair<>(stack, count));
-
+                LinkedList<ItemStack> queue = new LinkedList<>(Arrays.asList(pair.getFirst().getItems()));
+                this.requirements.add(new Pair<>(queue, count));
             }
         }
         this.title = Language.getInstance().getVisualOrder(minecraft.font.substrByWidth(ComponentUtils.mergeStyles(Optional.of(node.title()).orElse(Component.empty()).copy(), Style.EMPTY.withColor(ChatFormatting.AQUA)), 163));
@@ -123,6 +126,10 @@ public class ResearchNodeScreen {
     }
 
     public void draw(@NotNull GuiGraphics graphics, int i, int j) {
+        timer++;
+        if(timer >= CYCLE_TIME) {
+            timer = 0;
+        }
         graphics.setColor(1, 1, 1, 1);
         PoseStack pose = graphics.pose();
         pose.pushPose();
@@ -300,7 +307,7 @@ public class ResearchNodeScreen {
         int titleLength = this.size;
 
         if(displayRequirements) {
-            titleLength = drawResearchRequirements(graphics, scrollX, scrollY);
+            titleLength = drawResearchRequirements(graphics, mouseX, mouseY, scrollX, scrollY);
         }
         graphics.drawString(this.minecraft.font, this.title, scrollX + x + 30, scrollY + y + 9, -1, true);
 
@@ -318,17 +325,22 @@ public class ResearchNodeScreen {
     }
 
     @SuppressWarnings("DataFlowIssue")
-    private int drawResearchRequirements(GuiGraphics graphics, int scrollX, int scrollY) {
-        int size = 28;
+    private int drawResearchRequirements(GuiGraphics graphics, double mouseX, double mouseY, int scrollX, int scrollY) {
+        int size = SIZE;
+        PoseStack pose = graphics.pose();
         if(experienceCost != null) {
             graphics.drawString(this.minecraft.font, experienceCost, scrollX + x + 15, scrollY + y + 30, 0x90EE90, true);
             graphics.renderItem(experience, scrollX + x - 3, scrollY + y + 25);
             size = this.minecraft.font.width(this.experienceCost) + 28;
+            if(this.size > size) {
+                size = this.size;
+            }
         }
         int j = 0, k = 1;
+        requirementsWidth = size;
         if(!this.requirements.isEmpty()) {
 
-            for (Pair<ItemStack, Integer> stackCountPair : requirements) {
+            for (Pair<LinkedList<ItemStack>, Integer> stackCountPair : requirements) {
                 String count = stackCountPair.getSecond() + "x";
                 int countWidth = this.minecraft.font.width(count);
                 int totalWidth = countWidth + 25;
@@ -337,16 +349,43 @@ public class ResearchNodeScreen {
                     j = 0;
                     k += 1;
                 }
-                graphics.renderItem(stackCountPair.getFirst(), j + x - 2, scrollY + y + k * 18 + 28);
-                graphics.drawString(this.minecraft.font, count, j + x + 18, scrollY + y + k * 18 + 32, ChatFormatting.GRAY.getColor(), true);
+                int stackX = j + x;
+                int stackY = scrollY + y + k * 18 + 28;
+                pose.pushPose();
+                pose.translate(0, 0, 450);
+                ItemStack toDraw = currentStackToDraw(stackCountPair.getFirst());
+                if(isHoveringIngredient(stackX, stackY, mouseX, mouseY - ResearchScreen.SCREEN_HEIGHT)) {
+                    graphics.fillGradient(RenderType.gui(), stackX - 2, stackY, stackX + 14, stackY + 16, 0xFF424242, 0xFF424242, 0);
+                    graphics.renderTooltip(minecraft.font, toDraw, (int) mouseX, (int) (mouseY - ResearchScreen.SCREEN_HEIGHT));
+                }
+                graphics.renderItem(toDraw, stackX - 2, stackY);
+                graphics.drawString(this.minecraft.font, count, stackX + 18, stackY + 4, ChatFormatting.GRAY.getColor(), true);
 
+                pose.popPose();
                 j = j + totalWidth;
             }
 
 
         }
+        requirementsY = 30 + (k + 1) * 18;
         graphics.blitSprite(RESEARCH_DESCRIPTION_SPRITE, scrollX + x - 5, scrollY + y + 3, size, 30 + (k + 1) * 18);
         return size;
+    }
+
+    private ItemStack currentStackToDraw(Queue<ItemStack> queue) {
+        if(queue.isEmpty()) return ItemStack.EMPTY;
+        if(queue.size() == 1) return queue.peek();
+        ItemStack top = queue.peek();
+        if(timer == 0) {
+            queue.remove();
+            queue.offer(top);
+            return queue.peek();
+        }
+        return top;
+    }
+
+    private boolean isHoveringIngredient(int stackX, int stackY, double scaledMouseX, double scaledMouseY) {
+        return scaledMouseX >= stackX - 2 && scaledMouseX <= stackX + 2 + 18 && scaledMouseY >= stackY && scaledMouseY <= stackY + 18;
     }
 
     private void drawIcon(GuiGraphics graphics, int x, int y) {
@@ -375,6 +414,21 @@ public class ResearchNodeScreen {
         return ResearchNodeState.VISIBLE;
     }
 
+    public int adjustedX() {
+        return x;
+    }
+
+    public int adjustedY() {
+        return y + ResearchScreen.SCREEN_HEIGHT;
+    }
+
+    public int requirementsWidth() {
+        return requirementsWidth;
+    }
+
+    public int requirementsY() {
+        return requirementsY;
+    }
 
     public void switchDisplay() {
         this.displayRequirements = !displayRequirements;

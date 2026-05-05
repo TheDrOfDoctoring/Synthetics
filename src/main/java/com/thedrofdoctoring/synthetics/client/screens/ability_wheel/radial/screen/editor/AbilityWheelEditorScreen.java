@@ -1,5 +1,6 @@
 package com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.editor;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.client.config.AbilityKeyManager;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsKeys;
@@ -9,15 +10,19 @@ import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.ImageWidget;
 import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,6 +32,7 @@ public class AbilityWheelEditorScreen extends WheelEditorScreen<Ability, Ability
 
     private KeyBindingList list;
 
+
     protected AbilityWheelEditorScreen(LocalPlayer player) {
         super(new AbilityEditorSlotController(), new AbilityWheelScreen(player), player);
     }
@@ -34,11 +40,11 @@ public class AbilityWheelEditorScreen extends WheelEditorScreen<Ability, Ability
     @Override
     protected void init() {
         super.init();
-        this.list = this.addRenderableWidget(new KeyBindingList(this.width - 150, 20, 140-8, this.height - 60));
+        this.list = this.addRenderableWidget(new KeyBindingList(this.width - 150, 20, 140 - 8, this.height - 60));
     }
 
     public static void show() {
-        if(Minecraft.getInstance().player != null) {
+        if (Minecraft.getInstance().player != null) {
             LocalPlayer player = Minecraft.getInstance().player;
             Minecraft.getInstance().setScreen(new AbilityWheelEditorScreen(player));
         }
@@ -52,10 +58,14 @@ public class AbilityWheelEditorScreen extends WheelEditorScreen<Ability, Ability
 
         private final AbilityKeyManager keys;
         private final Map<Integer, Holder<Ability>> abilityBindings = new HashMap<>();
+        private final KeyEntry addSlot;
+        private final KeyEntry addWheel;
 
         public KeyBindingList(int x, int y, int pWidth, int pHeight) {
             super(Minecraft.getInstance(), pWidth, pHeight, y, 20);
             this.setX(x);
+            this.addSlot  = new KeyEntry(SyntheticsKeys.WHEEL_ADD_SLOT);
+            this.addWheel = new KeyEntry(SyntheticsKeys.WHEEL_ADD_WHEEL);
             this.keys = SyntheticsClient.getInstance().getAdvancedClientConfig().currentKeyManager();
             if (keys != null) {
                 replaceEntries(SyntheticsKeys.ABILITY_HOTKEYS.int2ObjectEntrySet()
@@ -73,6 +83,8 @@ public class AbilityWheelEditorScreen extends WheelEditorScreen<Ability, Ability
 
         @Override
         protected void renderListBackground(@NotNull GuiGraphics graphics) {
+            addSlot.render(graphics, this.getBottom() - 50 , this.getRowLeft(), 15);
+            addWheel.render(graphics, this.getBottom() - 50 + 15, this.getRowLeft(), 15);
         }
 
 
@@ -129,7 +141,7 @@ public class AbilityWheelEditorScreen extends WheelEditorScreen<Ability, Ability
                 this.stringWidget = new StringWidget(0, 2, 80, 20, keyMapping.getTranslatedKeyMessage(), Minecraft.getInstance().font);
                 this.ability = entry;
                 this.abilityBindings = abilityBindings;
-                if(entry != null) {
+                if (entry != null) {
                     this.abilityBindings.put(index, entry);
                 }
                 applyAbility(ability);
@@ -183,7 +195,6 @@ public class AbilityWheelEditorScreen extends WheelEditorScreen<Ability, Ability
 
             @Override
             public void renderBack(@NotNull GuiGraphics pGuiGraphics, int pIndex, int pTop, int pLeft, int pWidth, int pHeight, int pMouseX, int pMouseY, boolean pIsMouseOver, float pPartialTick) {
-                {}
             }
 
             @Override
@@ -193,5 +204,32 @@ public class AbilityWheelEditorScreen extends WheelEditorScreen<Ability, Ability
         }
     }
 
+    public static class KeyEntry {
+        private final Component key;
+        private final Component name;
 
+        protected static final WidgetSprites SPRITES = new WidgetSprites(ResourceLocation.withDefaultNamespace("widget/button"), ResourceLocation.withDefaultNamespace("widget/button_disabled"), ResourceLocation.withDefaultNamespace("widget/button_highlighted"));
+
+        KeyEntry(KeyMapping key) {
+            this.key = key.getTranslatedKeyMessage();
+            this.name = key.getDisplayName();
+        }
+
+        public void render(
+                GuiGraphics guiGraphics,
+                int top,
+                int left,
+                int height
+        ) {
+            Font font = Minecraft.getInstance().font;
+            int width = font.width(name);
+            int i1 = left + width + 6;
+            guiGraphics.drawString(font, this.name, left, top + height / 2 - 9 / 2, -1);
+            guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.enableBlend();
+            RenderSystem.enableDepthTest();
+            guiGraphics.blitSprite(SPRITES.get(true, false), i1-4, top + height / 2 - 9 / 2 - 2, 13, 13);
+            guiGraphics.drawString(font, this.key, i1, top + height / 2 - 9 / 2, -1);
+        }
     }
+}

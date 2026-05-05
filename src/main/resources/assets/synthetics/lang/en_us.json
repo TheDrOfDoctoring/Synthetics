@@ -244,6 +244,7 @@
   "synthetics.configuration.energyOverlayRotation": "Energy Overlay Rotation",
   "synthetics.configuration.energyOverlayMiddleY": "Energy Overlay Y-Offset",
   "synthetics.configuration.energyOverlayMiddleX": "Energy Overlay X-Offset",
+  "synthetics.configuration.showComplexityGear": "Show Complexity Gear",
   "synthetics.configuration.modifiedArchaeologyTables": "Read Me",
   "synthetics.configuration.fossilisedScrapWeight": "Fossilised Scrap Weight",
   "keys.synthetics.wheel.right_wheel": "[Wheel] Select Right Wheel",
@@ -451,6 +452,10 @@
   "installables.synthetics.augments.item_magnet": "Implanted Electromagnet",
   "research.synthetics.item_magnet": "Implanted Electromagnet",
   "research.synthetics.item_magnet.desc": "Learn how to create an implanted electromagnet, which can be used to attract items",
-  "command.synthetics.remove_failure": "Failed to remove augment for player %s."
+  "command.synthetics.remove_failure": "Failed to remove augment for player %s.",
+  "screen.synthetics.wheel_empty": "Your ability wheel is empty! Please check the Ability Wheel Editor (Controls).",
+  "text.synthetics.augmentation.part_complexity": "Complexity: %1$s/%2$s",
+  "item.synthetics.synthetics_guide": "Modern Synthetics",
+  "synthetics.landing": "Synthetics is a mod about researching, crafting and installing new augments and body parts."
 }
 

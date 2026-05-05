@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 @Mod(Synthetics.MODID)
 public class Synthetics {
     public static final String MODID = "synthetics";
+    public static final String PATCHOULI_MODID = "patchouli";
     public static final Logger LOGGER = LogUtils.getLogger();
     public Synthetics(IEventBus modEventBus, ModContainer modContainer) {
 

@@ -7,6 +7,7 @@ import com.thedrofdoctoring.synthetics.client.core.SyntheticsKeys;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.DrawingContext;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.IRadialMenuHost;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.slot.RadialMenuSlot;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -175,6 +176,16 @@ public abstract class GenericRadialMenu<T extends RadialMenuSlot> {
     public abstract void swapWheel(int directionAmount);
 
     public void draw(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+        if(this.visibleItems.isEmpty()) {
+            Component text = Component.translatable("screen.synthetics.wheel_empty").withStyle(ChatFormatting.WHITE);
+            Screen owner = host.getScreen();
+            Font font = host.getFontRenderer();
+            float textWidth = font.width(text);
+            int textX = (int) ((owner.width - textWidth) / 2.0f);
+            int textY = (int) ((owner.height - font.lineHeight) / 2.0f);
+            graphics.drawString(font, text, textX, textY, 0xFFFFFFFF);
+            return;
+        }
         updateAnimationState(partialTicks);
 
         if (isClosed())

@@ -2,6 +2,7 @@ package com.thedrofdoctoring.synthetics.client.core;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
+import com.thedrofdoctoring.synthetics.client.config.ClientData;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.AbilityWheelScreen;
 import com.thedrofdoctoring.synthetics.client.screens.ability_wheel.radial.screen.editor.AbilityWheelEditorScreen;
 import it.unimi.dsi.fastutil.ints.Int2LongArrayMap;
@@ -115,8 +116,10 @@ public class SyntheticsKeys {
     }
 
     private static void swapEnergyDisplay() {
-        var manager = SyntheticsClient.getInstance().getManager();
-        manager.displayEnergy = !manager.displayEnergy;
+        ClientData data = SyntheticsClient.getInstance().getAdvancedClientConfig().otherClientData();
+        if(data != null) {
+            data.setShouldShowEnergyOverlay(!data.shouldShowEnergyOverlay());
+        }
     }
 
 

@@ -23,7 +23,9 @@ public class WheelManager {
     public static final Codec<WheelManager> CODEC = new Codec<>() {
         @Override
         public <T> DataResult<Pair<WheelManager, T>> decode(DynamicOps<T> ops, T input) {
-            return ops.withDecoder(AbilityWheel.LIST_CODEC).apply(input).map(pair -> new Pair<>(new WheelManager(pair.getFirst()), pair.getSecond()));
+            return ops.withDecoder(AbilityWheel.LIST_CODEC)
+                    .apply(input)
+                    .map(pair -> new Pair<>(new WheelManager(pair.getFirst()), pair.getSecond()));
         }
 
         @Override

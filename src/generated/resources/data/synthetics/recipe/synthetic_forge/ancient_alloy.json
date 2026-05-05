@@ -1,0 +1,25 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "tag": "c:dusts/redstone"
+    },
+    "C": {
+      "item": "synthetics:ancient_scrap"
+    }
+  },
+  "lava_cost": 50,
+  "pattern": [
+    "ABC",
+    "C  ",
+    "   "
+  ],
+  "recipe_time": 50,
+  "result": {
+    "count": 2,
+    "id": "synthetics:ancient_alloy_ingot"
+  }
+}

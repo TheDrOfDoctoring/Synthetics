@@ -40,6 +40,15 @@ public sealed interface IBodyInstallable<T extends IBodyInstallable<T>> permits 
     default ResourceLocation texture() {
         return ResourceLocation.fromNamespaceAndPath(id().getNamespace(), "textures/item/installables/" + getType().location().getPath()+ "/" + id().getPath() +".png");
     }
+
+    default ResourceLocation entityLayerTexture(boolean slim) {
+        if(slim) {
+            return ResourceLocation.fromNamespaceAndPath(id().getNamespace(), "textures/entity/installables/skin/slim/" + getType().location().getPath()+ "/" + id().getPath() +".png");
+        }
+        return ResourceLocation.fromNamespaceAndPath(id().getNamespace(), "textures/entity/installables/skin/wide/" + getType().location().getPath()+ "/" + id().getPath() +".png");
+
+    }
+
     default ResourceLocation itemTexture() {
         return ResourceLocation.fromNamespaceAndPath(id().getNamespace(), "item/installables/" + getType().location().getPath()+ "/" + id().getPath());
     }

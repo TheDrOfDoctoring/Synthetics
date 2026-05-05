@@ -59,9 +59,20 @@ public class AdvancedClientConfiguration {
             return;
         }
 
-        File wheelsFile = getFileForUUID(currentLevelUUID);
+        File configData = getFileForUUID(currentLevelUUID);
+        File defaultFile = getDefaultConfigFile();
         final DynamicOps<JsonElement> dynamicOps = RegistryOps.create(JsonOps.INSTANCE, level.registryAccess());
-        try (BufferedReader bufferedReader = Files.newReader(wheelsFile, Charsets.UTF_8)) {
+
+        if(configData.exists()) {
+            tryReadFile(dynamicOps, configData);
+        } else if(defaultFile.exists()) {
+            tryReadFile(dynamicOps, defaultFile);
+        }
+
+    }
+    
+    private void tryReadFile(DynamicOps<JsonElement> dynamicOps, File file) {
+        try (BufferedReader bufferedReader = Files.newReader(file, Charsets.UTF_8)) {
             ClientConfigurationData data = ClientConfigurationData.CODEC.codec()
                     .parse(dynamicOps, JsonParser.parseReader(bufferedReader))
                     .resultOrPartial()
@@ -77,9 +88,16 @@ public class AdvancedClientConfiguration {
             Synthetics.LOGGER.warn("Failed to read client configuration data file", e);
         }
     }
+    
+    private File getDefaultConfigFile() {
+        File dir = new File(Minecraft.getInstance().gameDirectory, "config/synthetics");
+        //noinspection ResultOfMethodCallIgnored
+        dir.mkdirs();
+        return new File(dir, "client_default.json");
+    }
 
     private File getFileForUUID(UUID uuid) {
-        File dir = new File(Minecraft.getInstance().gameDirectory, "config/synthetics");
+        File dir = new File(Minecraft.getInstance().gameDirectory, "synthetics/client_world_config");
         //noinspection ResultOfMethodCallIgnored
         dir.mkdirs();
         return new File(dir, uuid.toString() + ".json");
@@ -117,6 +135,11 @@ public class AdvancedClientConfiguration {
         return data == null ? null : data.keyManager;
     }
 
+    public @Nullable ClientData otherClientData() {
+        ClientConfigurationData data = getLevelData(currentLevelUUID);
+        return data == null ? null : data.otherData;
+    }
+
     public void toggleAction(int index) {
         AbilityKeyManager manager = currentKeyManager();
         if(manager != null && Minecraft.getInstance().getConnection() != null) {
@@ -127,15 +150,16 @@ public class AdvancedClientConfiguration {
         }
     }
 
-    private record ClientConfigurationData(@NotNull WheelManager wheelManager, @NotNull AbilityKeyManager keyManager) {
+    private record ClientConfigurationData(@NotNull WheelManager wheelManager, @NotNull AbilityKeyManager keyManager, @NotNull ClientData otherData) {
 
         public static final MapCodec<ClientConfigurationData> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 WheelManager.CODEC.fieldOf("wheels").forGetter(ClientConfigurationData::wheelManager),
-                AbilityKeyManager.CODEC.fieldOf("hot_keys").forGetter(ClientConfigurationData::keyManager)
+                AbilityKeyManager.CODEC.fieldOf("hot_keys").forGetter(ClientConfigurationData::keyManager),
+                ClientData.CODEC.codec().fieldOf("other_data").forGetter(ClientConfigurationData::otherData)
         ).apply(instance, ClientConfigurationData::new));
 
         public static ClientConfigurationData createEmpty() {
-            return new ClientConfigurationData(new WheelManager(Collections.emptyList()), new AbilityKeyManager(Collections.emptyMap()));
+            return new ClientConfigurationData(new WheelManager(Collections.emptyList()), new AbilityKeyManager(Collections.emptyMap()), ClientData.empty());
         }
     }
 }

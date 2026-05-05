@@ -6,9 +6,7 @@ import com.thedrofdoctoring.synthetics.capabilities.PartManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.client.core.assets.InstallableModelLoader;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
-import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -52,27 +50,15 @@ public class InstallableRenderLayer<E extends LivingEntity, M extends HumanoidMo
 
         RenderType renderType = RenderType.cutout();
         VertexConsumer buf = bufferSource.getBuffer(renderType);
-        Collection<BodyPart> parts = partManager.installedBodyParts();
-        parts.forEach(p ->
-                p.getInstallableModel()
+        Collection<IBodyInstallable<?>> allInstallables = partManager.installedAll();
+        allInstallables.forEach(installable -> {
+            if(installable instanceof IInstallableModelSupplier modelSupplier && installable instanceof IInstallableModelPositioner positioner) {
+                modelSupplier.getInstallableModel()
                         .ifPresent(
-                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, p.getModelPosition(), renderType)
-                        )
-        );
-        Collection<BodySegment> segments = partManager.installedSegments();
-        segments.forEach(s ->
-                s.getInstallableModel()
-                        .ifPresent(
-                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, s.getModelPosition(), renderType)
-                        )
-        );
-        Collection<AppliedAugmentInstance> augments = partManager.installedAugments();
-        augments.forEach(a ->
-                a.getInstallableModel()
-                        .ifPresent(
-                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, a.getModelPosition(), renderType)
-                        )
-        );
+                                model -> renderInstallable(poseStack, buf, packedLight, partialTick, model, positioner.getModelPosition(), renderType)
+                        );
+            }
+        });
     }
 
     public void renderInstallable(PoseStack poseStack, VertexConsumer buf, int packedLight, float partialTick, IInstallableModel installableModel, IBodyPosition renderLocation, RenderType renderType) {

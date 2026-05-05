@@ -1,0 +1,29 @@
+{
+  "name": "Installables",
+  "icon": "synthetics:creative_tab_icon",
+  "category": "synthetics:mechanics",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Installables are a collection of three different groups: $(li)$(l:mechanics/installables#augments)Augments $(/t) $() $(li)$(l:mechanics/installables#body_parts)Body Parts $(/t) $() $(li)$(l:mechanics/installables#body_segments)Body Segments $(/t) $() $(br2)Installables usually come with abilities, which can be viewed in the $(l:getting_starterd/augmentation_chamber)Augmentation Chamber$()."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "augments",
+      "title": "Augments",
+      "text": "Augments are installed onto specific Body Parts, they are the only installable that creates $(l:mechanics/complexity)Complexity $()and therefore you can only install a limited number of augments. $(br)Installing augments typically provides some kind of $(l:mechanics/ability)Ability$(). $(br2)Augments are also limited by the number on each part. Some augments can only be installed once in total, but some can be installed multiple times on a single part."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "body_parts",
+      "title": "Body Parts",
+      "text": "Installed Body Parts are shown on the right of the $(l:getting_starterd/augmentation_chamber)Augmentation Chamber$() screen. $(br2)Each Body Part can only have so much complexity on it, this amount changes based on the type of body part, for example a Cybernetic Brain can support more complexity than an Organic Brain. $(br2)Body Parts can occasionally come with abilities, like the Cybernetic Brain or Eye."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "body_segments",
+      "title": "Body Segments",
+      "text": "Body Segments are what Body Parts are installed onto, and Augments also add complexity to the Body Segment they are installed onto. $(br2)Body Segments differ as they are much larger areas, there are body segments encompassing the arms, head, torso and lower body each."
+    }
+  ]
+}

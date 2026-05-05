@@ -239,8 +239,9 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
     public void onUpdate(boolean sync) {
 
         this.abilityManager.onUpdate();
+        this.partManager.onUpdate();
         if(this.player.level().isClientSide) {
-            SyntheticsClientManager.updateScreen();
+            SyntheticsClientManager.onUpdate();
         }
 
         if(sync || this.dirty) {

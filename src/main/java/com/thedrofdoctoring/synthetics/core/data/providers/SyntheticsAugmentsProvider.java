@@ -73,7 +73,7 @@ public class SyntheticsAugmentsProvider {
                 Augment.Builder.of(context, Augments.HEART_BATTERY, getPart(partLookup, BodyParts.HEART_MAIN))
                         .complexity(25)
                         .powerCost(0)
-                        .maxCopies(2, 2)
+                        .maxCopies(3, 3)
                         .abilities(
                                 Abilities.HEART_BATTERY
                         )

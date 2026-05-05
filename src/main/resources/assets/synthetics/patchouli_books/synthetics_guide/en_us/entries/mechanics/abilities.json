@@ -1,0 +1,35 @@
+{
+  "name": "Abilities",
+  "icon": "synthetics:artificial_neuron",
+  "category": "synthetics:mechanics",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "There are two main types of abilities, $(l:mechanics/abilities#passive_abilities)Passive Abilities$() and $(l:mechanics/abilities#active_abilities)Active Abilities$(). "
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "passive_abilities",
+      "title": "Passive Abilities",
+      "text": "Passive Abilities are simply abilities that always provide some kind of effect, they never need to be activated or toggled. $(br2)If a passive ability comes from an Augment, that has a power draw, the passive ability may be disabled when running out of energy."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "active_abilities",
+      "title": "Active Abilities",
+      "text": "Active Abilities are abilities that need to be toggled, for example through the $(l:mechanics/abilities#ability_wheel)Ability Wheel$(). Active abilities generally need to be added to the wheel by the $(l:mechanics/abilities#ability_wheel_editor)Ability Wheel Editor$(). $(br2)The power cost of an ability is how much power is drained the moment it is activated, whilst power drain is how much an ability requires every tick it's active."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "ability_wheel",
+      "title": "Ability Wheel",
+      "text": "The Ability Wheel can be opened with $(k:keys.synthetics.ability_wheel). $(br2)You can have multiple wheels, and each wheel contains a number of slots, each of which can contain a number of abilities. You can cycle between abilities in a slot with scroll wheel, and cycle between wheels with $(k:keys.synthetics.wheel.right_wheel) and $(k:keys.synthetics.wheel.left_wheel)"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "ability_wheel_editor",
+      "title": "Ability Wheel Editor",
+      "text": "The Ability Wheel Editor can be opened with $(k:keys.synthetics.ability_wheel_editor). On the left, is a list of available active abilities. You can select one to drag it onto a slot on a wheel, or onto the hotkeys on the right. $(br2)To add a new wheel, press $(k:keys.synthetics.wheel.add_wheel), to add a new slot press $(k:keys.synthetics.wheel.add_slot). You can use right-click to remove items from slots."
+    }
+  ]
+}

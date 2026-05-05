@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.core.data.providers.recipes;
 
 import com.thedrofdoctoring.synthetics.Synthetics;
+import com.thedrofdoctoring.synthetics.compat.patchouli.PatchouliBook;
 import com.thedrofdoctoring.synthetics.core.SyntheticsBlocks;
 import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
@@ -22,7 +23,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.jetbrains.annotations.NotNull;
@@ -44,6 +47,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
     protected void buildRecipes(@NotNull RecipeOutput pRecipeOutput, HolderLookup.@NotNull Provider lookup) {
 
         createShapedRecipes(pRecipeOutput);
+        createShapelessRecipes(pRecipeOutput);
         createForgeRecipes(pRecipeOutput, lookup);
         createAugmentForgeRecipes(pRecipeOutput, lookup);
         createBodyPartForgeRecipes(pRecipeOutput, lookup);
@@ -115,7 +119,30 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
                 .save(output, Synthetics.rl("iron_gear")
                 );
-
+        SyntheticForgeRecipeBuilder.create(SyntheticsItems.ANCIENT_ALLOY.get(), 2)
+                .define('A', Tags.Items.INGOTS_IRON)
+                .define('B', Tags.Items.DUSTS_REDSTONE)
+                .define('C', SyntheticsItems.ANCIENT_SCRAP.get())
+                .pattern("ABC")
+                .pattern("C  ")
+                .pattern("   ")
+                .lavaCost(50)
+                .recipeTime(50)
+                .unlockedBy("has_ancient_scrap", has(SyntheticsItems.ANCIENT_SCRAP.get()))
+                .save(output, Synthetics.rl("ancient_alloy")
+                );
+        SyntheticForgeRecipeBuilder.create(SyntheticsItems.PURE_ANCIENT_ALLOY.get(), 1)
+                .define('A', Tags.Items.INGOTS_IRON)
+                .define('B', SyntheticsItems.FOSSILISED_SCRAP.get())
+                .define('C', SyntheticsItems.ANCIENT_SCRAP.get())
+                .pattern("ABC")
+                .pattern("CC ")
+                .pattern("   ")
+                .lavaCost(100)
+                .recipeTime(50)
+                .unlockedBy("has_ancient_scrap", has(SyntheticsItems.ANCIENT_SCRAP.get()))
+                .save(output, Synthetics.rl("pure_ancient_alloy")
+                );
     }
 
     private void createAugmentForgeRecipes(RecipeOutput output, HolderLookup.@NotNull Provider lookup) {
@@ -224,7 +251,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 );
         SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.MECHANICAL_INERTIAL_DAMPENERS), 1)
                 .define('A', Tags.Items.INGOTS_IRON)
-                .define('B', net.minecraft.tags.ItemTags.WOOL)
+                .define('B', ItemTags.WOOL)
                 .define('C', Items.REDSTONE)
                 .define('D', Items.PAPER)
                 .pattern(" C ")
@@ -238,7 +265,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 );
         SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.CYBERNETIC_INERTIAL_DAMPENERS), 1)
                 .define('A', SyntheticsItems.PURE_ANCIENT_ALLOY.get())
-                .define('B', net.minecraft.tags.ItemTags.WOOL)
+                .define('B', ItemTags.WOOL)
                 .define('C', Items.EMERALD)
                 .define('D', SyntheticsItems.BASIC_CIRCUIT.get())
                 .pattern(" C ")
@@ -252,7 +279,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 );
         SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.BASIC_INERTIAL_DAMPENERS), 1)
                 .define('A', SyntheticsItems.ANCIENT_ALLOY.get())
-                .define('B', net.minecraft.tags.ItemTags.WOOL)
+                .define('B', ItemTags.WOOL)
                 .define('C', Items.REDSTONE)
                 .define('D', SyntheticsItems.BASIC_CIRCUIT.get())
                 .pattern(" C ")
@@ -266,7 +293,7 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 );
         SyntheticForgeRecipeBuilder.create(createAugment(lookup, Augments.LAUNCH_BOOT), 1)
                 .define('A', Tags.Items.INGOTS_IRON)
-                .define('B', net.minecraft.tags.ItemTags.WOOL)
+                .define('B', ItemTags.WOOL)
                 .define('C', Items.DIAMOND)
                 .define('D', Items.PAPER)
                 .pattern(" C ")
@@ -1117,25 +1144,22 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 .save(output, Synthetics.rl("pair_swap/" + left.location().getPath()));
     }
 
-
-    private void createShapedRecipes(RecipeOutput output) {
-
+    private void createShapelessRecipes(RecipeOutput output) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SyntheticsItems.BLUEPRINT.get())
                 .requires(Items.PAPER)
                 .requires(Items.BLUE_DYE, 2)
                 .requires(Items.WHITE_DYE)
                 .unlockedBy("has_blue_dye", has(Items.BLUE_DYE)).save(output, Synthetics.rl("blueprint"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SyntheticsItems.ANCIENT_ALLOY.get())
-                .requires(Tags.Items.INGOTS_IRON)
-                .requires(Items.REDSTONE)
-                .requires(SyntheticsItems.ANCIENT_SCRAP.get(), 2)
-                .unlockedBy("has_iron", has(Items.IRON_INGOT)).save(output, Synthetics.rl("ancient_alloy"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SyntheticsItems.PURE_ANCIENT_ALLOY.get(), 2)
-                .requires(Tags.Items.INGOTS_IRON)
-                .requires(SyntheticsItems.FOSSILISED_SCRAP.get())
-                .requires(SyntheticsItems.ANCIENT_SCRAP.get(), 3)
-                .unlockedBy("has_iron", has(Items.IRON_INGOT)).save(output, Synthetics.rl("pure_ancient_alloy"));
+        if(ModList.get().isLoaded(Synthetics.PATCHOULI_MODID)) {
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, PatchouliBook.make())
+                    .requires(Items.BOOK)
+                    .requires(SyntheticsItems.BASIC_CIRCUIT.get())
+                    .unlockedBy("has_iron", has(Items.IRON_INGOT)).save(output.withConditions(new ModLoadedCondition(Synthetics.PATCHOULI_MODID)), Synthetics.rl("synthetics_guide"));
+        }
 
+    }
+
+    private void createShapedRecipes(RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SyntheticsBlocks.REDSTONE_LINKABLE_BLOCK.get())
                 .define('A', Tags.Items.INGOTS_IRON)
                 .define('B', Blocks.REDSTONE_BLOCK)
@@ -1170,10 +1194,10 @@ public class SyntheticsRecipeProvider extends RecipeProvider {
                 );
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SyntheticsBlocks.AUGMENTATION_CHAMBER.get())
                 .define('A', Items.IRON_BLOCK)
-                .define('B', Tags.Items.GLASS_BLOCKS)
+                .define('B', SyntheticsItems.BASIC_CIRCUIT.get())
                 .define('C', Items.POLISHED_DIORITE)
                 .define('D', Items.COPPER_BLOCK)
-                .define('E', Items.REDSTONE)
+                .define('E', Tags.Items.INGOTS_IRON)
                 .pattern(" C ")
                 .pattern("BDB")
                 .pattern("EAE")

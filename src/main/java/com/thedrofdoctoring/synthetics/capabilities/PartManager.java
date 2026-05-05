@@ -31,8 +31,9 @@ public class PartManager implements ISaveData, IPartManager {
     private final Object2ObjectMap<BodyPartType, BodyPart> installedParts;
     private final Object2ObjectMap<BodySegmentType, BodySegment> installedSegments;
     private final List<AppliedAugmentInstance> appliedAugments;
-
     private final SyntheticsPlayer player;
+
+    private List<IBodyInstallable<?>> allInstallables;
 
 
     public PartManager(SyntheticsPlayer player) {
@@ -55,6 +56,10 @@ public class PartManager implements ISaveData, IPartManager {
         return List.copyOf(appliedAugments);
     }
 
+    public Collection<IBodyInstallable<?>> installedAll() {
+        return this.allInstallables;
+    }
+
     public boolean isBodyPartInstalled(BodyPart part) {
         return installedParts.getOrDefault(part.type().value(), null).equals(part);
 
@@ -74,6 +79,14 @@ public class PartManager implements ISaveData, IPartManager {
         return augment.validParts()
                 .stream()
                 .anyMatch(p -> p.value().equals(part));
+    }
+
+    public void onUpdate() {
+        List<IBodyInstallable<?>> temporary = new ArrayList<>(installedParts.size() + appliedAugments.size() + installedSegments.size());
+        temporary.addAll(installedParts.values());
+        temporary.addAll(installedSegments.values());
+        temporary.addAll(appliedAugments);
+        this.allInstallables = Collections.unmodifiableList(temporary);
     }
 
     private void replaceAugmentInstance(AppliedAugmentInstance old, AppliedAugmentInstance newInstance) {

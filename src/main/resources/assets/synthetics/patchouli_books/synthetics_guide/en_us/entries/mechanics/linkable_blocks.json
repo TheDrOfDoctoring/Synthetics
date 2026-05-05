@@ -1,0 +1,52 @@
+{
+  "name": "Linkable Blocks",
+  "icon": "synthetics:redstone_linkable_block",
+  "category": "synthetics:mechanics",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Linkable Blocks are a specific group of blocks which have features limited to players with specific augments. For example, the Cybernetic Redstone Link, which lets linked players toggle a redstone on-off state."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Whilst linked blocks can be interacted with directly by touching them, interaction can also be done remotely. By installing Cybernetic Eyes, you can unlock the ability to highlight nearby linked blocks, whilst a Cybernetic Brain can allow you to interact with linked blocks from anywhere in the same dimension."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Linked Blocks can be renamed by putting them in an anvil, this name will be displayed in the Linked Blocks menu or when a Linked Block is highlighted."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "synthetics:redstone_linkable_block"
+      },
+      "link_recipe": "true",
+      "title": "Redstone Link",
+      "text": "The redstone linkable block can be interacted with to toggle it on or off. When toggeld on, it emits a redstone signal"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "synthetics:teleporter_linkable_block"
+      },
+      "link_recipe": "true",
+      "text": "The linked teleporter block can be interacted with to teleport on top of it. This is particularly useful with the cybernetic brain, since it can allow you to teleport from anywhere in the same dimension."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "synthetics:camera_linkable_block"
+      },
+      "link_recipe": "true",
+      "text": "The camera linkable block can be interacted with to view from the perspective of the camera."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "synthetics:permeable_linkable_block"
+      },
+      "link_recipe": "true",
+      "text": "The permeable linkable block only allows linked players to pass through. You can right-click with a held block to camouflage the permeable block as that block."
+    }
+  ]
+}

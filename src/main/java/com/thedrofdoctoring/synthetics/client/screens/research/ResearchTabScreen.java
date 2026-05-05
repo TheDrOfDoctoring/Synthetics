@@ -16,6 +16,9 @@ import java.util.Map;
 
 public class ResearchTabScreen {
 
+    public static final int SCREEN_WIDTH = ResearchScreen.SCREEN_WIDTH;
+    public static final int SCREEN_HEIGHT = ResearchScreen.SCREEN_HEIGHT;
+
     private final ResearchScreen mainScreen;
     private final List<ResearchNodeScreen> allNodes;
     private final AdvancementTabType position;
@@ -26,10 +29,8 @@ public class ResearchTabScreen {
     private int centerY;
     private float zoom = 0.5f;
 
-    public static final int SCREEN_WIDTH = ResearchScreen.SCREEN_WIDTH;
-    public static final int SCREEN_HEIGHT = ResearchScreen.SCREEN_HEIGHT;
-
     private float fade;
+    private ResearchNodeScreen recentlyHovered;
 
     public ResearchTabScreen(ResearchScreen mainScreen, ItemStack icon, int index, List<ResearchNode> nodes) {
         this.position = AdvancementTabType.LEFT;
@@ -94,21 +95,42 @@ public class ResearchTabScreen {
         pose.pushPose();
         pose.translate(mainScreen.guiLeft(), mainScreen.guiTop(), 0);
 
-        graphics.fill(8, 18, SCREEN_WIDTH - 8, SCREEN_HEIGHT + 18, Mth.floor(this.fade * 255.0F) << 24);
+        graphics.fill(8, 18, SCREEN_WIDTH - 8, SCREEN_HEIGHT - 28, Mth.floor(this.fade * 255.0F) << 24);
         boolean flag = false;
         if(mouseX >= 0 && mouseX < SCREEN_WIDTH && mouseY >= 0 && mouseY < SCREEN_HEIGHT) {
             double scaledMouseX = getScaledMouseX(mouseX);
             double scaledMouseY = getScaledMouseY(mouseY);
+            boolean foundHover = false;
+            ResearchNodeScreen lastFound = this.recentlyHovered;
             for (ResearchNodeScreen nodeScreen : this.allNodes) {
                 if (nodeScreen.isMouseOver(scaledMouseX, scaledMouseY, 0, 0)) {
                     flag = true;
-                    pose.pushPose();
-                    pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, 350);
-                    pose.scale(this.zoom, this.zoom, 1);
-                    nodeScreen.renderHover(graphics, scaledMouseX, scaledMouseY, this.fade, 0,0);
-                    pose.popPose();
+                    foundHover = true;
+                    this.recentlyHovered = nodeScreen;
                     break;
                 }
+            }
+            if(foundHover) {
+                if(lastFound != null
+                        && scaledMouseY < lastFound.adjustedY() + lastFound.requirementsY()
+                        && scaledMouseY > lastFound.adjustedY() && scaledMouseX > lastFound.adjustedX()
+                        && scaledMouseX < lastFound.adjustedX() + lastFound.requirementsWidth()
+                ) {
+                    renderHoveredNode(lastFound, pose, graphics, scaledMouseX, scaledMouseY);
+                    this.recentlyHovered = lastFound;
+                } else {
+                    renderHoveredNode(recentlyHovered, pose, graphics, scaledMouseX, scaledMouseY);
+                }
+            }
+            if(!foundHover && recentlyHovered != null) {
+                int bottomY = recentlyHovered.adjustedY() + recentlyHovered.requirementsY();
+                if(scaledMouseY > bottomY || scaledMouseX < recentlyHovered.adjustedX() || scaledMouseX > recentlyHovered.adjustedX() + recentlyHovered.requirementsWidth()) {
+                    recentlyHovered = null;
+                } else {
+                    renderHoveredNode(recentlyHovered, pose, graphics, scaledMouseX, scaledMouseY);
+                    flag = true;
+                }
+
             }
         }
 
@@ -120,6 +142,16 @@ public class ResearchTabScreen {
             this.fade = Mth.clamp(this.fade - 0.04F, 0.0F, 1.0F);
         }
     }
+
+    private void renderHoveredNode(ResearchNodeScreen nodeScreen, PoseStack pose, GuiGraphics graphics, double scaledMouseX, double scaledMouseY) {
+        pose.pushPose();
+        pose.translate(SCREEN_WIDTH/2d + centerX, 20 + centerY, 350);
+        pose.scale(this.zoom, this.zoom, 1);
+        nodeScreen.renderHover(graphics, scaledMouseX, scaledMouseY, this.fade, 0,0);
+        pose.popPose();
+
+    }
+
     private double getScaledMouseX(double mouseX) {
         return (mouseX -SCREEN_WIDTH/2d - centerX)/zoom;
     }

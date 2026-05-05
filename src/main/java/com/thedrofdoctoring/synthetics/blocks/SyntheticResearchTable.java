@@ -30,11 +30,11 @@ public class SyntheticResearchTable extends TableBlock {
     protected static final VoxelShape EAST_SHAPE;
 
     static {
-        BASE = Shapes.box(0, 0.75, 0, 1, 0.875, 1);
-        LEG_NORTH_WEST = Shapes.box(0, 0, 0.8125, 0.1875, 0.75, 1);
-        LEG_SOUTH_WEST = Shapes.box(0, 0, 0, 0.1875, 0.75, 0.1875);
-        LEG_NORTH_EAST = Shapes.box(0.8125, 0, 0.8125, 1, 0.75, 1);
-        LEG_SOUTH_EAST = Shapes.box(0.8125, 0, 0, 1, 0.75, 0.1875);
+        BASE = Shapes.box(0, 0.875, 0, 1, 1, 1);
+        LEG_NORTH_WEST = Shapes.box(0, 0, 0.8125, 0.1875, 0.875, 1);
+        LEG_SOUTH_WEST = Shapes.box(0, 0, 0, 0.1875, 0.875, 0.1875);
+        LEG_NORTH_EAST = Shapes.box(0.8125, 0, 0.8125, 1, 0.875, 1);
+        LEG_SOUTH_EAST = Shapes.box(0.8125, 0, 0, 1, 0.875, 0.1875);
 
         NORTH_SHAPE = Shapes.or(BASE, LEG_SOUTH_WEST, LEG_SOUTH_EAST);
         SOUTH_SHAPE = Shapes.or(BASE, LEG_NORTH_WEST, LEG_NORTH_EAST);

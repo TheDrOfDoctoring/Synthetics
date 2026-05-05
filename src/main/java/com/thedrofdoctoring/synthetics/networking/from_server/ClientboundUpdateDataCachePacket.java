@@ -3,10 +3,7 @@ package com.thedrofdoctoring.synthetics.networking.from_server;
 import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
-import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
-import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
-import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -38,10 +35,7 @@ public class ClientboundUpdateDataCachePacket implements CustomPacketPayload{
     public static void handle(ClientboundUpdateDataCachePacket __, final IPayloadContext context) {
         context.enqueueWork(() -> {
             SyntheticsClientManager manager = SyntheticsClient.getInstance().getManager();
-            HolderLookup.RegistryLookup<ResearchNode> nodes = context.player().level().registryAccess().lookupOrThrow(SyntheticsData.RESEARCH_NODES);
-            HolderLookup.RegistryLookup<BodyPartType> bodyParts = context.player().level().registryAccess().lookupOrThrow(SyntheticsData.BODY_PART_TYPES);
-            manager.updateResearch(nodes);
-            manager.updatePartTypes(bodyParts);
+            manager.onReload(Minecraft.getInstance().getResourceManager(), context.player().registryAccess());
         });
     }
 }

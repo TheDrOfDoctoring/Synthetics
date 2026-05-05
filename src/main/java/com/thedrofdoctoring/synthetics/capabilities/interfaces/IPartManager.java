@@ -13,6 +13,8 @@ public interface IPartManager {
     Collection<BodyPart> installedBodyParts();
     Collection<BodySegment> installedSegments();
     Collection<AppliedAugmentInstance> installedAugments();
+    Collection<IBodyInstallable<?>> installedAll();
+
 
     boolean isBodyPartInstalled(BodyPart part);
     boolean isSegmentInstalled(BodySegment segment);
@@ -26,6 +28,7 @@ public interface IPartManager {
 
     void removeAugment(AppliedAugmentInstance augment);
     void addAugment(AppliedAugmentInstance augment);
+
 
 
 }

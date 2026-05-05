@@ -6,7 +6,7 @@
       "item": "minecraft:iron_block"
     },
     "B": {
-      "tag": "c:glass_blocks"
+      "item": "synthetics:basic_circuit"
     },
     "C": {
       "item": "minecraft:polished_diorite"
@@ -15,7 +15,7 @@
       "item": "minecraft:copper_block"
     },
     "E": {
-      "item": "minecraft:redstone"
+      "tag": "c:ingots/iron"
     }
   },
   "pattern": [

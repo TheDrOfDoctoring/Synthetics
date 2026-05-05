@@ -40,7 +40,6 @@ public class SyntheticsEventHandler {
 
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
-
         ClientboundUpdateDataCachePacket packet = ClientboundUpdateDataCachePacket.getInstance();
         if (event.getPlayer() != null) {
             event.getPlayer().connection.send(packet);

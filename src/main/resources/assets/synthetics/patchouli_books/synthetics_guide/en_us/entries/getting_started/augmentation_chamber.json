@@ -1,0 +1,23 @@
+{
+  "name": "Augmentation Chamber",
+  "icon": "synthetics:augmentation_chamber",
+  "category": "synthetics:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The augmentation chamber is used to install $(l:mechanics/installables)parts. $() You can place installable parts in the top-left slot, and then use the install button to add them. $(br2)The slot to the right of the top-left slot shows the currently selected $(l:mechanics/installables#body_parts)Body Part$(), this may need to be first selected on the right to install certain augments. "
+    },
+    {
+      "type": "patchouli:text",
+      "text": "If you hover over something in the slot above the install button, it will provide information on the part, such as complexity. $(br2)If you right click whilst hovering over a part, it will swap to the ability display mode, listing the abilities of the part. You can use scroll-wheel to cycle between abilities. $(br2)When installing augments, be mindful of $(l:mechanics/complexity)complexity$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "On the right of the augmentation chamber screen is the body part display, where you can swap between display tabs on the right. $(br2)You can hover over a Body Part to see the installed Augments, and you can use scroll wheel to cycle between Augments, then hold right-click to remove an Augment."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Body Parts and Segments, unlike Augments, will always replace something when installed. For example, if you try to install a Cybernetic Brain, it will try to replace whatever part you have of the Brain type."
+    }
+  ]
+}

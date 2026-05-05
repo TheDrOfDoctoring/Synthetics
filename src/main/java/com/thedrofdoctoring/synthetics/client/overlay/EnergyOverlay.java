@@ -6,6 +6,7 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.SyntheticsClient;
 import com.thedrofdoctoring.synthetics.capabilities.PowerManager;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.client.config.ClientData;
 import com.thedrofdoctoring.synthetics.config.ClientConfig;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -23,7 +24,8 @@ public class EnergyOverlay implements LayeredDraw.Layer {
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
         if (this.mc.player != null && this.mc.gameMode != null && this.mc.gameMode.getPlayerMode() != GameType.SPECTATOR && this.mc.player.isAlive() && !this.mc.options.hideGui) {
-            if(!SyntheticsClient.getInstance().getManager().displayEnergy) {
+            ClientData data = SyntheticsClient.getInstance().getAdvancedClientConfig().otherClientData();
+            if(data != null && !data.shouldShowEnergyOverlay()) {
                 return;
             }
             PowerManager manager = SyntheticsPlayer.get(mc.player).getPowerManager();

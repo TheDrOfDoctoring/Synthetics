@@ -1,0 +1,18 @@
+{
+  "name": "item.synthetics.synthetics_guide",
+  "landing_text": "synthetics.landing",
+  "book_texture": "patchouli:textures/gui/book_blue.png",
+  "model": "synthetics:synthetics_guide",
+  "open_sound": "patchouli:book_open",
+  "flip_sound": "patchouli:book_open",
+  "creative_tab": "synthetics",
+  "advancements_tab": "synthetics:main/root",
+  "use_resource_pack": true,
+  "subtitle": "A Cybernetic Age",
+  "i18n": true,
+  "text_overflow_mode": "truncate",
+  "macros": {
+    "$(item)": "$(1)",
+    "$(thing)": "$(4)"
+  }
+}

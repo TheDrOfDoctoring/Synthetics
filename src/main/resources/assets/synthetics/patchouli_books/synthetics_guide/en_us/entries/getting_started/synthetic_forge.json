@@ -1,0 +1,19 @@
+{
+  "name": "Synthetic Forge",
+  "icon": "synthetics:synthetic_forge",
+  "category": "synthetics:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The synthetic forge is the typical crafting block for creating new body parts or augments. It needs to be filled with lava, which can be done with a bucket or other methods. Any ingredients for a recipe can then be placed in the grid. Without a blueprint, a player with the required research must be present for the recipe to begin crafting."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "synthetics:blueprint"
+      },
+      "link_recipe": "true",
+      "text": "The blueprint is a way to automate the Synthetic Forge. You can place a blueprint in the top right slot, if that blueprint is empty and a recipe is completed, the required research for that recipe will be saved onto the blueprint, and it can be used instead of a player's presence to start that recipe."
+    }
+  ]
+}

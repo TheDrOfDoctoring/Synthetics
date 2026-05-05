@@ -1,0 +1,15 @@
+{
+  "name": "Complexity",
+  "icon": "synthetics:iron_gear",
+  "category": "synthetics:mechanics",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Complexity is what dictates how many augments you can install. Each $(l:mechanics/installables#body_parts)Body Part$() and $(l:mechanics/installables#body_segment)Body Segment$() has a maximum complexity it can support. $(br2)Typically, you can increase max complexity by installing higher quality pars, such as replacing Organic Parts with Cybernetic Parts."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The $(l:getting_starterd/augmentation_chamber)Augmentation Chamber$() is the best way to see complexity. You can hover over an augment or part in the 'Installation' slot to see how much complexity it supports, or how much it would add to the part. $(br2)Additionally, you can select a Body Part on the right, which will display a gear near the 'Install' button showing how much complexity that part can support."
+    }
+  ]
+}
