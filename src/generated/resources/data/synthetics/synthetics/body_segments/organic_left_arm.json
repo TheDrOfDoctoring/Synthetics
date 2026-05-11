@@ -1,0 +1,5 @@
+{
+  "type": "synthetics:arms",
+  "id": "synthetics:organic_left_arm",
+  "max_complexity": 500
+}

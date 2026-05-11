@@ -1,0 +1,5 @@
+{
+  "type": "synthetics:right_leg",
+  "id": "synthetics:organic_right_leg",
+  "max_complexity": 500
+}

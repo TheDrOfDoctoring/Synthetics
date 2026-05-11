@@ -2,5 +2,5 @@
   "type": "synthetics:tibia",
   "id": "synthetics:organic_tibia",
   "max_complexity": 30,
-  "valid_body_segments": "#synthetics:lower_body"
+  "valid_body_segments": "#synthetics:left_leg"
 }

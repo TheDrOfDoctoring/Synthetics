@@ -1,0 +1,8 @@
+{
+  "default_part": "synthetics:organic_right_arm_muscle",
+  "id": "synthetics:right_arm_muscle",
+  "layer": "exterior",
+  "position": "right_arm",
+  "x": -46,
+  "y": 70
+}

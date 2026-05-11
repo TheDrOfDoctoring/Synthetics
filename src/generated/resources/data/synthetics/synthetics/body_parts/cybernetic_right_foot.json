@@ -2,5 +2,5 @@
   "type": "synthetics:right_foot",
   "id": "synthetics:cybernetic_right_foot",
   "max_complexity": 80,
-  "valid_body_segments": "#synthetics:lower_body"
+  "valid_body_segments": "#synthetics:right_leg"
 }

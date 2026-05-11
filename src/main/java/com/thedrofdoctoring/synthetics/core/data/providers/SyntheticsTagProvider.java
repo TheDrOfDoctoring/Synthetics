@@ -110,7 +110,7 @@ public class SyntheticsTagProvider {
             tag(BodyParts.SKULL_MAIN).add(BodyParts.ORGANIC_SKULL);
             tag(BodyParts.RIBCAGE_MAIN).add(BodyParts.ORGANIC_RIBCAGE, BodyParts.ARMOURED_RIBCAGE, BodyParts.SYNTHETIC_RIBCAGE);
             tag(BodyParts.BRAINS_MAIN).add(BodyParts.ORGANIC_BRAIN, BodyParts.CYBERNETIC_BRAIN);
-            tag(BodyParts.ARM_MUSCLE_MAIN).add(BodyParts.ORGANIC_ARM_MUSCLE);
+            tag(BodyParts.ARM_MUSCLE_MAIN).add(BodyParts.ORGANIC_LEFT_ARM_MUSCLE, BodyParts.ORGANIC_RIGHT_ARM_MUSCLE);
             tag(BodyParts.STOMACH_MAIN).add(BodyParts.ORGANIC_STOMACH);
 
 
@@ -128,8 +128,10 @@ public class SyntheticsTagProvider {
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(BodySegments.TORSO_MAIN).add(BodySegments.ORGANIC_TORSO);
-            tag(BodySegments.ARMS_MAIN).add(BodySegments.ORGANIC_ARMS);
-            tag(BodySegments.LOWER_BODY_MAIN).add(BodySegments.ORGANIC_LOWER_BODY);
+            tag(BodySegments.LEFT_ARM_MAIN).add(BodySegments.ORGANIC_LEFT_ARM);
+            tag(BodySegments.RIGHT_ARM_MAIN).add(BodySegments.ORGANIC_RIGHT_ARM);
+            tag(BodySegments.LEFT_LEG_MAIN).add(BodySegments.ORGANIC_LEFT_LEG);
+            tag(BodySegments.RIGHT_LEG_MAIN).add(BodySegments.ORGANIC_RIGHT_LEG);
             tag(BodySegments.HEAD_MAIN).add(BodySegments.ORGANIC_HEAD);
 
         }

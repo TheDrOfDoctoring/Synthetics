@@ -1,5 +1,6 @@
 {
   "values": [
-    "synthetics:organic_arm_muscle"
+    "synthetics:organic_left_arm_muscle",
+    "synthetics:organic_right_arm_muscle"
   ]
 }

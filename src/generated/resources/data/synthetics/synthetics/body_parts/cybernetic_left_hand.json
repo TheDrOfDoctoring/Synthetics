@@ -3,5 +3,5 @@
   "abilities": "synthetics:cybernetic_hand_damage",
   "id": "synthetics:cybernetic_left_hand",
   "max_complexity": 90,
-  "valid_body_segments": "#synthetics:arms"
+  "valid_body_segments": "#synthetics:left_arm"
 }

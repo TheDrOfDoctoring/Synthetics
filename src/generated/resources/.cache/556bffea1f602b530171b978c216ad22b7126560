@@ -1,5 +1,7 @@
-// 1.21.1	2025-09-28T16:48:43.7052456	Tags for synthetics:body_segments mod id synthetics
-7ab0d3a8068f7dd67947f17fce0037df1642ec12 data/synthetics/tags/synthetics/body_segments/arms.json
+// 1.21.1	2026-05-11T11:59:27.4160329	Tags for synthetics:body_segments mod id synthetics
 bcf067b62531994dcac46ee300bfa40044f1f8aa data/synthetics/tags/synthetics/body_segments/head.json
-f528dc1ccb8b97da71d5ee694784b027aae601fc data/synthetics/tags/synthetics/body_segments/lower_body.json
+dadcd67c66cab48147aafef45dd625f69e2f0547 data/synthetics/tags/synthetics/body_segments/left_arm.json
+7688cf0c616a469486c553557255b7f71453ac84 data/synthetics/tags/synthetics/body_segments/left_leg.json
+9bd7b8d0d5fd0a706b2024b1e220e2bdd47e8b63 data/synthetics/tags/synthetics/body_segments/right_arm.json
+a7509193759a39429fcf8131b1d468f3cc2a70d2 data/synthetics/tags/synthetics/body_segments/right_leg.json
 94fa00084855790970b8a2134a9a89b756f8183a data/synthetics/tags/synthetics/body_segments/torso.json

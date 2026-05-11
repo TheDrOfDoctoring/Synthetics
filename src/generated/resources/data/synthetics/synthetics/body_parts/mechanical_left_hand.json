@@ -3,5 +3,5 @@
   "abilities": "synthetics:mechanical_hand_attack_speed",
   "id": "synthetics:mechanical_left_hand",
   "max_complexity": 70,
-  "valid_body_segments": "#synthetics:arms"
+  "valid_body_segments": "#synthetics:left_arm"
 }

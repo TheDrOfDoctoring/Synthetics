@@ -1,5 +1,5 @@
 {
-  "default_segment": "synthetics:organic_arms",
+  "default_segment": "synthetics:organic_left_arm",
   "id": "synthetics:arms",
-  "position": "body"
+  "position": "left_arm"
 }

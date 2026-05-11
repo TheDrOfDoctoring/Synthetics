@@ -1,0 +1,5 @@
+{
+  "default_segment": "synthetics:organic_left_leg",
+  "id": "synthetics:left_leg",
+  "position": "left_leg"
+}

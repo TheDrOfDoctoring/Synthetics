@@ -15,7 +15,8 @@ public class BodyPartTypes {
     public static final ResourceKey<BodyPartType> RIBCAGE =  createType("ribcage");
     public static final ResourceKey<BodyPartType> SKULL =  createType("skull");
     public static final ResourceKey<BodyPartType> TIBIA =  createType("tibia");
-    public static final ResourceKey<BodyPartType> ARM_MUSCLE =  createType("arm_muscle");
+    public static final ResourceKey<BodyPartType> RIGHT_ARM_MUSCLE =  createType("right_arm_muscle");
+    public static final ResourceKey<BodyPartType> LEFT_ARM_MUSCLE =  createType("left_arm_muscle");
     public static final ResourceKey<BodyPartType> LEFT_HAND = createType("left_hand");
     public static final ResourceKey<BodyPartType> RIGHT_HAND = createType("right_hand");
     public static final ResourceKey<BodyPartType> LEFT_EYE = createType("left_eye");

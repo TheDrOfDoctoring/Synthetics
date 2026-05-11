@@ -2,5 +2,5 @@
   "type": "synthetics:right_foot",
   "id": "synthetics:organic_right_foot",
   "max_complexity": 40,
-  "valid_body_segments": "#synthetics:lower_body"
+  "valid_body_segments": "#synthetics:right_leg"
 }

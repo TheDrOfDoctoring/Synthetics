@@ -33,19 +33,35 @@ public class SyntheticsBodySegmentsProvider {
                 )
         );
         context.register(
-                BodySegments.ORGANIC_ARMS,
+                BodySegments.ORGANIC_LEFT_ARM,
                 new BodySegment(
-                        1000,
-                        getSegmentType(types, BodySegments.ARMS),
-                        BodySegments.ORGANIC_ARMS.location()
+                        500,
+                        getSegmentType(types, BodySegments.LEFT_ARM),
+                        BodySegments.ORGANIC_LEFT_ARM.location()
                 )
         );
         context.register(
-                BodySegments.ORGANIC_LOWER_BODY,
+                BodySegments.ORGANIC_RIGHT_ARM,
                 new BodySegment(
-                        1000,
-                        getSegmentType(types, BodySegments.LOWER_BODY),
-                        BodySegments.ORGANIC_LOWER_BODY.location()
+                        500,
+                        getSegmentType(types, BodySegments.RIGHT_ARM),
+                        BodySegments.ORGANIC_RIGHT_ARM.location()
+                )
+        );
+        context.register(
+                BodySegments.ORGANIC_LEFT_LEG,
+                new BodySegment(
+                        500,
+                        getSegmentType(types, BodySegments.LEFT_LEG),
+                        BodySegments.ORGANIC_LEFT_LEG.location()
+                )
+        );
+        context.register(
+                BodySegments.ORGANIC_RIGHT_LEG,
+                new BodySegment(
+                        500,
+                        getSegmentType(types, BodySegments.RIGHT_LEG),
+                        BodySegments.ORGANIC_RIGHT_LEG.location()
                 )
         );
     }
@@ -67,19 +83,35 @@ public class SyntheticsBodySegmentsProvider {
                 )
         );
         context.register(
-                BodySegments.ARMS,
+                BodySegments.LEFT_ARM,
                 new BodySegmentType(
-                        getSegment(context, BodySegments.ORGANIC_ARMS),
-                        BodySegments.ARMS.location(),
-                        BodyPosition.BODY
+                        getSegment(context, BodySegments.ORGANIC_LEFT_ARM),
+                        BodySegments.LEFT_ARM.location(),
+                        BodyPosition.LEFT_ARM
                 )
         );
         context.register(
-                BodySegments.LOWER_BODY,
+                BodySegments.RIGHT_ARM,
                 new BodySegmentType(
-                        getSegment(context, BodySegments.ORGANIC_LOWER_BODY),
-                        BodySegments.LOWER_BODY.location(),
-                        BodyPosition.BODY
+                        getSegment(context, BodySegments.ORGANIC_RIGHT_ARM),
+                        BodySegments.RIGHT_ARM.location(),
+                        BodyPosition.RIGHT_ARM
+                )
+        );
+        context.register(
+                BodySegments.LEFT_LEG,
+                new BodySegmentType(
+                        getSegment(context, BodySegments.ORGANIC_LEFT_LEG),
+                        BodySegments.LEFT_LEG.location(),
+                        BodyPosition.LEFT_LEG
+                )
+        );
+        context.register(
+                BodySegments.RIGHT_LEG,
+                new BodySegmentType(
+                        getSegment(context, BodySegments.ORGANIC_RIGHT_LEG),
+                        BodySegments.RIGHT_LEG.location(),
+                        BodyPosition.RIGHT_LEG
                 )
         );
 

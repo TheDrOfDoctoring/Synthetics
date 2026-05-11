@@ -222,7 +222,8 @@
   "installables.synthetics.body_parts.arm_muscle": "Upper Arm Muscle",
   "research.synthetics.organic_bones": "Organic Bones",
   "research.synthetics.organic_bones.desc": "Learn how to replicate various organic bones",
-  "installables.synthetics.body_parts.organic_arm_muscle": "Arm Muscle",
+  "installables.synthetics.body_parts.organic_left__arm_muscle": "Left Arm Muscle",
+  "installables.synthetics.body_parts.organic_right_arm_muscle": "Right Arm Muscle",
   "installables.synthetics.augments.motion_autopilot": "Motion Autopilot",
   "research.synthetics.motion_autopilot": "Motion Autopilot",
   "research.synthetics.motion_autopilot.desc": "Learn how to create a brain augment to automatically step up single blocks",
@@ -475,6 +476,8 @@
   "abilities.synthetics.fat_conversion": "Fat Conversion",
   "installables.synthetics.augments.fat_converter": "Fat Converter",
   "research.synthetics.fat_converter": "Fat Converter",
-  "research.synthetics.fat_converter.desc": "Learn how to install a fat conversion module, which automatically turns stored fat in the form of food and saturation into energy when needed."
+  "research.synthetics.fat_converter.desc": "Learn how to install a fat conversion module, which automatically turns stored fat in the form of food and saturation into energy when needed.",
+  "abilities.synthetics.description.damage_type_resistance.fire_resistant_tissue": "Fire",
+  "abilities.synthetics.description.damage_type_resistance": "Damage Type: %s"
 }
 

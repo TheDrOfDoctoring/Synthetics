@@ -29,13 +29,7 @@ public class DamageResistanceAbilityType extends PassiveAbilityType<DamageResist
     @Override
     public void addDescriptionInfo(Ability ability, List<Component> description) {
         super.addDescriptionInfo(ability, description);
-        if (ability.abilityData() instanceof DamageResistanceAbilityInstance.Data data) {
-            data.damageTypes().stream().forEach(
-                    type -> {
-                        if(type.getKey() != null) description.add(Component.translatable("abilities.synthetics.description.damage_type"
-                                , type.getKey().location().toString()).withStyle(ability.abilityNature().defaultColour()));
-                    });
-        }
+        description.add(Component.translatable("abilities.synthetics.description.damage_type_resistance",Component.translatable("abilities.synthetics.description.damage_type_resistance." + ability.id().getPath())).withStyle(ability.abilityNature().defaultColour()));
     }
 
     // maybe cache this like effects are cached

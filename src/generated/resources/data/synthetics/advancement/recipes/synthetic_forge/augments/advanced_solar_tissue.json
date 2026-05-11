@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "synthetics:advanced_solar_tissue"
+        "recipe": "synthetics:augments/advanced_solar_tissue"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "synthetics:advanced_solar_tissue"
+      "synthetics:augments/advanced_solar_tissue"
     ]
   }
 }

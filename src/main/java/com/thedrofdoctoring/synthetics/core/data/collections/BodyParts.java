@@ -30,7 +30,9 @@ public class BodyParts {
     public static final ResourceKey<BodyPart> ORGANIC_RIBCAGE = create("organic_ribcage");
     public static final ResourceKey<BodyPart> ORGANIC_SKULL = create("organic_skull");
     public static final ResourceKey<BodyPart> ORGANIC_TIBIA = create("organic_tibia");
-    public static final ResourceKey<BodyPart> ORGANIC_ARM_MUSCLE = create("organic_arm_muscle");
+    public static final ResourceKey<BodyPart> ORGANIC_RIGHT_ARM_MUSCLE = create("organic_right_arm_muscle");
+    public static final ResourceKey<BodyPart> ORGANIC_LEFT_ARM_MUSCLE = create("organic_left_arm_muscle");
+
     public static final ResourceKey<BodyPart> CYBERNETIC_LEFT_EYE = create("cybernetic_left_eye");
     public static final ResourceKey<BodyPart> CYBERNETIC_RIGHT_EYE = create("cybernetic_right_eye");
     public static final ResourceKey<BodyPart> CYBERNETIC_BRAIN = create("cybernetic_brain");
