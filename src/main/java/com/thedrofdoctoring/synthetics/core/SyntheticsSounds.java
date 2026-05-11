@@ -16,6 +16,8 @@ public class SyntheticsSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> DRONE_BUZZ = create("entity.drone_buzz");
     public static final DeferredHolder<SoundEvent, SoundEvent> SQUELCH = create("entity.player_squelch");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_FLIGHT = create("entity.rocket_flight");
+    public static final DeferredHolder<SoundEvent, SoundEvent> BLASTING = create("entity.blasting");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHOCK_HIT = create("entity.shock_hit");
 
 
     public static void register(IEventBus bus) {

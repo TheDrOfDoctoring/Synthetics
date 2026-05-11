@@ -43,7 +43,7 @@ public class ResearchNodeScreen {
     private static final int WIDTH = 26;
     private static final int HEIGHT = 26;
     private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
-    private static final int CYCLE_TIME = 200;
+    private static final int CYCLE_TIME = 150;
 
     public static final int SIZE = 28;
 
@@ -327,6 +327,7 @@ public class ResearchNodeScreen {
     @SuppressWarnings("DataFlowIssue")
     private int drawResearchRequirements(GuiGraphics graphics, double mouseX, double mouseY, int scrollX, int scrollY) {
         int size = SIZE;
+        RenderSystem.disableBlend();
         PoseStack pose = graphics.pose();
         if(experienceCost != null) {
             graphics.drawString(this.minecraft.font, experienceCost, scrollX + x + 15, scrollY + y + 30, 0x90EE90, true);
@@ -369,6 +370,7 @@ public class ResearchNodeScreen {
         }
         requirementsY = 30 + (k + 1) * 18;
         graphics.blitSprite(RESEARCH_DESCRIPTION_SPRITE, scrollX + x - 5, scrollY + y + 3, size, 30 + (k + 1) * 18);
+        RenderSystem.disableBlend();
         return size;
     }
 

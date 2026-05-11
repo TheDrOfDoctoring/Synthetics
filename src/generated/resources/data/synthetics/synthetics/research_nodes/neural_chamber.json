@@ -8,7 +8,7 @@
       {
         "amount": 4,
         "item": {
-          "item": "minecraft:ender_eye"
+          "item": "minecraft:echo_shard"
         }
       },
       {
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:neural_chamber"
   },
-  "x": 150,
+  "x": 340,
   "y": -30
 }

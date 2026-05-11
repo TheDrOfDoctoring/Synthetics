@@ -9,13 +9,16 @@
     },
     "C": {
       "item": "minecraft:chorus_fruit"
+    },
+    "D": {
+      "item": "synthetics:ancient_alloy_ingot"
     }
   },
   "lava_cost": 300,
   "pattern": [
     " B ",
     "ACA",
-    " B "
+    " D "
   ],
   "recipe_time": 200,
   "required_research": "synthetics:shrinkifier",

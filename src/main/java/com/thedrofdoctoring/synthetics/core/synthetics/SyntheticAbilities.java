@@ -8,6 +8,7 @@ import com.thedrofdoctoring.synthetics.abilities.active.instances.*;
 import com.thedrofdoctoring.synthetics.abilities.active.types.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.instances.*;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.*;
+import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.FatConverterAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.FoodGeneratorAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.ShockAbsorberAbility;
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.SolarGeneratorAbility;
@@ -110,6 +111,14 @@ public class SyntheticAbilities {
                 () -> EntityHighlightAbilityInstance.Data.CODEC,
                 () -> EntityHighlightAbilityInstance.Data.STREAM_CODEC
         );
+        registerType("blasting_ability",
+                () -> BlastingAbilityInstance.Data.CODEC,
+                () -> BlastingAbilityInstance.Data.STREAM_CODEC
+        );
+        registerType("shock_ability",
+                () -> ShockAbilityInstance.Data.CODEC,
+                () -> ShockAbilityInstance.Data.STREAM_CODEC
+        );
 
     }
 
@@ -126,6 +135,7 @@ public class SyntheticAbilities {
     public static final DeferredHolder<AbilityType, ShockAbsorberAbility> SHOCK_ABSORBER = ABILITIES.register("shock_absorber", ShockAbsorberAbility::new);
     public static final DeferredHolder<AbilityType, PassiveInvisibilityType> PASSIVE_INVISIBILITY = ABILITIES.register("passive_invisibility", PassiveInvisibilityType::new);
     public static final DeferredHolder<AbilityType, StandardPassiveAbility> FLIGHT_COUNT = ABILITIES.register("flight_count", StandardPassiveAbility::new);
+    public static final DeferredHolder<AbilityType, FatConverterAbility> FAT_CONVERSION = ABILITIES.register("fat_conversion", FatConverterAbility::new);
 
 
     public static final DeferredHolder<AbilityType, LeapAbility> LEAP = ABILITIES.register("leap", LeapAbility::new);
@@ -151,6 +161,8 @@ public class SyntheticAbilities {
     public static final DeferredHolder<AbilityType, BrushAbility> BRUSH_ABILITY = ABILITIES.register("brush", BrushAbility::new);
     public static final DeferredHolder<AbilityType, WaterwalkingAbility> WATER_WALKING = ABILITIES.register("water_walking", WaterwalkingAbility::new);
     public static final DeferredHolder<AbilityType, ItemMagnetAbility> ITEM_MAGNET = ABILITIES.register("item_magnet", ItemMagnetAbility::new);
+    public static final DeferredHolder<AbilityType, BlastingAbility> BLASTING = ABILITIES.register("blasting", BlastingAbility::new);
+    public static final DeferredHolder<AbilityType, ShockAbility> SHOCKING = ABILITIES.register("shocking", ShockAbility::new);
 
 
 

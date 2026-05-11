@@ -61,5 +61,22 @@
       }
     ],
     "subtitle": "subtitles.synthetics.entity.rocket_flight"
+  },
+  "entity.blasting": {
+    "sounds": [
+      "minecraft:random/explode1",
+      "minecraft:random/explode2",
+      "minecraft:random/explode3",
+      "minecraft:random/explode4"
+    ],
+    "subtitle": "subtitles.synthetics.entity.blasting"
+  },
+  "entity.shock_hit": {
+    "sounds": [
+      "minecraft:mob/breeze/deflect1",
+      "minecraft:mob/breeze/deflect2",
+      "minecraft:mob/breeze/deflect3"
+    ],
+    "subtitle": "subtitles.synthetics.entity.shock_hit"
   }
 }

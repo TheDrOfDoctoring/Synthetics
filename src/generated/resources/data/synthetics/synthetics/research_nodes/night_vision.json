@@ -1,9 +1,9 @@
 {
-  "parent": "synthetics:internal_camera_link",
+  "parent": "synthetics:extended_grip",
   "hidden": false,
   "id": "synthetics:night_vision",
   "requirements": {
-    "experience_cost": 150,
+    "experience_cost": 75,
     "required_items": [
       {
         "amount": 12,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:night_vision"
   },
-  "x": -60,
+  "x": 370,
   "y": -60
 }

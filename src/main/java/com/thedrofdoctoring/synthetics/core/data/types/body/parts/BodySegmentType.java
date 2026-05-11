@@ -8,26 +8,25 @@ import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFileCodec;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 
-//TODO: Default should be a holder instead of a resource key
-public record BodySegmentType(ResourceKey<BodySegment> defaultSegment, ResourceLocation id, BodyPosition bodyPosition) implements IInstallableModelSupplier, IInstallableModelPositioner {
+public record BodySegmentType(Holder<BodySegment> defaultSegment, ResourceLocation id, BodyPosition bodyPosition) implements IInstallableModelSupplier, IInstallableModelPositioner {
 
-    public static final MapCodec<BodySegmentType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ResourceKey.codec(SyntheticsData.BODY_SEGMENTS).fieldOf("default_segment").forGetter(BodySegmentType::defaultSegment),
+    public static final MapCodec<BodySegmentType> CODEC = MapCodec.recursive("Body Segment Type", (a) -> RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BodySegment.HOLDER_CODEC.fieldOf("default_segment").forGetter(BodySegmentType::defaultSegment),
             ResourceLocation.CODEC.fieldOf("id").forGetter(BodySegmentType::id),
             BodyPosition.CODEC.fieldOf("position").forGetter(BodySegmentType::bodyPosition)
-    ).apply(instance, BodySegmentType::new));
+    ).apply(instance, BodySegmentType::new)));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodySegmentType> STREAM_CODEC = StreamCodec.composite(
-            ResourceKey.streamCodec(SyntheticsData.BODY_SEGMENTS), BodySegmentType::defaultSegment,
+            ByteBufCodecs.holder(SyntheticsData.BODY_SEGMENTS, BodySegment.STREAM_CODEC), BodySegmentType::defaultSegment,
             ResourceLocation.STREAM_CODEC, BodySegmentType::id,
             BodyPosition.STREAM_CODEC, BodySegmentType::bodyPosition,
             BodySegmentType::new);

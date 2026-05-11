@@ -3,6 +3,7 @@ package com.thedrofdoctoring.synthetics.abilities.active.types;
 import com.thedrofdoctoring.synthetics.abilities.active.StandardLastingAbility;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
+import com.thedrofdoctoring.synthetics.util.Helper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -11,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -35,25 +35,23 @@ public class BrushAbility extends StandardLastingAbility {
         if (syntheticsPlayer.getEntity().tickCount % factor == 0) {
             Player player = syntheticsPlayer.getEntity();
             Level level = player.level();
-            HitResult hitResult = calculateHitResult(player);
+            HitResult hitResult = Helper.calculateHitResult(player);
             if (hitResult instanceof BlockHitResult blockhitresult && hitResult.getType() == HitResult.Type.BLOCK) {
-                if (hitResult.getType() == HitResult.Type.BLOCK) {
-                    BlockPos blockpos = blockhitresult.getBlockPos();
-                    BlockState blockstate = level.getBlockState(blockpos);
-                    Block block = blockstate.getBlock();
-                    if(!(block instanceof BrushableBlock brushableBlock)) return false;
-                    if (blockstate.shouldSpawnTerrainParticles() && blockstate.getRenderShape() != RenderShape.INVISIBLE) {
-                        this.spawnDustParticles(level, blockhitresult, blockstate, player.getViewVector(0.0F));
-                    }
-                    SoundEvent soundevent = brushableBlock.getBrushSound();
+                BlockPos blockpos = blockhitresult.getBlockPos();
+                BlockState blockstate = level.getBlockState(blockpos);
+                Block block = blockstate.getBlock();
+                if(!(block instanceof BrushableBlock brushableBlock)) return false;
+                if (blockstate.shouldSpawnTerrainParticles() && blockstate.getRenderShape() != RenderShape.INVISIBLE) {
+                    this.spawnDustParticles(level, blockhitresult, blockstate, player.getViewVector(0.0F));
+                }
+                SoundEvent soundevent = brushableBlock.getBrushSound();
 
-                    level.playSound(player, blockpos, soundevent, SoundSource.BLOCKS);
-                    if (!level.isClientSide()) {
-                        BlockEntity be = level.getBlockEntity(blockpos);
-                        if (be instanceof BrushableBlockEntity brushableblockentity) {
-                            brushableblockentity.brushCount++;
-                            brushableblockentity.brush(level.getGameTime(), player, blockhitresult.getDirection());
-                        }
+                level.playSound(player, blockpos, soundevent, SoundSource.BLOCKS);
+                if (!level.isClientSide()) {
+                    BlockEntity be = level.getBlockEntity(blockpos);
+                    if (be instanceof BrushableBlockEntity brushableblockentity) {
+                        brushableblockentity.brushCount++;
+                        brushableblockentity.brush(level.getGameTime(), player, blockhitresult.getDirection());
                     }
                 }
             }
@@ -86,9 +84,6 @@ public class BrushAbility extends StandardLastingAbility {
         return true;
     }
 
-    private HitResult calculateHitResult(Player player) {
-        return ProjectileUtil.getHitResultOnViewVector(player, (entity) -> !entity.isSpectator() && entity.isPickable(), player.blockInteractionRange());
-    }
 
     private void spawnDustParticles(Level level, BlockHitResult hitResult, BlockState state, Vec3 pos) {
         int i = 1;

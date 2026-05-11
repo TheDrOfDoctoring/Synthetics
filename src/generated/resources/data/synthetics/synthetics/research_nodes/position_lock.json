@@ -3,7 +3,7 @@
   "hidden": false,
   "id": "synthetics:position_lock",
   "requirements": {
-    "experience_cost": 275,
+    "experience_cost": 50,
     "required_items": [
       {
         "amount": 8,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:position_lock"
   },
-  "x": -125,
-  "y": -110
+  "x": -430,
+  "y": -90
 }

@@ -2,7 +2,7 @@
   "hidden": false,
   "id": "synthetics:mechanical_dampeners",
   "requirements": {
-    "experience_cost": 35,
+    "experience_cost": 50,
     "required_items": [
       {
         "amount": 15,
@@ -22,6 +22,6 @@
   "unlocked": {
     "augments": "synthetics:mechanical_inertial_dampeners"
   },
-  "x": 0,
-  "y": 0
+  "x": -200,
+  "y": -150
 }

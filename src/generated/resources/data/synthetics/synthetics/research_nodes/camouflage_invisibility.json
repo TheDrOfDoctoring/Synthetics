@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:camouflage_invisibility"
   },
-  "x": -150,
-  "y": -60
+  "x": 90,
+  "y": -30
 }

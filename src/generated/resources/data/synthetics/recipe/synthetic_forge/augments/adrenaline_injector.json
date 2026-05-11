@@ -8,7 +8,7 @@
       "tag": "c:ingots/iron"
     },
     "C": {
-      "item": "synthetics:ancient_alloy_ingot"
+      "item": "minecraft:blaze_powder"
     }
   },
   "lava_cost": 250,

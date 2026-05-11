@@ -24,12 +24,11 @@ import java.util.Optional;
 
 public record BodySegment(int maxComplexity, Holder<BodySegmentType> type, ResourceLocation id) implements IBodyInstallable<BodySegment>, IInstallableModelSupplier, IInstallableModelPositioner {
 
-    public static final MapCodec<BodySegment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    public static final MapCodec<BodySegment> CODEC = MapCodec.recursive("Body Segment", (a) -> RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodySegment::maxComplexity),
             BodySegmentType.HOLDER_CODEC.fieldOf("type").forGetter(BodySegment::type),
             ResourceLocation.CODEC.fieldOf("id").forGetter(BodySegment::id)
-
-    ).apply(instance, BodySegment::new));
+    ).apply(instance, BodySegment::new)));
 
     public static final Codec<HolderSet<BodySegment>> SET_CODEC = RegistryCodecs.homogeneousList(SyntheticsData.BODY_SEGMENTS, CODEC.codec());
     public static final Codec<Holder<BodySegment>> HOLDER_CODEC = RegistryFileCodec.create(SyntheticsData.BODY_SEGMENTS, CODEC.codec());

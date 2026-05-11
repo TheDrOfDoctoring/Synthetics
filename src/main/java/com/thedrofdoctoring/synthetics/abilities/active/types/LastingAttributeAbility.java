@@ -93,19 +93,8 @@ public class LastingAttributeAbility extends LastingAbilityType<LastingAttribute
 
     @Override
     public void addDescriptionInfo(Ability ability, List<Component> description) {
+        ActiveAbilityType.activeAbilityDescription(ability, description);
         if(ability.abilityData() instanceof LastingAttributeAbilityInstance.Data data) {
-            ActiveAbilityOptions options = data.options();
-            description.add(Component.translatable("abilities.synthetics.description.cooldown", options.cooldown()).withStyle(ChatFormatting.BLUE));
-            if (options.duration() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.duration", options.duration()).withStyle(ChatFormatting.BLUE));
-            }
-            if (options.powerCost() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.power_cost", options.powerCost()).withStyle(ChatFormatting.BLUE));
-
-            }
-            if (options.powerDrain() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.power_drain", options.powerDrain()).withStyle(ChatFormatting.BLUE));
-            }
             ChatFormatting colour = ability.abilityNature().defaultColour();
             for(Modifier modifier : data.modifiers()) {
                 if(modifier.modifier().operation() == AttributeModifier.Operation.ADD_VALUE) {

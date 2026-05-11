@@ -1,24 +1,23 @@
 {
-  "parent": "synthetics:hand_repulsor",
   "hidden": false,
   "id": "synthetics:item_magnet",
   "requirements": {
-    "experience_cost": 200,
+    "experience_cost": 75,
     "required_items": [
       {
-        "amount": 32,
+        "amount": 16,
         "item": {
           "item": "minecraft:iron_ingot"
         }
       },
       {
-        "amount": 10,
+        "amount": 8,
         "item": {
           "item": "synthetics:basic_circuit"
         }
       },
       {
-        "amount": 32,
+        "amount": 16,
         "item": {
           "item": "minecraft:gold_ingot"
         }
@@ -29,6 +28,6 @@
   "unlocked": {
     "augments": "synthetics:item_magnet"
   },
-  "x": 30,
-  "y": 30
+  "x": 400,
+  "y": -150
 }

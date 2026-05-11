@@ -66,6 +66,9 @@ public class Abilities {
     public static final ResourceKey<Ability> MECHANICAL_BRUSH = create("mechanical_brush");
     public static final ResourceKey<Ability> WATERWALKING_BOOT = create("waterwalking_boot");
     public static final ResourceKey<Ability> ITEM_MAGNET = create("item_magnet");
+    public static final ResourceKey<Ability> BLASTING_ARM = create("blasting_arm");
+    public static final ResourceKey<Ability> SHOCK_GAUNTLET = create("shock_gauntlet");
+    public static final ResourceKey<Ability> FAT_CONVERTER = create("fat_converter");
 
 
 

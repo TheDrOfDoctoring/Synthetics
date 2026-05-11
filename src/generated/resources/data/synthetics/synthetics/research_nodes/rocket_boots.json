@@ -1,9 +1,9 @@
 {
-  "parent": "synthetics:launch_boot",
+  "parent": "synthetics:waterwalking_boot",
   "hidden": false,
   "id": "synthetics:rocket_boots",
   "requirements": {
-    "experience_cost": 100,
+    "experience_cost": 250,
     "required_items": [
       {
         "amount": 24,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:rocket_boots"
   },
-  "x": 15,
-  "y": -80
+  "x": -230,
+  "y": -30
 }

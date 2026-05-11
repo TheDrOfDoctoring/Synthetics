@@ -83,21 +83,8 @@ public class LastingEffectAbility extends LastingAbilityType<LastingEffectAbilit
 
     @Override
     public void addDescriptionInfo(Ability ability, List<Component> description) {
+        ActiveAbilityType.activeAbilityDescription(ability, description);
         if(ability.abilityData() instanceof LastingEffectAbilityInstance.Data data) {
-
-            ActiveAbilityOptions options = data.options();
-            description.add(Component.translatable("abilities.synthetics.description.cooldown", options.cooldown()).withStyle(ChatFormatting.BLUE));
-            if (options.duration() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.duration", options.duration()).withStyle(ChatFormatting.BLUE));
-            }
-            if (options.powerCost() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.power_cost", options.powerCost()).withStyle(ChatFormatting.BLUE));
-
-            }
-            if (options.powerDrain() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.power_drain", options.powerDrain()).withStyle(ChatFormatting.BLUE));
-            }
-
             List<EffectDetails> onTickEffects = data.onTickEffects();
             List<EffectDetails> onDeactivateEffects = data.onDeactivateEffects();
 

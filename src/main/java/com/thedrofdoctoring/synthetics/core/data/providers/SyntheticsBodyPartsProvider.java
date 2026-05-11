@@ -1,13 +1,16 @@
 package com.thedrofdoctoring.synthetics.core.data.providers;
 
 import com.thedrofdoctoring.synthetics.client.renderers.installables.BodyPosition;
+import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.collections.Abilities;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyPartTypes;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodyParts;
 import com.thedrofdoctoring.synthetics.core.data.collections.BodySegments;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
+import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 
 import java.util.List;
 
@@ -222,7 +225,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.TISSUE,
                 new BodyPartType(
-                        BodyParts.ORGANIC_TISSUE,
+                        getPart(context, BodyParts.ORGANIC_TISSUE),
                         -18, 110,
                         BodyPartType.Layer.EXTERIOR,
                         BodyPartTypes.TISSUE.location(),
@@ -232,7 +235,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.LEFT_EYE,
                 new BodyPartType(
-                        BodyParts.ORGANIC_LEFT_EYE,
+                        getPart(context, BodyParts.ORGANIC_LEFT_EYE),
                         -15, 29,
                         BodyPartType.Layer.ORGANS,
                         BodyPartTypes.LEFT_EYE.location(),
@@ -242,7 +245,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.RIGHT_EYE,
                 new BodyPartType(
-                        BodyParts.ORGANIC_RIGHT_EYE,
+                        getPart(context, BodyParts.ORGANIC_RIGHT_EYE),
                         9, 29,
                         BodyPartType.Layer.ORGANS,
                         BodyPartTypes.RIGHT_EYE.location(),
@@ -252,7 +255,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.RIGHT_FOOT,
                 new BodyPartType(
-                        BodyParts.ORGANIC_RIGHT_FOOT,
+                        getPart(context, BodyParts.ORGANIC_RIGHT_FOOT),
                         7, 220,
                         BodyPartType.Layer.EXTERIOR,
                         BodyPartTypes.RIGHT_FOOT.location(),
@@ -262,7 +265,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.LEFT_FOOT,
                 new BodyPartType(
-                        BodyParts.ORGANIC_LEFT_FOOT,
+                        getPart(context, BodyParts.ORGANIC_LEFT_FOOT),
                         -26, 220,
                         BodyPartType.Layer.EXTERIOR,
                         BodyPartTypes.LEFT_FOOT.location(),
@@ -272,7 +275,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.BRAIN,
                 new BodyPartType(
-                        BodyParts.ORGANIC_BRAIN,
+                        getPart(context, BodyParts.ORGANIC_BRAIN),
                         3, 10,
                         BodyPartType.Layer.ORGANS,
                         BodyPartTypes.BRAIN.location(),
@@ -282,7 +285,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.HEART,
                 new BodyPartType(
-                        BodyParts.ORGANIC_HEART,
+                        getPart(context, BodyParts.ORGANIC_HEART),
                         10, 80,
                         BodyPartType.Layer.ORGANS,
                         BodyPartTypes.HEART.location(),
@@ -292,7 +295,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.LUNGS,
                 new BodyPartType(
-                        BodyParts.ORGANIC_LUNGS,
+                        getPart(context, BodyParts.ORGANIC_LUNGS),
                         -15, 90,
                         BodyPartType.Layer.ORGANS,
                         BodyPartTypes.LUNGS.location(),
@@ -302,7 +305,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.RIGHT_HAND,
                 new BodyPartType(
-                        BodyParts.ORGANIC_RIGHT_HAND,
+                        getPart(context, BodyParts.ORGANIC_RIGHT_HAND),
                         -53, 130,
                         BodyPartType.Layer.EXTERIOR,
                         BodyPartTypes.RIGHT_HAND.location(),
@@ -312,7 +315,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.LEFT_HAND,
                 new BodyPartType(
-                        BodyParts.ORGANIC_LEFT_HAND,
+                        getPart(context, BodyParts.ORGANIC_LEFT_HAND),
                         36, 130,
                         BodyPartType.Layer.EXTERIOR,
                         BodyPartTypes.LEFT_HAND.location(),
@@ -322,7 +325,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.STOMACH,
                 new BodyPartType(
-                        BodyParts.ORGANIC_STOMACH,
+                        getPart(context, BodyParts.ORGANIC_STOMACH),
                         -15, 120,
                         BodyPartType.Layer.ORGANS,
                         BodyPartTypes.STOMACH.location(),
@@ -332,7 +335,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.RIBCAGE,
                 new BodyPartType(
-                        BodyParts.ORGANIC_RIBCAGE,
+                        getPart(context, BodyParts.ORGANIC_RIBCAGE),
                         -7, 100,
                         BodyPartType.Layer.BONE,
                         BodyPartTypes.RIBCAGE.location(),
@@ -342,7 +345,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.SKULL,
                 new BodyPartType(
-                        BodyParts.ORGANIC_SKULL,
+                        getPart(context, BodyParts.ORGANIC_SKULL),
                         -3, 35,
                         BodyPartType.Layer.BONE,
                         BodyPartTypes.SKULL.location(),
@@ -352,7 +355,7 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.TIBIA,
                 new BodyPartType(
-                        BodyParts.ORGANIC_TIBIA,
+                        getPart(context, BodyParts.ORGANIC_TIBIA),
                         7, 180,
                         BodyPartType.Layer.BONE,
                         BodyPartTypes.TIBIA.location(),
@@ -363,13 +366,17 @@ public class SyntheticsBodyPartsProvider {
         context.register(
                 BodyPartTypes.ARM_MUSCLE,
                 new BodyPartType(
-                        BodyParts.ORGANIC_ARM_MUSCLE,
+                        getPart(context, BodyParts.ORGANIC_ARM_MUSCLE),
                         35, 70,
                         BodyPartType.Layer.EXTERIOR,
                         BodyPartTypes.ARM_MUSCLE.location(),
                         BodyPosition.LEFT_ARM
                 )
         );
+    }
+
+    private static Holder<BodyPart> getPart(BootstrapContext<?> context, ResourceKey<BodyPart> part) {
+        return context.lookup(SyntheticsData.BODY_PARTS).getOrThrow(part);
     }
 
 }

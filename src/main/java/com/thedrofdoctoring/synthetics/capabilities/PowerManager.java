@@ -43,8 +43,13 @@ public class PowerManager implements IPowerManager {
     }
 
     @Override
-    public void drainPower(int amount) {
-        this.storedPower = Math.max(0, storedPower - amount);
+    public int drainPower(int amount) {
+        if(amount >= 0) {
+            int original = this.storedPower;
+            this.storedPower = Math.max(0, storedPower - amount);
+            return Math.max(0, original - storedPower);
+        }
+        return 0;
     }
 
     public boolean tryDrainPower(int amount) {

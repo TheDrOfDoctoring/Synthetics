@@ -1,14 +1,20 @@
 {
-  "parent": "synthetics:drone_link",
+  "parent": "synthetics:chest_harpoon",
   "hidden": false,
   "id": "synthetics:entity_detector",
   "requirements": {
-    "experience_cost": 75,
+    "experience_cost": 250,
     "required_items": [
       {
-        "amount": 20,
+        "amount": 16,
         "item": {
           "item": "minecraft:amethyst_shard"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:basic_circuit"
         }
       },
       {
@@ -23,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:entity_detector"
   },
-  "x": 105,
+  "x": 0,
   "y": -30
 }

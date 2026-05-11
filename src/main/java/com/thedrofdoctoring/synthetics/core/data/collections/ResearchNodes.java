@@ -23,7 +23,6 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> ADVANCED_SOLAR_TISSUE = create("advanced_solar_tissue");
     public static final ResourceKey<ResearchNode> ARTIFICIAL_SKIN = create("artificial_skin");
     public static final ResourceKey<ResearchNode> FLUID_AUGMENTS = create("fluid_augments");
-    public static final ResourceKey<ResearchNode> STOMACH_AUGMENTS = create("stomach_augments");
     public static final ResourceKey<ResearchNode> FEET_WALL_CLIMB = create("feet_wall_climb");
     public static final ResourceKey<ResearchNode> INTEGRATED_EXOSKELETON = create("integrated_exoskeleton");
     public static final ResourceKey<ResearchNode> INTERNAL_PLATING = create("internal_plating");
@@ -69,6 +68,12 @@ public class ResearchNodes {
     public static final ResourceKey<ResearchNode> MECHANICAL_BRUSH = create("mechanical_brush");
     public static final ResourceKey<ResearchNode> WATERWALKING_BOOT = create("waterwalking_boot");
     public static final ResourceKey<ResearchNode> ITEM_MAGNET = create("item_magnet");
+    public static final ResourceKey<ResearchNode> BLASTING_ARM = create("blasting_arm");
+    public static final ResourceKey<ResearchNode> SHOCK_GAUNTLET = create("shock_gauntlet");
+    public static final ResourceKey<ResearchNode> SYNTHETIC_LINING = create("synthetic_lining");
+    public static final ResourceKey<ResearchNode> METABOLIC_CONVERTER = create("metabolic_converter");
+    public static final ResourceKey<ResearchNode> FAT_CONVERTER = create("fat_converter");
+
 
 
     public static final ResourceKey<ResearchTab> TAB_AUGMENTS = createTab("augments");

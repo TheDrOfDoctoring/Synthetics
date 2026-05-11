@@ -19,7 +19,8 @@ public class SyntheticsPlayerCache {
     public boolean lockedInPlace;
     public boolean isRocketFlight;
     public boolean isWaterWalking;
-
+    public boolean hasShockActive;
+    public boolean startedFatConversion;
 
     public boolean invisible;
 

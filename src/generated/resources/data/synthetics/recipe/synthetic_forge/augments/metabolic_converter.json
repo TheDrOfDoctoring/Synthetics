@@ -18,7 +18,7 @@
     "AAA"
   ],
   "recipe_time": 100,
-  "required_research": "synthetics:stomach_augments",
+  "required_research": "synthetics:metabolic_converter",
   "result": {
     "components": {
       "synthetics:augments": "synthetics:metabolic_converter"

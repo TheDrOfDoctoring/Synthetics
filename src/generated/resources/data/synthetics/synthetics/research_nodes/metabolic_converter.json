@@ -1,9 +1,9 @@
 {
   "parent": "synthetics:heart_battery",
   "hidden": false,
-  "id": "synthetics:stomach_augments",
+  "id": "synthetics:metabolic_converter",
   "requirements": {
-    "experience_cost": 50,
+    "experience_cost": 75,
     "required_items": [
       {
         "amount": 25,
@@ -21,11 +21,8 @@
   },
   "tab": "synthetics:augments",
   "unlocked": {
-    "augments": [
-      "synthetics:metabolic_converter",
-      "synthetics:synthetic_lining"
-    ]
+    "augments": "synthetics:metabolic_converter"
   },
-  "x": -180,
-  "y": -50
+  "x": -370,
+  "y": -120
 }

@@ -17,6 +17,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Tiers;
 
 import java.util.List;
 
@@ -669,6 +670,36 @@ public class SyntheticsAbilitiesProvider {
                                 ActiveAbilityOptions.options(30,99999999, 0, 2)
                         ),
                         Abilities.ITEM_MAGNET.location()
+                )
+        );
+        context.register(
+                Abilities.BLASTING_ARM,
+                Ability.create(
+                        SyntheticAbilities.BLASTING.get(),
+                        BlastingAbility.create(5d,
+                                ActiveAbilityOptions.options(30,0, 5000),
+                                0f, Tiers.DIAMOND
+                        ),
+                        Abilities.BLASTING_ARM.location()
+                )
+        );
+        context.register(
+                Abilities.SHOCK_GAUNTLET,
+                Ability.create(
+                        SyntheticAbilities.SHOCKING.get(),
+                        ShockAbility.create(4d,
+                                ActiveAbilityOptions.options(60,10, 2500),
+                                40, 7500
+                        ),
+                        Abilities.SHOCK_GAUNTLET.location()
+                )
+        );
+        context.register(
+                Abilities.FAT_CONVERTER,
+                Ability.create(
+                        SyntheticAbilities.FAT_CONVERSION.get(),
+                        StandardPassiveAbility.create(1),
+                        Abilities.FAT_CONVERTER.location()
                 )
         );
     }

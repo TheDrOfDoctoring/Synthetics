@@ -1,6 +1,7 @@
 package com.thedrofdoctoring.synthetics.capabilities;
 
 import com.mojang.datafixers.util.Pair;
+import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.capabilities.interfaces.IPartManager;
 import com.thedrofdoctoring.synthetics.capabilities.serialisation.ISaveData;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
@@ -168,47 +169,38 @@ public class PartManager implements ISaveData, IPartManager {
 
     private void setDefaultParts() {
         Optional<HolderLookup.RegistryLookup<BodyPartType>> partsOpt = player.getEntity().registryAccess().lookup(SyntheticsData.BODY_PART_TYPES);
-        Optional<HolderLookup.RegistryLookup<BodyPart>> partOpt = player.getEntity().registryAccess().lookup(SyntheticsData.BODY_PARTS);
-
-        if(partsOpt.isPresent() && partOpt.isPresent()) {
-            HolderLookup.RegistryLookup<BodyPartType> typeLookup = partsOpt.get();
-            HolderLookup.RegistryLookup<BodyPart> partLookup = partOpt.get();
-
-            typeLookup.listElementIds().forEach(p -> {
-                BodyPartType type = typeLookup.get(p).orElseThrow().value();
-                Optional<Holder.Reference<BodyPart>> optPart = partOpt.orElseThrow().get(type.defaultPart());
-                if(optPart.isPresent()) {
-                    this.installedParts.put(type, partLookup.get(type.defaultPart()).orElseThrow().value());
-                }
-            });
-        }
+        partsOpt.ifPresent(typeLookup -> typeLookup.listElementIds().forEach(p -> {
+            BodyPartType type = typeLookup.get(p).orElseThrow().value();
+            Holder<BodyPart> defaultPart = type.defaultPart();
+            if (defaultPart.isBound()) {
+                this.installedParts.put(type, defaultPart.value());
+            }
+        }));
     }
     private void setDefaultSegments() {
         Optional<HolderLookup.RegistryLookup<BodySegmentType>> segmentTypesOpt = player.getEntity().registryAccess().lookup(SyntheticsData.BODY_SEGMENT_TYPES);
-        Optional<HolderLookup.RegistryLookup<BodySegment>> segmentOpt = player.getEntity().registryAccess().lookup(SyntheticsData.BODY_SEGMENTS);
 
-        if(segmentTypesOpt.isPresent() && segmentOpt.isPresent()) {
-            HolderLookup.RegistryLookup<BodySegmentType> typeLookup = segmentTypesOpt.get();
-            HolderLookup.RegistryLookup<BodySegment> partLookup = segmentOpt.get();
-
-            typeLookup.listElementIds().forEach(p -> {
-                BodySegmentType type = typeLookup.get(p).orElseThrow().value();
-                Optional<Holder.Reference<BodySegment>> optSegment = segmentOpt.orElseThrow().get(type.defaultSegment());
-                if(optSegment.isPresent()) {
-                    this.installedSegments.put(type, partLookup.get(type.defaultSegment()).orElseThrow().value());
-                }
-            });
-        }
+        segmentTypesOpt.ifPresent(typeLookup -> typeLookup.listElementIds().forEach(p -> {
+            BodySegmentType type = typeLookup.get(p).orElseThrow().value();
+            Holder<BodySegment> defaultSegment = type.defaultSegment();
+            if (defaultSegment.isBound()) {
+                this.installedSegments.put(type, defaultSegment.value());
+            }
+        }));
     }
     public @Nullable BodyPart getDefaultPart(BodyPartType type) {
-        Optional<HolderLookup.RegistryLookup<BodyPart>> partOpt = player.getEntity().registryAccess().lookup(SyntheticsData.BODY_PARTS);
-        Optional<Holder.Reference<BodyPart>> optPart = partOpt.orElseThrow().get(type.defaultPart());
-        return optPart.map(Holder.Reference::value).orElse(null);
+        if(type.defaultPart().isBound()) {
+            return type.defaultPart().value();
+        }
+        Synthetics.LOGGER.warn("Default part not bound for part type: {}", type.id());
+        return null;
     }
     public @Nullable BodySegment getDefaultSegment(BodySegmentType type) {
-        Optional<HolderLookup.RegistryLookup<BodySegment>> partOpt = player.getEntity().registryAccess().lookup(SyntheticsData.BODY_SEGMENTS);
-        Optional<Holder.Reference<BodySegment>> optSegment = partOpt.orElseThrow().get(type.defaultSegment());
-        return optSegment.map(Holder.Reference::value).orElse(null);
+        if(type.defaultSegment().isBound()) {
+            return type.defaultSegment().value();
+        }
+        Synthetics.LOGGER.warn("Default part not bound for part type: {}", type.id());
+        return null;
     }
 
     public BodySegment getSegmentForPart(BodyPart part) {
@@ -268,10 +260,10 @@ public class PartManager implements ISaveData, IPartManager {
     public static boolean isDefault(IBodyInstallable<?> installable) {
         switch (installable) {
             case BodyPart part -> {
-                return part.type().value().defaultPart().location().equals(part.id());
+                return part.type().value().defaultPart().value().id().equals(part.id());
             }
             case BodySegment segment -> {
-                return segment.type().value().defaultSegment().location().equals(segment.id());
+                return segment.type().value().defaultSegment().value().id().equals(segment.id());
             }
             default -> {
                 return false;

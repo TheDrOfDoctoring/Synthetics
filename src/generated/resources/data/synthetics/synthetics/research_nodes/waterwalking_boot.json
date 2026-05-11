@@ -1,9 +1,9 @@
 {
-  "parent": "synthetics:feet_wall_climb",
+  "parent": "synthetics:basic_dampeners",
   "hidden": false,
   "id": "synthetics:waterwalking_boot",
   "requirements": {
-    "experience_cost": 200,
+    "experience_cost": 150,
     "required_items": [
       {
         "amount": 16,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:waterwalking_boot"
   },
-  "x": 30,
-  "y": 30
+  "x": -230,
+  "y": -60
 }

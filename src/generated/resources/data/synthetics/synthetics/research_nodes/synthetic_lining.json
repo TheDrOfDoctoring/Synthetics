@@ -1,0 +1,28 @@
+{
+  "parent": "synthetics:item_magnet",
+  "hidden": false,
+  "id": "synthetics:synthetic_lining",
+  "requirements": {
+    "experience_cost": 50,
+    "required_items": [
+      {
+        "amount": 25,
+        "item": {
+          "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:redstone"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:synthetic_lining"
+  },
+  "x": 460,
+  "y": -120
+}

@@ -1,9 +1,9 @@
 {
-  "parent": "synthetics:integrated_redstone_link",
+  "parent": "synthetics:shrinkifier",
   "hidden": false,
   "id": "synthetics:ore_dowsing",
   "requirements": {
-    "experience_cost": 150,
+    "experience_cost": 250,
     "required_items": [
       {
         "amount": 1,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:ore_dowsing"
   },
-  "x": 120,
-  "y": -60
+  "x": 400,
+  "y": 30
 }

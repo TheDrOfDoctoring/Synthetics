@@ -1,5 +1,5 @@
 {
-  "parent": "synthetics:hand_repulsor",
+  "parent": "synthetics:permeable_link",
   "hidden": false,
   "id": "synthetics:permeator",
   "requirements": {
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:permeator"
   },
-  "x": 60,
-  "y": -90
+  "x": 170,
+  "y": 0
 }

@@ -3,7 +3,7 @@
   "hidden": false,
   "id": "synthetics:solar_tissue",
   "requirements": {
-    "experience_cost": 75,
+    "experience_cost": 150,
     "required_items": [
       {
         "amount": 32,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:solar_tissue"
   },
-  "x": -150,
-  "y": -80
+  "x": -400,
+  "y": -90
 }

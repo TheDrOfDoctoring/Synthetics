@@ -3,7 +3,7 @@
   "hidden": false,
   "id": "synthetics:shock_absorber",
   "requirements": {
-    "experience_cost": 275,
+    "experience_cost": 100,
     "required_items": [
       {
         "amount": 24,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:shock_absorber"
   },
-  "x": -125,
-  "y": -80
+  "x": -430,
+  "y": -120
 }

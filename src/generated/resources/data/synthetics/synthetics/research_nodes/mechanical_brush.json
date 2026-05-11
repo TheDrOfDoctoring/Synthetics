@@ -1,9 +1,9 @@
 {
-  "parent": "synthetics:extended_grip",
+  "parent": "synthetics:item_magnet",
   "hidden": false,
   "id": "synthetics:mechanical_brush",
   "requirements": {
-    "experience_cost": 100,
+    "experience_cost": 25,
     "required_items": [
       {
         "amount": 6,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:mechanical_brush"
   },
-  "x": 30,
-  "y": 30
+  "x": 370,
+  "y": -120
 }

@@ -1,5 +1,5 @@
 {
-  "parent": "synthetics:extended_grip",
+  "parent": "synthetics:shock_gauntlet",
   "hidden": false,
   "id": "synthetics:hand_flamethrower",
   "requirements": {
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:hand_flamethrower"
   },
-  "x": 60,
-  "y": -30
+  "x": 30,
+  "y": -120
 }

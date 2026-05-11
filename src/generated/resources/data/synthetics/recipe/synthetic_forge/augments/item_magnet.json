@@ -2,21 +2,18 @@
   "type": "synthetics:synthetic_forge",
   "key": {
     "A": {
-      "item": "synthetics:ancient_alloy_ingot"
+      "tag": "c:gems/lapis"
     },
     "B": {
       "item": "synthetics:basic_circuit"
     },
     "C": {
       "tag": "c:storage_blocks/iron"
-    },
-    "D": {
-      "tag": "c:ingots/gold"
     }
   },
   "lava_cost": 100,
   "pattern": [
-    " D ",
+    " A ",
     "BCB",
     " A "
   ],

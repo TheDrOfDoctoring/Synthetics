@@ -1,5 +1,4 @@
 {
-  "parent": "synthetics:motion_autopilot",
   "hidden": false,
   "id": "synthetics:integrated_redstone_link",
   "requirements": {
@@ -29,6 +28,6 @@
   "unlocked": {
     "augments": "synthetics:integrated_redstone_link"
   },
-  "x": 120,
-  "y": -30
+  "x": 200,
+  "y": -150
 }

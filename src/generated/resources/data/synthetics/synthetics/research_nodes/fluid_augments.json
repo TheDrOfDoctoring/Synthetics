@@ -1,4 +1,5 @@
 {
+  "parent": "synthetics:extended_grip",
   "hidden": false,
   "id": "synthetics:fluid_augments",
   "requirements": {
@@ -31,6 +32,6 @@
       "synthetics:vision_clarifier"
     ]
   },
-  "x": 30,
-  "y": 0
+  "x": 430,
+  "y": -60
 }

@@ -8,7 +8,7 @@
       "item": "synthetics:basic_circuit"
     },
     "C": {
-      "item": "minecraft:copper_ingot"
+      "item": "synthetics:ancient_alloy_ingot"
     },
     "D": {
       "type": "neoforge:components",
@@ -22,7 +22,7 @@
   "pattern": [
     "AAA",
     "BDB",
-    "CCC"
+    "C C"
   ],
   "recipe_time": 200,
   "required_research": "synthetics:advanced_solar_tissue",

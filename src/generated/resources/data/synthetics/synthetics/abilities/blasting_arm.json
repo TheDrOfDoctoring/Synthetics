@@ -1,0 +1,17 @@
+{
+  "ability_data": {
+    "type": "synthetics:blasting_ability",
+    "active_ability": {
+      "cooldown": 30,
+      "power_cost": 5000
+    },
+    "length": 5.0,
+    "radius": 0.0,
+    "tier": "minecraft:incorrect_for_diamond_tool"
+  },
+  "ability_type": {
+    "ability_id": "synthetics:blasting"
+  },
+  "id": "synthetics:blasting_arm",
+  "nature": "beneficial"
+}

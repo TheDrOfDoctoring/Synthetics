@@ -1,17 +1,18 @@
 {
+  "parent": "synthetics:extended_grip",
   "hidden": false,
   "id": "synthetics:motion_autopilot",
   "requirements": {
-    "experience_cost": 80,
+    "experience_cost": 150,
     "required_items": [
       {
-        "amount": 32,
+        "amount": 4,
         "item": {
-          "item": "minecraft:amethyst_shard"
+          "item": "minecraft:echo_shard"
         }
       },
       {
-        "amount": 48,
+        "amount": 24,
         "item": {
           "item": "minecraft:redstone"
         }
@@ -28,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:motion_autopilot"
   },
-  "x": 120,
-  "y": 0
+  "x": 340,
+  "y": -60
 }

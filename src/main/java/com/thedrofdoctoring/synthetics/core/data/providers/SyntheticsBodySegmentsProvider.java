@@ -53,7 +53,7 @@ public class SyntheticsBodySegmentsProvider {
         context.register(
                 BodySegments.HEAD,
                 new BodySegmentType(
-                        BodySegments.ORGANIC_HEAD,
+                        getSegment(context, BodySegments.ORGANIC_HEAD),
                         BodySegments.HEAD.location(),
                         BodyPosition.HEAD
                 )
@@ -61,7 +61,7 @@ public class SyntheticsBodySegmentsProvider {
         context.register(
                 BodySegments.TORSO,
                 new BodySegmentType(
-                        BodySegments.ORGANIC_TORSO,
+                        getSegment(context, BodySegments.ORGANIC_TORSO),
                         BodySegments.TORSO.location(),
                         BodyPosition.BODY
                 )
@@ -69,7 +69,7 @@ public class SyntheticsBodySegmentsProvider {
         context.register(
                 BodySegments.ARMS,
                 new BodySegmentType(
-                        BodySegments.ORGANIC_ARMS,
+                        getSegment(context, BodySegments.ORGANIC_ARMS),
                         BodySegments.ARMS.location(),
                         BodyPosition.BODY
                 )
@@ -77,7 +77,7 @@ public class SyntheticsBodySegmentsProvider {
         context.register(
                 BodySegments.LOWER_BODY,
                 new BodySegmentType(
-                        BodySegments.ORGANIC_LOWER_BODY,
+                        getSegment(context, BodySegments.ORGANIC_LOWER_BODY),
                         BodySegments.LOWER_BODY.location(),
                         BodyPosition.BODY
                 )
@@ -85,7 +85,11 @@ public class SyntheticsBodySegmentsProvider {
 
     }
 
-    public static Holder<BodySegmentType> getSegmentType(HolderGetter<BodySegmentType> lookup, ResourceKey<BodySegmentType> partType) {
+    private static Holder<BodySegment> getSegment(BootstrapContext<?> context, ResourceKey<BodySegment> segment) {
+        return context.lookup(SyntheticsData.BODY_SEGMENTS).getOrThrow(segment);
+    }
+
+    private static Holder<BodySegmentType> getSegmentType(HolderGetter<BodySegmentType> lookup, ResourceKey<BodySegmentType> partType) {
         return lookup.getOrThrow(partType);
     }
 

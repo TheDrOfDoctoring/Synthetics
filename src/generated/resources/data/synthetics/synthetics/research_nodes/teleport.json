@@ -1,5 +1,5 @@
 {
-  "parent": "synthetics:chest_harpoon",
+  "parent": "synthetics:inertial_dampeners",
   "hidden": false,
   "id": "synthetics:teleport",
   "requirements": {
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:teleport"
   },
-  "x": 205,
-  "y": -45
+  "x": -170,
+  "y": 0
 }

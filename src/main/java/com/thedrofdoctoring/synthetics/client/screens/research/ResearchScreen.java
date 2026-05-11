@@ -82,10 +82,11 @@ public class ResearchScreen extends Screen {
         this.minY = -(200+16);
         this.maxY = 20;
 
-        this.minX = -SCREEN_WIDTH;
-        this.maxX = SCREEN_WIDTH;
+        this.minX = -SCREEN_WIDTH*2;
+        this.maxX = SCREEN_WIDTH*2;
         this.centerX = 0;
         this.centerY = 0;
+        this.adjustCenter();
 
     }
 
@@ -165,6 +166,15 @@ public class ResearchScreen extends Screen {
         return (mouseY - 20  - centerY) /zoom;
     }
 
+    private void adjustCenter() {
+        int maxX = 0; int minX = 0;
+
+        for(ResearchNodeScreen screen : selectedTab.allNodes) {
+            maxX = Math.max(screen.adjustedX(), maxX);
+            minX = Math.min(screen.adjustedX(), minX);
+        }
+        center((maxX + minX) / 2d - 50, 150);
+    }
 
 
     @Override
@@ -235,6 +245,7 @@ public class ResearchScreen extends Screen {
                         if (tab != this.selectedTab && tab.isMouseOver(this.guiLeft, this.guiTop + 17, mouseX, mouseY)) {
                             this.selectedTabIndex = i;
                             this.selectedTab = tab;
+                            adjustCenter();
                             break;
                         }
                         i++;
@@ -271,7 +282,6 @@ public class ResearchScreen extends Screen {
         ResearchNodeScreen selected = this.selectedTab.getSelectedScreen((int) (mouseX - guiLeft), (int) (mouseY - guiTop));
         if (selected != null) {
             selected.switchDisplay();
-
         }
     }
 

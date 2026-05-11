@@ -6,9 +6,15 @@
     "experience_cost": 100,
     "required_items": [
       {
-        "amount": 15,
+        "amount": 16,
         "item": {
           "item": "minecraft:iron_ingot"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:gunpowder"
         }
       }
     ]
@@ -17,6 +23,6 @@
   "unlocked": {
     "augments": "synthetics:launch_boot"
   },
-  "x": 15,
-  "y": -50
+  "x": -170,
+  "y": -120
 }

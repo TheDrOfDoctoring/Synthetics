@@ -95,6 +95,7 @@ public class FlamethrowerAbility extends LastingAbilityType<FlamethrowerAbilityI
     @Override
     public void addDescriptionInfo(Ability ability, List<Component> description) {
         if(ability.abilityData() instanceof FlamethrowerAbilityInstance.Data data) {
+            ActiveAbilityType.activeAbilityDescription(ability, description);
             description.add(Component.translatable("abilities.synthetics.description.contact_damage", data.factor()).withStyle(ChatFormatting.BLUE));
             description.add(Component.translatable("abilities.synthetics.description.flame_travel_distance_time", data.flameLifeTime()).withStyle(ChatFormatting.BLUE));
         }

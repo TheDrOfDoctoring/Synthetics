@@ -6,12 +6,15 @@
     },
     "B": {
       "item": "minecraft:chain"
+    },
+    "C": {
+      "item": "synthetics:ancient_alloy_ingot"
     }
   },
   "lava_cost": 200,
   "pattern": [
     " B ",
-    "ABA",
+    "ACA",
     " B "
   ],
   "recipe_time": 200,

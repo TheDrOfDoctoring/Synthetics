@@ -1,5 +1,5 @@
 {
-  "parent": "synthetics:linked_teleport",
+  "parent": "synthetics:extended_grip",
   "hidden": false,
   "id": "synthetics:shrinkifier",
   "requirements": {
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:shrinkifier"
   },
-  "x": 165,
-  "y": -90
+  "x": 400,
+  "y": 0
 }

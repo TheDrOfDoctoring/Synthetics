@@ -1,0 +1,18 @@
+{
+  "ability_data": {
+    "type": "synthetics:shock_ability",
+    "active_ability": {
+      "cooldown": 60,
+      "duration": 10,
+      "power_cost": 2500
+    },
+    "damage": 4.0,
+    "energy_drained": 7500,
+    "slowing_duration": 40
+  },
+  "ability_type": {
+    "ability_id": "synthetics:shocking"
+  },
+  "id": "synthetics:shock_gauntlet",
+  "nature": "beneficial"
+}

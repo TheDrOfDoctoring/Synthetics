@@ -387,6 +387,27 @@ public class SyntheticsAugmentsProvider {
                         .maxCopies(1, 1)
                         .abilities(Abilities.ITEM_MAGNET)
         );
+        register(context,
+                Augment.Builder.of(context, Augments.BLASTING_ARM, getPart(partLookup, BodyParts.ARM_MUSCLE_MAIN))
+                        .complexity(15)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.BLASTING_ARM)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.SHOCK_GAUNTLET, getPart(partLookup, BodyParts.HANDS_MAIN))
+                        .complexity(25)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.SHOCK_GAUNTLET)
+        );
+        register(context,
+                Augment.Builder.of(context, Augments.FAT_CONVERTER, getPart(partLookup, BodyParts.STOMACH_MAIN))
+                        .complexity(25)
+                        .powerCost(0)
+                        .maxCopies(1, 1)
+                        .abilities(Abilities.FAT_CONVERTER)
+        );
     }
 
     private static void register(BootstrapContext<Augment> context, Augment.Builder builder) {

@@ -37,13 +37,13 @@ import java.util.Optional;
  */
 public record BodyPart(int maxComplexity, HolderSet<BodySegment> validSegments, Holder<BodyPartType> type, Optional<HolderSet<Ability>> abilities, ResourceLocation id) implements IBodyInstallable<BodyPart>, IInstallableModelSupplier, IInstallableModelPositioner {
 
-    public static final MapCodec<BodyPart> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    public static final MapCodec<BodyPart> CODEC = MapCodec.recursive("Body Part", (a) -> RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("max_complexity").forGetter(BodyPart::maxComplexity),
             BodySegment.SET_CODEC.fieldOf("valid_body_segments").forGetter(BodyPart::validSegments),
             BodyPartType.HOLDER_CODEC.fieldOf("type").forGetter(BodyPart::type),
             Ability.SET_CODEC.optionalFieldOf("abilities").forGetter(BodyPart::abilities),
             ResourceLocation.CODEC.fieldOf("id").forGetter(BodyPart::id)
-    ).apply(instance, BodyPart::new));
+    ).apply(instance, BodyPart::new)));
 
 
     public static final Codec<HolderSet<BodyPart>> SET_CODEC = RegistryCodecs.homogeneousList(SyntheticsData.BODY_PARTS, CODEC.codec());

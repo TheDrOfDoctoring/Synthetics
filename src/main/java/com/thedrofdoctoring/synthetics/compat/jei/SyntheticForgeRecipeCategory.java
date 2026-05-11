@@ -104,7 +104,6 @@ public class SyntheticForgeRecipeCategory implements IRecipeCategory<SyntheticFo
             guiGraphics.pose().pushPose();
 
             guiGraphics.pose().scale(0.6f, 0.6f, 1f);
-            guiGraphics.pose().translate(0, 0, 500);
 
             guiGraphics.drawString(Minecraft.getInstance().font, requirement, 2, 120, -1, false);
 

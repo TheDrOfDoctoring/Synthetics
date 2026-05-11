@@ -1,4 +1,5 @@
 {
+  "parent": "synthetics:chest_harpoon",
   "hidden": false,
   "id": "synthetics:auxiliary_viewlink",
   "requirements": {
@@ -29,5 +30,5 @@
     "augments": "synthetics:auxiliary_viewlink"
   },
   "x": -60,
-  "y": 0
+  "y": -60
 }

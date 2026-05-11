@@ -1,0 +1,26 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/copper"
+    },
+    "B": {
+      "item": "synthetics:basic_circuit"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    " A ",
+    "ABB",
+    " A "
+  ],
+  "recipe_time": 200,
+  "required_research": "synthetics:shock_gauntlet",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:shock_gauntlet"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

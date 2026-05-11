@@ -12,7 +12,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFileCodec;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
@@ -35,20 +34,19 @@ import java.util.function.IntFunction;
  *
  * I don't really want to keep these here since it's client only information, but right now I'm not sure of a better place, and I want to keep them configurable
  */
-//TODO: Default should be a holder instead of a resource key
-public record BodyPartType(ResourceKey<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id, BodyPosition bodyPosition) implements IInstallableModelSupplier, IInstallableModelPositioner {
+public record BodyPartType(Holder<BodyPart> defaultPart, int x, int y, Layer bodyLayer, ResourceLocation id, BodyPosition bodyPosition) implements IInstallableModelSupplier, IInstallableModelPositioner {
 
-    public static final MapCodec<BodyPartType> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ResourceKey.codec(SyntheticsData.BODY_PARTS).fieldOf("default_part").forGetter(BodyPartType::defaultPart),
+    public static final MapCodec<BodyPartType> CODEC = MapCodec.recursive("Body Part Type", (a) -> RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BodyPart.HOLDER_CODEC.fieldOf("default_part").forGetter(BodyPartType::defaultPart),
             Codec.INT.fieldOf("x").forGetter(BodyPartType::x),
             Codec.INT.fieldOf("y").forGetter(BodyPartType::y),
             StringRepresentable.fromEnum(Layer::values).fieldOf("layer").forGetter(BodyPartType::bodyLayer),
             ResourceLocation.CODEC.fieldOf("id").forGetter(BodyPartType::id),
             BodyPosition.CODEC.fieldOf("position").forGetter(BodyPartType::bodyPosition)
-    ).apply(instance, BodyPartType::new));
+    ).apply(instance, BodyPartType::new)));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BodyPartType> STREAM_CODEC = StreamCodec.composite(
-            ResourceKey.streamCodec(SyntheticsData.BODY_PARTS), BodyPartType::defaultPart,
+            ByteBufCodecs.holder(SyntheticsData.BODY_PARTS, BodyPart.STREAM_CODEC), BodyPartType::defaultPart,
             ByteBufCodecs.VAR_INT, BodyPartType::x,
             ByteBufCodecs.VAR_INT, BodyPartType::y,
             Layer.STREAM_CODEC, BodyPartType::bodyLayer,

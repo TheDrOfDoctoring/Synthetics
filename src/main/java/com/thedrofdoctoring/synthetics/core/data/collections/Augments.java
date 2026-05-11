@@ -55,7 +55,9 @@ public class Augments {
     public static final ResourceKey<Augment> MECHANICAL_BRUSH = create("mechanical_brush");
     public static final ResourceKey<Augment> WATERWALKING_BOOT = create("waterwalking_boot");
     public static final ResourceKey<Augment> ITEM_MAGNET = create("item_magnet");
-
+    public static final ResourceKey<Augment> BLASTING_ARM = create("blasting_arm");
+    public static final ResourceKey<Augment> SHOCK_GAUNTLET = create("shock_gauntlet");
+    public static final ResourceKey<Augment> FAT_CONVERTER = create("fat_converter");
 
 
     private static ResourceKey<Augment> create(String name) {

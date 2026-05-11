@@ -9,13 +9,16 @@
     },
     "C": {
       "item": "minecraft:chain"
+    },
+    "D": {
+      "tag": "c:ingots/iron"
     }
   },
   "lava_cost": 250,
   "pattern": [
     " AB",
-    " B ",
-    "C  "
+    " C ",
+    "D  "
   ],
   "recipe_time": 100,
   "required_research": "synthetics:chest_harpoon",

@@ -20,7 +20,7 @@ public class ResearchTabScreen {
     public static final int SCREEN_HEIGHT = ResearchScreen.SCREEN_HEIGHT;
 
     private final ResearchScreen mainScreen;
-    private final List<ResearchNodeScreen> allNodes;
+
     private final AdvancementTabType position;
     private final ItemStack icon;
     private final int index;
@@ -28,9 +28,10 @@ public class ResearchTabScreen {
     private int centerX;
     private int centerY;
     private float zoom = 0.5f;
-
     private float fade;
     private ResearchNodeScreen recentlyHovered;
+
+    public final List<ResearchNodeScreen> allNodes;
 
     public ResearchTabScreen(ResearchScreen mainScreen, ItemStack icon, int index, List<ResearchNode> nodes) {
         this.position = AdvancementTabType.LEFT;
@@ -44,6 +45,9 @@ public class ResearchTabScreen {
             addNode(screen);
         }
     }
+
+
+
     public void addNode(ResearchNodeScreen node) {
         this.allNodes.add(node);
         for(ResearchNodeScreen child : node.getChildren()) {
@@ -124,7 +128,7 @@ public class ResearchTabScreen {
             }
             if(!foundHover && recentlyHovered != null) {
                 int bottomY = recentlyHovered.adjustedY() + recentlyHovered.requirementsY();
-                if(scaledMouseY > bottomY || scaledMouseX < recentlyHovered.adjustedX() || scaledMouseX > recentlyHovered.adjustedX() + recentlyHovered.requirementsWidth()) {
+                if(scaledMouseY > bottomY || scaledMouseY < recentlyHovered.adjustedY() || scaledMouseX < recentlyHovered.adjustedX() || scaledMouseX > recentlyHovered.adjustedX() + recentlyHovered.requirementsWidth()) {
                     recentlyHovered = null;
                 } else {
                     renderHoveredNode(recentlyHovered, pose, graphics, scaledMouseX, scaledMouseY);

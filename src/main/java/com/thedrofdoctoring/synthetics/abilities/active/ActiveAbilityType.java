@@ -77,6 +77,13 @@ public abstract class ActiveAbilityType<T extends IAbilityInstance> extends Abil
     @Override
     public void addDescriptionInfo(Ability ability, List<Component> description) {
         if (ability.abilityData() instanceof AbilityActiveInstance.Data activeData) {
+            activeAbilityDescription(ability, description);
+            description.add(Component.translatable("abilities.synthetics.description.ability_factor", activeData.factor()).withStyle(ChatFormatting.BLUE));
+        }
+    }
+
+    protected static void activeAbilityDescription(Ability ability, List<Component> description) {
+        if(ability.abilityData() instanceof AbilityActiveInstance.Data activeData) {
             ActiveAbilityOptions options = activeData.options();
             description.add(Component.translatable("abilities.synthetics.description.cooldown", options.cooldown()).withStyle(ChatFormatting.BLUE));
             if (options.duration() > 0) {
@@ -89,9 +96,6 @@ public abstract class ActiveAbilityType<T extends IAbilityInstance> extends Abil
             if (options.powerDrain() > 0) {
                 description.add(Component.translatable("abilities.synthetics.description.power_drain", options.powerDrain()).withStyle(ChatFormatting.BLUE));
             }
-
-
-            description.add(Component.translatable("abilities.synthetics.description.ability_factor", activeData.factor()).withStyle(ChatFormatting.BLUE));
         }
     }
 }

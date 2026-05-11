@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "item": "synthetics:ancient_alloy_ingot"
+    },
+    "C": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "lava_cost": 100,
+  "pattern": [
+    " AA",
+    "BCB",
+    "AA "
+  ],
+  "recipe_time": 100,
+  "required_research": "synthetics:blasting_arm",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:blasting_arm"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

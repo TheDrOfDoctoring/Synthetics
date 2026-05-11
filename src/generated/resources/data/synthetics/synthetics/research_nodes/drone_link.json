@@ -1,5 +1,5 @@
 {
-  "parent": "synthetics:integrated_redstone_link",
+  "parent": "synthetics:internal_camera_link",
   "hidden": false,
   "id": "synthetics:drone_link",
   "requirements": {
@@ -23,6 +23,6 @@
   "unlocked": {
     "augments": "synthetics:drone_link"
   },
-  "x": 105,
-  "y": 0
+  "x": 230,
+  "y": -60
 }

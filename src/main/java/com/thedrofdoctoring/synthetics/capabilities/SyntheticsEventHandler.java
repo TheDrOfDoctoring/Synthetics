@@ -6,13 +6,11 @@ import com.thedrofdoctoring.synthetics.abilities.passive.instances.AbilityPassiv
 import com.thedrofdoctoring.synthetics.abilities.passive.types.generators.ShockAbsorberAbility;
 import com.thedrofdoctoring.synthetics.config.CommonConfig;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttributes;
-import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.AppliedAugmentInstance;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundUpdateDataCachePacket;
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -70,7 +68,8 @@ public class SyntheticsEventHandler {
     @SubscribeEvent
     public static void onLivingKnockbackEvent(LivingKnockBackEvent event) {
         if(event.getEntity() instanceof Player player) {
-            if(PositionLockAbility.shouldCancelKnockback(player, event)) {
+            if(PositionLockAbility.shouldCancelKnockback(player)) {
+                event.setCanceled(true);
                 return;
             }
         }
@@ -127,23 +126,15 @@ public class SyntheticsEventHandler {
             ItemStack stack = inst.augment().createDefaultItemStack(player.registryAccess());
             event.getDrops().add(new ItemEntity(level, pos.x, pos.y, pos.z, stack));
         }
-        var partLookup = player.registryAccess().lookup(SyntheticsData.BODY_PARTS);
         for(BodyPart part : syntheticsPlayer.parts().installedBodyParts()) {
-            BodyPart defaultPart = partLookup
-                    .flatMap(lookup -> lookup.get(part.type().value().defaultPart())
-                            .map(Holder.Reference::value))
-                    .orElse(null);
+            BodyPart defaultPart = part.type().value().defaultPart().value();
             if(part.equals(defaultPart)) continue;
             syntheticsPlayer.parts().replaceBodyPart(defaultPart, false);
             ItemStack stack = part.createDefaultItemStack(player.registryAccess());
             event.getDrops().add(new ItemEntity(level, pos.x, pos.y, pos.z, stack));
         }
-        var segmentLookup = player.registryAccess().lookup(SyntheticsData.BODY_SEGMENTS);
         for(BodySegment segment : syntheticsPlayer.parts().installedSegments()) {
-            BodySegment defaultSegment = segmentLookup
-                    .flatMap(lookup -> lookup.get(segment.type().value().defaultSegment())
-                            .map(Holder.Reference::value))
-                    .orElse(null);
+            BodySegment defaultSegment = segment.type().value().defaultSegment().value();
             if(segment.equals(defaultSegment)) continue;
             syntheticsPlayer.parts().replaceSegment(defaultSegment, false);
             ItemStack stack = segment.createDefaultItemStack(player.registryAccess());

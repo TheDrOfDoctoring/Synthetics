@@ -18,6 +18,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipBlockStateContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -79,6 +80,10 @@ public class Helper {
             Vec3 vec3 = failContext.getFrom().subtract(failContext.getTo());
             return BlockHitResult.miss(failContext.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(failContext.getTo()));
         });
+    }
+
+    public static HitResult calculateHitResult(Player player) {
+        return ProjectileUtil.getHitResultOnViewVector(player, (entity) -> !entity.isSpectator() && entity.isPickable(), player.blockInteractionRange());
     }
 
     // Taken from https://github.com/TeamLapen/Vampirism/blob/version/1.21/latest/src/lib/java/de/teamlapen/lib/lib/util/UtilLib.java#L91

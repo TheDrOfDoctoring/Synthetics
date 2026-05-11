@@ -1,5 +1,5 @@
 {
-  "parent": "synthetics:blood_tank",
+  "parent": "synthetics:shock_gauntlet",
   "hidden": false,
   "id": "synthetics:adrenaline_injector",
   "requirements": {
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:adrenaline_injector"
   },
-  "x": -120,
-  "y": -30
+  "x": -60,
+  "y": -120
 }

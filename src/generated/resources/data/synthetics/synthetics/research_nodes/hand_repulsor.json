@@ -1,9 +1,9 @@
 {
-  "parent": "synthetics:hand_flamethrower",
+  "parent": "synthetics:chest_harpoon",
   "hidden": false,
   "id": "synthetics:hand_repulsor",
   "requirements": {
-    "experience_cost": 60,
+    "experience_cost": 150,
     "required_items": [
       {
         "amount": 15,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:hand_repulsor"
   },
-  "x": 60,
+  "x": -30,
   "y": -60
 }

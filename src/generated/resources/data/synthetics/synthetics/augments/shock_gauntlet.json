@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:shock_gauntlet",
+  "augment_id": "synthetics:shock_gauntlet",
+  "complexity": 25,
+  "valid_parts": "#synthetics:hands"
+}

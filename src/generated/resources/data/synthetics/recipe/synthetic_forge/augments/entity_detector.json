@@ -9,13 +9,16 @@
     },
     "C": {
       "item": "minecraft:echo_shard"
+    },
+    "D": {
+      "item": "synthetics:pure_ancient_alloy_ingot"
     }
   },
   "lava_cost": 100,
   "pattern": [
     " B ",
     "CAC",
-    " B "
+    " D "
   ],
   "recipe_time": 300,
   "required_research": "synthetics:entity_detector",

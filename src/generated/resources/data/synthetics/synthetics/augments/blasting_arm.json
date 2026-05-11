@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:blasting_arm",
+  "augment_id": "synthetics:blasting_arm",
+  "complexity": 15,
+  "valid_parts": "#synthetics:arm_muscle"
+}

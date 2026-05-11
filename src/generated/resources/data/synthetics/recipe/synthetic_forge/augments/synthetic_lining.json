@@ -18,7 +18,7 @@
     " B "
   ],
   "recipe_time": 100,
-  "required_research": "synthetics:stomach_augments",
+  "required_research": "synthetics:synthetic_lining",
   "result": {
     "components": {
       "synthetics:augments": "synthetics:synthetic_lining"

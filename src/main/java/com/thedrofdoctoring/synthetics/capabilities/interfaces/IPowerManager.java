@@ -7,7 +7,7 @@ public interface IPowerManager extends ISyncable {
     void setTotalPowerCost(int cost);
     int getTotalPowerCost();
     int getStoredPower();
-    void drainPower(int amount);
+    int drainPower(int amount);
     int addPower(int amount);
     void setPower(int amount);
 }

@@ -1,0 +1,28 @@
+{
+  "parent": "synthetics:metabolic_converter",
+  "hidden": false,
+  "id": "synthetics:fat_converter",
+  "requirements": {
+    "experience_cost": 150,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:blaze_powder"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:fat_converter"
+  },
+  "x": -370,
+  "y": -90
+}

@@ -1,4 +1,5 @@
 {
+  "parent": "synthetics:item_magnet",
   "hidden": false,
   "id": "synthetics:reinforced_tendons",
   "requirements": {
@@ -28,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:reinforced_tendons"
   },
-  "x": -90,
-  "y": 0
+  "x": 430,
+  "y": -120
 }

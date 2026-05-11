@@ -1,0 +1,29 @@
+{
+  "type": "synthetics:synthetic_forge",
+  "key": {
+    "A": {
+      "tag": "c:ingots/gold"
+    },
+    "B": {
+      "item": "synthetics:ancient_alloy_ingot"
+    },
+    "C": {
+      "item": "minecraft:blaze_powder"
+    }
+  },
+  "lava_cost": 250,
+  "pattern": [
+    "   ",
+    "ACA",
+    " B "
+  ],
+  "recipe_time": 200,
+  "required_research": "synthetics:fat_converter",
+  "result": {
+    "components": {
+      "synthetics:augments": "synthetics:fat_converter"
+    },
+    "count": 1,
+    "id": "synthetics:synthetic_augment_item"
+  }
+}

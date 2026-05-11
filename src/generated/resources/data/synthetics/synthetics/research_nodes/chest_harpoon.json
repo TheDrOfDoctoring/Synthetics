@@ -1,8 +1,9 @@
 {
+  "parent": "synthetics:shock_gauntlet",
   "hidden": false,
   "id": "synthetics:chest_harpoon",
   "requirements": {
-    "experience_cost": 100,
+    "experience_cost": 150,
     "required_items": [
       {
         "amount": 24,
@@ -28,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:chest_harpoon"
   },
-  "x": 180,
-  "y": -30
+  "x": 0,
+  "y": -90
 }

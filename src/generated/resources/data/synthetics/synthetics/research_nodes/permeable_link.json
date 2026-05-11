@@ -1,9 +1,9 @@
 {
-  "parent": "synthetics:integrated_redstone_link",
+  "parent": "synthetics:internal_camera_link",
   "hidden": false,
   "id": "synthetics:permeable_link",
   "requirements": {
-    "experience_cost": 75,
+    "experience_cost": 125,
     "required_items": [
       {
         "amount": 16,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:permeable_link"
   },
-  "x": 135,
-  "y": 0
+  "x": 170,
+  "y": -60
 }

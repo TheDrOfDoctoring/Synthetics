@@ -1,0 +1,33 @@
+{
+  "hidden": false,
+  "id": "synthetics:shock_gauntlet",
+  "requirements": {
+    "experience_cost": 100,
+    "required_items": [
+      {
+        "amount": 16,
+        "item": {
+          "tag": "c:ingots/copper"
+        }
+      },
+      {
+        "amount": 8,
+        "item": {
+          "item": "synthetics:basic_circuit"
+        }
+      },
+      {
+        "amount": 16,
+        "item": {
+          "item": "minecraft:redstone"
+        }
+      }
+    ]
+  },
+  "tab": "synthetics:augments",
+  "unlocked": {
+    "augments": "synthetics:shock_gauntlet"
+  },
+  "x": 0,
+  "y": -150
+}

@@ -1,12 +1,11 @@
 package com.thedrofdoctoring.synthetics.abilities.active.types;
 
+import com.thedrofdoctoring.synthetics.abilities.active.ActiveAbilityType;
 import com.thedrofdoctoring.synthetics.abilities.active.StandardLastingAbility;
 import com.thedrofdoctoring.synthetics.abilities.active.instances.AbilityActiveInstance;
 import com.thedrofdoctoring.synthetics.capabilities.SyntheticsPlayer;
 import com.thedrofdoctoring.synthetics.capabilities.cache.SyntheticsPlayerCache;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
-import com.thedrofdoctoring.synthetics.core.data.types.body.ability.ActiveAbilityOptions;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -49,20 +48,7 @@ public class WaterwalkingAbility extends StandardLastingAbility {
 
     @Override
     public void addDescriptionInfo(Ability ability, List<Component> description) {
-        if (ability.abilityData() instanceof AbilityActiveInstance.Data activeData) {
-            ActiveAbilityOptions options = activeData.options();
-            description.add(Component.translatable("abilities.synthetics.description.cooldown", options.cooldown()).withStyle(ChatFormatting.BLUE));
-            if (options.duration() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.duration", options.duration()).withStyle(ChatFormatting.BLUE));
-            }
-            if (options.powerCost() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.power_cost", options.powerCost()).withStyle(ChatFormatting.BLUE));
-
-            }
-            if (options.powerDrain() > 0) {
-                description.add(Component.translatable("abilities.synthetics.description.power_drain", options.powerDrain()).withStyle(ChatFormatting.BLUE));
-            }
-        }
+        ActiveAbilityType.activeAbilityDescription(ability, description);
     }
 
     @Override

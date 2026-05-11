@@ -1,0 +1,6 @@
+{
+  "abilities": "synthetics:fat_converter",
+  "augment_id": "synthetics:fat_converter",
+  "complexity": 25,
+  "valid_parts": "#synthetics:stomach"
+}

@@ -10,12 +10,15 @@
     },
     "C": {
       "item": "minecraft:redstone"
+    },
+    "D": {
+      "item": "synthetics:basic_circuit"
     }
   },
   "pattern": [
-    "CCC",
+    "DCD",
     "ABA",
-    "CCC"
+    "DCD"
   ],
   "result": {
     "count": 1,

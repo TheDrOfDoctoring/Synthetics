@@ -1,9 +1,9 @@
 {
-  "parent": "synthetics:internal_plating",
+  "parent": "synthetics:basic_dampeners",
   "hidden": false,
   "id": "synthetics:integrated_exoskeleton",
   "requirements": {
-    "experience_cost": 75,
+    "experience_cost": 150,
     "required_items": [
       {
         "amount": 32,
@@ -29,6 +29,6 @@
   "unlocked": {
     "augments": "synthetics:integrated_exoskeleton"
   },
-  "x": 90,
-  "y": 0
+  "x": -170,
+  "y": -60
 }
