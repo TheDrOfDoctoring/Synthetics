@@ -7,7 +7,9 @@ import com.thedrofdoctoring.synthetics.client.renderers.installables.IBodyPositi
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModel;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelPositioner;
 import com.thedrofdoctoring.synthetics.client.renderers.installables.IInstallableModelSupplier;
+import com.thedrofdoctoring.synthetics.core.SyntheticsItems;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
+import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.types.body.ability.Ability;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import net.minecraft.core.*;
@@ -65,11 +67,15 @@ public record BodySegment(int maxComplexity, Holder<BodySegmentType> type, Resou
 
     @Override
     public @NotNull ItemStack createDefaultItemStack() {
-        return ItemStack.EMPTY;
+        ItemStack stack = new ItemStack(SyntheticsItems.BODY_PART_INSTALLABLE);
+        stack.set(SyntheticsDataComponents.BODY_SEGMENT, Holder.direct(this));
+        return stack;
     }
     @Override
     public @NotNull ItemStack createDefaultItemStack(HolderLookup.Provider provider) {
-        return ItemStack.EMPTY;
+        ItemStack stack = new ItemStack(SyntheticsItems.BODY_SEGMENT_INSTALLABLE);
+        stack.set(SyntheticsDataComponents.BODY_SEGMENT, provider.lookupOrThrow(SyntheticsData.BODY_SEGMENTS).getOrThrow(ResourceKey.create(getType(), id())));
+        return stack;
     }
 
     @Override

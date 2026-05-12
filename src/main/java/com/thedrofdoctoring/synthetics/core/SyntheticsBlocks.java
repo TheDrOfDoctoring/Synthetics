@@ -46,6 +46,7 @@ public class SyntheticsBlocks {
             .strength(2f)
             .destroyTime(1.5f)
             .sound(SoundType.METAL)
+            .lightLevel(st -> 2)
             .noOcclusion()
     ));
     public static final DeferredBlock<RedstoneLinkableBlock> REDSTONE_LINKABLE_BLOCK = registerWithItem("redstone_linkable_block", () -> new RedstoneLinkableBlock(BlockBehaviour.Properties.of()

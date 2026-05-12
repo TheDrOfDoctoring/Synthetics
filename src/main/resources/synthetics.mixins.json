@@ -23,6 +23,7 @@
   "client": [
     "client.ClientPacketListenerMixin",
     "client.GameRendererMixin",
+    "client.PlayerRendererMixin",
     "client.ScreenEffectRendererMixin"
   ]
 }

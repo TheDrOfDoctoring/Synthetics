@@ -478,6 +478,14 @@
   "research.synthetics.fat_converter": "Fat Converter",
   "research.synthetics.fat_converter.desc": "Learn how to install a fat conversion module, which automatically turns stored fat in the form of food and saturation into energy when needed.",
   "abilities.synthetics.description.damage_type_resistance.fire_resistant_tissue": "Fire",
-  "abilities.synthetics.description.damage_type_resistance": "Damage Type: %s"
+  "abilities.synthetics.description.damage_type_resistance": "Damage Type: %s",
+  "installables.synthetics.body_segments.type_title": "Body Segment",
+  "installables.synthetics.body_segments.organic_head": "Head",
+  "installables.synthetics.body_segments.organic_left_arm": "Left Arm",
+  "installables.synthetics.body_segments.organic_right_arm": "Right Arm",
+  "installables.synthetics.body_segments.organic_left_leg": "Left Leg",
+  "installables.synthetics.body_segments.organic_right_leg": "Right Leg",
+  "installables.synthetics.body_segments.organic_torso": "Torso",
+  "tooltips.synthetics.body_segment": "Installed on: %s"
 }
 

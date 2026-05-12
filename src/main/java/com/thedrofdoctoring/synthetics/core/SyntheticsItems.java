@@ -7,6 +7,7 @@ import com.thedrofdoctoring.synthetics.core.data.components.BatteryComponentOpti
 import com.thedrofdoctoring.synthetics.core.data.components.SyntheticsDataComponents;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.items.BlueprintItem;
 import com.thedrofdoctoring.synthetics.items.DroneItem;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
@@ -39,6 +40,7 @@ public class SyntheticsItems {
 
     public static final DeferredHolder<Item, InstallableItem<Augment>> AUGMENT_INSTALLABLE = registerInstallable("synthetic_augment_item", () -> new InstallableItem<>(SyntheticsData.AUGMENTS, SyntheticsDataComponents.AUGMENT, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.AUGMENT, Holder.direct(new Augment(0, 0, 0, 0,null, Optional.empty(), Optional.empty(), Synthetics.rl("empty_augment"))))));
     public static final DeferredHolder<Item, InstallableItem<BodyPart>> BODY_PART_INSTALLABLE = registerInstallable("body_part_item", () -> new InstallableItem<>(SyntheticsData.BODY_PARTS, SyntheticsDataComponents.BODY_PART, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.BODY_PART, Holder.direct(new BodyPart(0, null, null, Optional.empty(), Synthetics.rl("empty_body_part"))))));
+    public static final DeferredHolder<Item, InstallableItem<BodySegment>> BODY_SEGMENT_INSTALLABLE = registerInstallable("body_segment_item", () -> new InstallableItem<>(SyntheticsData.BODY_SEGMENTS, SyntheticsDataComponents.BODY_SEGMENT, new Item.Properties().stacksTo(64).component(SyntheticsDataComponents.BODY_SEGMENT, Holder.direct(new BodySegment(0, null, Synthetics.rl("empty_body_segment"))))));
     public static final DeferredHolder<Item, RechargeableBatteryItem> MEDIUM_BATTERY = registerTab("medium_battery", () -> new RechargeableBatteryItem(new Item.Properties().stacksTo(1).component(SyntheticsDataComponents.BATTERY_OPTIONS, new BatteryComponentOptions(25000, 10000, 2500)).component(SyntheticsDataComponents.ENERGY_COMPONENT, 0)));
     public static final DeferredHolder<Item, BlueprintItem> BLUEPRINT = registerTab("blueprint", () -> new BlueprintItem(new Item.Properties().stacksTo(1)));
     public static final DeferredHolder<Item, Item> ARTIFICIAL_NEURON = registerTab("artificial_neuron", () -> new Item(new Item.Properties().stacksTo(64)));
@@ -124,6 +126,12 @@ public class SyntheticsItems {
                 bodyPartLookup.listElements().forEach(p -> {
                     ItemStack stack = new ItemStack(BODY_PART_INSTALLABLE);
                     stack.set(SyntheticsDataComponents.BODY_PART, p);
+                    output.accept(stack);
+                });
+                var segmentLookup = itemDisplayParameters.holders().lookupOrThrow(SyntheticsData.BODY_SEGMENTS);
+                segmentLookup.listElements().forEach(p -> {
+                    ItemStack stack = new ItemStack(BODY_SEGMENT_INSTALLABLE);
+                    stack.set(SyntheticsDataComponents.BODY_SEGMENT, p);
                     output.accept(stack);
                 });
             })

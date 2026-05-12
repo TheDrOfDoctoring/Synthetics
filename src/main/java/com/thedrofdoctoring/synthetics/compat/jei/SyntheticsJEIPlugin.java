@@ -121,5 +121,23 @@ public class SyntheticsJEIPlugin implements IModPlugin {
                 return "body_part_subtype";
             }
         });
+        registration.registerSubtypeInterpreter(SyntheticsItems.BODY_SEGMENT_INSTALLABLE.get(), new ISubtypeInterpreter<>() {
+            @Override
+            public @Nullable Object getSubtypeData(@NotNull ItemStack ingredient, @NotNull UidContext context) {
+                if(ingredient.getItem() instanceof InstallableItem<?> item) {
+                    return item.getInstallableComponentHolder(ingredient);
+                }
+
+                return null;
+            }
+
+            @Override
+            public @NotNull String getLegacyStringSubtypeInfo(@NotNull ItemStack ingredient, @NotNull UidContext context) {
+                if(ingredient.getItem() instanceof InstallableItem<?> item) {
+                    return item.getInstallableComponentHolder(ingredient).getRegisteredName();
+                }
+                return "body_segment_subtype";
+            }
+        });
     }
 }

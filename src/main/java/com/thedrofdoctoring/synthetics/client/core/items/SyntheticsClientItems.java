@@ -7,6 +7,7 @@ import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPar
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.IBodyInstallable;
 import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodyPartType;
+import com.thedrofdoctoring.synthetics.core.data.types.body.parts.BodySegmentType;
 import com.thedrofdoctoring.synthetics.core.synthetics.SyntheticAbilities;
 import com.thedrofdoctoring.synthetics.items.InstallableItem;
 import net.minecraft.ChatFormatting;
@@ -80,6 +81,22 @@ public class SyntheticsClientItems {
     }
     private static void addPartTooltip(List<Component> tooltip, BodyPart part) {
         tooltip.add(Component.translatable("tooltips.synthetics.max_complexity", part.maxComplexity()).withStyle(ChatFormatting.BLUE));
+        HashMap<Holder<BodySegmentType>, BodySegment> validTypes = new HashMap<>(part.validSegments().size());
+        for(Holder<BodySegment> validSegment : part.validSegments()) {
+            if(!validTypes.containsKey(validSegment.value().type())) {
+                validTypes.put(validSegment.value().type(), validSegment.value());
+            }
+        }
+        StringBuilder str = new StringBuilder();
+        for(BodySegment segment : validTypes.values()) {
+            if(str.isEmpty()) {
+                str.append(segment.title().getString());
+            } else {
+                str.append(", ");
+                str.append(segment.title().getString());
+            }
+        }
+        tooltip.add(Component.translatable("tooltips.synthetics.body_segment", str.toString()).withStyle(ChatFormatting.BLUE));
     }
     private static void addSegmentTooltip(List<Component> tooltip, BodySegment segment) {
         tooltip.add(Component.translatable("tooltips.synthetics.max_complexity", segment.maxComplexity()).withStyle(ChatFormatting.BLUE));

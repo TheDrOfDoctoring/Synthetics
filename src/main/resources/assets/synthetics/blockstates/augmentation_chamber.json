@@ -1,35 +1,67 @@
 {
   "variants": {
-    "facing=west,augmentation_chamber_part=top": {
+    "facing=west,augmentation_chamber_part=top,chamber_door_open=true": {
       "model": "synthetics:block/augmentation_chamber_top",
       "y": 90
     },
-    "facing=west,augmentation_chamber_part=bottom": {
+    "facing=west,augmentation_chamber_part=bottom,chamber_door_open=true": {
       "model": "synthetics:block/augmentation_chamber_bottom",
       "y": 90
     },
-    "facing=east,augmentation_chamber_part=top": {
+    "facing=east,augmentation_chamber_part=top,chamber_door_open=true": {
       "model": "synthetics:block/augmentation_chamber_top",
       "y": 270
     },
-    "facing=east,augmentation_chamber_part=bottom": {
+    "facing=east,augmentation_chamber_part=bottom,chamber_door_open=true": {
       "model": "synthetics:block/augmentation_chamber_bottom",
       "y": 270
     },
-    "facing=north,augmentation_chamber_part=top": {
+    "facing=north,augmentation_chamber_part=top,chamber_door_open=true": {
       "model": "synthetics:block/augmentation_chamber_top",
       "y": 180
     },
-    "facing=north,augmentation_chamber_part=bottom": {
+    "facing=north,augmentation_chamber_part=bottom,chamber_door_open=true": {
       "model": "synthetics:block/augmentation_chamber_bottom",
       "y": 180
     },
-    "facing=south,augmentation_chamber_part=top": {
+    "facing=south,augmentation_chamber_part=top,chamber_door_open=true": {
       "model": "synthetics:block/augmentation_chamber_top",
       "y": 0
     },
-    "facing=south,augmentation_chamber_part=bottom": {
+    "facing=south,augmentation_chamber_part=bottom,chamber_door_open=true": {
       "model": "synthetics:block/augmentation_chamber_bottom",
+      "y": 0
+    },
+    "facing=west,augmentation_chamber_part=top,chamber_door_open=false": {
+      "model": "synthetics:block/augmentation_chamber_closed_top",
+      "y": 90
+    },
+    "facing=west,augmentation_chamber_part=bottom,chamber_door_open=false": {
+      "model": "synthetics:block/augmentation_chamber_closed_bottom",
+      "y": 90
+    },
+    "facing=east,augmentation_chamber_part=top,chamber_door_open=false": {
+      "model": "synthetics:block/augmentation_chamber_closed_top",
+      "y": 270
+    },
+    "facing=east,augmentation_chamber_part=bottom,chamber_door_open=false": {
+      "model": "synthetics:block/augmentation_chamber_closed_bottom",
+      "y": 270
+    },
+    "facing=north,augmentation_chamber_part=top,chamber_door_open=false": {
+      "model": "synthetics:block/augmentation_chamber_closed_top",
+      "y": 180
+    },
+    "facing=north,augmentation_chamber_part=bottom,chamber_door_open=false": {
+      "model": "synthetics:block/augmentation_chamber_closed_bottom",
+      "y": 180
+    },
+    "facing=south,augmentation_chamber_part=top,chamber_door_open=false": {
+      "model": "synthetics:block/augmentation_chamber_closed_top",
+      "y": 0
+    },
+    "facing=south,augmentation_chamber_part=bottom,chamber_door_open=false": {
+      "model": "synthetics:block/augmentation_chamber_closed_bottom",
       "y": 0
     }
   }

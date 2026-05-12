@@ -7,7 +7,6 @@ import com.thedrofdoctoring.synthetics.client.core.SyntheticsClientManager;
 import com.thedrofdoctoring.synthetics.core.SyntheticsAttachments;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.*;
 import com.thedrofdoctoring.synthetics.networking.from_server.ClientboundPlayerUpdatePacket;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -72,29 +71,7 @@ public class SyntheticsPlayer implements ISyntheticsEntity, ISyncable {
 
     @Override
     public boolean canAddInstallable(IBodyInstallable<?> installable) {
-
-        switch (installable) {
-            case AppliedAugmentInstance instance -> {
-                return this.parts().canAddAugment(instance, this);
-            }
-            case Augment augment -> {
-                return this.parts().canAddAugment(new AppliedAugmentInstance(augment, this.partManager.getDefaultPartForAugment(augment)), this);
-            }
-            case BodyPart part -> {
-                return this.complexityManager.getTotalPartComplexity(part) <= part.maxComplexity();
-            }
-            case BodySegment segment -> {
-                if (this.complexityManager.getTotalSegmentComplexity(segment) > segment.maxComplexity()) {
-                    return false;
-                }
-                Holder<BodySegment> segmentHolder = Holder.direct(segment);
-                return this.parts()
-                            .installedBodyParts()
-                            .stream()
-                            .allMatch(part -> part.validSegments().contains(segmentHolder));
-            }
-            default -> throw new IllegalStateException("Unexpected installable type: " + installable);
-        }
+        return this.parts().canAddInstallable(installable);
     }
 
     @Override

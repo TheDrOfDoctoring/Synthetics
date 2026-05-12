@@ -67,6 +67,12 @@ public record BodyPartType(Holder<BodyPart> defaultPart, int x, int y, Layer bod
         }
         return false;
     }
+
+    @Override
+    public @NotNull String toString() {
+        return this.id.toString();
+    }
+
     @Override
     public int hashCode() {
         return id.hashCode();

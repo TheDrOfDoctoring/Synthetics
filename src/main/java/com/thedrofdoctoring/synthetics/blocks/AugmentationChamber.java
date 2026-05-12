@@ -10,6 +10,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -28,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
@@ -44,6 +48,7 @@ public class AugmentationChamber extends BaseEntityBlock {
 
     public static final EnumProperty<AugmentationChamber.Part> PART = EnumProperty.create("augmentation_chamber_part", AugmentationChamber.Part.class);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty OPEN = BooleanProperty.create("chamber_door_open");
 
     protected static final VoxelShape BASE;
     protected static VoxelShape ROOF;
@@ -51,21 +56,31 @@ public class AugmentationChamber extends BaseEntityBlock {
     protected static VoxelShape SIDE_WEST;
     protected static VoxelShape SIDE_EAST;
     protected static VoxelShape SIDE_SOUTH;
+    protected static VoxelShape SIDE_NORTH_CLOSED;
+
 
     protected static VoxelShape SIDE_WEST_TOP;
-    protected static VoxelShape SIDE_NORTH_TOP;
+    protected static VoxelShape SIDE_SOUTH_TOP;
     protected static VoxelShape SIDE_EAST_TOP;
-
+    protected static VoxelShape SIDE_NORTH_CLOSED_TOP;
 
     protected static VoxelShape NORTH_SHAPE;
     protected static VoxelShape SOUTH_SHAPE;
     protected static VoxelShape WEST_SHAPE;
     protected static VoxelShape EAST_SHAPE;
+    protected static VoxelShape NORTH_SHAPE_CLOSED;
+    protected static VoxelShape SOUTH_SHAPE_CLOSED;
+    protected static VoxelShape WEST_SHAPE_CLOSED;
+    protected static VoxelShape EAST_SHAPE_CLOSED;
 
     protected static VoxelShape NORTH_SHAPE_TOP;
     protected static VoxelShape SOUTH_SHAPE_TOP;
     protected static VoxelShape WEST_SHAPE_TOP;
     protected static VoxelShape EAST_SHAPE_TOP;
+    protected static VoxelShape NORTH_SHAPE_TOP_CLOSED;
+    protected static VoxelShape SOUTH_SHAPE_TOP_CLOSED;
+    protected static VoxelShape WEST_SHAPE_TOP_CLOSED;
+    protected static VoxelShape EAST_SHAPE_TOP_CLOSED;
     static {
 
         // bottom sides
@@ -73,16 +88,16 @@ public class AugmentationChamber extends BaseEntityBlock {
         SIDE_EAST = Shapes.box(0, 0.0625, 0, 0.0625, 1, 0.9375);
         SIDE_SOUTH = Shapes.box(0, 0.0625, 0.9375, 1, 1, 1);
         SIDE_WEST = Shapes.box(0.9375, 0.0625, 0, 1, 1, 0.9375);
-
+        SIDE_NORTH_CLOSED = Shapes.box(0.0625, 0.0625, 0, 0.9375, 1, 0.0625);
         // roof
         ROOF = Shapes.box(0, 0.9375, 0, 1, 1, 1);
 
         // top sides
 
         SIDE_EAST_TOP = Shapes.box(0, 0, 0.9375, 1, 1, 1);
-        SIDE_NORTH_TOP = Shapes.box(0, 0, 0, 0.0625, 1, 0.9375);
+        SIDE_SOUTH_TOP = Shapes.box(0, 0, 0, 0.0625, 1, 0.9375);
         SIDE_WEST_TOP = Shapes.box(0.9375, 0, 0, 1, 1, 0.9375);
-
+        SIDE_NORTH_CLOSED_TOP = Shapes.box(0.0625, 0, 0, 0.9375, 0.8125, 0.0625);
 
         BASE = Shapes.box(0, 0, 0, 1, 0.0625, 1);
 
@@ -91,16 +106,27 @@ public class AugmentationChamber extends BaseEntityBlock {
         WEST_SHAPE  = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.WEST, SOUTH_SHAPE);
         EAST_SHAPE  = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.EAST, SOUTH_SHAPE);
 
-        SOUTH_SHAPE_TOP = Shapes.or(ROOF, SIDE_NORTH_TOP, SIDE_EAST_TOP, SIDE_WEST_TOP);
+        SOUTH_SHAPE_TOP = Shapes.or(ROOF, SIDE_SOUTH_TOP, SIDE_EAST_TOP, SIDE_WEST_TOP);
         NORTH_SHAPE_TOP = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.NORTH, SOUTH_SHAPE_TOP);
         WEST_SHAPE_TOP  = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.WEST, SOUTH_SHAPE_TOP);
         EAST_SHAPE_TOP  = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.EAST, SOUTH_SHAPE_TOP);
+
+        SOUTH_SHAPE_CLOSED = Shapes.or(BASE, SIDE_EAST, SIDE_SOUTH, SIDE_WEST, SIDE_NORTH_CLOSED);
+        NORTH_SHAPE_CLOSED = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.NORTH, SOUTH_SHAPE_CLOSED);
+        WEST_SHAPE_CLOSED  = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.WEST, SOUTH_SHAPE_CLOSED);
+        EAST_SHAPE_CLOSED  = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.EAST, SOUTH_SHAPE_CLOSED);
+
+        SOUTH_SHAPE_TOP_CLOSED = Shapes.or(ROOF, SIDE_SOUTH_TOP, SIDE_EAST_TOP, SIDE_WEST_TOP, SIDE_NORTH_CLOSED_TOP);
+        NORTH_SHAPE_TOP_CLOSED = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.NORTH, SOUTH_SHAPE_TOP_CLOSED);
+        WEST_SHAPE_TOP_CLOSED  = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.WEST, SOUTH_SHAPE_TOP_CLOSED);
+        EAST_SHAPE_TOP_CLOSED  = Helper.rotateShapeAroundY(Direction.SOUTH, Direction.EAST, SOUTH_SHAPE_TOP_CLOSED);
+
     }
 
 
     public AugmentationChamber(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(PART, Part.BOTTOM));
+        this.registerDefaultState(this.stateDefinition.any().setValue(PART, Part.BOTTOM).setValue(OPEN, true));
     }
 
 
@@ -149,7 +175,15 @@ public class AugmentationChamber extends BaseEntityBlock {
     @Override
     public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult result) {
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-            serverPlayer.openMenu(state.getMenuProvider(level, pos));
+            if(player.isShiftKeyDown()) {
+                boolean isOpen = state.getValue(OPEN);
+
+                level.setBlockAndUpdate(pos, state.setValue(OPEN, !isOpen));
+                SoundEvent toPlay = isOpen ? SoundEvents.IRON_DOOR_CLOSE : SoundEvents.IRON_DOOR_OPEN;
+                level.playSound(null, pos, toPlay, SoundSource.BLOCKS, 1.0f, 0.75f);
+            } else {
+                serverPlayer.openMenu(state.getMenuProvider(level, pos));
+            }
         }
 
         return InteractionResult.SUCCESS;
@@ -192,33 +226,66 @@ public class AugmentationChamber extends BaseEntityBlock {
     protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         Direction direction = state.getValue(FACING);
         Part part = state.getValue(PART);
+        boolean isOpen = state.getValue(OPEN);
         switch (direction) {
             case NORTH -> {
                 if(part == Part.BOTTOM) {
-                    return NORTH_SHAPE;
+                    if(isOpen) {
+                        return NORTH_SHAPE;
+                    } else {
+                        return NORTH_SHAPE_CLOSED;
+                    }
                 } else {
-                    return NORTH_SHAPE_TOP;
+                    if(isOpen) {
+                        return NORTH_SHAPE_TOP;
+                    } else {
+                        return NORTH_SHAPE_TOP_CLOSED;
+                    }
                 }
             }
             case SOUTH -> {
                 if(part == Part.BOTTOM) {
-                    return SOUTH_SHAPE;
+                    if(isOpen) {
+                        return SOUTH_SHAPE;
+                    } else {
+                        return SOUTH_SHAPE_CLOSED;
+                    }
                 } else {
-                    return SOUTH_SHAPE_TOP;
+                    if(isOpen) {
+                        return SOUTH_SHAPE_TOP;
+                    } else {
+                        return SOUTH_SHAPE_TOP_CLOSED;
+                    }
                 }
             }
             case WEST -> {
                 if(part == Part.BOTTOM) {
-                    return WEST_SHAPE;
+                    if(isOpen) {
+                        return WEST_SHAPE;
+                    } else {
+                        return WEST_SHAPE_CLOSED;
+                    }
                 } else {
-                    return WEST_SHAPE_TOP;
+                    if(isOpen) {
+                        return WEST_SHAPE_TOP;
+                    } else {
+                        return WEST_SHAPE_TOP_CLOSED;
+                    }
                 }
             }
             default -> {
                 if(part == Part.BOTTOM) {
-                    return EAST_SHAPE;
+                    if(isOpen) {
+                        return EAST_SHAPE;
+                    } else {
+                        return EAST_SHAPE_CLOSED;
+                    }
                 } else {
-                    return EAST_SHAPE_TOP;
+                    if(isOpen) {
+                        return EAST_SHAPE_TOP;
+                    } else {
+                        return EAST_SHAPE_TOP_CLOSED;
+                    }
                 }
             }
         }
@@ -264,7 +331,7 @@ public class AugmentationChamber extends BaseEntityBlock {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, PART);
+        builder.add(FACING, PART, OPEN);
     }
 
     public enum Part implements StringRepresentable {

@@ -63,9 +63,14 @@ public record AppliedAugmentInstance(Augment augment, BodyPart appliedPart) impl
 
     @Override
     public ResourceLocation id() {
-        return Synthetics.rl("augment_instance");
+        return Synthetics.rl("augment_instance/" + augment.augmentID().getPath());
     }
-
+    public ResourceLocation entityLayerTexture(boolean slim) {
+        if(slim) {
+            return ResourceLocation.fromNamespaceAndPath(id().getNamespace(), "textures/entity/installables/skin/slim/" + SyntheticsData.AUGMENTS.location().getPath() + "/" + augment.augmentID().getPath() + ".png");
+        }
+        return ResourceLocation.fromNamespaceAndPath(id().getNamespace(), "textures/entity/installables/skin/wide/" + SyntheticsData.AUGMENTS.location().getPath() + "/" + augment.augmentID().getPath() + ".png");
+    }
     @Override
     public ResourceKey<Registry<Augment>> getType() {
         return SyntheticsData.AUGMENTS;

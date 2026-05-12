@@ -90,12 +90,16 @@ public class SyntheticsClientManager  {
     }
 
     private <T extends IBodyInstallable<T>> void addInstallableTextures(ResourceKey<Registry<T>> key, RegistryAccess registryAccess, ResourceManager resourceManager) {
-        List<ResourceLocation> locations = registryAccess.lookup(key).map(lookup ->
+        installablesWithTextures.addAll(lookupAll(key, registryAccess, resourceManager, true));
+        installablesWithTextures.addAll(lookupAll(key, registryAccess, resourceManager, false));
+    }
+
+    private <T extends IBodyInstallable<T>> List<ResourceLocation> lookupAll(ResourceKey<Registry<T>> key, RegistryAccess registryAccess, ResourceManager resourceManager, boolean slim) {
+        return registryAccess.lookup(key).map(lookup ->
                 lookup.listElements()
-                        .map(ref -> ref.value().entityLayerTexture(true))
+                        .map(ref -> ref.value().entityLayerTexture(slim))
                         .filter(location -> resourceManager.getResource(location).isPresent())
                         .toList()
         ).orElse(Collections.emptyList());
-        installablesWithTextures.addAll(locations);
     }
 }

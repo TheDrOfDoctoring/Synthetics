@@ -44,6 +44,12 @@ public record BodySegmentType(Holder<BodySegment> defaultSegment, ResourceLocati
         }
         return false;
     }
+
+    @Override
+    public @NotNull String toString() {
+        return this.id.toString();
+    }
+
     @Override
     public int hashCode() {
         return id.hashCode();

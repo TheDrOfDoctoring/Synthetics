@@ -5,6 +5,7 @@ import com.thedrofdoctoring.synthetics.Synthetics;
 import com.thedrofdoctoring.synthetics.core.data.SyntheticsData;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.Augment;
 import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodyPart;
+import com.thedrofdoctoring.synthetics.core.data.types.body.installables.BodySegment;
 import com.thedrofdoctoring.synthetics.core.data.types.research.ResearchNode;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
@@ -35,6 +36,12 @@ public class SyntheticsDataComponents {
             builder -> builder
                     .persistent(BodyPart.HOLDER_CODEC)
                     .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.BODY_PARTS, BodyPart.STREAM_CODEC))
+    );
+    public static final Supplier<DataComponentType<Holder<BodySegment>>> BODY_SEGMENT = DATA_COMPONENTS.registerComponentType(
+            SyntheticsData.BODY_SEGMENTS.location().getPath(),
+            builder -> builder
+                    .persistent(BodySegment.HOLDER_CODEC)
+                    .networkSynchronized(ByteBufCodecs.holder(SyntheticsData.BODY_SEGMENTS, BodySegment.STREAM_CODEC))
     );
 
 

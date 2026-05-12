@@ -151,6 +151,30 @@ public class PartManager implements ISaveData, IPartManager {
         this.appliedAugments.remove(augment);
     }
 
+    public boolean canAddInstallable(IBodyInstallable<?> installable) {
+
+        switch (installable) {
+            case AppliedAugmentInstance instance -> {
+                return this.canAddAugment(instance);
+            }
+            case Augment augment -> {
+                return this.canAddAugment(new AppliedAugmentInstance(augment, this.getDefaultPartForAugment(augment)));
+            }
+            case BodyPart part -> {
+                return this.player.getComplexityManager().getTotalPartComplexity(part) <= part.maxComplexity();
+            }
+            case BodySegment segment -> {
+                if (this.player.getComplexityManager().getTotalSegmentComplexity(segment) > segment.maxComplexity()) {
+                    return false;
+                }
+                return installedBodyParts()
+                        .stream()
+                        .filter(part -> part.validSegments().get(0).value().type().equals(segment.type()))
+                        .allMatch(part -> part.validSegments().stream().anyMatch(p -> p.value().equals(segment)));
+            }
+            default -> throw new IllegalStateException("Unexpected installable type: " + installable);
+        }
+    }
 
     @Override
     public void addAugment(@NotNull AppliedAugmentInstance instance) {
@@ -228,9 +252,9 @@ public class PartManager implements ISaveData, IPartManager {
         return getDefaultPart(type);
     }
 
-    boolean canAddAugment(AppliedAugmentInstance instance, SyntheticsPlayer syntheticsPlayer) {
+    private boolean canAddAugment(AppliedAugmentInstance instance) {
 
-        if(syntheticsPlayer.getComplexityManager().testComplexity(instance, null) != ComplexityManager.ComplexityResult.SUCCESS) {
+        if(player.getComplexityManager().testComplexity(instance, null) != ComplexityManager.ComplexityResult.SUCCESS) {
             return false;
         }
         if(!augmentSupportsBodyPart(instance.augment(), instance.appliedPart())) {
